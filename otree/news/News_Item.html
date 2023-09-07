@@ -1,0 +1,78 @@
+{{ if i.sponsored }}
+
+<tr class="" style="background-color: #E5E4E2;" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
+    <td>
+        <div class="row justify-content-start m-3">
+            <a class="card-body" href="{{i.url}}" target="_blank" style="text-decoration: none;" onclick="sequence('c' + {{i.doc_id}});">
+                <img class="p-0 img-fluid card-img mb-3" src="{{i.urlToImage}}">
+                <h5 class="card-title">{{i.title}}</h5>
+                <p class="card-text text-muted">
+                    <small>{{i.teaser}}</small>
+                </p>
+                <small class="text-dark"> Sponsored </small>
+            </a>
+        </div>
+    </td>
+</tr>
+
+{{ else }}
+
+<tr>
+    <td onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
+        <div class="row justify-content-start m-3">
+            <div class="card-body" onclick="sequence('c' + {{i.doc_id}});" id="tweet_{{i.doc_id}}" data-bs-toggle="offcanvas" data-bs-target="#off_{{i.doc_id}}" style="cursor: pointer;">
+                <div class="image-container">
+                    <img src="{{i.urlToImage}}" alt="Image {{i.doc_id }}" class="img-fluid">
+                </div>
+                <p class='text-danger mb-1 mt-2'>
+                    {{i.tag}}
+                </p>
+                <h5 class="card-title">{{i.title}}</h5>
+                <p class="card-text text-muted">
+                    <small>{{i.teaser}}</small>
+                </p>
+                <small class="text-muted"> {{i.publishedAt}} &middot; {{i.author}}</small>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<!-- Offcanvas -->
+<div class="offcanvas offcanvas-bottom bg-transparent" tabindex="-1"
+     id="off_{{i.doc_id}}" aria-labelledby="off-Label" style="height: 100vh;">
+
+    <div class="offcanvas-body p-0 m-0">
+        <div class="container-fluid p-0 m-0">
+            <div class="row p-0 m-0 justify-content-center">
+
+                <!-- Feed -->
+                <div class="col overflow-auto col-sm-12 col-md-6 col-lg-6 p-3 feed-animation bg-white" style="height: 100vh;">
+                    <div class="image-container">
+                        <img src="{{i.urlToImage}}" alt="Image {{i.doc_id }}" class="img-fluid">
+                    </div>
+                    <h3 class=" offcanvas-title mb-3" id="off-Label">{{i.title}}</h3>
+                    <small class="text-muted"> {{i.publishedAt}} &middot; {{i.author}}.</small>
+                    <br><br>
+
+                    <a class="figure float-end px-5 mx-5" href="https://your-link-here.com/" target="_blank">
+                        <img src="https://via.placeholder.com/300" class="img-thumbnail">
+                        <figcaption class="figure-caption text-center">Advertisement</figcaption>
+                    </a>
+
+                    <p class="article-font px-5 mx-5">
+                        {{i.content}}
+                    </p>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-dark my-5" data-bs-dismiss="offcanvas" aria-label="Close">
+                            Go Back
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{ endif }}
