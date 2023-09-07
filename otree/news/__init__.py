@@ -73,8 +73,18 @@ class B_Instructions(Page):
 
     @staticmethod
     def before_next_page(player, timeout_happened):
-        # read data
-        news = pd.read_csv('news/static/news.csv', sep=';')
+
+        # read data (from seesion config)
+        url = player.session.config['data_url']
+
+        if 'github' in url:
+            news = pd.read_csv(url, sep=';')
+        elif 'drive.google.com' in url:
+            file_id = url.split('/')[-2]
+            download_url = f'https://drive.google.com/uc?id={file_id}'
+            news = pd.read_csv(download_url, sep=';')
+        else:
+            raise ValueError("Unrecognized URL format")
 
         # sort data
         sort_by = player.session.config['sort_by']

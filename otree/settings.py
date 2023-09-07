@@ -16,6 +16,7 @@ SESSION_CONFIGS = [
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00,
     participation_fee=2.10,
+    data_url = 'https://raw.githubusercontent.com/Howquez/oNovitas/main/otree/news/static/data/news.csv',
     sort_by = 'time_stamp',
     
 )
