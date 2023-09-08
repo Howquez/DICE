@@ -123,10 +123,9 @@
 
             <!-- LHS -->
             <div class="col overflow-auto d-none d-md-block col-md-3 p-0 full-height" id="LHS">
-                <img src="{{ static 'ad-image-3.png' }}" class="ms-0 banner-img" onmouseover="sequence('ibl');" ontouchstart="sequence('ibl');" onclick="sequence('cbl');">
+                <img src="{{ static img_left }}" class="ms-0 banner-img" onmouseover="sequence('ibl');" ontouchstart="sequence('ibl');" onclick="sequence('cbl');">
                 <p class="banner-text text-white position-absolute bottom-0 start-50 translate-middle">
-                    50M Jobseekers. <br><br>
-                    150+ Job Boards.
+                    {{session.config.copy_left}}
                 </p>
             </div>
 
@@ -136,7 +135,7 @@
                 <!-- Navbar -->
                 <div class="d-flex m-0 p-0 sticky-top justify-content-center shadow-sm bg-white"
                      style="opacity:0.95;">
-                    <h2 class="my-3" style="font-family: 'Chomsky', sans-serif;">oNovitas</h2>
+                    <h2 class="my-3" style="font-family: 'Chomsky', sans-serif;">{{session.config.newspaper_name}}</h2>
                 </div>
 
                 <table class="table table-hover border-start border-end p-0 m-0" id="tweet_table">
@@ -146,8 +145,7 @@
                     {{ endfor }}
                     <tr class="">
                         <td class="d-flex justify-content-center">
-                            <button class="btn btn-dark m-4" id="submitButton"
-                               href="https://www.ibt.unisg.ch/" role="submit">
+                            <button class="btn btn-dark m-4" id="submitButton" role="submit">
                                 Proceed
                             </button>
                         </td>
@@ -158,12 +156,12 @@
 
             <!-- RHS -->
             <div class="col overflow-auto d-none d-md-block col-md-3 p-0 full-height" id="RHS">
-                <img src="{{ static 'ad-image-4.png' }}" class="ms-0 banner-img"  onmouseover="sequence('ibr');" ontouchstart="sequence('ibr');" onclick="sequence('cbr');">
+                <img src="{{ static img_right }}" class="ms-0 banner-img"  onmouseover="sequence('ibr');" ontouchstart="sequence('ibr');" onclick="sequence('cbr');">
                 <p class="banner-text text-white position-absolute bottom-0 start-50 translate-middle">
-                    One Click.
+                    {{session.config.copy_right}}
                     <br><br>
-                    <a class="btn shadow btn-sm btn-primary" href="https://your-link-here.com" target="_blank" role="button" onclick="sequence('cta');">
-                        Post Jobs Free
+                    <a class="btn shadow btn-sm btn-primary" href="{{session.config.landing_page}}" target="_blank" role="button" onclick="sequence('cta');">
+                        {{session.config.cta}}
                     </a>
                 </p>
 

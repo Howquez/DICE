@@ -4,7 +4,7 @@ SESSION_CONFIGS = [
     dict(
         name='News',
         app_sequence=['news'],
-        num_demo_participants=2,
+        num_demo_participants=3,
     ),
 ]
 
@@ -16,9 +16,16 @@ SESSION_CONFIGS = [
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00,
     participation_fee=2.10,
+    survey_link = '',
+    newspaper_name = 'The Daily News',
     data_url = 'https://raw.githubusercontent.com/Howquez/oNovitas/main/otree/news/static/data/news.csv',
     sort_by = 'time_stamp',
-    
+    creative_left = 'https://github.com/Howquez/oNovitas/blob/main/otree/news/static/ad-image-3.png',
+    copy_left = '50M Jobseekers. <br><br> 150+ Job Boards.',
+    creative_right = 'https://github.com/Howquez/oNovitas/blob/main/otree/news/static/ad-image-4.png',
+    copy_right = 'One Click.',
+    cta = 'Post Jobs Free',
+    landing_page = 'https://your-link-here.com'
 )
 
 PARTICIPANT_FIELDS = ['news', 'finished']
