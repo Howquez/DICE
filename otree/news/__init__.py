@@ -2,6 +2,7 @@ from otree.api import *
 import pandas as pd
 import os
 import random
+import re
 import httplib2
 
 
@@ -50,16 +51,10 @@ class Player(BasePlayer):
 
 # FUNCTIONS -----
 def creating_session(subsession):
+
     # read data (from seesion config)
-    url = subsession.session.config['data_url']
-    if 'github' in url:
-        news = pd.read_csv(url, sep=';')
-    elif 'drive.google.com' in url:
-        file_id = url.split('/')[-2]
-        download_url = f'https://drive.google.com/uc?id={file_id}'
-        news = pd.read_csv(download_url, sep=';')
-    else:
-        raise ValueError("Unrecognized URL format")
+    news = read_feed(subsession.session.config['data_path'])
+
     if 'condition' in news.columns:
         feed_conditions = news['condition'].unique()
         for player in subsession.get_players():
@@ -77,6 +72,25 @@ def creating_session(subsession):
     ad_conditions = list(set(ad_conditions))
     for player in subsession.get_players():
         player.ad_condition = random.choice(ad_conditions)
+
+
+# function that reads data
+def read_feed(path):
+    # read data (from seesion config)
+    if re.match(r'^https?://\S+', path):
+        print('URL')
+        if 'github' in path:
+            news = pd.read_csv(path, sep=';')
+        elif 'drive.google.com' in path:
+            file_id = path.split('/')[-2]
+            download_url = f'https://drive.google.com/uc?id={file_id}'
+            news = pd.read_csv(download_url, sep=';')
+        else:
+            raise ValueError("Unrecognized URL format")
+    else:
+        news = pd.read_csv(path, sep=';')
+    return news
+
 
 # function to check whether a URL exists. Not used currently.
 h = httplib2.Http()
@@ -96,15 +110,8 @@ class B_Instructions(Page):
     def before_next_page(player, timeout_happened):
 
         # read data (from seesion config)
-        url = player.session.config['data_url']
-        if 'github' in url:
-            news = pd.read_csv(url, sep=';')
-        elif 'drive.google.com' in url:
-            file_id = url.split('/')[-2]
-            download_url = f'https://drive.google.com/uc?id={file_id}'
-            news = pd.read_csv(download_url, sep=';')
-        else:
-            raise ValueError("Unrecognized URL format")
+        news = read_feed(player.session.config['data_path'])
+
 
         # subset data based on condition (if any)
         if 'condition' in news.columns:
