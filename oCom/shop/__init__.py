@@ -38,6 +38,8 @@ def creating_session(subsession):
 
     # read data (from seesion config)
     products = read_feed(subsession.session.config['data_path'])
+    for player in subsession.get_players():
+        player.participant.products = products
 
     if 'condition' in products.columns:
         feed_conditions = products['condition'].unique()
@@ -56,6 +58,29 @@ def creating_session(subsession):
     ad_conditions = list(set(ad_conditions))
     for player in subsession.get_players():
         player.ad_condition = random.choice(ad_conditions)
+
+        # PREPARE DATA:
+        # subset data based on condition (if any)
+        # I need to find a way to deal with '' or "", that is, escape them.
+        for player in subsession.get_players():
+            products = player.participant.products
+            if 'condition' in products.columns:
+                products = products[products["condition"] == str(player.feed_condition)]
+
+            # sort data
+            sort_by = player.session.config['sort_by']
+            if sort_by in products.columns:
+                products = products.sort_values(by=sort_by, ascending=False)
+            else:
+                products = products.sample(frac=1, random_state=42)  # Set a random_state for reproducibility
+                # Reset the index after shuffling
+                products.reset_index(drop=True, inplace=True)
+
+            # index
+            products['index'] = range(1, len(products) + 1)
+
+            # participant vars
+            player.participant.products = products
 
 
 # function that reads data

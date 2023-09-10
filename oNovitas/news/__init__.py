@@ -67,9 +67,7 @@ def creating_session(subsession):
     for player in subsession.get_players():
         news = player.participant.news
         if 'condition' in news.columns:
-            print(player.feed_condition)
             news = news[news["condition"] == str(player.feed_condition)]
-            print(news)
 
         # sort data
         sort_by = player.session.config['sort_by']
