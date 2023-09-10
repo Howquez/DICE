@@ -12,4 +12,4 @@ oFeeds is designed such that one only has to change one .csv file to change the 
 
 ## 🧵 Mimic Social Media Feeds with _oTweet_
 
-More to come soon.
+More to come soon. For the time being, take a look at [this repo](https://github.com/Howquez/oTweet).
