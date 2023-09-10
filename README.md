@@ -1,8 +1,15 @@
 # 📦 oFeeds
 
-oFeeds provides a collection of oTree apps that mimic **news, shopping- and social media feeds** to enable marketing researcher to create more realistic stimuli for their research.
+oFeeds provides a collection of [oTree](https://www.otree.org/) apps that mimic **news, shopping- and social media feeds** to enable marketing researcher to create more realistic stimuli for their research.
 Importantly, researchers can manipulate a feed in a matter of seconds without writing code: 
-oFeeds is designed such that one only has to change one .csv file to change the feed being displayed.
+just as content management systems, oFeeds is designed such that one only has to change one .csv file to change the feed being displayed.
+
+## Resources & Links
+
+- Documentation: comming soon
+- [OSF](https://osf.io/jcxvk/)
+- [License](LICENSE)
+- Reference: _Roggenkamp, H. C. (2023, September 10). oFeeds. Retrieved from osf.io/jcxvk_
 
 ## 🗞️ Mimic News Feeds with _oNovitas_
 ![Screenshot of oNovitas App](misc/img/screenshot_oNovitas.png?raw=true "News Feed")
