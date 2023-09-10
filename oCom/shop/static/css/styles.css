@@ -1,0 +1,53 @@
+
+/* hide title */
+.otree-title {
+        display: none;
+        }
+
+/* icons */
+
+.poster {
+        width: 40px;
+        height:40px;
+        margin: 25px auto;
+        position: relative;
+        border-radius: 40px;
+    }
+    .p1 {
+        background: #2b5876;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #4e4376, #2b5876);  /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-gradient(linear, left top, right top, from(#4e4376), to(#2b5876));
+        background: -webkit-linear-gradient(left, #4e4376, #2b5876);
+        background: -o-linear-gradient(left, #4e4376, #2b5876);
+        background: linear-gradient(to right, #4e4376, #2b5876); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+    .p2 {
+        background: #f857a6;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ff5858, #f857a6);  /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-gradient(linear, left top, right top, from(#ff5858), to(#f857a6));
+        background: -webkit-linear-gradient(left, #ff5858, #f857a6);
+        background: -o-linear-gradient(left, #ff5858, #f857a6);
+        background: linear-gradient(to right, #ff5858, #f857a6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+    .p3 {
+        background: #AA076B;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #61045F, #AA076B);  /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-gradient(linear, left top, right top, from(#61045F), to(#AA076B));
+        background: -webkit-linear-gradient(left, #61045F, #AA076B);
+        background: -o-linear-gradient(left, #61045F, #AA076B);
+        background: linear-gradient(to right, #61045F, #AA076B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+    .poster h4 {
+        top: 10px;
+        color: #fff;
+        position: relative;
+        font-size: 25px;
+        text-align: center;
+        font-weight: 100;
+    }
+
+/*tooltips*/
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bs-white);
+  --bs-tooltip-opacity: 100
+}

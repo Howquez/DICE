@@ -1,0 +1,25 @@
+
+<div class="col">
+    <div class="card h-100 border-0"
+             onclick="sequence('c' + {{i.doc_id}});" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});"
+         id="tweet_{{i.doc_id}}" style="cursor: pointer;">
+        <div class="card-body">
+        <img src="{{i.product_picture}}" class="card-img-top">
+            <p class='text-primary mb-1 mt-2'>
+                <small>{{i.category}}</small>
+            </p>
+            <h5 class="card-title product-price">{{i.price}}</h5>
+            <p class="card-text">
+                <strong>{{i.brand}} </strong> {{i.product_name}}
+            </p>
+            <p class="card-text text-muted">
+                <small>{{i.specifications}}</small>
+            </p>
+        </div>
+        <div class="card-footer bg-white border-0 text-center">
+            <button class="btn btn-outline-dark btn-sm add-to-cart mb-5" id="add-to-cart-{{i.doc_id}}" value={{i.doc_id}} type="button">
+                Add to cart
+            </button>
+        </div>
+    </div>
+</div>
