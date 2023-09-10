@@ -20,12 +20,14 @@ SESSION_CONFIG_DEFAULTS = dict(
     newspaper_name = 'The Daily News',
     data_path = 'news/static/data/news.csv', #'https://raw.githubusercontent.com/Howquez/oNovitas/main/otree/news/static/data/news.csv',
     sort_by = 'time_stamp',
+    show_banners = True,
     creative_left = 'https://github.com/Howquez/oNovitas/blob/main/otree/news/static/ad-image-3.png',
     copy_left = '50M Jobseekers. <br><br> 150+ Job Boards.',
     creative_right = 'https://github.com/Howquez/oNovitas/blob/main/otree/news/static/ad-image-4.png',
     copy_right = 'One Click.',
-    cta = 'Post Jobs Free',
-    landing_page = 'https://your-link-here.com'
+    show_cta = True,
+    cta_text = 'Post Jobs Free',
+    landing_page = 'https://your-link-here.com',
 )
 
 PARTICIPANT_FIELDS = ['news', 'finished']

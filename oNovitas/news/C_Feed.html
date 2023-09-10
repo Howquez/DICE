@@ -4,17 +4,7 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous">
 </script>
-<script>
-    var arr;
-    var update;
-
-    function sequence(item){
-        arr = document.getElementById('scroll_sequence').value;
-        update = arr + '-' + item
-        document.getElementById('scroll_sequence').value = update;
-        console.log(update)
-    }
-</script>
+<script src="{{ static 'js/scrolling.js' }}"></script>
 {{ endblock }}
 
 {{ block styles }}
@@ -23,7 +13,6 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 <link href="https://fonts.cdnfonts.com/css/chomsky" rel="stylesheet">
-
 {{ endblock }}
 
 
@@ -113,21 +102,25 @@
     </style>
     <title>Responsive Banner Ads</title>
 </head>
-<body class="bg-dark">
+<body class="bg-light">
 
     <!-- Hidden Fields -->
     <input type="hidden" name="scroll_sequence" id="scroll_sequence" value="i0">
+    <input type="hidden" name="cta" id="cta" value="False">
 
     <div class="container-fluid border p-0 m-0">
         <div class="row p-0 m-0">
 
             <!-- LHS -->
             <div class="col overflow-auto d-none d-md-block col-md-3 p-0 full-height" id="LHS">
-                <img src="{{ static img_left }}" class="ms-0 banner-img" onmouseover="sequence('ibl');" ontouchstart="sequence('ibl');" onclick="sequence('cbl');">
-                <p class="banner-text text-white position-absolute bottom-0 start-50 translate-middle">
-                    {{session.config.copy_left}}
-                </p>
+                {{ if session.config.show_banners }}
+                    <img src="{{ static img_left }}" class="ms-0 banner-img" onmouseover="sequence('ibl');" ontouchstart="sequence('ibl');" onclick="sequence('cbl');">
+                    <p class="banner-text text-white position-absolute bottom-0 start-50 translate-middle">
+                        {{session.config.copy_left}}
+                    </p>
+                {{ endif }}
             </div>
+
 
             <!-- Feed -->
             <div class="col overflow-auto col-sm-12 col-md-6 col-lg-6 p-0 feed-animation bg-white" style="height: 100vh;">
@@ -138,7 +131,7 @@
                     <h2 class="my-3" style="font-family: 'Chomsky', sans-serif;">{{session.config.newspaper_name}}</h2>
                 </div>
 
-                <table class="table table-hover border-start border-end p-0 m-0" id="tweet_table">
+                <table class="table table-hover border-start border-end p-0 m-0">
                     <tbody>
                     {{ for i in items.values() }}
                     {{ include C.NEWS_ITEM }}
@@ -156,15 +149,19 @@
 
             <!-- RHS -->
             <div class="col overflow-auto d-none d-md-block col-md-3 p-0 full-height" id="RHS">
+                {{ if session.config.show_banners }}
                 <img src="{{ static img_right }}" class="ms-0 banner-img"  onmouseover="sequence('ibr');" ontouchstart="sequence('ibr');" onclick="sequence('cbr');">
                 <p class="banner-text text-white position-absolute bottom-0 start-50 translate-middle">
                     {{session.config.copy_right}}
-                    <br><br>
-                    <a class="btn shadow btn-sm btn-primary" href="{{session.config.landing_page}}" target="_blank" role="button" onclick="sequence('cta');">
-                        {{session.config.cta}}
-                    </a>
-                </p>
 
+                    {{ if session.config.show_cta }}
+                        <br><br>
+                        <a class="btn shadow btn-sm btn-primary" value="True" href="{{session.config.landing_page}}" target="_blank" role="button" onclick="sequence('cta'); clicked_cta();">
+                            {{session.config.cta_text}}
+                        </a>
+                    {{ endif }}
+                </p>
+                {{ endif }}
             </div>
 
         </div>
