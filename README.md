@@ -14,9 +14,12 @@ just as content management systems, oFeeds is designed such that one only has to
 
 ## 🗞️ Mimic News Feeds with _oNovitas_
 ![Screenshot of oNovitas App](misc/img/screenshot_oNovitas.png?raw=true "News Feed")
+[otreezip file](oNovitas/oNovitas.otreezip)
 
 ## 🛒 Mimic Web Shops with _oCom_
 ![Screenshot of oCom App](misc/img/screenshot_oCom.png?raw=true "Shop Interface")
+[otreezip file](oCom/oCom.otreezip)
 
 ## 🧵 Mimic Social Media Feeds with _oTweet_
 ![Screenshot of oCom App](misc/img/screenshot_oTweet.png?raw=true "Shop Interface")
+[otreezip file](oTweet/oTweet.otreezip)
