@@ -1,0 +1,11 @@
+<img src="{{ static banner_img }}" class="ms-0 banner-img"  onmouseover="sequence('ibr');" ontouchstart="sequence('ibr');" onclick="sequence('cbr');">
+<p class="banner-text text-white position-absolute bottom-0 start-50 translate-middle">
+    {{session.config.copy_text}}
+
+    {{ if session.config.show_cta }}
+        <br><br>
+        <a class="btn shadow btn-sm btn-primary" value="True" href="{{session.config.landing_page}}" target="_blank" role="button" onclick="sequence('cta'); clicked_cta();">
+            {{session.config.cta_text}}
+        </a>
+    {{ endif }}
+</p>

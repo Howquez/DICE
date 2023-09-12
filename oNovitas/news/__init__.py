@@ -49,7 +49,7 @@ def creating_session(subsession):
             player.feed_condition = random.choice(feed_conditions)
 
     # set banner ad conditions based on images in directory
-    all_files = os.listdir('news/static/pics')
+    all_files = os.listdir('news/static/img')
     ad_conditions = []
     for file_name in all_files:
         if file_name[0].isalpha() and file_name[1:].lower().endswith('.png'):
@@ -88,7 +88,6 @@ def creating_session(subsession):
 
 # function that reads data
 def read_feed(path):
-    # read data (from seesion config)
     if re.match(r'^https?://\S+', path):
         print('URL')
         if 'github' in path:
@@ -123,8 +122,8 @@ class C_Feed(Page):
         ad = player.ad_condition
         return dict(
             items=player.participant.news.to_dict('index'),
-            img_left  = 'pics/{}_left.png'.format(ad),
-            img_right = 'pics/{}_right.png'.format(ad),
+            img_left  = 'img/{}_left.png'.format(ad),
+            img_right = 'img/{}_right.png'.format(ad),
         )
 
 page_sequence = [# B_Instructions,

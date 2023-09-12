@@ -1,0 +1,105 @@
+<tr>
+    <td>
+        <div class="row justify-content-start">
+            <div class="col-2">
+                {{ if i.profile_pic_available == True}}
+                    <img src="{{i.user_image}}" class="card-img p1 ms-3 poster" alt="Profile picture of {{i.username}}."
+                         data-bs-toggle="tooltip"
+                         data-bs-placement="bottom"
+                         data-bs-html="true"
+                         data-bs-custom-class="custom-tooltip"
+                         title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
+                                @{{i.handle}}<br><br>
+                                {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                {{ else }}
+                    <div class="poster p1 ms-3"
+                         data-bs-toggle="tooltip"
+                         data-bs-placement="bottom"
+                         data-bs-html="true"
+                         data-bs-custom-class="custom-tooltip"
+                         title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
+                                @{{i.handle}}<br><br>
+                                {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                        <h4>{{i.icon}}</h4>
+                    </div>
+                {{ endif }}
+            </div>
+            <div class="col-9 me-0">
+                <div class="card-body" id="tweet_{{i.doc_id}}">
+                    <h5 class="card-title"></h5>
+                    <h6 class="card-subtitle mb-2 mt-3">
+                        <a style="cursor: pointer;"
+                           data-bs-toggle="tooltip"
+                           data-bs-placement="bottom"
+                           data-bs-html="true"
+                           data-bs-custom-class="custom-tooltip"
+                           title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
+                           @{{i.handle}}<br><br>
+                           {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                            {{i.handle}}
+                        </a>
+                        <small class="text-muted"> {{i.username}} &middot; {{i.date}}.</small>
+                    </h6>
+                    <p class="card-text">
+                        <small>{{i.tweet}}</small>
+                    </p>
+                </div>
+
+                {{ if i.pic_available == True}}
+                    <img src="{{i.media}}" class="card-img ps-0 mt-2 rounded-4" alt="...">
+                {{ endif }}
+                <div class="d-flex border-top-0 mt-3 ms-5">
+                    <div class="reply-button col" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}">
+                        <span class="bi bi-chat text-secondary reply-icon" id="reply_icon_{{i.doc_id}}" style="cursor: pointer">️</span>
+                        <span class="reply-count text-secondary" id="reply_count_{{i.doc_id}}">{{i.replies}}</span>
+                    </div>
+                    <div class="retweet-button col">
+                        <span class="bi bi-arrow-repeat text-secondary retweet-icon" style="cursor: pointer">️</span>
+                        <span class="retweet-count text-secondary">{{i.retweets}}</span>
+                    </div>
+                    <div class="like-button col" id="like_button_{{i.doc_id}}">
+                        <span class="bi bi-heart text-secondary like-icon" style="cursor: pointer">️</span>
+                        <span class="like-count text-secondary">{{i.likes}}</span>
+                        <input class="like-field" type="hidden" name="liked_item_{{i.doc_id}}" id="liked_item_{{i.doc_id}}">
+                    </div>
+                    <div class="share-button col">
+                        <span class="bi bi-upload text-secondary share-icon" style="cursor: pointer">️</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<!-- Reply Modal -->
+<div class="modal fade reply-modal" id="replyModal_{{i.doc_id}}" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="replying-tweet mb-5 ms-3 ps-3 border-start border-primary border-3 text-secondary"
+                     id="replying_tweet_{{i.doc_id}}"></div>
+                <div class="row text-secondary">
+                    <div class="col-2">
+                        <h1 class="text-end">
+                            <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
+                               data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                        </h1>
+                    </div>
+                    <div class="col">
+                            <textarea class="form-control border-light reply-field"
+                                      id="reply_to_item_{{i.doc_id}}" name="reply_to_item_{{i.doc_id}}"
+                                      rows="4" placeholder="Tweet your reply"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary w-25 rounded-5 reply-modal-button" id="reply_modal_button_{{i.doc_id}}"
+                        onclick="replyOneUp();"
+                        data-bs-dismiss="modal">Reply</button>
+            </div>
+        </div>
+    </div>
+</div>

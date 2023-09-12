@@ -19,5 +19,4 @@ just as content management systems, oFeeds is designed such that one only has to
 ![Screenshot of oCom App](misc/img/screenshot_oCom.png?raw=true "Shop Interface")
 
 ## 🧵 Mimic Social Media Feeds with _oTweet_
-
-More to come soon. For the time being, take a look at [this repo](https://github.com/Howquez/oTweet).
+![Screenshot of oCom App](misc/img/screenshot_oTweet.png?raw=true "Shop Interface")

@@ -1,0 +1,11 @@
+# oTree-may-not-overwrite-this-file
+
+otree==5.10.2
+psycopg2>=2.8.4
+sentry-sdk>=0.7.9
+
+pandas==1.4.4
+
+httplib2 == 0.22.0
+
+openai==0.27.0
