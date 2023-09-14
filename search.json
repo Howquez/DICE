@@ -1,0 +1,121 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "oFeeds: Documentation",
+    "section": "",
+    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "5  Summary",
+    "section": "",
+    "text": "In summary, this book has no content whatsoever.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+  },
+  {
+    "objectID": "oCom.html",
+    "href": "oCom.html",
+    "title": "2  oCom",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+  },
+  {
+    "objectID": "oTree.html#local",
+    "href": "oTree.html#local",
+    "title": "1  Deploying oTree",
+    "section": "1.2 Local",
+    "text": "1.2 Local"
+  },
+  {
+    "objectID": "oTree.html#otree-hub",
+    "href": "oTree.html#otree-hub",
+    "title": "1  Deploying oTree",
+    "section": "1.2 oTree Hub",
+    "text": "1.2 oTree Hub"
+  },
+  {
+    "objectID": "oTree.html#otree-hr",
+    "href": "oTree.html#otree-hr",
+    "title": "1  Deploying oTree",
+    "section": "1.3 oTree HR",
+    "text": "1.3 oTree HR\nThis is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+  },
+  {
+    "objectID": "oNovitas.html",
+    "href": "oNovitas.html",
+    "title": "3  oNovitas",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+  },
+  {
+    "objectID": "oTweet.html",
+    "href": "oTweet.html",
+    "title": "4  oTweet",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+  },
+  {
+    "objectID": "oTree.html#server",
+    "href": "oTree.html#server",
+    "title": "1  Deploying oTree",
+    "section": "1.2 Server",
+    "text": "1.2 Server"
+  },
+  {
+    "objectID": "oTree.html#prolific",
+    "href": "oTree.html#prolific",
+    "title": "1  Deploying oTree",
+    "section": "1.4 Prolific",
+    "text": "1.4 Prolific\nThis is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+  },
+  {
+    "objectID": "oTree.html#installing-otree",
+    "href": "oTree.html#installing-otree",
+    "title": "1  Deploying oTree",
+    "section": "1.1 Installing oTree",
+    "text": "1.1 Installing oTree\n\n1.1.1 Prerequisites\nTo run oTree, you need Python3 (and its package manager PIP). In addition, you’ll need some basic experience with command line tools (your terminal) as well as an IDE such as PyCharm.\n\nInstall Python3\nInstall PIP\nDownload PyCharm\n\n\n\n1.1.2 oTree\nOpen the terminal (Mac/Linux) or command prompt (Windows PowerShell) and type:\n\npip3 install -U otree\n\nAfter the command ends, the installation is complete."
+  },
+  {
+    "objectID": "oTree.html#sec-server",
+    "href": "oTree.html#sec-server",
+    "title": "1  Deploying oFeeds",
+    "section": "1.3 Deploy oFeeds on Server",
+    "text": "1.3 Deploy oFeeds on Server\nTo increase the ease of deployment, oTree’s basic server setup is tied to Heroku. oTree’s official documentation explains that:\n\nHeroku is a commercial cloud hosting provider. It is the simplest way to deploy oTree. The Heroku free plan is sufficient for testing your app, but once you are ready to launch a study, you should upgrade to a paid server, which can handle more traffic. However, Heroku is quite inexpensive, because you only pay for the time you actually use it. If you run a study for only 1 day, you can turn off your dynos and addons, and then you only pay 1/30 of the monthly cost. Often this means you can run a study for just a few dollars.\n\nThis implies that you need to set up a Heroku account. In addition, you’ll need a oTree Hub account. oTree Hub automates your server setup and ensures your server is correctly configured. It also offers error/performance monitoring. Just start with the cheapest account and see how far it gets you.\nThe following steps will guide you through the process. You can also watch this video to get you started.\n\nVisit Heroku and create an account\nVisit oTree Hub and create an account.\nOn oTree Hub, click on Heroku server deployment.\nClick on Connect to Heroku.\nThis will navigate you to a Heroku log in interface. Log in to proceed.\nThis will redirect you to oTree Hub and ask you to verify your Heroku account by providing credit card details. Do that (on Heroku) to proceed.\nNext, visit your Heroku Dashboard and create a new app. Tipp: Use a rather generic name that you can reuse for future (and potentially unrelated) studies.\nGo back to oTree Hub, click Heroku in the navigation bar. You should see the Heroku app you just created beneath Other Sites. Click on register right next to it.\nYour Heroku app should now be displayed as an Active Site. Click on Deploy.\nThis will direct you to an interface where you can upload your *.otreezip file. Click on Browse to do so.\nClick Upload.\nClick Configure.\n…\nClick Reset database.\nClick on the link provided in the upper third of the page: https://[your app name].herokuapp.com\nDone."
+  },
+  {
+    "objectID": "oTree.html#run-otree",
+    "href": "oTree.html#run-otree",
+    "title": "1  Deploying oFeeds",
+    "section": "1.1 Run oTree",
+    "text": "1.1 Run oTree\n\n1.1.1 Prerequisites\nTo run oTree, you need Python3 (and its package manager PIP). In addition, you’ll need some basic experience with command line tools (your terminal) as well as an IDE such as PyCharm.\n\nInstall Python3\nInstall PIP\nDownload PyCharm\n\n\n\n1.1.2 Install oTree\nOpen your command line tool, that is, the terminal (Mac/Linux) or command prompt (Windows PowerShell) and type:\n\npip3 install -U otree\n\nAfter the command ends, the installation is complete.\n\n\n1.1.3 Download, unzip & Edit oFeeds\nDownload the .otreezip file of the application you are interested in (that is, oCom, oNovitas, oTweet) from GitHub or OSF. Open your command line tool and navigate (cd) to your desired directory. Within that directory, unpack the otreezip file you just downloaded (e.g., oTweet.otreezip) using the following command:\n\notree unzip oTweet.otreezip\n\nThis upacks the python project which contains predominantly Python code but also some JavaScript, HTML and CSS. You can edit it in your favorite IDE (such as PyCharm). I advice you to consult the oTree documentation if you want to edit the app’s backend as well as the Bootstrap 5.2 documentation if you want to edit the frontend. In addition, the subsequent chapters describe oFeeds’ apps in more detail.\nAfter editing your code, use your command line tool, navigate to the project directory (where also a settings.py file is located) and run the following command to re-pack the project into the *.otreezip file again:\n\notree zip\n\nYou will need this otreezip file to deploy the project on a server."
+  },
+  {
+    "objectID": "oTree.html#deploy-ofeeds-locally",
+    "href": "oTree.html#deploy-ofeeds-locally",
+    "title": "1  Deploying oFeeds",
+    "section": "1.2 Deploy oFeeds Locally",
+    "text": "1.2 Deploy oFeeds Locally\nUse your command line tool, navigate to your project folder and run:\n\notree devserver\n\nOpen a browser to http://localhost:8000/. To quit the development setup (devserver), press Control+C.\nNote that oTree’s devserver is not designed for running actual studies."
+  },
+  {
+    "objectID": "oTree.html#run-ofeeds-on-prolific",
+    "href": "oTree.html#run-ofeeds-on-prolific",
+    "title": "1  Deploying oFeeds",
+    "section": "1.4 Run oFeeds on Prolific",
+    "text": "1.4 Run oFeeds on Prolific"
+  }
+]
