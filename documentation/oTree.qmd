@@ -1,0 +1,104 @@
+# Deploying `oFeeds`
+
+If you want to edit, test and run oFeed's code locally, you'll need to install oTree. If you just want want to deploy it on a server, you can skip the first sections and start with @sec-server.
+
+This guide instructs you how to deploy one of the `oFeeds` apps either locally or on a server and how to connect that server to a prolific study. It does not introduce you to oTree _per se_. If you are interested in creating your own oTree apps, I recommend [oTree's official documentation](https://otree.readthedocs.io/en/latest/).
+
+
+
+## Run oTree
+
+
+
+### Prerequisites
+
+To run oTree, you need Python3 (and its package manager PIP). In addition, you'll need some basic experience with command line tools (your terminal) as well as an IDE such as PyCharm.
+
+- [Install Python3](https://www.w3schools.com/python/python_pip.asp)
+- [Install PIP](https://www.w3schools.com/python/python_pip.asp)
+- [Download PyCharm](https://www.jetbrains.com/pycharm/)
+
+
+
+### Install oTree
+
+Open your command line tool, that is, the terminal (Mac/Linux) or command prompt (Windows PowerShell) and type:
+
+
+```{python}
+#| eval: false
+pip3 install -U otree
+```
+
+After the command ends, the installation is complete.
+
+
+
+### Download, unzip & Edit `oFeeds`
+
+Download the `.otreezip` file of the application you are interested in (that is, [oCom](https://github.com/Howquez/oFeeds/blob/main/oCom/oCom.otreezip),
+[oNovitas](https://github.com/Howquez/oFeeds/blob/main/oNovitas/oNovitas.otreezip),
+[oTweet](https://github.com/Howquez/oFeeds/blob/main/oTweet/oTweet.otreezip)) from [GitHub](https://github.com/Howquez/oFeeds)
+or [OSF](https://osf.io/jcxvk/).
+Open your command line tool and navigate (`cd`) to your desired directory. Within that directory, unpack the otreezip file you just downloaded (e.g., _oTweet.otreezip_) using the following command:
+
+```{python}
+#| eval: false
+otree unzip oTweet.otreezip
+```
+
+This upacks the python project which contains predominantly Python code but also some JavaScript, HTML and CSS. You can edit it in your favorite IDE (such as PyCharm). I advice you to consult the [oTree documentation](https://otree.readthedocs.io/en/latest/) if you want to edit the app's backend as well as the [Bootstrap 5.2 documentation](https://getbootstrap.com/docs/5.2/getting-started/introduction/) if you want to edit the frontend. In addition, the subsequent chapters describe `oFeeds`' apps in more detail.
+
+After editing your code, use your command line tool, navigate to the project directory (where also a `settings.py` file is located) and run the following command to re-pack the project into the `*.otreezip` file again:
+
+```{python}
+#| eval: false
+otree zip
+```
+
+You will need this otreezip file to deploy the project on a server.
+
+## Deploy `oFeeds` Locally
+
+Use your command line tool, navigate to your project folder and run:
+
+```{python}
+#| eval: false
+otree devserver
+```
+
+Open a browser to [http://localhost:8000/](http://localhost:8000/). To quit the development setup (devserver), press `Control+C`.
+
+Note that oTree’s devserver is not designed for running actual studies.
+
+
+## Deploy `oFeeds` on Server {#sec-server}
+
+To increase the ease of deployment, oTree's basic server setup is tied to [Heroku](https://www.heroku.com/). oTree's [official documentation](https://otree.readthedocs.io/en/latest/server/heroku.html) explains that:
+
+> Heroku is a commercial cloud hosting provider. It is the simplest way to deploy oTree. The Heroku free plan is sufficient for testing your app, but once you are ready to launch a study, you should upgrade to a paid server, which can handle more traffic. However, Heroku is quite inexpensive, because you only pay for the time you actually use it. If you run a study for only 1 day, you can turn off your dynos and addons, and then you only pay 1/30 of the monthly cost. Often this means you can run a study for just a few dollars.
+
+This implies that you need to set up a Heroku account. In addition, you'll need a [oTree Hub](https://www.otreehub.com/) account. oTree Hub automates your server setup and ensures your server is correctly configured. It also offers error/performance monitoring. Just start with the cheapest account and see how far it gets you.
+
+The following steps will guide you through the process. You can also watch [this video](https://www.youtube.com/watch?v=H8Do08ub8bM) to get you started.
+
+1. Visit [Heroku](https://www.heroku.com/) and create an account
+2. Visit [oTree Hub](https://www.otreehub.com/) and create an account.
+3. On oTree Hub, click on _Heroku server deployment_.
+4. Click on _Connect to Heroku_.
+5. This will navigate you to a Heroku log in interface. Log in to proceed.
+6. This will redirect you to oTree Hub and ask you to verify your Heroku account by providing credit card details. Do that (on Heroku) to proceed.
+7. Next, visit your Heroku _Dashboard_ and create a new app. Tipp: Use a rather generic name that you can reuse for future (and potentially unrelated) studies.
+8. Go back to oTree Hub, click _Heroku_ in the navigation bar. You should see the Heroku app you just created beneath _Other Sites_. Click on _register_ right next to it.
+9. Your Heroku app should now be displayed as an _Active Site_. Click on _Deploy_.
+10. This will direct you to an interface where you can upload your `*.otreezip` file. Click on _Browse_ to do so.
+11. Click _Upload_.
+12. Click _Configure_.
+13. ...
+14. Click _Reset database_.
+15. Click on the link provided in the upper third of the page: `https://[your app name].herokuapp.com`
+16. Done.
+
+
+## Run `oFeeds` on Prolific
+

@@ -1,0 +1,35 @@
+project:
+  type: book
+
+book:
+  title: "oFeeds: Documentation"
+  author:
+  - name: Hauke Roggenkamp
+    email: Hauke.Roggenkamp@unisg.ch
+    corresponding: true
+    affiliations:
+      - name: Institute of Behavioral Science and Technology, University of St. Gallen
+        address: Torstrasse 25
+        city: St. Gallen
+        state: Switzerland
+        postal-code: 9000
+  date: "9/14/2023"
+  chapters:
+    - index.qmd
+    - oTree.qmd
+    - oCom.qmd
+    - oNovitas.qmd
+    - oTweet.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

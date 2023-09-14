@@ -36,3 +36,4 @@ __pycache__/
 
 # R Environment Variables
 .Renviron
+.Rproj.user
