@@ -9,7 +9,8 @@ just as content management systems, oFeeds is designed such that one only has to
 - [Documentation](https://howquez.github.io/oFeeds/)
 - [OSF](https://osf.io/jcxvk/)
 - [License](LICENSE)
-- Please cite as: _Roggenkamp, H. C. (2023, September 10). oFeeds. Retrieved from osf.io/jcxvk_
+- Please cite as: Roggenkamp, H. C. <script> const options = { year: 'numeric', month: 'long', day: 'numeric' }; document.write(new Date().toLocaleDateString(undefined, options));
+</script> oFeeds. Retrieved from osf.io/jcxvk
 
 
 ## 🗞️ Mimic News Feeds with _oNovitas_
