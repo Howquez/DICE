@@ -6,7 +6,7 @@ just as content management systems, oFeeds is designed such that one only has to
 
 ## Resources & Links
 
-- Documentation: comming soon
+- [Documentation](https://howquez.github.io/oFeeds/)
 - [OSF](https://osf.io/jcxvk/)
 - [License](LICENSE)
 - Please cite as: _Roggenkamp, H. C. (2023, September 10). oFeeds. Retrieved from osf.io/jcxvk_
