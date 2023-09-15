@@ -20,7 +20,7 @@ book:
     - oCom.qmd
     - oNovitas.qmd
     - oTweet.qmd
-    - summary.qmd
+    - prolific.qmd
     - references.qmd
 
 bibliography: references.bib
