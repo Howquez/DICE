@@ -2,7 +2,7 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-        name='twitter',
+        name='oTweet',
         app_sequence=['twitter'],
         num_demo_participants=4,
     ),

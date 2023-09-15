@@ -2,7 +2,7 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-        name='Shop',
+        name='oCom',
         app_sequence=['shop'],
         num_demo_participants=2,
     ),
