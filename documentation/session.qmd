@@ -1,0 +1,29 @@
+# Create a Session
+
+Where (and how) to change these settings in the admin frontend.
+
+## Session Configs
+
+| name                          | description | oCom | oNovitas | oTweet |
+|-------------------------------|-------------|------|----------|--------|
+| `real_world_currency_per_point` |             |   x  |     x    |    x   |
+| `participation_fee`             |             |   x  |     x    |    x   |
+| `survey_link`                   |             |   x  |     x    |    x   |
+| `sort_by`                       |             |   x  |     x    |    x   |
+| `data_path`                     |             |   x  |     x    |    x   |
+| `shop_name`                     |             |   x  |          |        |
+| `newspaper_name`                |             |      |     x    |        |
+| `search_term`                   |             |      |          |    x   |
+| `show_banners`                  |             |      |     x    |    x   |
+| `creative_left`                 |             |      |     x    |        |
+| `copy_left`                     |             |      |     x    |        |
+| `creative_right`                |             |      |     x    |        |
+| `copy_right`                    |             |      |     x    |        |
+| `copy_text`                     |             |      |          |        |
+| `show_cta`                      |             |      |     x    |    x   |
+| `cta_text`                      |             |      |     x    |    x   |
+| `landing_page`                  |             |      |     x    |    x   |
+
+## Creating Session Defines Maximum of Participants
+
+## 

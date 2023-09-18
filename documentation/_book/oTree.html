@@ -190,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#install-otree" id="toc-install-otree" class="nav-link" data-scroll-target="#install-otree"><span class="header-section-number">1.1.2</span> Install oTree</a></li>
   <li><a href="#download-unzip-edit-ofeeds" id="toc-download-unzip-edit-ofeeds" class="nav-link" data-scroll-target="#download-unzip-edit-ofeeds"><span class="header-section-number">1.1.3</span> Download, Unzip &amp; Edit <code>oFeeds</code></a></li>
   </ul></li>
-  <li><a href="#deploy-ofeeds-locally" id="toc-deploy-ofeeds-locally" class="nav-link" data-scroll-target="#deploy-ofeeds-locally"><span class="header-section-number">1.2</span> Deploy <code>oFeeds</code> Locally</a></li>
+  <li><a href="#sec-local" id="toc-sec-local" class="nav-link" data-scroll-target="#sec-local"><span class="header-section-number">1.2</span> Deploy <code>oFeeds</code> Locally</a></li>
   <li><a href="#sec-server" id="toc-sec-server" class="nav-link" data-scroll-target="#sec-server"><span class="header-section-number">1.3</span> Deploy <code>oFeeds</code> on a Server</a></li>
   </ul>
 </nav>
@@ -215,7 +215,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>If you want to edit, test and run oFeed’s code locally, you’ll need to install oTree. If you just want want to deploy it on a server, you can skip the first sections and start with <a href="#sec-server"><span>Section&nbsp;1.3</span></a>.</p>
+<!-- remember: git subtree push --prefix documentation/_book  origin gh-pages -->
+<p>If you want to edit, test and run oFeed’s code locally, you’ll need to install oTree. If you just want want to deploy it on a server, you can skip the first sections and start with <a href="#sec-server"><span>Section&nbsp;1.3</span></a> of this chapter.</p>
 <p>This guide instructs you how to deploy one of the <code>oFeeds</code> apps either locally or on a server and how to connect that server to a prolific study. It does not introduce you to oTree <em>per se</em>. If you are interested in creating your own oTree apps, I recommend <a href="https://otree.readthedocs.io/en/latest/">oTree’s official documentation</a>.</p>
 <section id="run-otree" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="run-otree"><span class="header-section-number">1.1</span> Run oTree</h2>
@@ -250,8 +251,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You will need this otreezip file to deploy the project on a server.</p>
 </section>
 </section>
-<section id="deploy-ofeeds-locally" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="deploy-ofeeds-locally"><span class="header-section-number">1.2</span> Deploy <code>oFeeds</code> Locally</h2>
+<section id="sec-local" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sec-local"><span class="header-section-number">1.2</span> Deploy <code>oFeeds</code> Locally</h2>
 <p>Use your command line tool, navigate to your project folder and run:</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>otree devserver</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -278,12 +279,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Next, visit your Heroku <em>Dashboard</em> and create a new app. Tipp: Use a rather generic name that you can reuse for future (and potentially unrelated) studies.</li>
 <li>Go back to oTree Hub, click <em>Heroku</em> in the navigation bar. You should see the Heroku app you just created beneath <em>Other Sites</em>. Click on <em>register</em> right next to it.</li>
 <li>Your Heroku app should now be displayed as an <em>Active Site</em>. Click on <em>Deploy</em>.</li>
-<li>This will direct you to an interface where you can upload your <code>*.otreezip</code> file. Click on <em>Browse</em> to do so.</li>
-<li>Click <em>Upload</em> and wait up to a few minutes.</li>
+<li>This will direct you to an interface where you can upload your <code>*.otreezip</code> file. Click on <em>Browse</em> to do so. If you haven’t done so already, you can download the <code>*.otreezip</code> file of the application you are interested in (that is, <a href="https://github.com/Howquez/oFeeds/blob/main/oCom/oCom.otreezip">oCom</a>, <a href="https://github.com/Howquez/oFeeds/blob/main/oNovitas/oNovitas.otreezip">oNovitas</a>, <a href="https://github.com/Howquez/oFeeds/blob/main/oTweet/oTweet.otreezip">oTweet</a>) from <a href="https://github.com/Howquez/oFeeds">GitHub</a> or <a href="https://osf.io/jcxvk/">OSF</a>.</li>
+<li>Click <em>Upload</em> and wait for up to a few minutes.</li>
 <li>Click <em>Configure</em> to set up your data base.</li>
-<li>For testing purposes, choose the smallest <code>Postgres plan</code> (mini) as well as the smallest <code>Dyno size</code> (Eco), open access <code>OTREE_AUTH_LEVEL</code> and <code>OTREE_PRODUCTION</code> off (to display error messages etc.). Submit changes.You can verify, change and undo these settings on Heroku: visit your app and click on resources. This will also show you the estimates monthly costs of deployment. To run a study, choose different settings, i.e., a larger <code>Postgres plan</code>, larger <code>Dyno size</code> and <code>OTREE_PRODUCTION</code> on.</li>
+<li>For testing purposes, choose the smallest <code>Postgres plan</code> (mini) as well as the smallest <code>Dyno size</code> (Eco), open access <code>OTREE_AUTH_LEVEL</code> and <code>OTREE_PRODUCTION</code> off (to display error messages etc.). Submit changes. You can verify, change and undo these settings on Heroku: visit your app and click on resources. This will also show you the estimates monthly costs of deployment. To run a study, choose different settings, i.e., a larger <code>Postgres plan</code>, larger <code>Dyno size</code> and <code>OTREE_PRODUCTION</code> on.</li>
 <li>Click <em>Reset database</em>. Be aware that this will delete all the data you may have collected in a previous study.</li>
-<li>Click on the link provided in the upper third of the page, that is, <code>https://[your app name].herokuapp.com</code>. This will yield the same interface as if you tested the study locally on a devserver.</li>
+<li>Click on the link provided in the upper third of the page, that is, <code>https://[your app name].herokuapp.com</code>. This will yield the same interface as if you tested the study locally on a devserver (described in <a href="#sec-local"><span>Section&nbsp;1.2</span></a> of this chapter).</li>
 <li>Done. You can now create and configure sessions to distribute the study to participants.</li>
 </ol>
 <p>The following chapters will describe how to do that for each app individually. (The apps differ slightly with respect to their features, for instance, because the news feed can display two banner ads, while the other can only display one. For that reason, the apps’ configurations differ too.)</p>

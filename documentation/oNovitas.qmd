@@ -1,9 +1,82 @@
 # oNovitas {#sec-oNovitas}
 
-This is a book created from markdown and executable code.
+Basically, _oNovitas_ consists of three columns: an ad banner (left-hand-side), the actual news feed and an additional ad banner (right-hand-side). The news feed (which my also contain sponsored content) loops through a `.*csv` file that you have to provide. Ro render the pair of ad banners, the software looks for images that match a naming convention in a specific directory.
 
-See @knuth84 for additional discussion of literate programming.
+![Frontend of oNovitas](img/screenshot-structure-oNovitas.png)
 
-```{r}
-1 + 1
-```
+The news feed consists of a sticky header that prints the news outlet's fictitious name (which you can define), news items and a button at the bottom of the page that lets participants proceed with the experiment.
+
+Both banners consist of images and copy. The right-hand-side only differs from the left hand side in that it also contains a Call To Action (CTA) button. A click on it opens a new tab and loads a website you pre-define.
+
+That's it. The remainder of this chapter describes how to control and randomize each of these elements.
+
+
+## News Feed
+
+The news feed requires a path to a `;`-separated `.*csv` file. More specifically, you need to provide a `data_path` in the session configurations. Currently, you have three options to provide the data:
+
+- You can provide a path within the project directory. Currently, `data_path` defaults to `'news/static/data/news.csv'`, for instance. I recommend to use the same directory or even overwrite that file.
+- You can upload the csv file to your Google drive and provide the corresponding URL.
+- You can upload the csv file to your github repository and provide the raw URL (navigate to your csv file, click on _raw_ and copy the resulting URL).
+
+Your csv file must comprise the following columns:
+
+| name        | description                                                                                                                                          |
+|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `doc_id`      | Unique numeric identifier needed to loop through the csv file. Can also be used for pseudo-random sorting of content.                                |
+| `condition`   | If you wish to manipulate the feed between-subjects, use this column with as many values as required.                                                |
+| `tag`         | Tag that allows you to cluster your content.                                                                                                         |
+| `title`       | Headline of new item.                                                                                                                                |
+| `teaser`      | Short text that describes the news item.                                                                                                             |
+| `content`     | Full text in HTML format that only becomes visible once a participant clicks on the corresponding news item.                                         |
+| `author`      | The news item's author.                                                                                                                              |
+| `publishedAt` | The day of publication.                                                                                                                              |
+| `urlToImage`  | URL to an image that shall be displayed. We recommend landscape-like ratios and sources such as unsplash.com.                                        |
+| `sponsored`   | Dummy that indicates whether the content shall represent actual news items or native advertising.                                                                        |
+| `url`         | If a news item is sponsored, you do not need any content but a URL of some landing page where the participant is directed to (in a new browser tab). |
+| `...`         | Add as many columns as you like. You could add a column that determines how the feed is sorted, for instance.                                        |
+
+Technically, all the requirements and mechanisms mentioned above are defined in `creating_subsession()` and `read_feed()` in `oNovitas/news/__init__.py`.
+
+### Sticky Header
+
+You can control the name displayed in the sticky header in the session configurations. Currently, `newspaper_name` defaults to _'The Daily News'_.
+
+### News Items
+
+As outlined above, the news items are defined in a csv file. The feed just loops through each row and checks whether `sponsored` is True or False. 
+
+If `sponsored == False`, the content is displayed as a regular news item. Clicking on it opens a modal (or `pop-up window`) that displays the full content, that is, the full text alongside some meta data such as the author etc.
+
+### Sponsored Content
+
+If `sponsored == True`, the content is displayed slightly differently. For instance, the item's background color is rather beige than white. In addition, there is a _sponsored_ tag indicating the native advertisement. Importantly, a click on the item directs the participant towards a landing page. It does not open the modal a participant is exposed to when clicking on a news item.
+
+### Finish-Button
+
+At the bottom of the page is a button. Clicking on it, a participant submits the page and cannot go back. The participant will then see a page directing her to your survey.
+
+## Ad Banners
+
+Create your own ad banners simply by storing `*.png` files in `oNovitas/news/static/img/`. Ad some copy and, if needed, a call-to-action in the session configurations and you are done.
+
+### Creatives
+
+As mentioned, the software looks for files stored in `oNovitas/news/static/img/`. These images should be of high quality and be somewhat similar to a sky scraper format such as 160x600px.
+
+Images you want to display on the left-hand-side shall be named as `A_left.png` whereas right-hand-side images shall be named `B_left.png`.
+
+If you intend to create multiple conditions where you randomize exposure to different pairs of images between subjects, indicate the condition by changing the initial capital letter. Whether a participant was exposed to ad `A` or `B` is tracked in a variable called `ad_condition`.
+
+### Copy
+
+The images can be overlaid by some copy you define in the session configurations, that is, `copy_left` and `copy_right`.
+
+### CTA
+
+You can enable (or disable) a call-to-action button that is displayed above the right-hand-side's banner in the session configurations. `show_cta` defaults to True and indicates whether the button shall be displayed. If you choose to display it, you should also provide some `cta_text` as well as a `landing page` which opens in a new tab. Clicks on that button are tracked in a Boolean variable called `cta`.
+
+
+## Manipulation and Randomization
+
+Currently, the software allows you to manipulate across two dimensions between-subjects: the news feed (e.g. news items in favor of vs. against a certain topic) and the banners (e.g. ad copy in passive vs. active tone).

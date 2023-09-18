@@ -17,6 +17,7 @@ book:
   chapters:
     - index.qmd
     - oTree.qmd
+    - session.qmd
     - oCom.qmd
     - oNovitas.qmd
     - oTweet.qmd
