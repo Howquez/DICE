@@ -22,7 +22,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -113,26 +132,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./session.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Create a Session</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./oCom.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">oCom</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">oCom</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./oNovitas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">oNovitas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">oNovitas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./oTweet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">oTweet</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">oTweet</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./prolific.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Prolific</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Prolific</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -196,8 +221,16 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1>
+<p>The project <code>oFeeds</code> contains three apps <code>oCom</code>, <code>oNovitas</code> as well as <code>oTweet</code> that mimic shopping, news and social media feeds respectively. This document describes how to configure each app to your needs.</p>
+<p>All of these apps are based on oTree <span class="citation" data-cites="oTree">(<a href="references.html#ref-oTree" role="doc-biblioref">Chen, Schonger, and Wickens 2016</a>)</span>. Hence, <span class="quarto-unresolved-ref">?sec-oTree</span> first describes how to deploy oTree apps in general. <span class="quarto-unresolved-ref">?sec-session</span> describes how to create and configure a session. Subsequently, <a href="oCom.html">Chapter&nbsp;<span>3</span></a>, <a href="oNovitas.html">Chapter&nbsp;<span>4</span></a> and <a href="oTweet.html">Chapter&nbsp;<span>4</span></a> describe the session configurations that apply to the respective apps in detail. The document closes with instructions on how to run an oTree experiment on Prolific.</p>
+<p>Please note that both the apps as well as the documentation is under development (in fact, <a href="oCom.html">Chapter&nbsp;<span>3</span></a>, <a href="oTweet.html">Chapter&nbsp;<span>4</span></a> and <span class="quarto-unresolved-ref">?sec-prolific</span> are not yet existent). Hence, feedback are much appreciated. If you have any comments, questions or requests, don’t hesitate to reach out to me via <a href="mailto:hauke.roggenkamp@unisg.ch">email</a> or create an <a href="https://github.com/Howquez/oFeeds/issues">issue</a> in the corresponding github repository.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-oTree" class="csl-entry" role="listitem">
+Chen, Daniel L., Martin Schonger, and Chris Wickens. 2016. <span>“oTree—an Open-Source Platform for Laboratory, Online, and Field Experiments.”</span> <em>Journal of Behavioral and Experimental Finance</em> 9: 88–97. https://doi.org/<a href="https://doi.org/10.1016/j.jbef.2015.12.001">https://doi.org/10.1016/j.jbef.2015.12.001</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
