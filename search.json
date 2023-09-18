@@ -30,9 +30,9 @@
   {
     "objectID": "oCom.html",
     "href": "oCom.html",
-    "title": "2  oCom",
+    "title": "3  oCom",
     "section": "",
-    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+    "text": "WIP"
   },
   {
     "objectID": "oTree.html#local",
@@ -95,7 +95,7 @@
     "href": "oTree.html#sec-server",
     "title": "1  Deploy oFeeds",
     "section": "1.3 Deploy oFeeds on a Server",
-    "text": "1.3 Deploy oFeeds on a Server\nTo increase the ease of deployment, oTree’s basic server setup is tied to Heroku. oTree’s official documentation explains that:\n\nHeroku is a commercial cloud hosting provider. It is the simplest way to deploy oTree. The Heroku free plan is sufficient for testing your app, but once you are ready to launch a study, you should upgrade to a paid server, which can handle more traffic. However, Heroku is quite inexpensive, because you only pay for the time you actually use it. If you run a study for only 1 day, you can turn off your dynos and addons, and then you only pay 1/30 of the monthly cost. Often this means you can run a study for just a few dollars.\n\nThis implies that you need to set up a Heroku account. In addition, you’ll need a oTree Hub account. oTree Hub automates your server setup and ensures your server is correctly configured. It also offers error/performance monitoring. Just start with the cheapest account and see how far it gets you.\nThe following steps will guide you through the process. You can and probably should also watch this video to get you started.\n\nVisit Heroku and create an account\nVisit oTree Hub and create an account.\nOn oTree Hub, click on Heroku server deployment.\nClick on Connect to Heroku.\nThis will navigate you to a Heroku login interface. Log in to proceed.\nThis will redirect you to oTree Hub and ask you to verify your Heroku account by providing credit card details. Do that (on Heroku) to proceed.\nNext, visit your Heroku Dashboard and create a new app. Tipp: Use a rather generic name that you can reuse for future (and potentially unrelated) studies.\nGo back to oTree Hub, click Heroku in the navigation bar. You should see the Heroku app you just created beneath Other Sites. Click on register right next to it.\nYour Heroku app should now be displayed as an Active Site. Click on Deploy.\nThis will direct you to an interface where you can upload your *.otreezip file. Click on Browse to do so.\nClick Upload and wait up to a few minutes.\nClick Configure to set up your data base.\nFor testing purposes, choose the smallest Postgres plan (mini) as well as the smallest Dyno size (Eco), open access OTREE_AUTH_LEVEL and OTREE_PRODUCTION off (to display error messages etc.). Submit changes.You can verify, change and undo these settings on Heroku: visit your app and click on resources. This will also show you the estimates monthly costs of deployment. To run a study, choose different settings, i.e., a larger Postgres plan, larger Dyno size and OTREE_PRODUCTION on.\nClick Reset database. Be aware that this will delete all the data you may have collected in a previous study.\nClick on the link provided in the upper third of the page, that is, https://[your app name].herokuapp.com. This will yield the same interface as if you tested the study locally on a devserver.\nDone. You can now create and configure sessions to distribute the study to participants.\n\nThe following chapters will describe how to do that for each app individually. (The apps differ slightly with respect to their features, for instance, because the news feed can display two banner ads, while the other can only display one. For that reason, the apps’ configurations differ too.)\n\nSee how to configure a oCom session in Chapter 2.\nSee how to configure a oNovitas session in Chapter 3.\nSee how to configure a oTweet session in Chapter 4."
+    "text": "1.3 Deploy oFeeds on a Server\nTo increase the ease of deployment, oTree’s basic server setup is tied to Heroku. oTree’s official documentation explains that:\n\nHeroku is a commercial cloud hosting provider. It is the simplest way to deploy oTree. The Heroku free plan is sufficient for testing your app, but once you are ready to launch a study, you should upgrade to a paid server, which can handle more traffic. However, Heroku is quite inexpensive, because you only pay for the time you actually use it. If you run a study for only 1 day, you can turn off your dynos and addons, and then you only pay 1/30 of the monthly cost. Often this means you can run a study for just a few dollars.\n\nThis implies that you need to set up a Heroku account. In addition, you’ll need a oTree Hub account. oTree Hub automates your server setup and ensures your server is correctly configured. It also offers error/performance monitoring. Just start with the cheapest account and see how far it gets you.\nThe following steps will guide you through the process. You can and probably should also watch this video to get you started.\n\nVisit Heroku and create an account\nVisit oTree Hub and create an account.\nOn oTree Hub, click on Heroku server deployment.\nClick on Connect to Heroku.\nThis will navigate you to a Heroku login interface. Log in to proceed.\nThis will redirect you to oTree Hub and ask you to verify your Heroku account by providing credit card details. Do that (on Heroku) to proceed.\nNext, visit your Heroku Dashboard and create a new app. Tipp: Use a rather generic name that you can reuse for future (and potentially unrelated) studies.\nGo back to oTree Hub, click Heroku in the navigation bar. You should see the Heroku app you just created beneath Other Sites. Click on register right next to it.\nYour Heroku app should now be displayed as an Active Site. Click on Deploy.\nThis will direct you to an interface where you can upload your *.otreezip file. Click on Browse to do so. If you haven’t done so already, you can download the *.otreezip file of the application you are interested in (that is, oCom, oNovitas, oTweet) from GitHub or OSF.\nClick Upload and wait for up to a few minutes.\nClick Configure to set up your data base.\nFor testing purposes, choose the smallest Postgres plan (mini) as well as the smallest Dyno size (Eco), open access OTREE_AUTH_LEVEL and OTREE_PRODUCTION off (to display error messages etc.). Submit changes. You can verify, change and undo these settings on Heroku: visit your app and click on resources. This will also show you the estimates monthly costs of deployment. To run a study, choose different settings, i.e., a larger Postgres plan, larger Dyno size and OTREE_PRODUCTION on.\nClick Reset database. Be aware that this will delete all the data you may have collected in a previous study.\nClick on the link provided in the upper third of the page, that is, https://[your app name].herokuapp.com. This will yield the same interface as if you tested the study locally on a devserver (described in Section 1.2 of this chapter).\nDone. You can now create and configure sessions to distribute the study to participants.\n\nThe following chapters will describe how to do that for each app individually. (The apps differ slightly with respect to their features, for instance, because the news feed can display two banner ads, while the other can only display one. For that reason, the apps’ configurations differ too.)\n\nSee how to configure a oCom session in Chapter 2.\nSee how to configure a oNovitas session in Chapter 3.\nSee how to configure a oTweet session in Chapter 4."
   },
   {
     "objectID": "oTree.html#run-otree",
@@ -121,8 +121,57 @@
   {
     "objectID": "prolific.html",
     "href": "prolific.html",
-    "title": "5  Prolific",
+    "title": "6  Prolific",
     "section": "",
-    "text": "In summary, this book has no content whatsoever.\n\n1 + 1\n\n[1] 2"
+    "text": "WIP"
+  },
+  {
+    "objectID": "oTree.html#sec-local",
+    "href": "oTree.html#sec-local",
+    "title": "1  Deploy oFeeds",
+    "section": "1.2 Deploy oFeeds Locally",
+    "text": "1.2 Deploy oFeeds Locally\nUse your command line tool, navigate to your project folder and run:\n\notree devserver\n\nOpen a browser to http://localhost:8000/. This will display a Demo screen with a hyperlink named after the app you intend to use, e.g., oTweet. Click on it to create a small demo session:\n The screenshot above shows such a session (with the unique id 1pwq8tjd). You can see unique ULRs fornfour participants (P1-P4) as well as some horizontally distributed tabs. The Data tab is of particular interest as it shows you the data entries of each participant. It also allows you to download a corresponding *.csv file.\nTo quit the development setup (devserver), go to the command line tool and press Control+C. Note that oTree’s devserver is not designed for running actual studies."
+  },
+  {
+    "objectID": "oNovitas.html#news-feed",
+    "href": "oNovitas.html#news-feed",
+    "title": "4  oNovitas",
+    "section": "4.1 News Feed",
+    "text": "4.1 News Feed\nThe news feed requires a path to a ;-separated .*csv file. More specifically, you need to provide a data_path in the session configurations. Currently, you have three options to provide the data:\n\nYou can provide a path within the project directory. Currently, data_path defaults to 'news/static/data/news.csv', for instance. I recommend to use the same directory or even overwrite that file.\nYou can upload the csv file to your Google drive and provide the corresponding URL.\nYou can upload the csv file to your github repository and provide the raw URL (navigate to your csv file, click on raw and copy the resulting URL).\n\nYour csv file must comprise the following columns:\n\n\n\n\n\n\n\nname\ndescription\n\n\n\n\ndoc_id\nUnique numeric identifier needed to loop through the csv file. Can also be used for pseudo-random sorting of content.\n\n\ncondition\nIf you wish to manipulate the feed between-subjects, use this column with as many values as required.\n\n\ntag\nTag that allows you to cluster your content.\n\n\ntitle\nHeadline of new item.\n\n\nteaser\nShort text that describes the news item.\n\n\ncontent\nFull text in HTML format that only becomes visible once a participant clicks on the corresponding news item.\n\n\nauthor\nThe news item’s author.\n\n\npublishedAt\nThe day of publication.\n\n\nurlToImage\nURL to an image that shall be displayed. We recommend landscape-like ratios and sources such as unsplash.com.\n\n\nsponsored\nDummy that indicates whether the content shall represent actual news items or native advertising.\n\n\nurl\nIf a news item is sponsored, you do not need any content but a URL of some landing page where the participant is directed to (in a new browser tab).\n\n\n...\nAdd as many columns as you like. You could add a column that determines how the feed is sorted, for instance.\n\n\n\nTechnically, all the requirements and mechanisms mentioned above are defined in creating_subsession() and read_feed() in oNovitas/news/__init__.py.\n\n4.1.1 Sticky Header\nYou can control the name displayed in the sticky header in the session configurations. Currently, newspaper_name defaults to ‘The Daily News’.\n\n\n4.1.2 News Items\nAs outlined above, the news items are defined in a csv file. The feed just loops through each row and checks whether sponsored is True or False.\nIf sponsored == False, the content is displayed as a regular news item. Clicking on it opens a modal (or pop-up window) that displays the full content, that is, the full text alongside some meta data such as the author etc.\n\n\n4.1.3 Sponsored Content\nIf sponsored == True, the content is displayed slightly differently. For instance, the item’s background color is rather beige than white. In addition, there is a sponsored tag indicating the native advertisement. Importantly, a click on the item directs the participant towards a landing page. It does not open the modal a participant is exposed to when clicking on a news item.\n\n\n4.1.4 Finish-Button\nAt the bottom of the page is a button. Clicking on it, a participant submits the page and cannot go back. The participant will then see a page directing her to your survey."
+  },
+  {
+    "objectID": "oNovitas.html#ad-banners",
+    "href": "oNovitas.html#ad-banners",
+    "title": "4  oNovitas",
+    "section": "4.2 Ad Banners",
+    "text": "4.2 Ad Banners\nCreate your own ad banners simply by storing *.png files in oNovitas/news/static/img/. Ad some copy and, if needed, a call-to-action in the session configurations and you are done.\n\n4.2.1 Creatives\nAs mentioned, the software looks for files stored in oNovitas/news/static/img/. These images should be of high quality and be somewhat similar to a sky scraper format such as 160x600px.\nImages you want to display on the left-hand-side shall be named as A_left.png whereas right-hand-side images shall be named B_left.png.\nIf you intend to create multiple conditions where you randomize exposure to different pairs of images between subjects, indicate the condition by changing the initial capital letter. Whether a participant was exposed to ad A or B is tracked in a variable called ad_condition.\n\n\n4.2.2 Copy\nThe images can be overlaid by some copy you define in the session configurations, that is, copy_left and copy_right.\n\n\n4.2.3 CTA\nYou can enable (or disable) a call-to-action button that is displayed above the right-hand-side’s banner in the session configurations. show_cta defaults to True and indicates whether the button shall be displayed. If you choose to display it, you should also provide some cta_text as well as a landing page which opens in a new tab. Clicks on that button are tracked in a Boolean variable called cta."
+  },
+  {
+    "objectID": "oNovitas.html#manipulation-and-randomization",
+    "href": "oNovitas.html#manipulation-and-randomization",
+    "title": "4  oNovitas",
+    "section": "4.3 Manipulation and Randomization",
+    "text": "4.3 Manipulation and Randomization\nCurrently, the software allows you to manipulate across two dimensions between-subjects: the news feed (e.g. news items in favor of vs. against a certain topic) and the banners (e.g. ad copy in passive vs. active tone)."
+  },
+  {
+    "objectID": "session.html#session-configs",
+    "href": "session.html#session-configs",
+    "title": "2  Create a Session",
+    "section": "2.1 Session Configs",
+    "text": "2.1 Session Configs\n\n\n\n\n\n\n\n\n\n\nname\ndescription\noCom\noNovitas\noTweet\n\n\n\n\nreal_world_currency_per_point\n\nx\nx\nx\n\n\nparticipation_fee\n\nx\nx\nx\n\n\nsurvey_link\n\nx\nx\nx\n\n\nsort_by\n\nx\nx\nx\n\n\ndata_path\n\nx\nx\nx\n\n\nshop_name\n\nx\n\n\n\n\nnewspaper_name\n\n\nx\n\n\n\nsearch_term\n\n\n\nx\n\n\nshow_banners\n\n\nx\nx\n\n\ncreative_left\n\n\nx\n\n\n\ncopy_left\n\n\nx\n\n\n\ncreative_right\n\n\nx\n\n\n\ncopy_right\n\n\nx\n\n\n\ncopy_text\n\n\n\n\n\n\nshow_cta\n\n\nx\nx\n\n\ncta_text\n\n\nx\nx\n\n\nlanding_page\n\n\nx\nx"
+  },
+  {
+    "objectID": "session.html#creating-session-defines-maximum-of-participants",
+    "href": "session.html#creating-session-defines-maximum-of-participants",
+    "title": "2  Create a Session",
+    "section": "2.2 Creating Session Defines Maximum of Participants",
+    "text": "2.2 Creating Session Defines Maximum of Participants"
+  },
+  {
+    "objectID": "session.html#section",
+    "href": "session.html#section",
+    "title": "2  Create a Session",
+    "section": "2.3 ",
+    "text": "2.3"
   }
 ]

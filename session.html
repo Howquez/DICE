@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>oFeeds: Documentation - 4&nbsp; oNovitas</title>
+<title>oFeeds: Documentation - 2&nbsp; Create a Session</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./oTweet.html" rel="next">
-<link href="./oCom.html" rel="prev">
+<link href="./oCom.html" rel="next">
+<link href="./oTree.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./oNovitas.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">oNovitas</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./session.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Create a Session</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -112,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./session.html" class="sidebar-item-text sidebar-link">
+  <a href="./session.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Create a Session</span></span></a>
   </div>
 </li>
@@ -124,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./oNovitas.html" class="sidebar-item-text sidebar-link active">
+  <a href="./oNovitas.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">oNovitas</span></span></a>
   </div>
 </li>
@@ -156,20 +156,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#news-feed" id="toc-news-feed" class="nav-link active" data-scroll-target="#news-feed"><span class="header-section-number">4.1</span> News Feed</a>
-  <ul class="collapse">
-  <li><a href="#sticky-header" id="toc-sticky-header" class="nav-link" data-scroll-target="#sticky-header"><span class="header-section-number">4.1.1</span> Sticky Header</a></li>
-  <li><a href="#news-items" id="toc-news-items" class="nav-link" data-scroll-target="#news-items"><span class="header-section-number">4.1.2</span> News Items</a></li>
-  <li><a href="#sponsored-content" id="toc-sponsored-content" class="nav-link" data-scroll-target="#sponsored-content"><span class="header-section-number">4.1.3</span> Sponsored Content</a></li>
-  <li><a href="#finish-button" id="toc-finish-button" class="nav-link" data-scroll-target="#finish-button"><span class="header-section-number">4.1.4</span> Finish-Button</a></li>
-  </ul></li>
-  <li><a href="#ad-banners" id="toc-ad-banners" class="nav-link" data-scroll-target="#ad-banners"><span class="header-section-number">4.2</span> Ad Banners</a>
-  <ul class="collapse">
-  <li><a href="#creatives" id="toc-creatives" class="nav-link" data-scroll-target="#creatives"><span class="header-section-number">4.2.1</span> Creatives</a></li>
-  <li><a href="#copy" id="toc-copy" class="nav-link" data-scroll-target="#copy"><span class="header-section-number">4.2.2</span> Copy</a></li>
-  <li><a href="#cta" id="toc-cta" class="nav-link" data-scroll-target="#cta"><span class="header-section-number">4.2.3</span> CTA</a></li>
-  </ul></li>
-  <li><a href="#manipulation-and-randomization" id="toc-manipulation-and-randomization" class="nav-link" data-scroll-target="#manipulation-and-randomization"><span class="header-section-number">4.3</span> Manipulation and Randomization</a></li>
+  <li><a href="#session-configs" id="toc-session-configs" class="nav-link active" data-scroll-target="#session-configs"><span class="header-section-number">2.1</span> Session Configs</a></li>
+  <li><a href="#creating-session-defines-maximum-of-participants" id="toc-creating-session-defines-maximum-of-participants" class="nav-link" data-scroll-target="#creating-session-defines-maximum-of-participants"><span class="header-section-number">2.2</span> Creating Session Defines Maximum of Participants</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">2.3</span> </a></li>
   </ul>
 </nav>
     </div>
@@ -178,7 +167,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-oNovitas" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">oNovitas</span></span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Create a Session</span></h1>
 </div>
 
 
@@ -193,127 +182,154 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Basically, <em>oNovitas</em> consists of three columns: an ad banner (left-hand-side), the actual news feed and an additional ad banner (right-hand-side). The news feed (which my also contain sponsored content) loops through a <code>.*csv</code> file that you have to provide. Ro render the pair of ad banners, the software looks for images that match a naming convention in a specific directory.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/screenshot-structure-oNovitas.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Frontend of oNovitas</figcaption>
-</figure>
-</div>
-<p>The news feed consists of a sticky header that prints the news outlet’s fictitious name (which you can define), news items and a button at the bottom of the page that lets participants proceed with the experiment.</p>
-<p>Both banners consist of images and copy. The right-hand-side only differs from the left hand side in that it also contains a Call To Action (CTA) button. A click on it opens a new tab and loads a website you pre-define.</p>
-<p>That’s it. The remainder of this chapter describes how to control and randomize each of these elements.</p>
-<section id="news-feed" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="news-feed"><span class="header-section-number">4.1</span> News Feed</h2>
-<p>The news feed requires a path to a <code>;</code>-separated <code>.*csv</code> file. More specifically, you need to provide a <code>data_path</code> in the session configurations. Currently, you have three options to provide the data:</p>
-<ul>
-<li>You can provide a path within the project directory. Currently, <code>data_path</code> defaults to <code>'news/static/data/news.csv'</code>, for instance. I recommend to use the same directory or even overwrite that file.</li>
-<li>You can upload the csv file to your Google drive and provide the corresponding URL.</li>
-<li>You can upload the csv file to your github repository and provide the raw URL (navigate to your csv file, click on <em>raw</em> and copy the resulting URL).</li>
-</ul>
-<p>Your csv file must comprise the following columns:</p>
+<p>Where (and how) to change these settings in the admin frontend.</p>
+<section id="session-configs" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="session-configs"><span class="header-section-number">2.1</span> Session Configs</h2>
 <table class="table">
 <colgroup>
-<col style="width: 7%">
-<col style="width: 92%">
+<col style="width: 45%">
+<col style="width: 19%">
+<col style="width: 8%">
+<col style="width: 14%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>name</th>
 <th>description</th>
+<th>oCom</th>
+<th>oNovitas</th>
+<th>oTweet</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>doc_id</code></td>
-<td>Unique numeric identifier needed to loop through the csv file. Can also be used for pseudo-random sorting of content.</td>
+<td><code>real_world_currency_per_point</code></td>
+<td></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
 </tr>
 <tr class="even">
-<td><code>condition</code></td>
-<td>If you wish to manipulate the feed between-subjects, use this column with as many values as required.</td>
+<td><code>participation_fee</code></td>
+<td></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
 </tr>
 <tr class="odd">
-<td><code>tag</code></td>
-<td>Tag that allows you to cluster your content.</td>
+<td><code>survey_link</code></td>
+<td></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
 </tr>
 <tr class="even">
-<td><code>title</code></td>
-<td>Headline of new item.</td>
+<td><code>sort_by</code></td>
+<td></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
 </tr>
 <tr class="odd">
-<td><code>teaser</code></td>
-<td>Short text that describes the news item.</td>
+<td><code>data_path</code></td>
+<td></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
 </tr>
 <tr class="even">
-<td><code>content</code></td>
-<td>Full text in HTML format that only becomes visible once a participant clicks on the corresponding news item.</td>
+<td><code>shop_name</code></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
-<td><code>author</code></td>
-<td>The news item’s author.</td>
+<td><code>newspaper_name</code></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
 </tr>
 <tr class="even">
-<td><code>publishedAt</code></td>
-<td>The day of publication.</td>
+<td><code>search_term</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td>x</td>
 </tr>
 <tr class="odd">
-<td><code>urlToImage</code></td>
-<td>URL to an image that shall be displayed. We recommend landscape-like ratios and sources such as unsplash.com.</td>
+<td><code>show_banners</code></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>x</td>
 </tr>
 <tr class="even">
-<td><code>sponsored</code></td>
-<td>Dummy that indicates whether the content shall represent actual news items or native advertising.</td>
+<td><code>creative_left</code></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
 </tr>
 <tr class="odd">
-<td><code>url</code></td>
-<td>If a news item is sponsored, you do not need any content but a URL of some landing page where the participant is directed to (in a new browser tab).</td>
+<td><code>copy_left</code></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
 </tr>
 <tr class="even">
-<td><code>...</code></td>
-<td>Add as many columns as you like. You could add a column that determines how the feed is sorted, for instance.</td>
+<td><code>creative_right</code></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>copy_right</code></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>copy_text</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>show_cta</code></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr class="even">
+<td><code>cta_text</code></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr class="odd">
+<td><code>landing_page</code></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>x</td>
 </tr>
 </tbody>
 </table>
-<p>Technically, all the requirements and mechanisms mentioned above are defined in <code>creating_subsession()</code> and <code>read_feed()</code> in <code>oNovitas/news/__init__.py</code>.</p>
-<section id="sticky-header" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="sticky-header"><span class="header-section-number">4.1.1</span> Sticky Header</h3>
-<p>You can control the name displayed in the sticky header in the session configurations. Currently, <code>newspaper_name</code> defaults to <em>‘The Daily News’</em>.</p>
 </section>
-<section id="news-items" class="level3" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="news-items"><span class="header-section-number">4.1.2</span> News Items</h3>
-<p>As outlined above, the news items are defined in a csv file. The feed just loops through each row and checks whether <code>sponsored</code> is True or False.</p>
-<p>If <code>sponsored == False</code>, the content is displayed as a regular news item. Clicking on it opens a modal (or <code>pop-up window</code>) that displays the full content, that is, the full text alongside some meta data such as the author etc.</p>
+<section id="creating-session-defines-maximum-of-participants" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="creating-session-defines-maximum-of-participants"><span class="header-section-number">2.2</span> Creating Session Defines Maximum of Participants</h2>
 </section>
-<section id="sponsored-content" class="level3" data-number="4.1.3">
-<h3 data-number="4.1.3" class="anchored" data-anchor-id="sponsored-content"><span class="header-section-number">4.1.3</span> Sponsored Content</h3>
-<p>If <code>sponsored == True</code>, the content is displayed slightly differently. For instance, the item’s background color is rather beige than white. In addition, there is a <em>sponsored</em> tag indicating the native advertisement. Importantly, a click on the item directs the participant towards a landing page. It does not open the modal a participant is exposed to when clicking on a news item.</p>
-</section>
-<section id="finish-button" class="level3" data-number="4.1.4">
-<h3 data-number="4.1.4" class="anchored" data-anchor-id="finish-button"><span class="header-section-number">4.1.4</span> Finish-Button</h3>
-<p>At the bottom of the page is a button. Clicking on it, a participant submits the page and cannot go back. The participant will then see a page directing her to your survey.</p>
-</section>
-</section>
-<section id="ad-banners" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="ad-banners"><span class="header-section-number">4.2</span> Ad Banners</h2>
-<p>Create your own ad banners simply by storing <code>*.png</code> files in <code>oNovitas/news/static/img/</code>. Ad some copy and, if needed, a call-to-action in the session configurations and you are done.</p>
-<section id="creatives" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="creatives"><span class="header-section-number">4.2.1</span> Creatives</h3>
-<p>As mentioned, the software looks for files stored in <code>oNovitas/news/static/img/</code>. These images should be of high quality and be somewhat similar to a sky scraper format such as 160x600px.</p>
-<p>Images you want to display on the left-hand-side shall be named as <code>A_left.png</code> whereas right-hand-side images shall be named <code>B_left.png</code>.</p>
-<p>If you intend to create multiple conditions where you randomize exposure to different pairs of images between subjects, indicate the condition by changing the initial capital letter. Whether a participant was exposed to ad <code>A</code> or <code>B</code> is tracked in a variable called <code>ad_condition</code>.</p>
-</section>
-<section id="copy" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="copy"><span class="header-section-number">4.2.2</span> Copy</h3>
-<p>The images can be overlaid by some copy you define in the session configurations, that is, <code>copy_left</code> and <code>copy_right</code>.</p>
-</section>
-<section id="cta" class="level3" data-number="4.2.3">
-<h3 data-number="4.2.3" class="anchored" data-anchor-id="cta"><span class="header-section-number">4.2.3</span> CTA</h3>
-<p>You can enable (or disable) a call-to-action button that is displayed above the right-hand-side’s banner in the session configurations. <code>show_cta</code> defaults to True and indicates whether the button shall be displayed. If you choose to display it, you should also provide some <code>cta_text</code> as well as a <code>landing page</code> which opens in a new tab. Clicks on that button are tracked in a Boolean variable called <code>cta</code>.</p>
-</section>
-</section>
-<section id="manipulation-and-randomization" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="manipulation-and-randomization"><span class="header-section-number">4.3</span> Manipulation and Randomization</h2>
-<p>Currently, the software allows you to manipulate across two dimensions between-subjects: the news feed (e.g.&nbsp;news items in favor of vs.&nbsp;against a certain topic) and the banners (e.g.&nbsp;ad copy in passive vs.&nbsp;active tone).</p>
+<section id="section" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="section"><span class="header-section-number">2.3</span> </h2>
 
 
 </section>
@@ -554,13 +570,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./oCom.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">oCom</span></span>
+      <a href="./oTree.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Deploy <code>oFeeds</code></span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./oTweet.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">oTweet</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./oCom.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">oCom</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
