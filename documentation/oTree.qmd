@@ -1,4 +1,4 @@
-# Deploy `oFeeds`
+# Deploy `oFeeds` {#sec-oTree}
 
 <!-- remember: git subtree push --prefix documentation/_book  origin gh-pages -->
 

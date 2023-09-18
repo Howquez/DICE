@@ -1,11 +1,18 @@
-# Create a Session
+# Create a Session {#sec-session}
 
-Where (and how) to change these settings in the admin frontend.
+Open the experiment in your browser (either with `http://localhost:8000/` if deployed locally or `https://[your app name].herokuapp.com` if deployed with heroku) and click on _Sessions_ displayed in the header. Subsequently, click on _Create new session_, and then on _Configure session_. This should yield a screen which looks as follows:
+
+![Session Configs](img/screenshot-session-config.png)
+
+This interface allows you to set the number of rows your data base should contain (e.g., 300 in the example above). This number should be larger than the number of participants you need to finish your study simply because participants who enter your experiment (without finishing it) will use up a row in your data base as soon as they enter the experiment.
 
 ## Session Configs
 
-| name                          | description | oCom | oNovitas | oTweet |
-|-------------------------------|-------------|------|----------|--------|
+Apart from the number of rows in your data base, the interface provides some custom session configurations that may differ between apps. Each session configuration is listed and explained below. In addition, the table assigns these configurations to their corresponding apps (you can configure a `newspaper_name` in `oNovitas` but not in `oTweet`, for instance).
+
+
+| Name                            | Description | oCom | oNovitas | oTweet |
+|---------------------------------|-------------|------|----------|--------|
 | `real_world_currency_per_point` |             |   x  |     x    |    x   |
 | `participation_fee`             |             |   x  |     x    |    x   |
 | `survey_link`                   |             |   x  |     x    |    x   |
@@ -24,6 +31,14 @@ Where (and how) to change these settings in the admin frontend.
 | `cta_text`                      |             |      |     x    |    x   |
 | `landing_page`                  |             |      |     x    |    x   |
 
-## Creating Session Defines Maximum of Participants
 
-## 
+### Common Configs
+
+### App-specific Configs
+
+The subsequent chapters provide more information on how to configure these parameters exactly.
+
+
+## settings.py (Advanced)
+
+If you prefer to edit these settings in your text editor (such as PyCharm), I recommend you to navigate to the `settings.py` file and edit the `SESSION_CONFIG_DEFAULTS`. These provide default values, which you can easily overwrite.

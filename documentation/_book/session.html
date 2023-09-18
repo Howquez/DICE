@@ -156,9 +156,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#session-configs" id="toc-session-configs" class="nav-link active" data-scroll-target="#session-configs"><span class="header-section-number">2.1</span> Session Configs</a></li>
-  <li><a href="#creating-session-defines-maximum-of-participants" id="toc-creating-session-defines-maximum-of-participants" class="nav-link" data-scroll-target="#creating-session-defines-maximum-of-participants"><span class="header-section-number">2.2</span> Creating Session Defines Maximum of Participants</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">2.3</span> </a></li>
+  <li><a href="#session-configs" id="toc-session-configs" class="nav-link active" data-scroll-target="#session-configs"><span class="header-section-number">2.1</span> Session Configs</a>
+  <ul class="collapse">
+  <li><a href="#common-configs" id="toc-common-configs" class="nav-link" data-scroll-target="#common-configs"><span class="header-section-number">2.1.1</span> Common Configs</a></li>
+  <li><a href="#app-specific-configs" id="toc-app-specific-configs" class="nav-link" data-scroll-target="#app-specific-configs"><span class="header-section-number">2.1.2</span> App-specific Configs</a></li>
+  </ul></li>
+  <li><a href="#settings.py-advanced" id="toc-settings.py-advanced" class="nav-link" data-scroll-target="#settings.py-advanced"><span class="header-section-number">2.2</span> settings.py (Advanced)</a></li>
   </ul>
 </nav>
     </div>
@@ -167,7 +170,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Create a Session</span></h1>
+<h1 class="title"><span id="sec-session" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Create a Session</span></span></h1>
 </div>
 
 
@@ -182,21 +185,29 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Where (and how) to change these settings in the admin frontend.</p>
+<p>Open the experiment in your browser (either with <code>http://localhost:8000/</code> if deployed locally or <code>https://[your app name].herokuapp.com</code> if deployed with heroku) and click on <em>Sessions</em> displayed in the header. Subsequently, click on <em>Create new session</em>, and then on <em>Configure session</em>. This should yield a screen which looks as follows:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/screenshot-session-config.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Session Configs</figcaption>
+</figure>
+</div>
+<p>This interface allows you to set the number of rows your data base should contain (e.g., 300 in the example above). This number should be larger than the number of participants you need to finish your study simply because participants who enter your experiment (without finishing it) will use up a row in your data base as soon as they enter the experiment.</p>
 <section id="session-configs" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="session-configs"><span class="header-section-number">2.1</span> Session Configs</h2>
+<p>Apart from the number of rows in your data base, the interface provides some custom session configurations that may differ between apps. Each session configuration is listed and explained below. In addition, the table assigns these configurations to their corresponding apps (you can configure a <code>newspaper_name</code> in <code>oNovitas</code> but not in <code>oTweet</code>, for instance).</p>
 <table class="table">
 <colgroup>
-<col style="width: 45%">
-<col style="width: 19%">
+<col style="width: 47%">
+<col style="width: 18%">
 <col style="width: 8%">
 <col style="width: 14%">
 <col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>name</th>
-<th>description</th>
+<th>Name</th>
+<th>Description</th>
 <th>oCom</th>
 <th>oNovitas</th>
 <th>oTweet</th>
@@ -324,12 +335,17 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<section id="common-configs" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="common-configs"><span class="header-section-number">2.1.1</span> Common Configs</h3>
 </section>
-<section id="creating-session-defines-maximum-of-participants" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="creating-session-defines-maximum-of-participants"><span class="header-section-number">2.2</span> Creating Session Defines Maximum of Participants</h2>
+<section id="app-specific-configs" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="app-specific-configs"><span class="header-section-number">2.1.2</span> App-specific Configs</h3>
+<p>The subsequent chapters provide more information on how to configure these parameters exactly.</p>
 </section>
-<section id="section" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="section"><span class="header-section-number">2.3</span> </h2>
+</section>
+<section id="settings.py-advanced" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="settings.py-advanced"><span class="header-section-number">2.2</span> settings.py (Advanced)</h2>
+<p>If you prefer to edit these settings in your text editor (such as PyCharm), I recommend you to navigate to the <code>settings.py</code> file and edit the <code>SESSION_CONFIG_DEFAULTS</code>. These provide default values, which you can easily overwrite.</p>
 
 
 </section>
