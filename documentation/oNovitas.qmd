@@ -1,4 +1,4 @@
-# oNovitas {#sec-oNovitas}
+# News in oNovitas {#sec-oNovitas}
 
 Basically, _oNovitas_ consists of three columns: an ad banner (left-hand-side), the actual news feed and an additional ad banner (right-hand-side). The news feed (which my also contain sponsored content) loops through a `.*csv` file that you have to provide. Ro render the pair of ad banners, the software looks for images that match a naming convention in a specific directory.
 
@@ -21,7 +21,7 @@ The news feed requires a path to a `;`-separated `.*csv` file. More specifically
 
 Your csv file must comprise the following columns:
 
-| name        | description                                                                                                                                          |
+| Name        | Description                                                                                                                                          |
 |-------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `doc_id`      | Unique numeric identifier needed to loop through the csv file. Can also be used for pseudo-random sorting of content.                                |
 | `condition`   | If you wish to manipulate the feed between-subjects, use this column with as many values as required.                                                |

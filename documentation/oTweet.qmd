@@ -1,3 +1,3 @@
-# oTweet {#sec-oTweet}
+# Social in oTweet {#sec-oTweet}
 
 WIP
