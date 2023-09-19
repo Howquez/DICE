@@ -393,8 +393,9 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <section id="common-configs" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="common-configs"><span class="header-section-number">2.1.1</span> Common Configs</h3>
-<p>Because these apps do not apply any incentive compatible payment mechanisms, you can ignore <code>real_world_currency_per_point</code> and <code>participation_fee</code> for the time being. The <code>survey_link</code>, <code>url_param</code>, <code>sort_by</code> and <code>data-path</code> arguments are, in contrast, vital:</p>
 <ul>
+<li><code>real_world_currency_per_point</code></li>
+<li><code>participation_fee</code></li>
 <li><code>survey_link</code> is used to direct participants to the survey of your choice.</li>
 <li><code>url_param</code> can be used to pass a participant’s ID to that survey tool. This is essential to merge the data you collect in oTree with the data you collect in your survey tool.</li>
 <li><code>data_path</code> accepts URLs to your Google drive or a raw github link as well as a directory within the project folder. Importantly, all these paths must refer to a <code>;</code>-separated <code>*.csv</code> file that contains the content you want to display in your feed. You’ll learn more about the specific requirements in the following chapters.</li>
