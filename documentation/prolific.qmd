@@ -1,3 +1,19 @@
 # Prolific {#sec-prolific}
 
-WIP
+To facilitate the recruitment of participants via Prolific, [one of the oTree authors](https://groups.google.com/g/otree/c/JXkMtZeBg8o) released [oTree HR](https://otree-hr.herokuapp.com/).^[You can find the initial github repository [here](https://github.com/chkgk/otree-hr).] I strongly recommend to use that platform as it makes the recruitment really easy.
+
+1. Deploy your oTree app, e.g., `oNovitas.otreezip` via Heroku. Read [Chapter -@sec-oTree] to learn how to do that.
+2. Create a session and copy the unique session id. Read [Chapter -@sec-session] to learn how to do that.
+3. Create an oTree HR account.
+4. _Add a new site_ via URL (`https://[your app name].herokuapp.com`).
+5. Your site should now be listed. Click on _Prolific_ next to it.
+6. Enter the session id.
+7. The session should be listed in a table of _Existing Sessions_. Click on _Configure_ next to the session you want to run.
+7. Log in to Prolific and click on _Create a new study_.
+8. Prolific's interface will ask you about the URL of your study. Copy and enter the pink URL the oTree HR interface shows you into Prolific's interface. Prolific should automatically check _'I'll use URL parameters'_ for you.
+9. Prolific will ask you _'How do you want to confirm participants have completed your study?'_. Choose _'I'll redirect them using a URL'_ and copy URL to redirect.
+10. Enter that so called completion URL into the field in oTree HR and click on update.
+11. Finish the remaining study configurations in Prolific.
+12. That's it. `oFeeds` will pass the completion code to your survey tool (e.g., Qualtrics). Make sure that the tool is actually reading and using that parameter when a participant finishes the study.
+
+
