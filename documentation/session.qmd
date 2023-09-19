@@ -36,8 +36,8 @@ Apart from the number of rows in your data base, the interface provides some cus
 
 ### Common Configs
 
-Because these apps do not apply any incentive compatible payment mechanisms, you can ignore `real_world_currency_per_point` and `participation_fee` for the time being. The `survey_link`, `url_param`, `sort_by` and `data-path` arguments are, in contrast, vital: 
-
+- `real_world_currency_per_point`
+- `participation_fee`
 - `survey_link` is used to direct participants to the survey of your choice.
 - `url_param` can be used to pass a participant's ID to that survey tool. This is essential to merge the data you collect in oTree with the data you collect in your survey tool.
 - `data_path` accepts URLs to your Google drive or a raw github link as well as a directory within the project folder. Importantly, all these paths must refer to a `;`-separated  `*.csv` file that contains the content you want to display in your feed. You'll learn more about the specific requirements in the following chapters.

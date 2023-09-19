@@ -8,7 +8,9 @@ import httplib2
 
 
 doc = """
-Your app description
+Mimick news feeds with oNovitas.
+
+Author: Hauke Roggenkamp
 """
 
 
@@ -102,8 +104,28 @@ def read_feed(path):
         news = pd.read_csv(path, sep=';')
     return news
 
+def create_redirect(player):
+    if player.participant.label:
+        link = player.session.config['survey_link'] + '?' + player.session.config['url_param'] + '=' + player.participant.label
+    else:
+        link = player.session.config['survey_link'] + '?' + player.session.config['url_param'] + '=' + player.participant.code
+
+    completion_code = None
+
+    if 'prolific_completion_url' in player.session.config and player.session.config['prolific_completion_url'] is not None:
+        completion_code = player.session.config['prolific_completion_url'][-8:]
+
+    if completion_code is not None:
+        link = link + '&' + 'cc=' + completion_code
+
+    return link
+
+
 
 # PAGES
+class A_Intro(Page):
+    pass
+
 class B_Instructions(Page):
     pass
 
@@ -126,5 +148,17 @@ class C_Feed(Page):
             img_right = 'img/{}_right.png'.format(ad),
         )
 
-page_sequence = [# B_Instructions,
-                C_Feed]
+class D_Redirect(Page):
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(link=create_redirect(player))
+
+    @staticmethod
+    def js_vars(player):
+        return dict(link=create_redirect(player))
+
+page_sequence = [A_Intro,
+                 B_Instructions,
+                 C_Feed,
+                 D_Redirect]
