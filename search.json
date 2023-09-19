@@ -180,5 +180,12 @@
     "title": "2  Create a Session",
     "section": "2.2 settings.py (Advanced)",
     "text": "2.2 settings.py (Advanced)\nIf you prefer to edit these settings in your IDE (such as PyCharm), I recommend you to navigate to the settings.py file and edit the SESSION_CONFIG_DEFAULTS. These provide default values, which you can easily overwrite."
+  },
+  {
+    "objectID": "prolific.html#footnotes",
+    "href": "prolific.html#footnotes",
+    "title": "6  Prolific",
+    "section": "",
+    "text": "You can find the initial github repository here.↩︎"
   }
 ]

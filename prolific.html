@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>oFeeds: Documentation - 6&nbsp; Prolific</title>
+<title>oFeeds - 6&nbsp; Prolific</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -88,7 +88,28 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">oFeeds: Documentation</a> 
+      <a href="./">oFeeds</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/Howquez/oFeeds" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./oFeeds.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -119,19 +140,19 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./oCom.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">oCom</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shopping in oCom</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./oNovitas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">oNovitas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">News in oNovitas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./oTweet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">oTweet</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Social in oTweet</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -174,9 +195,30 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>WIP</p>
+<p>To facilitate the recruitment of participants via Prolific, <a href="https://groups.google.com/g/otree/c/JXkMtZeBg8o">one of the oTree authors</a> released <a href="https://otree-hr.herokuapp.com/">oTree HR</a>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> I strongly recommend to use that platform as it makes the recruitment really easy.</p>
+<ol type="1">
+<li>Deploy your oTree app, e.g., <code>oNovitas.otreezip</code> via Heroku. Read <a href="oTree.html">Chapter&nbsp;<span>1</span></a> to learn how to do that.</li>
+<li>Create a session and copy the unique session id. Read <a href="session.html">Chapter&nbsp;<span>2</span></a> to learn how to do that.</li>
+<li>Create an oTree HR account.</li>
+<li><em>Add a new site</em> via URL (<code>https://[your app name].herokuapp.com</code>).</li>
+<li>Your site should now be listed. Click on <em>Prolific</em> next to it.</li>
+<li>Enter the session id.</li>
+<li>The session should be listed in a table of <em>Existing Sessions</em>. Click on <em>Configure</em> next to the session you want to run.</li>
+<li>Log in to Prolific and click on <em>Create a new study</em>.</li>
+<li>Prolific’s interface will ask you about the URL of your study. Copy and enter the pink URL the oTree HR interface shows you into Prolific’s interface. Prolific should automatically check <em>‘I’ll use URL parameters’</em> for you.</li>
+<li>Prolific will ask you <em>‘How do you want to confirm participants have completed your study?’</em>. Choose <em>‘I’ll redirect them using a URL’</em> and copy URL to redirect.</li>
+<li>Enter that so called completion URL into the field in oTree HR and click on update.</li>
+<li>Finish the remaining study configurations in Prolific.</li>
+<li>That’s it. <code>oFeeds</code> will pass the completion code to your survey tool (e.g., Qualtrics). Make sure that the tool is actually reading and using that parameter when a participant finishes the study.</li>
+</ol>
 
 
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>You can find the initial github repository <a href="https://github.com/chkgk/otree-hr">here</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -415,7 +457,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./oTweet.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">oTweet</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Social in oTweet</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
