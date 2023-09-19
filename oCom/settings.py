@@ -16,10 +16,12 @@ SESSION_CONFIGS = [
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00,
     participation_fee=2.10,
-    sort_by = 'time_stamp',
-    survey_link='',
-    shop_name='shop',
+    survey_link = '',
+    url_param = 'PROLIFIC_PID',
     data_path='shop/static/data/bikes.csv', # 'https://raw.githubusercontent.com/Howquez/oNovitas/main/otree/news/static/data/news.csv',
+    sort_by='time_stamp',
+    shop_name='shop',
+
 )
 
 PARTICIPANT_FIELDS = ['tweets', 'posts', 'news', 'products', 'finished']
