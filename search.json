@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "oFeeds: Documentation",
+    "title": "oFeeds",
     "section": "",
-    "text": "Preface\nThe project oFeeds contains three apps\n\noCom,\noNovitas and\noTweet\n\nthat mimic shopping, news as well as social media feeds, respectively. This document describes how to configure each app to your needs.\nAll of these apps are based on oTree (Chen, Schonger, and Wickens 2016). Hence, all of these apps share some common ground. Chapter 1 first describes how to deploy oTree apps in general. Chapter 2 describes how to create and configure a session. Subsequently, Chapter 3, Chapter 4 and Chapter 5 describe the session configurations that apply to the respective apps in detail. The document closes with instructions on how to run an oTree experiment on Prolific.\nPlease note that both the apps as well as the documentation is under development (in fact, Chapter 3, Chapter 5 and Chapter 6 don’t even exist). Hence, feedback is much appreciated. If you have any comments, questions or requests, don’t hesitate to reach out to me via email or create an issue in the corresponding github repository.\n\n\n\n\nChen, Daniel L., Martin Schonger, and Chris Wickens. 2016. “oTree—an Open-Source Platform for Laboratory, Online, and Field Experiments.” Journal of Behavioral and Experimental Finance 9: 88–97. https://doi.org/https://doi.org/10.1016/j.jbef.2015.12.001."
+    "text": "Preface\nThe project oFeeds contains three apps\n\noCom,\noNovitas and\noTweet\n\nthat mimic shopping, news as well as social media feeds, respectively. This document describes how to configure each app to your needs.\nAll of these apps are based on oTree (Chen, Schonger, and Wickens 2016). Hence, all of these apps share some common ground. Chapter 1 first describes how to deploy oTree apps in general. Chapter 2 describes how to create and configure a session. Subsequently, Chapter 3, Chapter 4 and Chapter 5 describe the session configurations that apply to the respective apps in detail. The document closes with instructions on how to run an oTree experiment on Prolific.\nPlease note that both the apps as well as the documentation is under development (in fact, Chapter 3, Chapter 5 and Chapter 6 don’t even exist). Hence, feedback is much appreciated. If you have any comments, questions or requests, don’t hesitate to reach out to me via email or create an issue in the corresponding github repository.\noFeeds is licensed under the MIT open source license with the added requirement of a citation of Roggenkamp (2023). This licensing approach provides users with the liberty to utilize, adapt, and share the software with minimal constraints to foster collaborative development in line with open-source and open science principles.\n\n\n\n\nChen, Daniel L., Martin Schonger, and Chris Wickens. 2016. “oTree—an Open-Source Platform for Laboratory, Online, and Field Experiments.” Journal of Behavioral and Experimental Finance 9: 88–97. https://doi.org/doi.org/10.1016/j.jbef.2015.12.001.\n\n\nRoggenkamp, Hauke C. 2023. “oFeeds.” OSF. osf.io/jcxvk."
   },
   {
     "objectID": "intro.html",
@@ -25,7 +25,7 @@
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+    "text": "Chen, Daniel L., Martin Schonger, and Chris Wickens. 2016.\n“oTree—an Open-Source Platform for Laboratory, Online, and Field\nExperiments.” Journal of Behavioral and Experimental\nFinance 9: 88–97. https://doi.org/doi.org/10.1016/j.jbef.2015.12.001.\n\n\nRoggenkamp, Hauke C. 2023. “oFeeds.” OSF. osf.io/jcxvk."
   },
   {
     "objectID": "oCom.html",
