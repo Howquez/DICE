@@ -1,4 +1,8 @@
-# Preface {.unnumbered}
+
+![oFeeds Logo](img/logo-oFeeds.png)
+
+
+# Preface
 
 The project `oFeeds` contains three apps 
 
@@ -7,6 +11,9 @@ The project `oFeeds` contains three apps
 3. `oTweet` 
 
 that mimic shopping, news as well as social media feeds, respectively. This document describes how to configure each app to your needs.
+
+![oFeeds Screenshots](img/screenshots-oFeeds.png)
+
 
 All of these apps are based on oTree [@oTree]. Hence, all of these apps share some common ground that will be described in the first few chapters: [Chapter -@sec-oTree] first describes how to deploy oTree apps in general. [Chapter -@sec-session] describes how to create and configure a session. Subsequently, [Chapter -@sec-oCom], [Chapter -@sec-oNovitas] and [Chapter -@sec-oTweet] describe the session configurations that apply to the respective apps in detail. The document closes with instructions on how to run an oTree experiment on Prolific.
 

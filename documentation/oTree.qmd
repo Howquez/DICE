@@ -35,7 +35,7 @@ After the command ends, the installation is complete.
 
 
 
-### Download, Unzip & Edit `oFeeds`
+### Download, Unzip & Edit `oFeeds` {#sec-unzip}
 
 Download the `.otreezip` file of the application you are interested in (that is, [oCom](https://github.com/Howquez/oFeeds/blob/main/oCom/oCom.otreezip),
 [oNovitas](https://github.com/Howquez/oFeeds/blob/main/oNovitas/oNovitas.otreezip),

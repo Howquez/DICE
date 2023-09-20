@@ -1,31 +1,32 @@
 # News in oNovitas {#sec-oNovitas}
 
-Basically, _oNovitas_ consists of three columns: an ad banner (left-hand-side), the actual news feed and an additional ad banner (right-hand-side). The news feed (which my also contain sponsored content) loops through a `.*csv` file that you have to provide. Ro render the pair of ad banners, the software looks for images that match a naming convention in a specific directory.
+Basically, _oNovitas_ consists of three columns: an ad banner (left-hand-side), the actual news feed and an additional ad banner (right-hand-side). 
 
 ![Frontend of oNovitas](img/screenshot-structure-oNovitas.png)
 
-The news feed consists of a sticky header that prints the news outlet's fictitious name (which you can define), news items and a button at the bottom of the page that lets participants proceed with the experiment.
+The news feed (which my also contain sponsored content) loops through a `.*csv` file that you have to provide. The news feed's frontend consists of a sticky header that prints the news outlet's fictitious name, news items and a button at the bottom of the page that lets participants proceed with the experiment.
 
-Both banners consist of images and copy. The right-hand-side only differs from the left hand side in that it also contains a Call To Action (CTA) button. A click on it opens a new tab and loads a website you pre-define.
+Both banners consist of images and copy. To render the pair of ad banners, you have to provide at least two images because the software looks for images that match a naming convention in a specific directory. Apart from the images and copy you provide, the right-hand-side only differs from the left hand side in that it also contains a Call-To-Action (CTA) button. A click on it opens a new tab and loads a website you pre-define.
 
-That's it. The remainder of this chapter describes how to control and randomize each of these elements.
+
+That's it. The remainder of this chapter describes how to control and randomize each of these elements. I recommend to also read @sec-session because it describes how to implement your changes technically. This chapter, for instance, describes that you can change the header's appearance by changing the `newspaper_name`-argument whereas @sec-session describes _how_ to do that.
 
 
 ## News Feed
 
 The news feed requires a path to a `;`-separated `.*csv` file. More specifically, you need to provide a `data_path` in the session configurations. Currently, you have three options to provide the data:
 
-- You can provide a path within the project directory. Currently, `data_path` defaults to `'news/static/data/news.csv'`, for instance. I recommend to use the same directory or even overwrite that file.
+- You can provide a path within the project directory. Currently, `data_path` defaults to `'news/static/data/news.csv'`, for instance. I recommend to use the same directory or even overwrite that specific file for convenience.
 - You can upload the csv file to your Google drive and provide the corresponding URL.
-- You can upload the csv file to your github repository and provide the raw URL (navigate to your csv file, click on _raw_ and copy the resulting URL).
+- You can upload the csv file to your github repository and provide the raw URL (navigate to your csv file, click on _raw_ and copy the resulting URL. It should start with `https://raw.githubusercontent.com/`).
 
-Your csv file must comprise the following columns:
+Your file must comprise the following columns:
 
 | Name        | Description                                                                                                                                          |
 |-------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `doc_id`      | Unique numeric identifier needed to loop through the csv file. Can also be used for pseudo-random sorting of content.                                |
 | `condition`   | If you wish to manipulate the feed between-subjects, use this column with as many values as required.                                                |
-| `tag`         | Tag that allows you to cluster your content.                                                                                                         |
+| `tag`         | Tag that allows you to cluster your content (e.g., technology, diet, economy).                                                                                                         |
 | `title`       | Headline of new item.                                                                                                                                |
 | `teaser`      | Short text that describes the news item.                                                                                                             |
 | `content`     | Full text in HTML format that only becomes visible once a participant clicks on the corresponding news item.                                         |
@@ -35,6 +36,8 @@ Your csv file must comprise the following columns:
 | `sponsored`   | Dummy that indicates whether the content shall represent actual news items or native advertising.                                                                        |
 | `url`         | If a news item is sponsored, you do not need any content but a URL of some landing page where the participant is directed to (in a new browser tab). |
 | `...`         | Add as many columns as you like. You could add a column that determines how the feed is sorted, for instance.                                        |
+
+You find an exemplary data set scraped from the [News API](https://newsapi.org/) in your project folder (after you unzipped it)^[Download [this file](https://github.com/Howquez/oFeeds/blob/main/oNovitas/oNovitas.otreezip) and follow the instructions in @sec-unzip.] `oNovitas/news/static/data/news.csv` or [here on github](https://github.com/Howquez/oFeeds/blob/main/oNovitas/news/static/data/news.csv).
 
 Technically, all the requirements and mechanisms mentioned above are defined in `creating_subsession()` and `read_feed()` in `oNovitas/news/__init__.py`.
 
@@ -46,7 +49,7 @@ You can control the name displayed in the sticky header in the session configura
 
 As outlined above, the news items are defined in a csv file. The feed just loops through each row and checks whether `sponsored` is True or False. 
 
-If `sponsored == False`, the content is displayed as a regular news item. Clicking on it opens a modal (or `pop-up window`) that displays the full content, that is, the full text alongside some meta data such as the author etc.
+If `sponsored == False`, the content is displayed as a regular news item. Clicking on it opens a modal (or 'pop-up window') that displays the full content, that is, the full text alongside some meta data such as the author, etc.
 
 ### Sponsored Content
 
@@ -54,7 +57,7 @@ If `sponsored == True`, the content is displayed slightly differently. For insta
 
 ### Finish-Button
 
-At the bottom of the page is a button. Clicking on it, a participant submits the page and cannot go back. The participant will then see a page directing her to your survey.
+At the bottom of the page is a button. Clicking on it, a participant submits the page and cannot go back. The participant will then see a page directing her to your survey. @sec-common-configs describes how to configure the redirect while maintaining the participant's id and the completion code required to inform the recruitment tool (e.g., Prolific) that the specific participant finished the study.
 
 ## Ad Banners
 

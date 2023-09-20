@@ -34,7 +34,7 @@ Apart from the number of rows in your data base, the interface provides some cus
 | `landing_page`                  |             | `'https://your-link-here.com'`                                    |      |     x    |    x   |
 
 
-### Common Configs
+### Common Configs {#sec-common-configs}
 
 - `real_world_currency_per_point`
 - `participation_fee`

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>oFeeds: Documentation - 1&nbsp; Deploy oFeeds</title>
+<title>oFeeds - 1&nbsp; Deploy oFeeds</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -122,7 +122,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">oFeeds: Documentation</a> 
+      <a href="./">oFeeds</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/Howquez/oFeeds" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./oFeeds.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -153,19 +174,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./oCom.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">oCom</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shopping in oCom</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./oNovitas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">oNovitas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">News in oNovitas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./oTweet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">oTweet</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Social in oTweet</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -194,7 +215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">1.1.1</span> Prerequisites</a></li>
   <li><a href="#install-otree" id="toc-install-otree" class="nav-link" data-scroll-target="#install-otree"><span class="header-section-number">1.1.2</span> Install oTree</a></li>
-  <li><a href="#download-unzip-edit-ofeeds" id="toc-download-unzip-edit-ofeeds" class="nav-link" data-scroll-target="#download-unzip-edit-ofeeds"><span class="header-section-number">1.1.3</span> Download, Unzip &amp; Edit <code>oFeeds</code></a></li>
+  <li><a href="#sec-unzip" id="toc-sec-unzip" class="nav-link" data-scroll-target="#sec-unzip"><span class="header-section-number">1.1.3</span> Download, Unzip &amp; Edit <code>oFeeds</code></a></li>
   </ul></li>
   <li><a href="#sec-local" id="toc-sec-local" class="nav-link" data-scroll-target="#sec-local"><span class="header-section-number">1.2</span> Deploy <code>oFeeds</code> Locally</a></li>
   <li><a href="#sec-server" id="toc-sec-server" class="nav-link" data-scroll-target="#sec-server"><span class="header-section-number">1.3</span> Deploy <code>oFeeds</code> on a Server</a></li>
@@ -243,8 +264,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>After the command ends, the installation is complete.</p>
 </section>
-<section id="download-unzip-edit-ofeeds" class="level3" data-number="1.1.3">
-<h3 data-number="1.1.3" class="anchored" data-anchor-id="download-unzip-edit-ofeeds"><span class="header-section-number">1.1.3</span> Download, Unzip &amp; Edit <code>oFeeds</code></h3>
+<section id="sec-unzip" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="sec-unzip"><span class="header-section-number">1.1.3</span> Download, Unzip &amp; Edit <code>oFeeds</code></h3>
 <p>Download the <code>.otreezip</code> file of the application you are interested in (that is, <a href="https://github.com/Howquez/oFeeds/blob/main/oCom/oCom.otreezip">oCom</a>, <a href="https://github.com/Howquez/oFeeds/blob/main/oNovitas/oNovitas.otreezip">oNovitas</a>, <a href="https://github.com/Howquez/oFeeds/blob/main/oTweet/oTweet.otreezip">oTweet</a>) from <a href="https://github.com/Howquez/oFeeds">GitHub</a> or <a href="https://osf.io/jcxvk/">OSF</a>. Open your command line tool and navigate (<code>cd</code>) to your desired directory. Within that directory, unpack the otreezip file you just downloaded (e.g., <em>oTweet.otreezip</em>) using the following command:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>otree unzip oTweet.otreezip</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
