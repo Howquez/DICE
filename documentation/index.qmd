@@ -17,7 +17,11 @@ that mimic shopping, news as well as social media feeds, respectively. This docu
 
 All of these apps are based on oTree [@oTree]. Hence, all of these apps share some common ground that will be described in the first few chapters: [Chapter -@sec-oTree] first describes how to deploy oTree apps in general. [Chapter -@sec-session] describes how to create and configure a session. Subsequently, [Chapter -@sec-oCom], [Chapter -@sec-oNovitas] and [Chapter -@sec-oTweet] describe the session configurations that apply to the respective apps in detail. The document closes with instructions on how to run an oTree experiment on Prolific.
 
+## Features
+
 Please note that both the apps as well as the documentation are under development (in fact, [Chapter -@sec-oCom], [Chapter -@sec-oTweet] and [Chapter -@sec-prolific] don't even exist). Hence, feedback is much appreciated. If you have any comments, questions or requests, don't hesitate to reach out to me via [email](mailto:hauke.roggenkamp@unisg.ch) or create an [issue](https://github.com/Howquez/oFeeds/issues) in the corresponding github repository.
+
+## License & Citation
 
 `oFeeds` is licensed under the MIT open source license with the added requirement of a citation of @Roggenkamp_2023. This licensing approach provides users with the liberty to utilize, adapt, and share the software with minimal constraints to foster collaborative development in line with open-source and open science principles. 
 

@@ -23,10 +23,15 @@ To run oTree, you need Python3 (and its package manager PIP). In addition, you'l
 
 ### Install oTree
 
-Open your command line tool, that is, the terminal (Mac/Linux) or command prompt (Windows PowerShell) and type:
+Open your command line interface tool^[You can learn some basics [here](https://www.freecodecamp.org/news/how-to-use-the-cli-beginner-guide/). For the purpose of deploying or modifying otree code, you only need to know how to open the command line interface tool and how to navigate  between directories (i.e. `cd [path]`). This chapter explains how to install oTree and zip or unzip oTree projects.], that is, the terminal (Mac/Linux) or command prompt (Windows PowerShell) and type:
+
+```{r}
+#| include: false
+# this code chunk only exists to (somehow) enable the filename functionalities of subsequent code chunks. Apparently, this requires some r chunk somewhere.
+```
 
 
-```{python}
+```{python filename="Command Line Interface"}
 #| eval: false
 pip3 install -U otree
 ```
@@ -43,7 +48,7 @@ Download the `.otreezip` file of the application you are interested in (that is,
 or [OSF](https://osf.io/jcxvk/).
 Open your command line tool and navigate (`cd`) to your desired directory. Within that directory, unpack the otreezip file you just downloaded (e.g., _oTweet.otreezip_) using the following command:
 
-```{python}
+```{python filename="Command Line Interface"}
 #| eval: false
 otree unzip oTweet.otreezip
 ```
@@ -52,7 +57,7 @@ This upacks the python project which contains predominantly Python code but also
 
 After editing your code, use your command line tool, navigate to the project directory (where a `settings.py` file is located) and run the following command to re-pack the project into the `*.otreezip` file again:
 
-```{python}
+```{python filename="Command Line Interface"}
 #| eval: false
 otree zip
 ```
@@ -63,7 +68,7 @@ You will need this otreezip file to deploy the project on a server.
 
 Use your command line tool, navigate to your project folder (where a `settings.py` file is located) and run:
 
-```{python}
+```{python filename="Command Line Interface"}
 #| eval: false
 otree devserver
 ```
@@ -113,7 +118,7 @@ or [OSF](https://osf.io/jcxvk/).
 15. Click on the link provided in the upper third of the page, that is, `https://[your app name].herokuapp.com`. This will yield the same interface as if you tested the study locally on a devserver (described in @sec-local of this chapter).
 16. Done. You can now create and configure sessions to distribute the study to participants. See [Chapter -@sec-session] for more information.
 
-The following chapters will describe how to do that for each app individually. (The apps differ slightly with respect to their features, for instance, because the news feed can display two banner ads, while the other can only display one. For that reason, the apps' configurations differ too.)
+The following chapters will describe how to do that for each app individually. (The apps differ slightly with respect to their features, for instance, because the news feed can display two banner ads, while the social media feed can only display one and the shopping feed does not display ads at all. For that reason, the apps' configurations differ too.)
 
 - See how to configure a oCom session in [Chapter -@sec-oCom].
 - See how to configure a oNovitas session in [Chapter -@sec-oNovitas].

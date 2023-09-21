@@ -1,12 +1,14 @@
 # Create a Session {#sec-session}
 
-Open the experiment in your browser (either with `http://localhost:8000/` if deployed locally or `https://[your app name].herokuapp.com` if deployed with heroku) and click on _Sessions_ displayed in the header. Subsequently, click on _Create new session_, and then on _Configure session_ (next to the cogwheel). This yields a screen which looks as follows:
+To run or properly test an experiment in oTree, you need to create a session. Sessions also allow you to change some default settings of `oFeeds` without writing any code. This following paragraphs explain how to create a session and @sec-configs lists the configurations you can adapt to your needs. [Chapter -@sec-oCom], [Chapter -@sec-oNovitas] & [Chapter -@sec-oTweet] provide a more details for the app-specific configurations.
+
+Open the experiment in your browser (either with `http://localhost:8000/` if deployed locally for testing purposes or `https://[your app name].herokuapp.com` if deployed with heroku) and click on _Sessions_ displayed in the header. Subsequently, click on _Create new session_, and then on _Configure session_ (next to the cogwheel). This yields a screen which looks as follows:
 
 ![Session Configs Admin Interface](img/screenshot-session-config.png)
 
 This interface allows you to set the number of rows your data base should contain (e.g., 300 in the example above). This number should be larger than the number of participants you need to finish your study simply because participants who enter your experiment (without finishing it) will use up a row in your data base as soon as they enter the experiment.
 
-## Session Configs
+## Session Configs {#sec-configs}
 
 Apart from the number of rows in your data base, the interface provides some custom session configurations that may differ between apps. Each session configuration is listed and explained in the table below. In addition, the table assigns these configurations to their corresponding apps (you can configure a `newspaper_name` in `oNovitas` but not in `oTweet`, for instance).
 
