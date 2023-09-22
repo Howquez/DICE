@@ -19,6 +19,18 @@ All of these apps are based on oTree [@oTree]. Hence, all of these apps share so
 
 ## Features
 
+Improve realism (and thus, external validity) without sacrificing internal validity:
+
+- Manipulate the content of whole feeds instead of single posts. This allows you not only to investigate the composition but also sorting 'algorithms' of feeds.
+- Display ads as skyscrapers or native ads with perfect control as there are no competing advertisers (as in Platform A/B-Tests [PABTs]).
+- You can thus, not only manipulate and randomize the feed's content but also the ads (both: copy and creatives).
+- You can gather implicit measures (e.g. scrolling behavior, which screenshots usually do not provide).
+- `oFeeds` provides individual-level data that allows you to further investigate mechanisms (in contrast to PABTs' aggregate data).
+- Randomized and stable treatment assignment [no divergent delivery, see e.g., @BraunSchwartz_2023].
+- As of today, `oFeeds` is a single player game without interaction (i.e. no social network) between participants to avoid spillovers between treatments and SUTVA [@AngristImbensRubin_1996 p. 446] violations.
+- Based on oTree: even though we provide a graphical admin user interface to adapt sessions to your needs, you can go one step further and implement far-reaching changes easily, because there are oTree workshops, a good documentation and a vivid community. If you can't do it, your lab manager surely can.
+- One can combine `oCom` with `oTweet` or `oNovitas` to simulate a shop as a landing page of some campaign.
+
 Please note that both the apps as well as the documentation are under development (in fact, [Chapter -@sec-oCom], [Chapter -@sec-oTweet] and [Chapter -@sec-prolific] don't even exist). Hence, feedback is much appreciated. If you have any comments, questions or requests, don't hesitate to reach out to me via [email](mailto:hauke.roggenkamp@unisg.ch) or create an [issue](https://github.com/Howquez/oFeeds/issues) in the corresponding github repository.
 
 ## License & Citation
