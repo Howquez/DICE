@@ -8,7 +8,7 @@ import httplib2
 
 
 doc = """
-Mimick news feeds with oNovitas.
+Mimic news feeds with oNovitas.
 
 Author: Hauke Roggenkamp
 """
@@ -126,8 +126,13 @@ def create_redirect(player):
 class A_Intro(Page):
     pass
 
-class B_Instructions(Page):
-    pass
+
+class B_Briefing(Page):
+    form_model = 'player'
+
+    @staticmethod
+    def is_displayed(player):
+        len(player.session.config['briefing']) > 0
 
 class C_Feed(Page):
     form_model = 'player'
@@ -159,6 +164,6 @@ class D_Redirect(Page):
         return dict(link=create_redirect(player))
 
 page_sequence = [A_Intro,
-                 B_Instructions,
+                 B_Briefing,
                  C_Feed,
                  D_Redirect]

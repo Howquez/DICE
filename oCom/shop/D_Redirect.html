@@ -1,0 +1,37 @@
+{{ block scripts }}
+<script src="{{ static 'js/direct_to_survey.js' }}"></script>
+{{ endblock }}
+
+{{ block global_styles  }}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{{ endblock }}
+
+
+
+{{ block content }}
+<body class="bg-light.bg-gradient">
+
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-sm-8 col-md-8 col-lg-6">
+                <!-- Decision Card -->
+                <div class="card rounded mt-3 shadow-lg">
+                    <div class="card-body p-5">
+
+                        <p>
+                            You are being redirected, please, wait...
+                        </p>
+
+                        <p>
+                            If you haven't been redirected in 10 seconds, please click this button.
+                        </p>
+
+                        <div class="d-flex justify-content-center mt-4">
+                            <a class="btn btn-success shadow" href="{{link}}" role="button">Continue</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{ endblock }}

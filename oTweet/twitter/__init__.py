@@ -10,7 +10,9 @@ import random
 
 
 doc = """
-Your app description
+Mimic social media feeds with oTweet.
+
+Author: Hauke Roggenkamp
 """
 
 
@@ -191,12 +193,14 @@ def preprocessing(df):
 
 # PAGES
 class A_Intro(Page):
-    form_model = "player"
-    form_fields = []
-
-
-class B_Instructions(Page):
     pass
+
+class B_Briefing(Page):
+    form_model = 'player'
+
+    @staticmethod
+    def is_displayed(player):
+        len(player.session.config['briefing']) > 0
 
 
 class C_Feed(Page):
@@ -219,5 +223,17 @@ class C_Feed(Page):
             banner_img='img/{}_banner.png'.format(ad),
         )
 
-page_sequence = [A_Intro, B_Instructions,
-                C_Feed]
+class D_Redirect(Page):
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(link=create_redirect(player))
+
+    @staticmethod
+    def js_vars(player):
+        return dict(link=create_redirect(player))
+
+page_sequence = [A_Intro,
+                 B_Briefing,
+                 C_Feed,
+                 D_Redirect]

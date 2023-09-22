@@ -18,6 +18,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     participation_fee=2.10,
     survey_link = '',
     url_param = 'PROLIFIC_PID',
+    briefing = '<h5>This could be your briefing</h5><p>Use HTML syntax to format your content to your liking.</p>',
     data_path='shop/static/data/bikes.csv', # 'https://raw.githubusercontent.com/Howquez/oNovitas/main/otree/news/static/data/news.csv',
     sort_by='time_stamp',
     shop_name='shop',

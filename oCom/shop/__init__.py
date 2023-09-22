@@ -6,7 +6,9 @@ import re
 import httplib2
 
 doc = """
-Your app description
+Mimic shop feeds with oCom.
+
+Author: Hauke Roggenkamp
 """
 
 
@@ -111,35 +113,16 @@ def check_url_exists(url):
         return False
 
 # PAGES
-class B_Instructions(Page):
+class A_Intro(Page):
+    pass
 
-    # I need to find a way to deal with '' or "", that is, escape them.
+
+class B_Briefing(Page):
+    form_model = 'player'
 
     @staticmethod
-    def before_next_page(player, timeout_happened):
-
-        # read data (from seesion config)
-        products = read_feed(player.session.config['data_path'])
-
-
-        # subset data based on condition (if any)
-        if 'condition' in products.columns:
-            products = products[products["condition"] == player.feed_condition]
-
-        # sort data
-        sort_by = player.session.config['sort_by']
-        if sort_by in products.columns:
-            products = products.sort_values(by=sort_by, ascending=False)
-        else:
-            products = products.sample(frac=1, random_state=42)  # Set a random_state for reproducibility
-            # Reset the index after shuffling
-            products.reset_index(drop=True, inplace=True)
-
-        # index
-        products['index'] = range(1, len(products) + 1)
-
-        # participant vars
-        player.participant.products = products
+    def is_displayed(player):
+        len(player.session.config['briefing']) > 0
 
 class C_Feed(Page):
     form_model = 'player'
@@ -165,5 +148,17 @@ class C_Feed(Page):
             img_right = 'img/{}_right.png'.format(ad),
         )
 
-page_sequence = [B_Instructions,
-                C_Feed]
+class D_Redirect(Page):
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(link=create_redirect(player))
+
+    @staticmethod
+    def js_vars(player):
+        return dict(link=create_redirect(player))
+
+page_sequence = [A_Intro,
+                 B_Briefing,
+                 C_Feed,
+                 D_Redirect]

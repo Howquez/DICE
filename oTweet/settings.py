@@ -18,6 +18,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     participation_fee=2.10,
     survey_link = '',
     url_param = 'PROLIFIC_PID',
+    briefing = '<h5>This could be your briefing</h5><p>Use HTML syntax to format your content to your liking.</p>',
     data_path= 'https://raw.githubusercontent.com/Howquez/mvfw/main/otree/feed/static/tweets/zegna_tweets.csv',
     sort_by='time_stamp',
     topics = False,
