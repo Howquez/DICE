@@ -101,7 +101,7 @@
                 <table class="table table-hover border-start border-end p-0 m-0 bg-white" id="tweet_table">
                     <tbody>
                     <!-- loop over the first 10 rows, paste an
-                         attention check and then loop over the remaining tweets -->
+                         attention check and then loop over the remaining data -->
                         {{ for i in tweets.values() }}
                             {{ if i.index < 10 }}
                                 {{ include C.TWEET_TEMPLATE }}
@@ -129,7 +129,7 @@
             </div>
 
             <!-- RHS -->
-            <div class="col overflow-auto d-none d-md-block col-md-3 p-0 full-height" id="RHS">
+            <div class="col overflow-auto d-none d-md-block col-md-3 p-0 full-height" id="RHS" style="position: relative;">
                 {{ if topics }}
                     <!-- Include Trending Topics -->
                     {{ include C.TOPICS_TEMPLATE }}
