@@ -1,10 +1,7 @@
 {{ block scripts }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous">
-</script>
 <script src="{{ static 'js/scrolling.js' }}"></script>
+<script src="{{ static 'js/monitoring.js' }}"></script>
+<script src="{{ static 'js/time_spent.js' }}"></script>
 {{ endblock }}
 
 {{ block styles }}
@@ -30,7 +27,10 @@
 
     <!-- Hidden Fields -->
     <input type="hidden" name="scroll_sequence" id="scroll_sequence" value="i0">
+    <input type="hidden" name="viewport_data" id="viewport_data" value="">
     <input type="hidden" name="cta" id="cta" value="False">
+
+     {{ formfield_errors 'viewport_data' }}
 
     <div class="container-fluid border p-0 m-0">
         <div class="row p-0 m-0">
@@ -57,7 +57,7 @@
                 <table class="table table-hover border-start border-end p-0 m-0">
                     <tbody>
                     {{ for i in items.values() }}
-                    {{ include C.NEWS_ITEM }}
+                        {{ include C.NEWS_ITEM }}
                     {{ endfor }}
                     <tr class="">
                         <td class="d-flex justify-content-center">

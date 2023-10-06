@@ -1,9 +1,9 @@
 {{ if i.sponsored }}
 
-<tr class="" style="background-color: #E5E4E2;" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
+<tr id="{{i.doc_id}}" style="background-color: #E5E4E2;" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
     <td>
         <div class="row justify-content-start m-3">
-            <a class="card-body" href="{{i.url}}" target="_blank" style="text-decoration: none;" onclick="sequence('c' + {{i.doc_id}});">
+            <a class="card-body" href="{{i.url}}" target="_blank" style="text-decoration: none;" onclick="sequence('c' + {{i.doc_id}}); event.stopPropagation();">
                 <img class="p-0 img-fluid card-img mb-3" src="{{i.urlToImage}}">
                 <h5 class="card-title">{{i.title}}</h5>
                 <p class="card-text text-muted">
@@ -17,10 +17,10 @@
 
 {{ else }}
 
-<tr>
+<tr id="{{i.doc_id}}">
     <td onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
         <div class="row justify-content-start m-3">
-            <div class="card-body" onclick="sequence('c' + {{i.doc_id}});" id="tweet_{{i.doc_id}}" data-bs-toggle="offcanvas" data-bs-target="#off_{{i.doc_id}}" style="cursor: pointer;">
+            <div class="card-body" onclick="sequence('c' + {{i.doc_id}}); event.stopPropagation();" id="tweet_{{i.doc_id}}" data-bs-toggle="offcanvas" data-bs-target="#off_{{i.doc_id}}" style="cursor: pointer;">
                 <div class="image-container">
                     <img src="{{i.urlToImage}}" alt="Image {{i.doc_id }}" class="img-fluid">
                 </div>
@@ -42,6 +42,8 @@
 <!-- Offcanvas -->
 <div class="offcanvas offcanvas-bottom bg-transparent" tabindex="-1"
      id="off_{{i.doc_id}}" aria-labelledby="off-Label" style="height: 100vh;">
+
+    <input class="time-field" type="hidden" name="time_spent_on_{{i.doc_id}}" id="time_spent_on_{{i.doc_id}}" value="0">
 
     <div class="offcanvas-body p-0 m-0">
         <div class="container-fluid p-0 m-0">

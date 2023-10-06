@@ -22,6 +22,10 @@ class C(BaseConstants):
     # Page tamplate
     NEWS_ITEM = "news/News_Item.html"
 
+    # Prepare max number of form fileds
+    N_ITEMS = 42
+    FEED_LENGTH = list(range(*{'start': 0, 'stop': N_ITEMS + 1, 'step': 1}.values()))
+
 
 class Subsession(BaseSubsession):
     pass
@@ -35,6 +39,12 @@ class Player(BasePlayer):
     feed_condition = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
     cta = models.BooleanField(doc='indicates whether CTA was clicked or not')
     scroll_sequence = models.LongStringField(doc='tracks the sequence of feed items a participant scrolled through.')
+    viewport_data = models.LongStringField(doc='tracks the time feed items were visible in a participants viewport.')
+
+    # create time spent per item fields
+    for i in C.FEED_LENGTH:
+        locals()['time_spent_on_' + str(i)] = models.FloatField(initial=False, blank=True)
+    del i
 
 
 # FUNCTIONS -----
@@ -139,10 +149,14 @@ class C_Feed(Page):
 
     @staticmethod
     def get_form_fields(player: Player):
+        items = player.participant.news['doc_id'].values.tolist()
+        items.insert(0, 0)
+        fields = ['time_spent_on_' + str(n) for n in items]
         if player.session.config['show_banners'] & player.session.config['show_cta']:
-            return ['scroll_sequence', 'cta']
+            return fields + ['scroll_sequence', 'viewport_data', 'cta']
         else:
-            return ['scroll_sequence']
+            return fields + ['scroll_sequence', 'viewport_data']
+
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -152,6 +166,20 @@ class C_Feed(Page):
             img_left  = 'img/{}_left.png'.format(ad),
             img_right = 'img/{}_right.png'.format(ad),
         )
+
+    @staticmethod
+    def live_method(player, data):
+        print(data)
+        parts = data.split('=')
+        variable_name = parts[0].strip()
+        value = eval(parts[1].strip())
+
+        # Use getattr to get the current value of the attribute within the player object
+        current_value = getattr(player, variable_name, 0)
+
+        # Perform the addition assignment and update the attribute within the player object
+        setattr(player, variable_name, current_value + value)
+
 
 class D_Redirect(Page):
 
