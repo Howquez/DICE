@@ -2,9 +2,11 @@
 
 ## Pre-processing Behavioral Data
 
-`oNovitas` offers several variables that reveal information about a participant's browsing behavior. First, each news item comes with a variable called `time_spent_on[news item id]`. These variables are floats that describe how much time a participant spent reading a news item. Second, `scroll_sequence` describes how the participant navigated through a the feed: it contains all the news items the mouse hovered over or the thumb touched, on desktop and mobile devices respectively. Third, `viewport_data` describes how long a news item was visible to a participant.
+`oNovitas` offers several variables that reveal information about a participant's browsing behavior. First, each news item comes with a variable called `time_spent_on[news item id]`. These variables are floats that describe how much time a participant spent reading a news item. Second, `scroll_sequence` describes how the participant navigated through a the feed: it contains all the news items the mouse hovered over or the thumb touched, on desktop and mobile devices respectively. Third, `viewport_data` describes how long a news item was visible to a participant. 
 
-Because the latter two variables a represented in a slightly more complex data structure, this section explains, how to process the information with `R` using the following packages.
+These variables may reveal psychological drivers of consumer choices [@FisherWoolley_2023] However, the latter two variables are represented in a slightly complex data structure, which is why this section explains, how to process the information with `R`.
+
+---
 
 First, we load some packages:
 
@@ -34,6 +36,8 @@ pkgs <- c("knitr")
 groundhog::groundhog.library(pkg = pkgs,
                              date = "2023-09-25")
 ```
+
+---
 
 The columns that need to be processed look as follows: 
 
