@@ -266,7 +266,8 @@ div.csl-indent {
 <section id="pre-processing-behavioral-data" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="pre-processing-behavioral-data"><span class="header-section-number">8.1</span> Pre-processing Behavioral Data</h2>
 <p><code>oNovitas</code> offers several variables that reveal information about a participant’s browsing behavior. First, each news item comes with a variable called <code>time_spent_on[news item id]</code>. These variables are floats that describe how much time a participant spent reading a news item. Second, <code>scroll_sequence</code> describes how the participant navigated through a the feed: it contains all the news items the mouse hovered over or the thumb touched, on desktop and mobile devices respectively. Third, <code>viewport_data</code> describes how long a news item was visible to a participant.</p>
-<p>Because the latter two variables a represented in a slightly more complex data structure, this section explains, how to process the information with <code>R</code> using the following packages.</p>
+<p>These variables may reveal psychological drivers of consumer choices <span class="citation" data-cites="FisherWoolley_2023">(<a href="references.html#ref-FisherWoolley_2023" role="doc-biblioref">Fisher and Woolley 2023</a>)</span> However, the latter two variables are represented in a slightly complex data structure, which is why this section explains, how to process the information with <code>R</code>.</p>
+<hr>
 <p>First, we load some packages:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"groundhog"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
@@ -280,7 +281,8 @@ div.csl-indent {
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                             <span class="at">date =</span> <span class="st">"2023-09-25"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This chunk checks if the <code>{groundhog}</code> package is installed; if not, it installs the package. groundhog was developed by the <a href="https://credlab.wharton.upenn.edu/">Penn Wharton Credibility Lab</a> and is designed for package management and reproducible science <span class="citation" data-cites="TrisovicEtAl_2022">(see, e.g., <a href="references.html#ref-TrisovicEtAl_2022" role="doc-biblioref">Trisovic et al. 2022</a>)</span>. It loads (and installs, if necessary) packages &amp; their dependencies as available on chosen date on CRAN. Doing so, it keeps rather than replaces, existing other versions of a required package. It ensures that all operating systems and R versions install/load the same package version.</p>
-<p>Using <code>groundhog::groundhog.library()</code>, the chunk loads the following packages: <code>{magrittr}</code>, <code>{data.table}</code>, <code>{stringr}</code>, and <code>{jsonlite}</code>. This ensures that the necessary packages are available for subsequent code execution.</p>
+<p>Using <code>groundhog::groundhog.library()</code>, the chunk loads the following packages: <code>{magrittr}</code>, <code>{data.table}</code>, <code>{stringr}</code>, and <code>{jsonlite}</code>.</p>
+<hr>
 <p>The columns that need to be processed look as follows:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -480,6 +482,9 @@ div.csl-indent {
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-FisherWoolley_2023" class="csl-entry" role="listitem">
+Fisher, Geoffrey, and Kaitlin Woolley. 2023. <span>“How Consumers Resolve Conflict over Branded Products: Evidence from Mouse Cursor Trajectories.”</span> <em>Journal of Marketing Research</em> 0 (Ahead of print). <a href="https://doi.org/10.1177/00222437231170838">https://doi.org/10.1177/00222437231170838</a>.
+</div>
 <div id="ref-TrisovicEtAl_2022" class="csl-entry" role="listitem">
 Trisovic, Ana, Matthew K. Lau, Thomas Pasquier, and Mercè Crosas. 2022. <span>“A Large-Scale Study on Research Code Quality and Execution.”</span> <em>Scientific Data</em> 9 (1): 60. <a href="https://doi.org/10.1038/s41597-022-01143-6">https://doi.org/10.1038/s41597-022-01143-6</a>.
 </div>
