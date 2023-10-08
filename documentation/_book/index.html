@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Hauke Roggenkamp">
-<meta name="dcterms.date" content="2023-09-20">
+<meta name="dcterms.date" content="2023-09-29">
 
-<title>oFeeds</title>
+<title>Documentation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -142,10 +142,9 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">oFeeds</a> 
-        <div class="sidebar-tools-main tools-wide">
+      <a href="./">Documentation</a> 
+        <div class="sidebar-tools-main">
     <a href="https://github.com/Howquez/oFeeds" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="./oFeeds.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
     <div class="dropdown">
       <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
@@ -244,8 +243,8 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">oFeeds</h1>
-<p class="subtitle lead">Documentation</p>
+<h1 class="title">Documentation</h1>
+<p class="subtitle lead">oFeeds</p>
 </div>
 
 
@@ -269,7 +268,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 20, 2023</p>
+      <p class="date">September 29, 2023</p>
     </div>
   </div>
   
@@ -300,7 +299,7 @@ div.csl-indent {
 <figcaption class="figure-caption">oFeeds Screenshots</figcaption>
 </figure>
 </div>
-<p>All of these apps are based on oTree <span class="citation" data-cites="oTree">(<a href="references.html#ref-oTree" role="doc-biblioref">Chen, Schonger, and Wickens 2016</a>)</span>. Hence, all of these apps share some common ground that will be described in the first few chapters: <a href="oTree.html">Chapter&nbsp;<span>2</span></a> first describes how to deploy oTree apps in general. <a href="session.html">Chapter&nbsp;<span>3</span></a> describes how to create and configure a session. Subsequently, <a href="oCom.html">Chapter&nbsp;<span>4</span></a>, <a href="oNovitas.html">Chapter&nbsp;<span>4</span></a> and <a href="oTweet.html">Chapter&nbsp;<span>5</span></a> describe the session configurations that apply to the respective apps in detail. The document closes with instructions on how to run an oTree experiment on Prolific.</p>
+<p>All of these apps are based on oTree <span class="citation" data-cites="oTree">(<a href="references.html#ref-oTree" role="doc-biblioref">Chen, Schonger, and Wickens 2016</a>)</span>. Hence, all of these apps share some common ground that will be described in the first few chapters: <a href="oTree.html">Chapter&nbsp;<span>2</span></a> first describes how to deploy oTree apps in general. <a href="session.html">Chapter&nbsp;<span>3</span></a> describes how to create and configure a session. Subsequently, <a href="oCom.html">Chapter&nbsp;<span>4</span></a>, <a href="oNovitas.html">Chapter&nbsp;<span>4</span></a> and <a href="oTweet.html">Chapter&nbsp;<span>6</span></a> describe the session configurations that apply to the respective apps in detail. The document closes with instructions on how to run an oTree experiment on Prolific.</p>
 <section id="features" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="features"><span class="header-section-number">1.1</span> Features</h2>
 <p>Improve realism (and thus, external validity) without sacrificing internal validity:</p>
@@ -311,11 +310,11 @@ div.csl-indent {
 <li>You can gather implicit measures (e.g.&nbsp;scrolling behavior, which screenshots usually do not provide).</li>
 <li><code>oFeeds</code> provides individual-level data that allows you to further investigate mechanisms (in contrast to PABTs’ aggregate data).</li>
 <li>Randomized and stable treatment assignment <span class="citation" data-cites="BraunSchwartz_2023">(no divergent delivery, see e.g., <a href="references.html#ref-BraunSchwartz_2023" role="doc-biblioref">Braun and Schwartz 2023</a>)</span>.</li>
-<li>As of today, <code>oFeeds</code> is a single player game without interaction (i.e.&nbsp;no social network) between participants to avoid spillovers between treatments and SUTVA <span class="citation" data-cites="AngristImbensRubin_1996">(<a href="references.html#ref-AngristImbensRubin_1996" role="doc-biblioref">Joshua D. Angrist and Rubin 1996, 446</a>)</span> violations.</li>
+<li>As of today, <code>oFeeds</code> is a single player game without interaction (i.e.&nbsp;no social network) between participants to avoid spillovers between treatments and SUTVA <span class="citation" data-cites="AngristImbensRubin_1996">(<a href="references.html#ref-AngristImbensRubin_1996" role="doc-biblioref">Angrist, Imbens, and Rubin 1996, 446</a>)</span> violations.</li>
 <li>Based on oTree: even though we provide a graphical admin user interface to adapt sessions to your needs, you can go one step further and implement far-reaching changes easily, because there are oTree workshops, a good documentation and a vivid community. If you can’t do it, your lab manager surely can.</li>
 <li>One can combine <code>oCom</code> with <code>oTweet</code> or <code>oNovitas</code> to simulate a shop as a landing page of some campaign.</li>
 </ul>
-<p>Please note that both the apps as well as the documentation are under development (in fact, <a href="oCom.html">Chapter&nbsp;<span>4</span></a>, <a href="oTweet.html">Chapter&nbsp;<span>5</span></a> and <a href="prolific.html">Chapter&nbsp;<span>7</span></a> don’t even exist). Hence, feedback is much appreciated. If you have any comments, questions or requests, don’t hesitate to reach out to me via <a href="mailto:hauke.roggenkamp@unisg.ch">email</a> or create an <a href="https://github.com/Howquez/oFeeds/issues">issue</a> in the corresponding github repository.</p>
+<p>Please note that both the apps as well as the documentation are under development (in fact, <a href="oCom.html">Chapter&nbsp;<span>4</span></a>, <a href="oTweet.html">Chapter&nbsp;<span>6</span></a> and <a href="prolific.html">Chapter&nbsp;<span>7</span></a> don’t even exist). Hence, feedback is much appreciated. If you have any comments, questions or requests, don’t hesitate to reach out to me via <a href="mailto:hauke.roggenkamp@unisg.ch">email</a> or create an <a href="https://github.com/Howquez/oFeeds/issues">issue</a> in the corresponding github repository.</p>
 </section>
 <section id="license-citation" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="license-citation"><span class="header-section-number">1.2</span> License &amp; Citation</h2>
@@ -338,14 +337,14 @@ div.csl-indent {
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-AngristImbensRubin_1996" class="csl-entry" role="listitem">
+Angrist, Joshua D., Guido W. Imbens, and Donald B. Rubin. 1996. <span>“Identification of Causal Effects Using Instrumental Variables.”</span> <em>Journal of the American Statistical Association</em> 91 (434): 444–55. <a href="https://doi.org/10.1080/01621459.1996.10476902">https://doi.org/10.1080/01621459.1996.10476902</a>.
+</div>
 <div id="ref-BraunSchwartz_2023" class="csl-entry" role="listitem">
 Braun, Michael, and Eric M Schwartz. 2023. <span>“Where AB Testing Goes Wrong: What Online Experiments Cannot (and Can) Tell You about How Customers Respond to Advertising.”</span> <em>SMU Cox School of Business Research Paper</em>, no. 21-10. <a href="https://doi.org/10.2139/ssrn.3896024">https://doi.org/10.2139/ssrn.3896024</a>.
 </div>
 <div id="ref-oTree" class="csl-entry" role="listitem">
 Chen, Daniel L., Martin Schonger, and Chris Wickens. 2016. <span>“oTree—an Open-Source Platform for Laboratory, Online, and Field Experiments.”</span> <em>Journal of Behavioral and Experimental Finance</em> 9: 88–97. <a href="https://doi.org/doi.org/10.1016/j.jbef.2015.12.001">https://doi.org/doi.org/10.1016/j.jbef.2015.12.001</a>.
-</div>
-<div id="ref-AngristImbensRubin_1996" class="csl-entry" role="listitem">
-Joshua D. Angrist, Guido W. Imbens, and Donald B. Rubin. 1996. <span>“Identification of Causal Effects Using Instrumental Variables.”</span> <em>Journal of the American Statistical Association</em> 91 (434): 444–55. <a href="https://doi.org/10.1080/01621459.1996.10476902">https://doi.org/10.1080/01621459.1996.10476902</a>.
 </div>
 <div id="ref-Roggenkamp_2023" class="csl-entry" role="listitem">
 Roggenkamp, Hauke C. 2023. <span>“oFeeds.”</span> OSF. <a href="https://osf.io/jcxvk">osf.io/jcxvk</a>.

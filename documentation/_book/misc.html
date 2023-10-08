@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Documentation - 3&nbsp; Create a Session</title>
+<title>Documentation - 8&nbsp; Miscellaneous</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,60 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -30,8 +83,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./oCom.html" rel="next">
-<link href="./oTree.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./prolific.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -73,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./session.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Create a Session</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./misc.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Miscellaneous</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -132,7 +185,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./session.html" class="sidebar-item-text sidebar-link active">
+  <a href="./session.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Create a Session</span></span></a>
   </div>
 </li>
@@ -162,6 +215,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./misc.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Miscellaneous</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -176,12 +235,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-configs" id="toc-sec-configs" class="nav-link active" data-scroll-target="#sec-configs"><span class="header-section-number">3.1</span> Session Configs</a>
+  <li><a href="#pre-processing-behavioral-data" id="toc-pre-processing-behavioral-data" class="nav-link active" data-scroll-target="#pre-processing-behavioral-data"><span class="header-section-number">8.1</span> Pre-processing Behavioral Data</a>
   <ul class="collapse">
-  <li><a href="#sec-common-configs" id="toc-sec-common-configs" class="nav-link" data-scroll-target="#sec-common-configs"><span class="header-section-number">3.1.1</span> Common Configs</a></li>
-  <li><a href="#app-specific-configs" id="toc-app-specific-configs" class="nav-link" data-scroll-target="#app-specific-configs"><span class="header-section-number">3.1.2</span> App-specific Configs</a></li>
+  <li><a href="#scroll_sequence" id="toc-scroll_sequence" class="nav-link" data-scroll-target="#scroll_sequence"><span class="header-section-number">8.1.1</span> scroll_sequence</a></li>
+  <li><a href="#viewport_data" id="toc-viewport_data" class="nav-link" data-scroll-target="#viewport_data"><span class="header-section-number">8.1.2</span> viewport_data</a></li>
   </ul></li>
-  <li><a href="#settings.py-advanced" id="toc-settings.py-advanced" class="nav-link" data-scroll-target="#settings.py-advanced"><span class="header-section-number">3.2</span> settings.py (Advanced)</a></li>
   </ul>
 </nav>
     </div>
@@ -190,7 +248,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-session" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Create a Session</span></span></h1>
+<h1 class="title"><span id="sec-misc" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Miscellaneous</span></span></h1>
 </div>
 
 
@@ -205,213 +263,228 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>To run or properly test an experiment in oTree, you need to create a session. Sessions also allow you to change some default settings of <code>oFeeds</code> without writing any code. This following paragraphs explain how to create a session and <a href="#sec-configs"><span>Section&nbsp;3.1</span></a> lists the configurations you can adapt to your needs. <a href="oCom.html">Chapter&nbsp;<span>4</span></a>, <a href="oNovitas.html">Chapter&nbsp;<span>4</span></a> &amp; <a href="oTweet.html">Chapter&nbsp;<span>6</span></a> provide a more details for the app-specific configurations.</p>
-<p>Open the experiment in your browser (either with <code>http://localhost:8000/</code> if deployed locally for testing purposes or <code>https://[your app name].herokuapp.com</code> if deployed with heroku) and click on <em>Sessions</em> displayed in the header. Subsequently, click on <em>Create new session</em>, and then on <em>Configure session</em> (next to the cogwheel). This yields a screen which looks as follows:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/screenshot-session-config.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Session Configs Admin Interface</figcaption>
-</figure>
+<section id="pre-processing-behavioral-data" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="pre-processing-behavioral-data"><span class="header-section-number">8.1</span> Pre-processing Behavioral Data</h2>
+<p><code>oNovitas</code> offers several variables that reveal information about a participant’s browsing behavior. First, each news item comes with a variable called <code>time_spent_on[news item id]</code>. These variables are floats that describe how much time a participant spent reading a news item. Second, <code>scroll_sequence</code> describes how the participant navigated through a the feed: it contains all the news items the mouse hovered over or the thumb touched, on desktop and mobile devices respectively. Third, <code>viewport_data</code> describes how long a news item was visible to a participant.</p>
+<p>Because the latter two variables a represented in a slightly more complex data structure, this section explains, how to process the information with <code>R</code> using the following packages.</p>
+<p>First, we load some packages:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"groundhog"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"groundhog"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">library</span>(<span class="st">"groundhog"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"magrittr"</span>, <span class="st">"data.table"</span>, <span class="st">"stringr"</span>, <span class="st">"jsonlite"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>groundhog<span class="sc">::</span><span class="fu">groundhog.library</span>(<span class="at">pkg =</span> pkgs,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                             <span class="at">date =</span> <span class="st">"2023-09-25"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This interface allows you to set the number of rows your data base should contain (e.g., 300 in the example above). This number should be larger than the number of participants you need to finish your study simply because participants who enter your experiment (without finishing it) will use up a row in your data base as soon as they enter the experiment.</p>
-<section id="sec-configs" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="sec-configs"><span class="header-section-number">3.1</span> Session Configs</h2>
-<p>Apart from the number of rows in your data base, the interface provides some custom session configurations that may differ between apps. Each session configuration is listed and explained in the table below. In addition, the table assigns these configurations to their corresponding apps (you can configure a <code>newspaper_name</code> in <code>oNovitas</code> but not in <code>oTweet</code>, for instance).</p>
-<table class="table">
+<p>This chunk checks if the <code>{groundhog}</code> package is installed; if not, it installs the package. groundhog was developed by the <a href="https://credlab.wharton.upenn.edu/">Penn Wharton Credibility Lab</a> and is designed for package management and reproducible science <span class="citation" data-cites="TrisovicEtAl_2022">(see, e.g., <a href="references.html#ref-TrisovicEtAl_2022" role="doc-biblioref">Trisovic et al. 2022</a>)</span>. It loads (and installs, if necessary) packages &amp; their dependencies as available on chosen date on CRAN. Doing so, it keeps rather than replaces, existing other versions of a required package. It ensures that all operating systems and R versions install/load the same package version.</p>
+<p>Using <code>groundhog::groundhog.library()</code>, the chunk loads the following packages: <code>{magrittr}</code>, <code>{data.table}</code>, <code>{stringr}</code>, and <code>{jsonlite}</code>. This ensures that the necessary packages are available for subsequent code execution.</p>
+<p>The columns that need to be processed look as follows:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
 <colgroup>
-<col style="width: 24%">
-<col style="width: 9%">
-<col style="width: 48%">
-<col style="width: 4%">
+<col style="width: 2%">
 <col style="width: 7%">
-<col style="width: 5%">
+<col style="width: 89%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Name</th>
-<th>Description</th>
-<th>Default</th>
-<th>oCom</th>
-<th>oNovitas</th>
-<th>oTweet</th>
+<th style="text-align: left;">participant.code</th>
+<th style="text-align: left;">scroll_sequence</th>
+<th style="text-align: left;">viewport_data</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>real_world_currency_per_point</code></td>
-<td></td>
-<td><code>1</code></td>
-<td>x</td>
-<td>x</td>
-<td>x</td>
-</tr>
-<tr class="even">
-<td><code>participation_fee</code></td>
-<td></td>
-<td><code>2.10</code></td>
-<td>x</td>
-<td>x</td>
-<td>x</td>
-</tr>
-<tr class="odd">
-<td><code>survey_link</code></td>
-<td></td>
-<td><code>None</code></td>
-<td>x</td>
-<td>x</td>
-<td>x</td>
-</tr>
-<tr class="even">
-<td><code>url_param</code></td>
-<td></td>
-<td><code>'PROLIFIC_ID'</code></td>
-<td>x</td>
-<td>x</td>
-<td>x</td>
-</tr>
-<tr class="odd">
-<td><code>data_path</code></td>
-<td></td>
-<td></td>
-<td>x</td>
-<td>x</td>
-<td>x</td>
-</tr>
-<tr class="even">
-<td><code>sort_by</code></td>
-<td></td>
-<td><code>'time_stamp'</code></td>
-<td>x</td>
-<td>x</td>
-<td>x</td>
-</tr>
-<tr class="odd">
-<td><code>shop_name</code></td>
-<td></td>
-<td><code>'oCom'</code></td>
-<td>x</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><code>newspaper_name</code></td>
-<td></td>
-<td><code>'The Daily News'</code></td>
-<td></td>
-<td>x</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><code>search_term</code></td>
-<td></td>
-<td><code>'#estrava'</code></td>
-<td></td>
-<td></td>
-<td>x</td>
-</tr>
-<tr class="even">
-<td><code>show_banners</code></td>
-<td></td>
-<td><code>True</code></td>
-<td></td>
-<td>x</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><code>topics</code></td>
-<td></td>
-<td><code>False</code></td>
-<td></td>
-<td></td>
-<td>x</td>
-</tr>
-<tr class="even">
-<td><code>creative_left</code></td>
-<td></td>
-<td></td>
-<td></td>
-<td>x</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><code>copy_left</code></td>
-<td></td>
-<td></td>
-<td></td>
-<td>x</td>
-<td></td>
-</tr>
-<tr class="even">
-<td><code>creative_right</code></td>
-<td></td>
-<td></td>
-<td></td>
-<td>x</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><code>copy_right</code></td>
-<td></td>
-<td></td>
-<td></td>
-<td>x</td>
-<td></td>
-</tr>
-<tr class="even">
-<td><code>copy_text</code></td>
-<td></td>
-<td><code>'50M Jobseekers. &lt;br&gt;&lt;br&gt; 150+ Job Boards. &lt;br&gt;&lt;br&gt; One Click.'</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><code>show_cta</code></td>
-<td></td>
-<td><code>True</code></td>
-<td></td>
-<td>x</td>
-<td>x</td>
-</tr>
-<tr class="even">
-<td><code>cta_text</code></td>
-<td></td>
-<td><code>'Post Jobs Free'</code></td>
-<td></td>
-<td>x</td>
-<td>x</td>
-</tr>
-<tr class="odd">
-<td><code>landing_page</code></td>
-<td></td>
-<td><code>'https://your-link-here.com'</code></td>
-<td></td>
-<td>x</td>
-<td>x</td>
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">i0-i20-ibr-i20-i19-i3-i7-i5-i5-i9-i10-i16</td>
+<td style="text-align: left;">[{““doc_id”“:20,”“duration”“:1.2},{”“doc_id”“:19,”“duration”“:2.332},{”“doc_id”“:3,”“duration”“:3.209},{”“doc_id”“:7,”“duration”“:3.392},{”“doc_id”“:27,”“duration”“:5.113},{”“doc_id”“:5,”“duration”“:4.946},{”“doc_id”“:9,”“duration”“:9.885},{”“doc_id”“:10,”“duration”“:8.958},{”“doc_id”“:16,”“duration”“:47.007},{”“doc_id”“:8,”“duration”“:45.589},{”“doc_id”“:22,”“duration”“:0.068},{”“doc_id”“:15,”“duration”“:0.15},{”“doc_id”“:null,”“duration”“:0.166},{”“doc_id”“:null,”“duration”“:0.114},{”“doc_id”“:null,”“duration”“:0.114}]</td>
 </tr>
 </tbody>
 </table>
-<section id="sec-common-configs" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="sec-common-configs"><span class="header-section-number">3.1.1</span> Common Configs</h3>
+</div>
+</div>
+<section id="scroll_sequence" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="scroll_sequence"><span class="header-section-number">8.1.1</span> scroll_sequence</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DT[<span class="dv">1</span>, .(participant.code,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">item =</span> news.<span class="fl">1.</span>player.scroll_sequence <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">strsplit</span>(<span class="at">split =</span> <span class="st">'-'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">unlist</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_replace_all</span>(<span class="at">pattern =</span> <span class="st">'i'</span>, <span class="at">replacement =</span> <span class="st">''</span>))][<span class="sc">!</span>(item <span class="sc">==</span> <span class="fu">shift</span>(item, <span class="at">type =</span> <span class="st">"lead"</span>)), ][, sequence <span class="sc">:</span><span class="er">=</span> <span class="dv">1</span><span class="sc">:</span>.N]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This chunk operates on a data table named <code>DT</code>. It focuses on the <code>news.1.player.scroll_sequence</code> column. The steps involved are as follows:</p>
 <ul>
-<li><code>real_world_currency_per_point</code></li>
-<li><code>participation_fee</code></li>
-<li><code>survey_link</code> is used to direct participants to the survey of your choice.</li>
-<li><code>url_param</code> can be used to pass a participant’s ID to that survey tool. This is essential to merge the data you collect in oTree with the data you collect in your survey tool.</li>
-<li><code>data_path</code> accepts URLs to your Google drive or a raw github link as well as a directory within the project folder. Importantly, all these paths must refer to a <code>;</code>-separated <code>*.csv</code> file that contains the content you want to display in your feed. You’ll learn more about the specific requirements in the following chapters.</li>
-<li>I strongly recommend you to make use of the <code>sort_by</code> argument. You can pass any column in your data to sort the items of your feed. You can, for instance, create a time stamp or create a random integer (without replacement). This allows you not only to control but also to record the order in which you display. If no value (i.e., column) is provided, the software will shuffle the the feed without recording the order.</li>
+<li>It selects the first row of the data table (<code>DT[1, ...]</code>) and extracts two columns: <code>participant.code</code> and a new column called <code>item</code>.</li>
+<li>The <code>news.1.player.scroll_sequence</code> text is split by hyphens (<code>-</code>), the resulting list is unlisted to create a single vector of items, and any occurrences of the letter <code>i</code> are removed, effectively converting it into a numeric sequence.</li>
+<li>Rows where the <code>item</code> is the same as the next row’s <code>item</code> are filtered out. A new column called <code>sequence</code> is added, numbering the rows from 1 to the total number of rows.</li>
 </ul>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">participant.code</th>
+<th style="text-align: left;">item</th>
+<th style="text-align: right;">sequence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">20</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">br</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">20</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">19</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: left;">10</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
-<section id="app-specific-configs" class="level3" data-number="3.1.2">
-<h3 data-number="3.1.2" class="anchored" data-anchor-id="app-specific-configs"><span class="header-section-number">3.1.2</span> App-specific Configs</h3>
-<p>The subsequent chapters provide more information on how and why to configure these parameters exactly.</p>
-</section>
-</section>
-<section id="settings.py-advanced" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="settings.py-advanced"><span class="header-section-number">3.2</span> settings.py (Advanced)</h2>
-<p>If you prefer to edit these settings in your IDE (such as PyCharm), I recommend you to navigate to the <code>settings.py</code> file and edit the <code>SESSION_CONFIG_DEFAULTS</code>. These provide default values, which you can easily overwrite.</p>
+<section id="viewport_data" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="viewport_data"><span class="header-section-number">8.1.2</span> viewport_data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>DT[<span class="dv">1</span>, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   .(participant.code, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>     news.<span class="fl">1.</span>player.viewport_data <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">str_replace_all</span>(<span class="at">pattern =</span> <span class="st">'""'</span>, <span class="at">replacement =</span> <span class="st">'"'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>       fromJSON)][<span class="sc">!</span><span class="fu">is.na</span>(doc_id)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this chunk, the focus is on the <code>news.1.player.viewport_data</code> column within the data table <code>DT.</code> Here’s what happens:</p>
+<p>The first row of the data table is selected, and two columns are extracted: <code>participant.code</code> and a modified version of <code>news.1.player.viewport_data</code>.</p>
+<p>The <code>news.1.player.viewport_data</code> text is processed to replace instances of <code>""</code> with a single double quote (<code>"</code>).</p>
+<p>The modified text, which is JSON-like data, is parsed into an R object using the <code>fromJSON()</code> function.</p>
+<p>Rows with missing <code>doc_id</code> values are filtered out.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">participant.code</th>
+<th style="text-align: right;">doc_id</th>
+<th style="text-align: right;">duration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">1.200</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">2.332</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3.209</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">3.392</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5.113</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4.946</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">9.885</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">8.958</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">47.007</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">45.589</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">0.068</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mcs4n5kj</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">0.150</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-TrisovicEtAl_2022" class="csl-entry" role="listitem">
+Trisovic, Ana, Matthew K. Lau, Thomas Pasquier, and Mercè Crosas. 2022. <span>“A Large-Scale Study on Research Code Quality and Execution.”</span> <em>Scientific Data</em> 9 (1): 60. <a href="https://doi.org/10.1038/s41597-022-01143-6">https://doi.org/10.1038/s41597-022-01143-6</a>.
+</div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -650,13 +723,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./oTree.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Deploy <code>oFeeds</code></span></span>
+      <a href="./prolific.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Prolific</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./oCom.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Shopping in oCom</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

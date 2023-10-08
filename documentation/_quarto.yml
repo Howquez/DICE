@@ -2,8 +2,8 @@ project:
   type: book
 
 book:
-  title: "oFeeds"
-  subtitle: 'Documentation'
+  title: 'Documentation'
+  subtitle: 'oFeeds'
   author:
   - name: Hauke Roggenkamp
     email: Hauke.Roggenkamp@unisg.ch
@@ -14,11 +14,11 @@ book:
         city: St. Gallen
         state: Switzerland
         postal-code: 9000
-  date: "9/20/2023"
+  date: now
+  date-format: long
   sharing: 
     - twitter
     - linkedin
-  downloads: pdf
   license: 'MIT'
   repo-url: 'https://github.com/Howquez/oFeeds'
   chapters:
@@ -29,6 +29,7 @@ book:
     - oNovitas.qmd
     - oTweet.qmd
     - prolific.qmd
+    - misc.qmd
     - references.qmd
 
 bibliography: references.bib

@@ -1,0 +1,113 @@
+# Miscellaneous {#sec-misc}
+
+## Pre-processing Behavioral Data
+
+`oNovitas` offers several variables that reveal information about a participant's browsing behavior. First, each news item comes with a variable called `time_spent_on[news item id]`. These variables are floats that describe how much time a participant spent reading a news item. Second, `scroll_sequence` describes how the participant navigated through a the feed: it contains all the news items the mouse hovered over or the thumb touched, on desktop and mobile devices respectively. Third, `viewport_data` describes how long a news item was visible to a participant.
+
+Because the latter two variables a represented in a slightly more complex data structure, this section explains, how to process the information with `R` using the following packages.
+
+First, we load some packages:
+
+```{r install_packages}
+#| echo: true
+#| output: false
+if (!requireNamespace("groundhog", quietly = TRUE)) {
+    install.packages("groundhog")
+    library("groundhog")
+}
+
+pkgs <- c("magrittr", "data.table", "stringr", "jsonlite")
+
+groundhog::groundhog.library(pkg = pkgs,
+                             date = "2023-09-25")
+```
+
+This chunk checks if the `{groundhog}` package is installed; if not, it installs the package. groundhog was developed by the [Penn Wharton Credibility Lab](https://credlab.wharton.upenn.edu/) and is designed for package management and reproducible science [see, e.g., @TrisovicEtAl_2022]. It loads (and installs, if necessary) packages & their dependencies as available on chosen date on CRAN. Doing so, it keeps rather than replaces, existing other versions of a required package. It ensures that all operating systems and R versions install/load the same package version.
+
+Using `groundhog::groundhog.library()`, the chunk loads the following packages: `{magrittr}`, `{data.table}`, `{stringr}`, and `{jsonlite}`.
+
+```{r more_packages}
+#| echo: false
+#| output: false
+pkgs <- c("knitr")
+
+groundhog::groundhog.library(pkg = pkgs,
+                             date = "2023-09-25")
+```
+
+The columns that need to be processed look as follows: 
+
+```{r read_data}
+#| include: false
+DT <- fread('data.csv')
+```
+
+```{r show_data}
+#| echo: false
+kable(DT[1, .(participant.code, 
+              scroll_sequence = news.1.player.scroll_sequence,
+              viewport_data = news.1.player.viewport_data)])
+```
+
+
+### scroll_sequence
+
+```{r}
+#| eval: false
+#| echo: true
+DT[1, .(participant.code,
+        item = news.1.player.scroll_sequence %>%
+          strsplit(split = '-') %>%
+          unlist() %>%
+          str_replace_all(pattern = 'i', replacement = ''))][!(item == shift(item, type = "lead")), ][, sequence := 1:.N]
+```
+
+This chunk operates on a data table named `DT`. It focuses on the `news.1.player.scroll_sequence` column. The steps involved are as follows:
+
+- It selects the first row of the data table (`DT[1, ...]`) and extracts two columns: `participant.code` and a new column called `item`.
+- The `news.1.player.scroll_sequence` text is split by hyphens (`-`), the resulting list is unlisted to create a single vector of items, and any occurrences of the letter `i` are removed, effectively converting it into a numeric sequence.
+- Rows where the `item` is the same as the next row's `item` are filtered out. A new column called `sequence` is added, numbering the rows from 1 to the total number of rows.
+
+
+```{r}
+#| echo: false
+DT[1, .(participant.code,
+        item = news.1.player.scroll_sequence %>%
+          strsplit(split = '-') %>%
+          unlist() %>%
+          str_replace_all(pattern = 'i', replacement = ''))][!(item == shift(item, type = "lead")), ][, sequence := 1:.N] %>% 
+  kable()
+```
+
+### viewport_data
+
+```{r transform_json}
+#| eval: false
+#| echo: true
+DT[1, 
+   .(participant.code, 
+     news.1.player.viewport_data %>% 
+       str_replace_all(pattern = '""', replacement = '"') %>% 
+       fromJSON)][!is.na(doc_id)]
+```
+
+In this chunk, the focus is on the `news.1.player.viewport_data` column within the data table `DT.` Here's what happens:
+
+The first row of the data table is selected, and two columns are extracted: `participant.code` and a modified version of `news.1.player.viewport_data`.
+
+The `news.1.player.viewport_data` text is processed to replace instances of `""` with a single double quote (`"`).
+
+The modified text, which is JSON-like data, is parsed into an R object using the `fromJSON()` function.
+
+Rows with missing `doc_id` values are filtered out.
+
+```{r transform_json_output}
+#| echo: false
+DT[1, 
+   .(participant.code, 
+     news.1.player.viewport_data %>% 
+       str_replace_all(pattern = '""', replacement = '"') %>% 
+       fromJSON)][!is.na(doc_id)] %>% 
+  kable()
+```
+
