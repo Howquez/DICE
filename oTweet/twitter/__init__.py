@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import itertools
 import re
-import httplib2
 import os
 import random
 
@@ -170,11 +169,6 @@ def preprocessing(df):
     df['media'] = df['media'].str.replace("'|,", '')
     df['pic_available'] = np.where(df['media'].str.match(pat='http'), True, False)
 
-    # make profile pictures (if any) visible
-    # df['profile_pic_available'] = np.where(df['user_image'].isnull(), False, True)
-    df['profile_pic_available'] = df['user_image'].apply(
-        lambda x: check_url_exists(x) if pd.notnull(x) else False)
-
     # create a name icon as a profile pic
     df['icon'] = df['username'].str[:2]
     df['icon'] = df['icon'].str.title()
@@ -200,7 +194,7 @@ class B_Briefing(Page):
 
     @staticmethod
     def is_displayed(player):
-        len(player.session.config['briefing']) > 0
+        return len(player.session.config['briefing']) > 0
 
 
 class C_Feed(Page):

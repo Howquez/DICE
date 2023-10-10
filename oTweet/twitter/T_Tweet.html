@@ -3,27 +3,14 @@
     <td>
         <div class="row justify-content-start">
             <div class="col-2">
-                {{ if i.profile_pic_available == True}}
-                    <img src="{{i.user_image}}" class="card-img p1 ms-3 poster" alt="Profile picture of {{i.username}}."
-                         data-bs-toggle="tooltip"
-                         data-bs-placement="bottom"
-                         data-bs-html="true"
-                         data-bs-custom-class="custom-tooltip"
-                         title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
-                                @{{i.handle}}<br><br>
-                                {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
-                {{ else }}
-                    <div class="poster p1 ms-3"
-                         data-bs-toggle="tooltip"
-                         data-bs-placement="bottom"
-                         data-bs-html="true"
-                         data-bs-custom-class="custom-tooltip"
-                         title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
-                                @{{i.handle}}<br><br>
-                                {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
-                        <h4>{{i.icon}}</h4>
-                    </div>
-                {{ endif }}
+                <img src="{{i.user_image}}" class="card-img p1 ms-3 poster" alt="Profile picture of {{i.username}}."
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="bottom"
+                     data-bs-html="true"
+                     data-bs-custom-class="custom-tooltip"
+                     title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
+                            @{{i.handle}}<br><br>
+                            {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
             </div>
             <div class="col-9 me-0">
                 <div class="card-body" id="tweet_{{i.doc_id}}">
@@ -78,27 +65,14 @@
     <td>
         <div class="row justify-content-start">
             <div class="col-2">
-                {{ if i.profile_pic_available == True}}
-                    <img src="{{i.user_image}}" class="card-img p1 ms-3 poster" alt="Profile picture of {{i.username}}."
-                         data-bs-toggle="tooltip"
-                         data-bs-placement="bottom"
-                         data-bs-html="true"
-                         data-bs-custom-class="custom-tooltip"
-                         title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
-                                @{{i.handle}}<br><br>
-                                {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
-                {{ else }}
-                    <div class="poster p1 ms-3"
-                         data-bs-toggle="tooltip"
-                         data-bs-placement="bottom"
-                         data-bs-html="true"
-                         data-bs-custom-class="custom-tooltip"
-                         title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
-                                @{{i.handle}}<br><br>
-                                {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
-                        <h4>{{i.icon}}</h4>
-                    </div>
-                {{ endif }}
+                <img src="{{i.user_image}}" class="card-img p1 ms-3 poster" alt="Profile picture of {{i.username}}."
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="bottom"
+                     data-bs-html="true"
+                     data-bs-custom-class="custom-tooltip"
+                     title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
+                            @{{i.handle}}<br><br>
+                            {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
             </div>
             <div class="col-9 me-0">
                 <div class="card-body" id="tweet_{{i.doc_id}}">
