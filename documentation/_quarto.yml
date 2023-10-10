@@ -7,6 +7,7 @@ book:
   author:
   - name: Hauke Roggenkamp
     email: Hauke.Roggenkamp@unisg.ch
+    orcid: 0009-0005-5176-4718
     corresponding: true
     affiliations:
       - name: Institute of Behavioral Science and Technology, University of St. Gallen

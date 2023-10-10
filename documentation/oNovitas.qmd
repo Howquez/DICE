@@ -22,20 +22,21 @@ The news feed requires a path to a `;`-separated `.*csv` file. More specifically
 
 Your file must comprise the following columns:
 
-| Name        | Description                                                                                                                                          |
-|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `doc_id`      | Unique numeric identifier needed to loop through the csv file. Can also be used for pseudo-random sorting of content.                                |
-| `condition`   | If you wish to manipulate the feed between-subjects, use this column with as many values as required.                                                |
-| `tag`         | Tag that allows you to cluster your content (e.g., technology, diet, economy).                                                                                                         |
-| `title`       | Headline of new item.                                                                                                                                |
-| `teaser`      | Short text that describes the news item.                                                                                                             |
-| `content`     | Full text in HTML format that only becomes visible once a participant clicks on the corresponding news item.                                         |
-| `author`      | The news item's author.                                                                                                                              |
-| `publishedAt` | The day of publication.                                                                                                                              |
-| `urlToImage`  | URL to an image that shall be displayed. We recommend landscape-like ratios and sources such as unsplash.com.                                        |
-| `sponsored`   | Dummy that indicates whether the content shall represent actual news items or native advertising.                                                                        |
-| `url`         | If a news item is sponsored, you do not need any content but a URL of some landing page where the participant is directed to (in a new browser tab). |
-| `...`         | Add as many columns as you like. You could add a column that determines how the feed is sorted, for instance.                                        |
+| Name        | Description                                                                                                                                                    |
+|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `doc_id`      | Unique numeric identifier needed to loop through the csv file. Can also be used for pseudo-random sorting of content.                                        |
+| `condition`   | If you wish to manipulate the feed between-subjects, use this column with as many values as required.                                                        |
+| `tag`         | Tag that allows you to cluster your content (e.g., technology, diet, economy).                                                                               |
+| `title`       | Headline of new item.                                                                                                                                        |
+| `teaser`      | Short text that describes the news item.                                                                                                                     |
+| `content`     | Full text in HTML format that only becomes visible once a participant clicks on the corresponding news item.                                                 |
+| `author`      | The news item's author.                                                                                                                                      |
+| `publishedAt` | The day of publication.                                                                                                                                      |
+| `urlToImage`  | URL to an image that shall be displayed. We recommend landscape-like ratios and sources such as unsplash.com.                                                |
+| `sponsored`   | Dummy that indicates whether the content shall represent actual news items or native advertising.                                                            |
+| `url`         | If a news item is sponsored, you do not need any content but a URL of some landing page where the participant is directed to (in a new browser tab).         |
+| `time_stamp`  | By default, the items will be sorted by a time stamp. For this reason, you should include one for each item in your data. (See `sort_by` in session configs.)|
+| `...`         | Add as many columns as you like. You could add a column that determines how the feed is sorted, for instance.                                                |
 
 You find an exemplary data set scraped from the [News API](https://newsapi.org/) in your project folder (after you unzipped it)^[Download [this file](https://github.com/Howquez/oFeeds/blob/main/oNovitas/oNovitas.otreezip) and follow the instructions in @sec-unzip.] `oNovitas/news/static/data/news.csv` or [here on github](https://github.com/Howquez/oFeeds/blob/main/oNovitas/news/static/data/news.csv).
 

@@ -24,7 +24,7 @@ groundhog::groundhog.library(pkg = pkgs,
                              date = "2023-09-25")
 ```
 
-This chunk checks if the `{groundhog}` package is installed; if not, it installs the package. groundhog was developed by the [Penn Wharton Credibility Lab](https://credlab.wharton.upenn.edu/) and is designed for package management and reproducible science [see, e.g., @TrisovicEtAl_2022]. It loads (and installs, if necessary) packages & their dependencies as available on chosen date on CRAN. Doing so, it keeps rather than replaces, existing other versions of a required package. It ensures that all operating systems and R versions install/load the same package version.
+This chunk checks if the `{groundhog}` package is installed; if not, it installs the package. groundhog was developed by the [Penn Wharton Credibility Lab](https://credlab.wharton.upenn.edu/) and is designed for package management and reproducible science [see, e.g., @TrisovicEtAl_2022; @Lindsey_2023]. It loads (and installs, if necessary) packages & their dependencies as available on chosen date on CRAN. Doing so, it keeps rather than replaces, existing other versions of a required package. It ensures that all operating systems and R versions install/load the same package version.
 
 Using `groundhog::groundhog.library()`, the chunk loads the following packages: `{magrittr}`, `{data.table}`, `{stringr}`, and `{jsonlite}`.
 
