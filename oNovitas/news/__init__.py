@@ -148,13 +148,10 @@ class C_Feed(Page):
 
     @staticmethod
     def get_form_fields(player: Player):
-        items = player.participant.news['doc_id'].values.tolist()
-        items.insert(0, 0)
-        fields = ['time_spent_on_' + str(n) for n in items]
         if player.session.config['show_banners'] & player.session.config['show_cta']:
-            return fields + ['scroll_sequence', 'viewport_data', 'cta']
+            return ['scroll_sequence', 'viewport_data', 'cta']
         else:
-            return fields + ['scroll_sequence', 'viewport_data']
+            return ['scroll_sequence', 'viewport_data']
 
 
     @staticmethod
@@ -172,6 +169,7 @@ class C_Feed(Page):
         parts = data.split('=')
         variable_name = parts[0].strip()
         value = eval(parts[1].strip())
+        print(value)
 
         # Use getattr to get the current value of the attribute within the player object
         current_value = getattr(player, variable_name, 0)
