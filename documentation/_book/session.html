@@ -162,6 +162,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./misc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Miscellaneous</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -205,7 +211,7 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>To run or properly test an experiment in oTree, you need to create a session. Sessions also allow you to change some default settings of <code>oFeeds</code> without writing any code. This following paragraphs explain how to create a session and <a href="#sec-configs"><span>Section&nbsp;3.1</span></a> lists the configurations you can adapt to your needs. <a href="oCom.html">Chapter&nbsp;<span>4</span></a>, <a href="oNovitas.html">Chapter&nbsp;<span>4</span></a> &amp; <a href="oTweet.html">Chapter&nbsp;<span>6</span></a> provide a more details for the app-specific configurations.</p>
+<p>To run or properly test an experiment in oTree, you need to create a session. Sessions also allow you to change some default settings of <code>oFeeds</code> without writing any code. This following paragraphs explain how to create a session and <a href="#sec-configs"><span>Section&nbsp;3.1</span></a> lists the configurations you can adapt to your needs. <a href="oCom.html">Chapter&nbsp;<span>4</span></a>, <a href="oNovitas.html">Chapter&nbsp;<span>5</span></a> &amp; <a href="oTweet.html">Chapter&nbsp;<span>6</span></a> provide a more details for the app-specific configurations.</p>
 <p>Open the experiment in your browser (either with <code>http://localhost:8000/</code> if deployed locally for testing purposes or <code>https://[your app name].herokuapp.com</code> if deployed with heroku) and click on <em>Sessions</em> displayed in the header. Subsequently, click on <em>Create new session</em>, and then on <em>Configure session</em> (next to the cogwheel). This yields a screen which looks as follows:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -256,7 +262,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>survey_link</code></td>
 <td></td>
-<td><code>None</code></td>
+<td><code>https://your-link-here.com</code></td>
 <td>x</td>
 <td>x</td>
 <td>x</td>
@@ -270,6 +276,14 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 </tr>
 <tr class="odd">
+<td><code>briefing</code></td>
+<td></td>
+<td><code>&lt;h5&gt;This could be your briefing&lt;/h5&gt;&lt;p&gt;Use HTML syntax to...&lt;/p&gt;</code></td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr class="even">
 <td><code>data_path</code></td>
 <td></td>
 <td></td>
@@ -277,7 +291,7 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 <td>x</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>sort_by</code></td>
 <td></td>
 <td><code>'time_stamp'</code></td>
@@ -285,7 +299,7 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 <td>x</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>shop_name</code></td>
 <td></td>
 <td><code>'oCom'</code></td>
@@ -293,7 +307,7 @@ ul.task-list li input[type="checkbox"] {
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>newspaper_name</code></td>
 <td></td>
 <td><code>'The Daily News'</code></td>
@@ -301,7 +315,7 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>search_term</code></td>
 <td></td>
 <td><code>'#estrava'</code></td>
@@ -309,7 +323,7 @@ ul.task-list li input[type="checkbox"] {
 <td></td>
 <td>x</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>show_banners</code></td>
 <td></td>
 <td><code>True</code></td>
@@ -317,7 +331,7 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>topics</code></td>
 <td></td>
 <td><code>False</code></td>
@@ -325,7 +339,7 @@ ul.task-list li input[type="checkbox"] {
 <td></td>
 <td>x</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>creative_left</code></td>
 <td></td>
 <td></td>
@@ -333,7 +347,7 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>copy_left</code></td>
 <td></td>
 <td></td>
@@ -341,7 +355,7 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>creative_right</code></td>
 <td></td>
 <td></td>
@@ -349,7 +363,7 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>copy_right</code></td>
 <td></td>
 <td></td>
@@ -357,7 +371,7 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>copy_text</code></td>
 <td></td>
 <td><code>'50M Jobseekers. &lt;br&gt;&lt;br&gt; 150+ Job Boards. &lt;br&gt;&lt;br&gt; One Click.'</code></td>
@@ -365,7 +379,7 @@ ul.task-list li input[type="checkbox"] {
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>show_cta</code></td>
 <td></td>
 <td><code>True</code></td>
@@ -373,7 +387,7 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 <td>x</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>cta_text</code></td>
 <td></td>
 <td><code>'Post Jobs Free'</code></td>
@@ -381,7 +395,7 @@ ul.task-list li input[type="checkbox"] {
 <td>x</td>
 <td>x</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>landing_page</code></td>
 <td></td>
 <td><code>'https://your-link-here.com'</code></td>
@@ -397,7 +411,8 @@ ul.task-list li input[type="checkbox"] {
 <li><code>real_world_currency_per_point</code></li>
 <li><code>participation_fee</code></li>
 <li><code>survey_link</code> is used to direct participants to the survey of your choice.</li>
-<li><code>url_param</code> can be used to pass a participant’s ID to that survey tool. This is essential to merge the data you collect in oTree with the data you collect in your survey tool.</li>
+<li><code>url_param</code> can be used to pass a participant’s ID to that survey tool. This is essential to merge the data you collect in oTree with the data you collect in your survey tool. If you are using qualtrics, check their documentation on <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/passing-information-through-query-strings/">query strings and embedded data</a> to learn more.</li>
+<li><code>briefing</code> lets you define information you want to expose your participants to just before they visit the feed. Make sure to format it as HTML.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
 <li><code>data_path</code> accepts URLs to your Google drive or a raw github link as well as a directory within the project folder. Importantly, all these paths must refer to a <code>;</code>-separated <code>*.csv</code> file that contains the content you want to display in your feed. You’ll learn more about the specific requirements in the following chapters.</li>
 <li>I strongly recommend you to make use of the <code>sort_by</code> argument. You can pass any column in your data to sort the items of your feed. You can, for instance, create a time stamp or create a random integer (without replacement). This allows you not only to control but also to record the order in which you display. If no value (i.e., column) is provided, the software will shuffle the the feed without recording the order.</li>
 </ul>
@@ -412,6 +427,12 @@ ul.task-list li input[type="checkbox"] {
 <p>If you prefer to edit these settings in your IDE (such as PyCharm), I recommend you to navigate to the <code>settings.py</code> file and edit the <code>SESSION_CONFIG_DEFAULTS</code>. These provide default values, which you can easily overwrite.</p>
 
 
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>If the briefing shall differ between conditions, you can use if-statements using <a href="https://otree.readthedocs.io/en/latest/templates.html?highlight=if#conditions-if">the <code>{{if player.[your condition]}}...{{else}}...{{endif}}</code>-syntax</a>. In <code>oNovitas</code> your condition could be something like <code>{{if player.ad_condition == 'A'}}Hi{{else}}Hello{{endif}}</code>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->

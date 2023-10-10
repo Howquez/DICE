@@ -31,7 +31,7 @@ Open your command line interface tool^[You can learn some basics [here](https://
 ```
 
 
-```{python filename="Command Line Interface"}
+```{r filename="Command Line Interface"}
 #| eval: false
 pip3 install -U otree
 ```
@@ -46,9 +46,14 @@ Download the `.otreezip` file of the application you are interested in (that is,
 [oNovitas](https://github.com/Howquez/oFeeds/blob/main/oNovitas/oNovitas.otreezip),
 [oTweet](https://github.com/Howquez/oFeeds/blob/main/oTweet/oTweet.otreezip)) from [GitHub](https://github.com/Howquez/oFeeds)
 or [OSF](https://osf.io/jcxvk/).
+
+To download the file GitHub, navigate to the respective `.otreezip` file, first click on `...` to trigger a menu where you click on `Download` as illustrated in the screenshot below.
+
+![Github User Interface](img/screenshot-github.png)
+
 Open your command line tool and navigate (`cd`) to your desired directory. Within that directory, unpack the otreezip file you just downloaded (e.g., _oTweet.otreezip_) using the following command:
 
-```{python filename="Command Line Interface"}
+```{r filename="Command Line Interface"}
 #| eval: false
 otree unzip oTweet.otreezip
 ```
@@ -57,7 +62,7 @@ This upacks the python project which contains predominantly Python code but also
 
 After editing your code, use your command line tool, navigate to the project directory (where a `settings.py` file is located) and run the following command to re-pack the project into the `*.otreezip` file again:
 
-```{python filename="Command Line Interface"}
+```{r filename="Command Line Interface"}
 #| eval: false
 otree zip
 ```
@@ -68,7 +73,7 @@ You will need this otreezip file to deploy the project on a server.
 
 Use your command line tool, navigate to your project folder (where a `settings.py` file is located) and run:
 
-```{python filename="Command Line Interface"}
+```{r filename="Command Line Interface"}
 #| eval: false
 otree devserver
 ```

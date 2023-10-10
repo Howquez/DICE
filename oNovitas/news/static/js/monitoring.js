@@ -24,7 +24,7 @@ function monitorRowVisibility() {
             // Row is not visible and was previously in the visibleRows object, so it just became invisible
             if (visibleRows[index]) {
                 var duration = Date.now() - visibleRows[index]; // Calculate the duration
-                rowVisibilityData.push({ doc_id: row.id, duration: duration/1000 });
+                rowVisibilityData.push({ doc_id: parseInt(row.id), duration: duration/1000 });
                 delete visibleRows[index]; // Remove from visibleRows
             }
         }

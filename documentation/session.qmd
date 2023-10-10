@@ -17,8 +17,9 @@ Apart from the number of rows in your data base, the interface provides some cus
 |---------------------------------|-------------|-------------------------------------------------------------------|------|----------|--------|
 | `real_world_currency_per_point` |             | `1`                                                               |   x  |     x    |    x   |
 | `participation_fee`             |             | `2.10`                                                            |   x  |     x    |    x   |
-| `survey_link`                   |             | `None`                                                            |   x  |     x    |    x   |
+| `survey_link`                   |             | `https://your-link-here.com`                                      |   x  |     x    |    x   |
 | `url_param`                     |             | `'PROLIFIC_ID'`                                                   |   x  |     x    |    x   |
+| `briefing `                     |             | `<h5>This could be your briefing</h5><p>Use HTML syntax to...</p>`|   x  |     x    |    x   |
 | `data_path`                     |             |                                                                   |   x  |     x    |    x   |
 | `sort_by`                       |             | `'time_stamp'`                                                    |   x  |     x    |    x   |
 | `shop_name`                     |             | `'oCom'`                                                          |   x  |          |        |
@@ -41,7 +42,8 @@ Apart from the number of rows in your data base, the interface provides some cus
 - `real_world_currency_per_point`
 - `participation_fee`
 - `survey_link` is used to direct participants to the survey of your choice.
-- `url_param` can be used to pass a participant's ID to that survey tool. This is essential to merge the data you collect in oTree with the data you collect in your survey tool.
+- `url_param` can be used to pass a participant's ID to that survey tool. This is essential to merge the data you collect in oTree with the data you collect in your survey tool. If you are using qualtrics, check their documentation on [query strings and embedded data](https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/passing-information-through-query-strings/) to learn more.
+- `briefing` lets you define information you want to expose your participants to just before they visit the feed. Make sure to format it as HTML.^[If the briefing shall differ between conditions, you can use if-statements using [the `{{if player.[your condition]}}...{{else}}...{{endif}}`-syntax](https://otree.readthedocs.io/en/latest/templates.html?highlight=if#conditions-if). In `oNovitas` your condition could be something like `{{if player.ad_condition == 'A'}}Hi{{else}}Hello{{endif}}`.]
 - `data_path` accepts URLs to your Google drive or a raw github link as well as a directory within the project folder. Importantly, all these paths must refer to a `;`-separated  `*.csv` file that contains the content you want to display in your feed. You'll learn more about the specific requirements in the following chapters.
 - I strongly recommend you to make use of the `sort_by` argument. You can pass any column in your data to sort the items of your feed. You can, for instance, create a time stamp or create a random integer (without replacement). This allows you not only to control but also to record the order in which you display. If no value (i.e., column) is provided, the software will shuffle the the feed without recording the order.
 

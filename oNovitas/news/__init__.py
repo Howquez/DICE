@@ -3,7 +3,6 @@ import pandas as pd
 import os
 import random
 import re
-import httplib2
 
 
 
@@ -142,7 +141,7 @@ class B_Briefing(Page):
 
     @staticmethod
     def is_displayed(player):
-        len(player.session.config['briefing']) > 0
+        return len(player.session.config['briefing']) > 0
 
 class C_Feed(Page):
     form_model = 'player'

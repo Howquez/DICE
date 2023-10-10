@@ -25,7 +25,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 
 )
 
-PARTICIPANT_FIELDS = ['tweets', 'posts', 'news', 'products', 'finished']
+PARTICIPANT_FIELDS = ['data', 'posts', 'news', 'products', 'finished']
 SESSION_FIELDS = ['prolific_completion_url']
 
 # ISO-639 code
