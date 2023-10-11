@@ -101,16 +101,6 @@ def read_feed(path):
         products = pd.read_csv(path, sep=';')
     return products
 
-
-# function to check whether a URL exists. Not used currently.
-h = httplib2.Http()
-def check_url_exists(url):
-    try:
-        resp = h.request(url, 'HEAD')
-        return int(resp[0]['status']) < 400
-    except Exception:
-        return False
-
 # PAGES
 class A_Intro(Page):
     pass

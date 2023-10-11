@@ -15,6 +15,11 @@
             <p class="card-text text-muted">
                 <small>{{i.specifications}}</small>
             </p>
+            {{ if i.rating > 0}}
+             <small class="card-text text-muted rating" value="{{i.rating}}">
+                 {{i.rating_count}}
+             </small>
+            {{ endif }}
         </div>
         <div class="card-footer bg-white border-0 text-center">
             <button class="btn btn-outline-dark btn-sm add-to-cart mb-5" id="add-to-cart-{{i.doc_id}}" value={{i.doc_id}} type="button">
