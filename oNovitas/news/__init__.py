@@ -23,7 +23,7 @@ class C(BaseConstants):
 
     # Prepare max number of form fileds
     N_ITEMS = 42
-    FEED_LENGTH = list(range(*{'start': 0, 'stop': N_ITEMS + 1, 'step': 1}.values()))
+    FEED_LENGTH = list(range(*{'start': 1, 'stop': N_ITEMS + 1, 'step': 1}.values()))
 
 
 class Subsession(BaseSubsession):
@@ -42,7 +42,7 @@ class Player(BasePlayer):
 
     # create time spent per item fields
     for i in C.FEED_LENGTH:
-        locals()['time_spent_on_' + str(i)] = models.FloatField(initial=False, blank=True)
+        locals()['time_spent_on_' + str(i)] = models.FloatField(initial=0, blank=True)
     del i
 
 

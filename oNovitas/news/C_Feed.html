@@ -54,7 +54,7 @@
                     <h2 class="my-3" style="font-family: 'Chomsky', sans-serif;">{{session.config.newspaper_name}}</h2>
                 </div>
 
-                <table class="table table-hover border-start border-end p-0 m-0">
+                <table class="table table-hover border-start border-end p-0 m-0" id="feed-table">
                     <tbody>
                     {{ for i in items.values() }}
                         {{ include C.NEWS_ITEM }}
