@@ -7,6 +7,7 @@
 <script src="{{ static 'js/hover.js' }}"></script>
 <script src="{{ static 'js/add-to-cart.js' }}"></script>
 <script src="{{ static 'js/rating.js' }}"></script>
+<script src="{{ static 'js/filter_categories.js' }}"></script>
 {{ endblock }}
 
 {{ block styles }}
@@ -24,7 +25,7 @@
     <title>Shop Mockup</title>
 </head>
 <body class="">
-
+<img src="https://github.githubassets.com/images/modules/site/actions/hero-bg.jpg" id="bg" alt="" style="z-index: -1; position: fixed; left: 30; opacity: 0.99;">
     <!-- Hidden Fields -->
     <input type="hidden" name="scroll_sequence" id="scroll_sequence" value="i0">
 
@@ -34,22 +35,33 @@
             <!-- Navbar -->
             <div class="d-flex m-0 p-0 sticky-top justify-content-center shadow-sm bg-white"
                  style="opacity:0.75;">
-                <h2 class="my-3">{{session.config.shop_name}}</h2>
+                <h2 class="my-3 text-primary">{{session.config.shop_name}}</h2>
+                <br><br>
             </div>
 
             <!-- Feed -->
             <div class="col overflow-auto col-sm-12 col-md-8 col-lg-9 p-0" style="height: 100vh;">
+
+                <!-- Filter -->
+                <div class="filter-section text-center my-3">
+                    <p class="choose">Select a product category:</p>
+                {{ for c in categories.values() }}
+                    <p class="tag" data-category="{{c.category}}" id="{{c.category}}">{{c.category}}</p>
+                {{ endfor }}
+                </div>
+
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 pt-3" id="feed">
                     {{ for i in items.values() }}
                         {{ include C.PRODUCT_ITEM }}
                     {{ endfor }}
                 </div>
+
                 <div class="container">
                     <hr>
-  <footer class="py-3 my-4">
-    <p class="text-center text-muted">© 2023 HCR, Inc</p>
-  </footer>
-</div>
+                    <footer class="py-3 my-4">
+                        <p class="text-center text-muted">© 2023 HCR, Inc</p>
+                    </footer>
+                </div>
             </div>
 
             <!-- RHS -->
@@ -73,7 +85,7 @@
                         </tr>
                         <tr>
                             <td colspan="4" class="text-center border-bottom-0">
-                                <button class="btn btn-dark" id="submitButton" role="submit">
+                                <button class="btn btn-dark" id="submitButton" type="button">
                                     Check out
                                 </button>
                             </td>

@@ -82,6 +82,7 @@ def creating_session(subsession):
 
             # participant vars
             player.participant.products = products
+            player.participant.unique_categories = pd.DataFrame({'category': products['category'].unique()})
 
 
 # function that reads data
@@ -133,6 +134,7 @@ class C_Feed(Page):
         ad = player.ad_condition
         return dict(
             items=player.participant.products.to_dict('index'),
+            categories=player.participant.unique_categories.to_dict('index'),
             img_left  = 'img/{}_left.png'.format(ad),
             img_right = 'img/{}_right.png'.format(ad),
         )
@@ -147,7 +149,7 @@ class D_Redirect(Page):
     def js_vars(player):
         return dict(link=create_redirect(player))
 
-page_sequence = [A_Intro,
-                 B_Briefing,
-                 C_Feed,
-                 D_Redirect]
+page_sequence = [# A_Intro,
+                 # B_Briefing,
+                 C_Feed]
+                 # D_Redirect]
