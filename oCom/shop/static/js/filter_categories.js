@@ -7,6 +7,12 @@
             if (tag.classList.contains('active')) {
                 tag.classList.remove('active');
             } else {
+                // Deselect all other tags
+                tags.forEach(function(otherTag) {
+                    if (otherTag !== tag) {
+                        otherTag.classList.remove('active');
+                    }
+                });
                 tag.classList.add('active');
             }
 
@@ -15,7 +21,7 @@
 
             cardItems.forEach(function(card) {
                 const cardCategory = card.getAttribute('data-category');
-                if (selectedCategories.includes(cardCategory) || selectedCategories.length === 0) {
+                if (selectedCategories.length === 0 || selectedCategories.includes(cardCategory)) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';

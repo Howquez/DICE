@@ -48,6 +48,9 @@
                 {{ for c in categories.values() }}
                     <p class="tag" data-category="{{c.category}}" id="{{c.category}}">{{c.category}}</p>
                 {{ endfor }}
+                    <!--
+                    <p class="tag active" data-category="Both" id="Both">Both</p>
+                    -->
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 pt-3" id="feed">

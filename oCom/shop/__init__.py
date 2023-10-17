@@ -47,19 +47,6 @@ def creating_session(subsession):
         for player in subsession.get_players():
             player.feed_condition = random.choice(feed_conditions)
 
-    # set banner ad conditions based on images in directory
-    all_files = os.listdir('shop/static/img')
-    ad_conditions = []
-    for file_name in all_files:
-        if file_name[0].isalpha() and file_name[1:].lower().endswith('.png'):
-            letter = file_name[0].upper()
-            if letter not in ad_conditions:
-                ad_conditions.append(letter)
-
-    ad_conditions = list(set(ad_conditions))
-    for player in subsession.get_players():
-        player.ad_condition = random.choice(ad_conditions)
-
         # PREPARE DATA:
         # subset data based on condition (if any)
         # I need to find a way to deal with '' or "", that is, escape them.
@@ -68,21 +55,22 @@ def creating_session(subsession):
             if 'condition' in products.columns:
                 products = products[products["condition"] == str(player.feed_condition)]
 
-            # sort data
-            sort_by = player.session.config['sort_by']
-            if sort_by in products.columns:
-                products = products.sort_values(by=sort_by, ascending=False)
-            else:
-                products = products.sample(frac=1, random_state=42)  # Set a random_state for reproducibility
-                # Reset the index after shuffling
-                products.reset_index(drop=True, inplace=True)
+    # sort data
+    for player in subsession.get_players():
+        sort_by = player.session.config['sort_by']
+        if sort_by in products.columns:
+            products = products.sort_values(by=sort_by, ascending=False)
+        else:
+            products = products.sample(frac=1, random_state=42)  # Set a random_state for reproducibility
+            # Reset the index after shuffling
+            products.reset_index(drop=True, inplace=True)
 
-            # index
-            products['index'] = range(1, len(products) + 1)
+        # index
+        products['index'] = range(1, len(products) + 1)
 
-            # participant vars
-            player.participant.products = products
-            player.participant.unique_categories = pd.DataFrame({'category': products['category'].unique()})
+        # participant vars
+        player.participant.products = products
+        player.participant.unique_categories = pd.DataFrame({'category': products['category'].unique()})
 
 
 # function that reads data
@@ -131,12 +119,9 @@ class C_Feed(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        ad = player.ad_condition
         return dict(
             items=player.participant.products.to_dict('index'),
-            categories=player.participant.unique_categories.to_dict('index'),
-            img_left  = 'img/{}_left.png'.format(ad),
-            img_right = 'img/{}_right.png'.format(ad),
+            categories=player.participant.unique_categories.to_dict('index')
         )
 
 class D_Redirect(Page):
