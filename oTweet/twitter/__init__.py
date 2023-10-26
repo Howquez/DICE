@@ -20,12 +20,12 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
-    RULES_TEMPLATE = "Twitter/T_Rules.html"
-    PRIVACY_TEMPLATE = "Twitter/T_Privacy.html"
-    TWEET_TEMPLATE = "Twitter/T_Tweet.html"
-    ATTENTION_TEMPLATE = "Twitter/T_Attention_Check.html"
-    TOPICS_TEMPLATE = "Twitter/T_Trending_Topics.html"
-    BANNER_TEMPLATE = "Twitter/T_Banner_Ads.html"
+    RULES_TEMPLATE = "twitter/T_Rules.html"
+    PRIVACY_TEMPLATE = "twitter/T_Privacy.html"
+    TWEET_TEMPLATE = "twitter/T_Tweet.html"
+    ATTENTION_TEMPLATE = "twitter/T_Attention_Check.html"
+    TOPICS_TEMPLATE = "twitter/T_Trending_Topics.html"
+    BANNER_TEMPLATE = "twitter/T_Banner_Ads.html"
 
     N_TWEETS = 40
     FEED_LENGTH = list(range(*{'start':0,'stop':N_TWEETS+1,'step':1}.values()))
@@ -107,15 +107,6 @@ def creating_session(subsession):
         player.participant.tweets = tweets
 
 
-# function that checks whether a URL actually exists
-h = httplib2.Http()
-def check_url_exists(url):
-    try:
-        resp = h.request(url, 'HEAD')
-        return int(resp[0]['status']) < 400
-    except Exception:
-        return False
-
 # make pictures (if any) visible
 def extract_first_url(text):
     urls = re.findall("(?P<url>https?://[\S]+)", str(text))
@@ -183,6 +174,23 @@ def preprocessing(df):
     df['user_followers'] = df['user_followers'].map('{:,.0f}'.format).str.replace(',', '.')
 
     return df
+
+
+def create_redirect(player):
+    if player.participant.label:
+        link = player.session.config['survey_link'] + '?' + player.session.config['url_param'] + '=' + player.participant.label
+    else:
+        link = player.session.config['survey_link'] + '?' + player.session.config['url_param'] + '=' + player.participant.code
+
+    completion_code = None
+
+    if 'prolific_completion_url' in player.session.config and player.session.config['prolific_completion_url'] is not None:
+        completion_code = player.session.config['prolific_completion_url'][-8:]
+
+    if completion_code is not None:
+        link = link + '&' + 'cc=' + completion_code
+
+    return link
 
 
 # PAGES

@@ -45,12 +45,13 @@ full-height {
 
 /* icons */
 
-.poster {
-        width: 40px;
-        height:40px;
-        margin: 25px auto;
+    .poster {
+        width: 70%;
+        max-width: 100px; /* Adjust the max-width according to your needs */
+        height: auto;
+        margin: 5% auto; /* Adjust the percentage according to your needs */
         position: relative;
-        border-radius: 40px;
+        border-radius: 50%; /* Use 50% to ensure it remains a circle */
     }
     .p1 {
         background: #2b5876;  /* fallback for old browsers */

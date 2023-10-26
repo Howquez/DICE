@@ -16,17 +16,17 @@ SESSION_CONFIGS = [
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00,
     participation_fee=2.10,
-    survey_link = '',
+    survey_link = 'https://your-link-here.com',
     url_param = 'PROLIFIC_PID',
     briefing = '<h5>This could be your briefing</h5><p>Use HTML syntax to format your content to your liking.</p>',
-    data_path= 'twitter/static/data/zegna_tweets.csv', #'https://raw.githubusercontent.com/Howquez/mvfw/main/otree/feed/static/data/zegna_tweets.csv',
+    data_path= 'twitter/static/data/KFC.csv', #'https://raw.githubusercontent.com/Howquez/mvfw/main/otree/feed/static/data/zegna_tweets.csv',
     sort_by='time_stamp',
     topics = False,
     copy_text = '50M Jobseekers. <br><br> 150+ Job Boards. <br><br> One Click.',
     show_cta = True,
     cta_text = 'Post Jobs Free',
     landing_page = 'https://your-link-here.com',
-    search_term = '#estrava',
+    search_term = '#NationalFriedChickenDay',
 )
 
 PARTICIPANT_FIELDS = ['tweets', 'finished']
