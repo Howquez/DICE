@@ -134,7 +134,7 @@ class D_Redirect(Page):
     def js_vars(player):
         return dict(link=create_redirect(player))
 
-page_sequence = [# A_Intro,
-                 # B_Briefing,
+page_sequence = [A_Intro,
+                 B_Briefing,
                  C_Feed]
                  # D_Redirect]
