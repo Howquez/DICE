@@ -1,0 +1,83 @@
+{{ block scripts }}
+{{ endblock }}
+
+{{ block global_styles  }}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{{ endblock }}
+
+
+{{ block content }}
+<body class="bg-light.bg-gradient">
+
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-sm-10 col-md-10 col-lg-8">
+                <!-- Decision Card -->
+                <div class="card rounded mt-3 shadow-lg">
+                    <div class="card-body">
+                        <h1 class="display-4">Thank you!</h1>
+                        <p class="lead">Your participation is greatly appreciated.</p>
+
+                        <table class="table mt-5 mb-5 table-responsive">
+                            <tbody>
+                                <tr>
+                                    <td class="" colspan="2">
+                                        <small>
+
+                                        </small>
+                                        <br><br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Confidentiality</th>
+                                    <td class="text-secondary">
+                                        <small>
+                                            Please do not disclose research procedures to anyone who might participate in this study in
+                                            the future as this could affect the results of the study.
+                                        </small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Final Report</th>
+                                    <td class="text-secondary">
+                                        <small>
+                                            If you would like to receive a copy of the final report of this study
+                                            (or a summary of the findings) when it is completed, please feel free to contact us.
+                                        </small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Contact Information</th>
+                                    <td class="text-secondary">
+                                        <small>
+                                            If you have any questions or concerns regarding this study, its purpose or procedures, or if
+                                            you have a research-related problem, contact the researcher,
+                                            {{ session.config.title }} {{ session.config.full_name }},
+                                            via eMail:
+                                            <a href="mailto:{{ session.config.eMail }}?subject=Social Media Study: {{ participant.code }}">
+                                                {{ session.config.eMail }}
+                                            </a>.
+                                            If you have questions or concerns regarding your data, please identify yourself with your
+                                            unique ID: <code>{{ participant.code }}</code>
+                                        </small>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-center text-secondary mb-4">
+                            {{ if session.prolific_completion_url == 'NA'}}
+                            <button class="btn btn-success shadow">
+                                Click here to complete the survey
+                            </button>
+                            {{ else }}
+                            <a class="btn btn-success shadow" href="{{ session.prolific_completion_url }}" role="button">
+                                Click here to complete the survey
+                            </a>
+                            {{ endif }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{ endblock }}

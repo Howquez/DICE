@@ -1,0 +1,118 @@
+
+/* hide title */
+.otree-title {
+        display: none;
+        }
+
+.otree-body {
+    max-width: 100vw;
+    max-height: 100vh;
+    padding: 0px;
+    margin: 0px;
+}
+
+full-height {
+    max-height: 100vh;
+}
+
+.tweet-text {
+    font-size: clamp(16px, 1vw, 24px);
+}
+.banner-img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+/* Typography styles for the banner ad */
+.banner-text {
+    font-family: Arial, sans-serif;
+    font-size: 3vw;
+    font-weight: bold;
+    line-height: 100%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25); /* Add a subtle text shadow */
+    opacity: 0; /* Initially set opacity to 0 */
+    animation: fadeIn 1.5s ease-in-out forwards; /* Add an animation for opacity with forwards fill mode */
+    animation-delay: 1.5s
+}
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* icons */
+
+    .p1 {
+        background: #FF0099; /* Fallback for old browsers */
+        height: 100%;
+        transition: background 0.5s ease;
+    }
+
+    .poster {
+        display: flex; /* Enables flexbox */
+        flex-direction: column; /* Stack children vertically */
+        justify-content: center; /* Centers children vertically */
+        align-items: center; /* Centers children horizontally */
+        height: 100%; /* Adjust as needed */
+        border-radius: 50%; /* Creates a circular shape */
+        width: 5vw; /* Adjust width as needed */
+        height: 5vw; /* Adjust height to match width for a perfect circle */
+        min-width: 40px;
+        min-height: 40px;
+        background-color: #FFF; /* Optional: Background color for the circle */
+        margin: auto; /* Centers the circle in its container */
+    }
+
+    .poster h4 {
+        color: #fff;
+        font-size: 1.5em;
+        text-align: center;
+        font-weight: 100;
+        margin: 0; /* Removes default margin */
+    }
+
+    /* Media Query for smaller screens */
+    @media (max-width: 600px) {
+        .poster h4 {
+            font-size: 1.2em; /* smaller font size for smaller screens */
+            text-align: left; /* align text to the left */
+        }
+    }
+
+    /* Media Query for dark mode preference */
+    @media (prefers-color-scheme: dark) {
+        .poster h4 {
+            color: #ddd; /* Lighter color for better contrast in dark mode */
+        }
+    }
+
+    /* Media Query for reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+        .poster h4 {
+            font-weight: normal; /* adjust font weight for reduced motion */
+        }
+    }
+
+    /* Responsive font size based on viewport width */
+    .poster h4 {
+        font-size: 2vw; /* adjust font size based on viewport width */
+    }
+
+
+/*tooltips*/
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bs-white);
+  --bs-tooltip-opacity: 100
+}
+
+.img-tweet {
+  max-height: 75vh;
+  width: 100%;
+  object-fit: cover;
+}
