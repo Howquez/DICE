@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Feed Configurator</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<nav class="navbar fixed-top border-bottom bg-white bg-opacity-75 border-opacity-50">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="{{ url_for('static', filename='favicon.ico') }}" alt="Logo" width="30" height="30">
+        &nbsp; &nbsp;Feed Configurator
+    </a>
+  </div>
+</nav>
+
+<div class="container-md my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+
+            <div class="card my-4 border-0 shadow">
+                <div class="card-body">
+                    <h5 class="card-title h2 mb-0">
+                        1. Contact Information
+                    </h5>
+                    <p class="card-text text-muted">
+                        <small>
+                            Please provide some contact information. We'll display it in the privacy policy and
+                            on the final debriefing page if you do not direct the participants to a post-stimulus survey.
+                        </small>
+                    </p>
+                    <form>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <select class="form-select" id="title" aria-describedby="title_help">
+                                <option value="Dr.">Dr.</option>
+                                <option value="Prof.">Prof.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Mr.">Mr.</option>
+                            </select>
+                            <div id="title_help" class="form-text">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" aria-describedby="name_help" value="" placeholder="Jane Doe" required>
+                            <div id="name_help" class="form-text">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eMail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="eMail" placeholder="name@example.com" required>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card my-4 border-0 shadow">
+                <div class="card-body">
+                    <h5 class="card-title h2 mb-0">
+                        2. Recruitment
+                    </h5>
+                    <p class="card-text text-muted">
+                        <small>
+                        </small>
+                    </p>
+                    <form>
+                        <div class="mb-3">
+                            <label for="recruitment_platform" class="form-label">Choose Your Recruitment Platform</label>
+                            <select class="form-select" id="recruitment_platform" aria-describedby="recruitment_help">
+                                <option value="None">None</option>
+                                <option value="Prolific" selected>Prolific</option>
+                            </select>
+                            <div id="recruitment_help" class="form-text">
+                                As of today, you can only select 'Prolific' or 'None'.
+                                You'll soon be able to also select other platforms to recruit from.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="participant_number" class="form-label">Specify the Number of Rows in Database</label>
+                            <input type="number" class="form-control w-100" id="participant_number" aria-describedby="participant_help" value="1" min="0">
+                            <div id="participant_help" class="form-text">
+                                Please specify the desired number of participants and keep in mind that every started
+                                participation burns one slot -- independent of whether the participant completes the survey.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card my-4 border-0 shadow">
+                <div class="card-body">
+                    <h5 class="card-title h2 mb-0">
+                        3. Stimulus Design
+                    </h5>
+                    <p class="card-text text-muted">
+                        <small>
+                            Please use the following forms to specify the content you want to display in the social media feed and
+                            the way it is displayed.
+                        </small>
+                    </p>
+                    <form>
+                        <div class="mb-3">
+                            <label for="channel_type" class="form-label">Choose Social Media Platform</label>
+                            <input type="text" class="form-control" id="channel_type" aria-describedby="channel_help" value="Twitter" readonly>
+                            <div id="channel_help" class="form-text">
+                                As of today, you can only select 'Twitter'.
+                                You'll soon be able to also select other platforms to mimic.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="content_url" class="form-label">Provide URL Directing to Your Content</label>
+                            <input type="text" class="form-control" id="content_url" aria-describedby="url_help" value="https://raw.githubusercontent.com/Howquez/oFeeds/main/software/oTweet/twitter/static/data/sample_tweets.csv">
+                            <div id="url_help" class="form-text">
+                                Please provide a url directing to your raw, ;-separated, UTF-8 formatted csv file (preferably GitHub or gDrive).
+                                <a href="{{ url_for('static', filename='sample_feed.csv') }}" download="sample_feed.csv">Click here</a>
+                                to download a sample *.csv file that you can use as a template.
+
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="search_term" class="form-label">Provide a Term Displayed in Search Bar</label>
+                            <input type="text" class="form-control" id="search_term" aria-describedby="search_help" value="#myHashtag">
+                            <div id="search_help" class="form-text">
+                                Consider using a hashtag as a prefix.
+                            </div>
+                        </div>
+
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="display_skyscraper">
+                            <label class="form-check-label" for="display_skyscraper">Display  Skyskraper Banner Ad?</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card my-4 border-0 shadow">
+                <div class="card-body">
+                    <h5 class="card-title h2 mb-0">
+                        4. Experimental Conditions
+                    </h5>
+                    <p class="card-text text-muted">
+                        <small>
+                            Please use the following forms to define potential conditions participants will be randomly assigned to.
+                        </small>
+                    </p>
+                    <form>
+                        <div class="mb-3">
+                            <label for="condition_col" class="form-label">Define Condition Variable (within csv file)</label>
+                            <input type="text" class="form-control" id="condition_col" aria-describedby="col_help" value="condition">
+                            <div id="col_help" class="form-text">
+                                If you intend to manipulate some element of the feed between-subjects, you can do so by creating
+                                a column in the csv file you provide. This column can take as many values as you need.
+                                Participants will be randomly assigned to one of the values in that column.
+                                If you don't provide a column name, there won't be any conditions that differ with respect to
+                                the feed's content.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sort_by" class="form-label">Define Sorting Variable (within csv file)</label>
+                            <input type="text" class="form-control" id="sort_by" aria-describedby="sort_help" value="sequence">
+                            <div id="sort_help" class="form-text">
+                                You can also provide a variable that specifies the order in which the posts are displayed.
+                                Please provide one unique numeric value per row. The post associated to the lowest number will
+                                be displayed on top of the feed, the post associated to the highest number will be displayed
+                                at the bottom.
+                                You can provide both a condition and a sorting variable to mock different recommender- and
+                                sorting algorithms. If you don't provide a column name, the posts will be displayed in a fully
+                                randomized order (between subjects).
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card my-4 border-0 shadow">
+                <div class="card-body">
+                    <h5 class="card-title h2 mb-0">
+                        5. Pre-Stimulus Configurations
+                    </h5>
+                    <p class="card-text text-muted">
+                        <small>
+                            Please use HTML to specify the briefing participants read prior to the feed exposure.
+                            The whole page is skipped if you leave this field empty.
+                        </small>
+                    </p>
+                    <form>
+                        <div class="mb-3">
+                            <label for="html_briefing" class="form-label">Provide Briefing (in HTML)</label>
+                            <textarea class="form-control border-light border-3" id="html_briefing" name="html_briefing" rows="6" aria-describedby="briefing_help"><h5>This could be your briefing</h5><p>Use HTML syntax to format your content to your liking.</p></textarea>
+                            <div id="briefing_help" class="form-text">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card my-4 border-0 shadow">
+                <div class="card-body">
+                    <h5 class="card-title h2 mb-0">
+                        6. Post-Stimulus Configurations
+                    </h5>
+                    <p class="card-text text-muted">
+                        <small>
+                            Configure the following fields, if you want to append a survey to the stimulus.
+                            We'll create a redirect with url parameters to pass both the participant ID as well as
+                            the completion code (for Prolific). Make sure that your survey tool accepts them
+                            (see <a href="https://researcher-help.prolific.com/hc/en-gb/articles/360009224113-Qualtrics-integration-guide" target="_blank">embedded data documentation</a>
+                            if you are using Qualtrics).
+                        </small>
+                    </p>
+                    <form>
+                        <div class="mb-3">
+                            <label for="survey_url" class="form-label">Insert Your Survey's URL</label>
+                            <input type="text" class="form-control" id="survey_url" aria-describedby="survey_url_help" value="https://unisg.qualtrics.com/jfe/form/SV_0DnMoLpM0VxjhrM">
+                            <div id="survey_url_help" class="form-text">
+                                Please provide a url directing to your survey. Please don't add any manual url parameters.
+                                If you leave this field empty, the study will close with an end of survey screen that provides
+                                your contact information provided above.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card my-4 border-0 shadow" id="adCard" style="display: none;">
+                <div class="card-body">
+                    <h5 class="card-title h2 mb-0">
+                        Skyscraper Banner Ad
+                    </h5>
+                    <p class="card-text text-muted">
+                        <small>
+                        </small>
+                    </p>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="sendValue();">Create Session</button>
+
+            <div id="alertPlaceholder"></div>
+
+            <!-- Completion Code Section -->
+            <div id="completionCodeSection" class="card my-4 border-0 shadow" style="display: none;">
+                <div class="card-body">
+                    <h5 class="card-title h2 mb-0">
+                        7. Completion Code
+                    </h5>
+                    <p class="card-text text-muted">
+                        <small>
+                            Please enter the completion code if you have selected Prolific as your recruitment platform.
+                        </small>
+                    </p>
+                    <form id="completionCodeForm">
+                        <div class="mb-3">
+                            <label for="completionCode" class="form-label">Completion Code</label>
+                            <input type="text" class="form-control" id="completionCode" placeholder="Enter Completion Code">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="submitCompletionCode();">Submit Code</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="completionAlertPlaceholder"></div>
+
+        </div>
+    </div>
+</div>
+
+
+    <footer class="bg-light text-lg-start mt-4">
+        <div class="row justify-content-end p-3 text-secondary bg-light border-top border-opacity-50 bg-opacity-25">
+            <div class="col-lg-4 col-md-5 col-sm-6 mb-3 pe-5 pt-3">
+                <a class="navbar-brand" href="#">
+                  <img src="{{ url_for('static', filename='favicon.ico') }}" alt="Logo" width="30" height="30">
+                    &nbsp; &nbsp;Feed Configurator
+                </a>
+                <ul class="list-unstyled small text-muted mt-3">
+                    <li class="mb-2">Designed and built with Bootstrap and for oTree.</li>
+                    <li class="mb-2">Code licensed <a class="text-secondary" href="https://github.com/Howquez/oFeeds/blob/main/LICENSE" target="_blank" rel="license noopener"> under MIT License with added citation requirement.</a>.</li>
+                    <li class="mb-2">No web analytics implemented.</li>
+                    <li class="mb-2">© 2023 HCR</li>
+                    <li class="mb-2">No <a class="text-secondary" href="IMPRINT_URL" target="_blank">Imprint</a> yet.</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
