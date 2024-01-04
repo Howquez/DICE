@@ -40,7 +40,6 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     ad_condition = models.StringField(doc='indicates the ad condition a player is randomly assigned to')
     feed_condition = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
-    favorable_feed = models.StringField(doc='indicates order of favorbale (1) and unfavorbale (0) tweets')
     sequence = models.StringField(doc='prints the sequence of tweets based on doc_id')
 
     cta = models.BooleanField(doc='indicates whether CTA was clicked or not')
@@ -296,3 +295,14 @@ page_sequence = [A_Intro,
                  C_Feed,
                  D_Redirect,
                  D_Debrief]
+
+
+def custom_export(players):
+    # header row
+    yield ['session', 'participant_code', 'participant_label', 'participant_in_session', 'condition', 'item_sequence',
+           'scroll_sequence', 'item_dwell_time', 'likes', 'replies']
+    for p in players:
+        participant = p.participant
+        session = p.session
+        yield [session.code, participant.code, participant.label, p.id_in_group, p.feed_condition, p.sequence,
+               p.scroll_sequence, p.viewport_data, p.likes_data, p.replies_data]
