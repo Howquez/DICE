@@ -16,16 +16,16 @@ Mimic social media feeds with DICE.
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Twitter'
+    NAME_IN_URL = 'DICE'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
-    RULES_TEMPLATE = "twitter/T_Rules.html"
-    PRIVACY_TEMPLATE = "twitter/T_Privacy.html"
-    TWEET_TEMPLATE = "twitter/T_Tweet.html"
-    ATTENTION_TEMPLATE = "twitter/T_Attention_Check.html"
-    TOPICS_TEMPLATE = "twitter/T_Trending_Topics.html"
-    BANNER_TEMPLATE = "twitter/T_Banner_Ads.html"
+    RULES_TEMPLATE = "DICE/T_Rules.html"
+    PRIVACY_TEMPLATE = "DICE/T_Privacy.html"
+    TWEET_TEMPLATE = "DICE/T_Tweet.html"
+    ATTENTION_TEMPLATE = "DICE/T_Attention_Check.html"
+    TOPICS_TEMPLATE = "DICE/T_Trending_Topics.html"
+    BANNER_TEMPLATE = "DICE/T_Banner_Ads.html"
 
 class Subsession(BaseSubsession):
     feed_conditions = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
