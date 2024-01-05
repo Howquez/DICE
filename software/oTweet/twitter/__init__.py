@@ -28,7 +28,7 @@ class C(BaseConstants):
     BANNER_TEMPLATE = "twitter/T_Banner_Ads.html"
 
 class Subsession(BaseSubsession):
-    pass
+    feed_conditions = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
 
 
 class Group(BaseGroup):
@@ -66,6 +66,7 @@ def creating_session(subsession):
     condition = player.session.config['condition_col']
     if condition in tweets.columns:
         feed_conditions = tweets[condition].unique()
+        subsession.feed_conditions = str(feed_conditions)
         for player in subsession.get_players():
             player.feed_condition = random.choice(feed_conditions)
 
@@ -213,7 +214,10 @@ def create_redirect(player):
 
 # PAGES
 class A_Intro(Page):
-    pass
+    form_model = 'player'
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        pass
 
 class B_Briefing(Page):
     form_model = 'player'
