@@ -1,6 +1,7 @@
 {{ block scripts }}
 <script src="{{ static 'js/bootstrap_components.js' }}"></script>
 <script src="{{ static 'js/gradients.js' }}"></script>
+<script src="{{ static 'js/mobile.js' }}"></script>
 <script src="{{ static 'js/like_button.js' }}"></script>
 <script src="{{ static 'js/interactions.js' }}"></script>
 <script src="{{ static 'js/scrolling.js' }}"></script>
@@ -27,11 +28,15 @@
 <body class="bg-light">
 
     <!-- Hidden Fields -->
-    <input type="hidden" name="scroll_sequence" id="scroll_sequence" value="i0">
+    <input type="hidden" name="scroll_sequence" id="scroll_sequence" value="is">
     <input type="hidden" name="viewport_data" id="viewport_data" value="">
     <input type="hidden" name="cta" id="cta" value="False">
     <input type="hidden" id="likes_data" name="likes_data">
     <input type="hidden" id="replies_data" name="replies_data">
+    <input type="hidden" id="touch_capability" name="touch_capability" value="">
+    <input type="hidden" id="device_type" name="device_type" value="">
+
+
 
 
 
@@ -75,6 +80,7 @@
                         </div>
 
                         <!-- User ID -->
+                        {{ if label_available }}
                         <div class="hstack gap-3 text-secondary">
                             <h1 class="text-end">
                                 <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
@@ -85,6 +91,7 @@
                                     <b class="text-dark">{{ participant.label }}</b>
                                 </small>
                         </div>
+                        {{ endif }}}
 
                     </div>
                 </div>

@@ -11,9 +11,7 @@ from itertools import cycle
 
 
 doc = """
-Mimic social media feeds with oTweet.
-
-Author: Hauke Roggenkamp
+Mimic social media feeds with DICE.
 """
 
 
@@ -38,7 +36,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    ad_condition = models.StringField(doc='indicates the ad condition a player is randomly assigned to')
+    # ad_condition = models.StringField(doc='indicates the ad condition a player is randomly assigned to')
     feed_condition = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
     sequence = models.StringField(doc='prints the sequence of tweets based on doc_id')
 
@@ -48,9 +46,11 @@ class Player(BasePlayer):
     likes_data = models.LongStringField(doc='tracks likes.', blank=True)
     replies_data = models.LongStringField(doc='tracks replies.', blank=True)
 
-    completed_survey = models.BooleanField(doc="indicates whether a participant has completed the survey.",
-                                           initial=False,
+    touch_capability = models.BooleanField(doc="indicates whether a participant uses a touch device to access survey.",
                                            blank=True)
+    device_type = models.StringField(doc="indicates the participant's device type based on screen width.",
+                                           blank=True)
+
 
 
 # FUNCTIONS -----
@@ -70,16 +70,16 @@ def creating_session(subsession):
             player.feed_condition = random.choice(feed_conditions)
 
     # set banner ad conditions based on images in directory
-    all_files = os.listdir('twitter/static/img')
-    ad_conditions = []
-    for file_name in all_files:
-        if file_name[0].isalpha() and file_name[1:].lower().endswith('.png') and file_name[1] == '_':
-            letter = file_name[0].upper()
-            if letter not in ad_conditions:
-                ad_conditions.append(letter)
-    ad_conditions = list(set(ad_conditions))
-    for player in subsession.get_players():
-        player.ad_condition = random.choice(ad_conditions)
+    # all_files = os.listdir('twitter/static/img')
+    # ad_conditions = []
+    # for file_name in all_files:
+    #     if file_name[0].isalpha() and file_name[1:].lower().endswith('.png') and file_name[1] == '_':
+    #         letter = file_name[0].upper()
+    #         if letter not in ad_conditions:
+    #             ad_conditions.append(letter)
+    # ad_conditions = list(set(ad_conditions))
+    # for player in subsession.get_players():
+    #     player.ad_condition = random.choice(ad_conditions)
 
     # PREPARE DATA:
     # subset data based on condition (if any)
@@ -148,6 +148,7 @@ def preprocessing(df):
     # reformat date
     df['datetime'] = pd.to_datetime(df['datetime'], errors='coerce')
     df['date'] = df['datetime'].dt.strftime('%d %b').str.replace(' ', '. ')
+    # df['date'] = df['datetime'].dt.strftime('%b. %d')
     df['date'] = df['date'].str.replace('^0', '', regex=True)
 
     # highlight hashtags, cashtags, mentions, etc.
@@ -227,7 +228,7 @@ class C_Feed(Page):
 
     @staticmethod
     def get_form_fields(player: Player):
-        fields =  ['likes_data', 'replies_data']
+        fields =  ['likes_data', 'replies_data', 'touch_capability', 'device_type']
 
         if not player.session.config['topics'] & player.session.config['show_cta']:
             more_fields =  ['scroll_sequence', 'viewport_data', 'cta']
@@ -238,12 +239,16 @@ class C_Feed(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        ad = player.ad_condition
+        # ad = player.ad_condition
+        label_available = False
+        if player.participant.label is not None:
+            label_available = True
         return dict(
             tweets=player.participant.tweets.to_dict('index'),
             topics=player.session.config['topics'],
             search_term=player.session.config['search_term'],
-            banner_img='img/{}_banner.png'.format(ad),
+            label_available=label_available,
+            # banner_img='img/{}_banner.png'.format(ad),
         )
 
     @staticmethod
@@ -261,10 +266,14 @@ class C_Feed(Page):
     @staticmethod
     def before_next_page(player, timeout_happened):
         player.participant.finished = True
-        player.completed_survey = player.participant.finished
         if 'prolific_completion_url' in player.session.vars:
             if player.session.vars['prolific_completion_url'] is not None:
-                player.session.vars['prolific_completion_url'] = 'https://app.prolific.com/submissions/complete?cc=' + player.session.vars['completion_code']
+                if 'completion_code' in player.session.vars:
+                    if player.session.vars['completion_code'] is not None:
+                        player.session.vars['prolific_completion_url'] = 'https://app.prolific.com/submissions/complete?cc=' + player.session.vars['completion_code']
+                    else:
+                        player.session.vars['prolific_completion_url'] = 'https://app.prolific.com/submissions/complete'
+                else: player.session.vars['prolific_completion_url'] = 'https://app.prolific.com/submissions/complete'
             else:
                 player.session.vars['prolific_completion_url'] = 'NA'
         else:
