@@ -1,0 +1,65 @@
+{{ block scripts }}
+{{ endblock }}
+
+{{ block content }}
+<body class="">
+
+    <!-- Decision Card -->
+    <div class="card mt-5 shadow-lg p-4">
+        <div class="card-body">
+            <h1 class="display-4">Welcome!</h1>
+            <p class="lead">Thank you for your interest in this study.</p>
+
+            <p class="lead">
+                <small>
+                    This survey is anonymous and there are no right or wrong answers.
+                </small>
+            </p>
+
+            <table class="table mt-5 mb-5 table-responsive">
+                <tbody>
+                    <tr>
+                        <th scope="row">Study</th>
+                        <td>Social Media Feed</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            Privacy
+                        </th>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="GDPR" required>
+                                <label class="form-check-label" for="GDPR">
+                                    I agree to the anonymized analysis of my answers for the purpose of scientific
+                                    evaluation according to the
+                                    <a class="text-success" data-bs-toggle="offcanvas" data-bs-target="#offcanvasGDPR" id="gdpr_text" style="cursor: pointer;">
+                                        <u>privacy policy</u>
+                                    </a>.
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center m-5">
+                <button class="btn btn-success shadow" type="submit" id="submitButton">
+                    Start
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- GDPR Offcanvas-->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasGDPR" aria-labelledby="offcanvasGDPRLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasGDPRLabel">Privacy Policy</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            {{ include C.PRIVACY_TEMPLATE }}
+        </div>
+    </div>
+</body>
+{{ endblock }}
+
