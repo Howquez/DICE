@@ -67,6 +67,7 @@ full-height {
         min-height: 40px;
         background-color: #FFF; /* Optional: Background color for the circle */
         margin: auto; /* Centers the circle in its container */
+        object-fit: cover
     }
 
     .poster h4 {
@@ -102,6 +103,10 @@ full-height {
     /* Responsive font size based on viewport width */
     .poster h4 {
         font-size: 2vw; /* adjust font size based on viewport width */
+    }
+
+    .img-fit {
+        object-fit: cover; /* Add this */
     }
 
 

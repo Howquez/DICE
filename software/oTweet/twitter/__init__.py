@@ -188,7 +188,7 @@ def preprocessing(df):
     # check profile image urls
     # df['profile_pic_available'] = df['user_image'].apply(
         # lambda x: check_url_exists(x) if pd.notnull(x) else False)
-    df['profile_pic_available'] = False
+    df['profile_pic_available'] = True
 
     return df
 

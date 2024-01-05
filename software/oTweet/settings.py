@@ -31,7 +31,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     show_cta = False,
     cta_text = 'Post Jobs Free',
     landing_page = 'https://unisg.qualtrics.com/jfe/form/SV_0DnMoLpM0VxjhrM',
-    search_term = '#NationalFriedChickenDay',
+    search_term = '#Yosemite',
 )
 
 PARTICIPANT_FIELDS = ['tweets', 'finished']
