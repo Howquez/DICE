@@ -25,12 +25,17 @@ function handleRowVisibility(entries, observer) {
         }
     });
 
-    // You can perform further analysis or actions with the row visibility duration data here
-    // Log the row visibility duration data to the console (for demonstration purposes)
-    console.log(rowVisibilityData);
-
     // Update the value of 'viewport_data'
     document.getElementById('viewport_data').value = JSON.stringify(rowVisibilityData);
+}
+
+// Function to update the dwell time for visible rows
+function updateVisibleRowsDwellTime() {
+    Object.keys(visibleRows).forEach((index) => {
+        const duration = Date.now() - visibleRows[index];
+        rowVisibilityData.push({ doc_id: parseInt(index), duration: duration / 1000 });
+        delete visibleRows[index];
+    });
 }
 
 // Create an Intersection Observer
@@ -44,4 +49,11 @@ const observer = new IntersectionObserver(handleRowVisibility, {
 const tableRows = document.querySelectorAll('tr');
 tableRows.forEach((row) => {
     observer.observe(row);
+});
+
+// Attach the function to the submit button click event
+document.getElementById('submitButton').addEventListener('click', function() {
+    updateVisibleRowsDwellTime();
+    // Here, you might also want to add any other actions to be performed on submit
+    // For example, you can put the code to handle the form submission here
 });

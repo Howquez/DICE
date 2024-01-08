@@ -28,8 +28,8 @@ class C(BaseConstants):
     BANNER_TEMPLATE = "DICE/T_Banner_Ads.html"
 
 class Subsession(BaseSubsession):
-    feed_conditions = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
-
+    # feed_conditions = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
+    pass
 
 class Group(BaseGroup):
     pass
@@ -66,7 +66,7 @@ def creating_session(subsession):
     condition = player.session.config['condition_col']
     if condition in tweets.columns:
         feed_conditions = tweets[condition].unique()
-        subsession.feed_conditions = str(feed_conditions)
+        # subsession.feed_conditions = str(feed_conditions)
         for player in subsession.get_players():
             player.feed_condition = random.choice(feed_conditions)
 
