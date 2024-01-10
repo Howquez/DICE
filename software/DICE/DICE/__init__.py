@@ -28,8 +28,7 @@ class C(BaseConstants):
     BANNER_TEMPLATE = "DICE/T_Banner_Ads.html"
 
 class Subsession(BaseSubsession):
-    # feed_conditions = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
-    pass
+    feed_conditions = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
 
 class Group(BaseGroup):
     pass
@@ -58,15 +57,15 @@ def creating_session(subsession):
 
     # read data (from seesion config)
     df = read_feed(subsession.session.config['data_path'])
-    tweets = preprocessing(df)
+    tweets = preprocessing(df, subsession.session.config)
     for player in subsession.get_players():
         player.participant.tweets = tweets
 
     # if the file contains any conditions, read them an assign groups to it
-    condition = player.session.config['condition_col']
+    condition = subsession.session.config['condition_col']
     if condition in tweets.columns:
         feed_conditions = tweets[condition].unique()
-        # subsession.feed_conditions = str(feed_conditions)
+        subsession.feed_conditions = str(feed_conditions)
         for player in subsession.get_players():
             player.feed_condition = random.choice(feed_conditions)
 
@@ -84,12 +83,16 @@ def creating_session(subsession):
 
     # PREPARE DATA:
     # subset data based on condition (if any)
-    # I need to find a way to deal with '' or "", that is, escape them.
     for player in subsession.get_players():
-        tweets = player.participant.tweets
-        condition = player.session.config['condition_col']
-        if condition in tweets.columns:
-            tweets = tweets[tweets[condition] == str(player.feed_condition)]
+
+        # I pushed the randomization to the player level using before_next_page on the A_Intro page.
+        # this approach relies on the feed_conditions subsession variable defined above.
+        # the randomization is deployed in the T_Tweet.html template.
+
+        # tweets = player.participant.tweets
+        # condition = player.session.config['condition_col']
+        # if condition in tweets.columns:
+        #     tweets = tweets[tweets[condition] == str(player.feed_condition)]
 
         # sort or shuffle data
         sort_by = player.session.config['sort_by']
@@ -148,7 +151,7 @@ def read_feed(path):
     return tweets
 
 # some pre-processing
-def preprocessing(df):
+def preprocessing(df, config):
     # reformat date
     df['datetime'] = pd.to_datetime(df['datetime'], errors='coerce')
     df['date'] = df['datetime'].dt.strftime('%d %b').str.replace(' ', '. ')
@@ -194,6 +197,13 @@ def preprocessing(df):
         # lambda x: check_url_exists(x) if pd.notnull(x) else False)
     df['profile_pic_available'] = True
 
+    # Check if 'condition_col' is set and not empty, and if it's an existing column in df
+    if ('condition_col' in config and
+            config['condition_col'] and
+            config['condition_col'] in df.columns):
+        # Rename the specified column to 'condition'
+        df.rename(columns={config['condition_col']: 'condition'}, inplace=True)
+
     return df
 
 
@@ -220,7 +230,11 @@ class A_Intro(Page):
     form_model = 'player'
     @staticmethod
     def before_next_page(player, timeout_happened):
-        pass
+        feed_conditions_str = player.subsession.feed_conditions
+        feed_conditions_list = feed_conditions_str.strip("[]").split()
+        random_condition = random.choice(feed_conditions_list)
+        cleaned_condition = random_condition.strip("'")
+        player.feed_condition = cleaned_condition
 
 class B_Briefing(Page):
     form_model = 'player'
