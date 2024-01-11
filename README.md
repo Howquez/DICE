@@ -14,6 +14,12 @@ This streamlined process facilitates quick and efficient changes, enhancing the 
 As of today, this page focuses on DICE's capabilities for mimicking social media feeds. 
 It provides guidance on how to utilize the tool for creating and customizing dynamic, interactive social media environments for research purposes.
 
+## Features
+
+- Stable and Fully Randomized Group Assignment: Each participant in a study is assigned to an experimental condition through a randomization process. This contrasts with the non-randomized approaches often found in observational and platform studies.
+- Exposure to Rich, Interactive Context: Unlike static vignette studies, participants engage with a dynamic and immersive environment. Additionally, unlike observational and platform studies, researchers maintain full control over the context of the study.
+- Advanced Metrics for Researchers: DICE provides novel metrics, including latent measures like per-item dwell time. These metrics can be integrated with direct responses such as likes or comments, and supplemented with post-experiment survey data, offering a more comprehensive analysis than traditional vignette, observational, and platform studies.
+- Facilitation of Replicability: The researcher exercises complete control over the content and its delivery, ensuring thorough documentation. This feature simplifies the process of replicating stimuli presented in the study, a notable advantage over platform studies where such control and documentation may be limited.
 
 ## Usage
 
@@ -28,9 +34,12 @@ It provides guidance on how to utilize the tool for creating and customizing dyn
 ## Resources & Links
 
 - [OSF](https://osf.io/jcxvk/)
-- [License](LICENSE)
+- [DICE Feed Configurator Repository](https://github.com/Howquez/oFeeds-config)
+- Code licensed under [MIT License](LICENSE) with added citation requirement:
 - Please cite as: _Roggenkamp, H. C., Boegershausen, J., & Hildebrand, C. (2024, January 10). Digital In-Context Experiments (DICE). Retrieved from osf.io/jcxvk_
 
+
+<!--
 ## 🧵 Mimic Social Media Feeds with _oTweet_
 ![Screenshot of oCom App](misc/img/screenshot_oTweet.png?raw=true "Shop Interface")
 [otreezip file](oTweet/oTweet.otreezip)
@@ -43,3 +52,4 @@ It provides guidance on how to utilize the tool for creating and customizing dyn
 ## 🛒 Mimic Web Shops with _oCom_
 ![Screenshot of oCom App](misc/img/screenshot_oCom.png?raw=true "Shop Interface")
 [otreezip file](oCom/oCom.otreezip)
+-->
