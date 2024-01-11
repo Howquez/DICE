@@ -2,7 +2,7 @@
 ![DICE vs. Twitter Interface](misc/img/oFeeds-screenshots_2.png?raw=true "DICE compared to Twitter")
 
 
-# 📦 Digital In-Context Experiments
+# 🎲 Digital In-Context Experiments (DICE)
 
 DICE (formerly called _oFeeds_) offers an assortment of oTree applications designed to simulate news, shopping, and social media feeds. 
 This suite of tools is tailored for marketing researchers, enabling them to develop more realistic stimuli for their studies.
