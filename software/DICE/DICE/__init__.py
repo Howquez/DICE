@@ -236,6 +236,11 @@ class A_Intro(Page):
         cleaned_condition = random_condition.strip("'")
         player.feed_condition = cleaned_condition
 
+        # update sequence
+        df = player.participant.tweets
+        tweets = df[df['condition'] == cleaned_condition]
+        player.sequence = ', '.join(map(str, tweets['doc_id'].tolist()))
+
 class B_Briefing(Page):
     form_model = 'player'
 
