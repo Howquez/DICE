@@ -61,8 +61,8 @@ full-height {
         align-items: center; /* Centers children horizontally */
         height: 100%; /* Adjust as needed */
         border-radius: 50%; /* Creates a circular shape */
-        width: 5vw; /* Adjust width as needed */
-        height: 5vw; /* Adjust height to match width for a perfect circle */
+        width: 4vw; /* Adjust width as needed */
+        height: 4vw; /* Adjust height to match width for a perfect circle */
         min-width: 40px;
         min-height: 40px;
         background-color: #FFF; /* Optional: Background color for the circle */
@@ -120,33 +120,4 @@ full-height {
   max-height: 75vh;
   width: 100%;
   object-fit: cover;
-}
-
-/* Twitter Animation Loading Scrren */
-.twitter-loading-bg {
-    background: #1DA1F2;
-    background: linear-gradient(-45deg, #1DA1F2, #1A8CD8, #1DA1F2, #1A8CD8);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-}
-
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.twitter-logo-animate {
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-@keyframes fadeIn {
-    0%,100% { opacity: 0; }
-    50% { opacity: 1; }
 }

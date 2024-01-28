@@ -1,0 +1,31 @@
+.linkedin-loading-bg {
+    background: #0072b1; /* LinkedIn Blue */
+    background: linear-gradient(-45deg, #005b8a, #0072b1, #005b8a, #0072b1);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+.linkedin-logo-animate {
+    animation: pulse 2s infinite;
+}
+
+.loading-text-animate {
+    animation: fadeIn 4s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    0%,100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
