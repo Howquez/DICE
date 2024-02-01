@@ -37,7 +37,8 @@ It provides guidance on how to utilize the tool for creating and customizing dyn
 - [DICE Feed Configurator Repository](https://github.com/Howquez/oFeeds-config)
 - Code licensed under [MIT License](LICENSE) with added citation requirement:
 - Please cite as: _Roggenkamp, H. C., Boegershausen, J., & Hildebrand, C. (2024, January 10). Digital In-Context Experiments (DICE). Retrieved from osf.io/jcxvk_
-- [Shiny app](https://roggenkamp.shinyapps.io/DICE-Preprocessing/) to pre-process DICE's data output.
+- Shiny app to [encode DICE's input](https://roggenkamp.shinyapps.io/DICE-input-encoding/) `*.csv` file.
+- Shiny app to [pre-process DICE's data](https://roggenkamp.shinyapps.io/DICE-Preprocessing/) data.
 
 <!--
 ## 🧵 Mimic Social Media Feeds with _oTweet_
