@@ -34,7 +34,7 @@ It provides guidance on how to utilize the tool for creating and customizing dyn
 
 1. **Prolific:** DICE is optimized for Prolific. Hence, if you intend to run an online experiment with DICE, you should recruit participants via Prolific.
 2. **Qualtrics:** Even though you can also use other tools or program a questionnaire directly in oTree, we recommend to use Qualtrics to append a questionnaire to the DICE stimulus.
-3. **Github:** To display images or gifs in your feed, you need to provide URLs directing to publicly available images in your `*.csv` file. To create URLs for your own visuals as well as the above-mentioned `*.csv` file, you need to upload these files somewhere. Github is a versatile, transparent and easy-to-use platform to do so. You can create an account in a matter of a few clicks.
+3. **Github:** To display images or gifs in your feed, you need to provide URLs (within your `*.csv` file) directing to publicly available images. To create URLs for your own visuals as well as the above-mentioned `*.csv` file, you need to upload these files somewhere. Github is a versatile, transparent and easy-to-use platform to do so. You can create an account in a matter of a few clicks.
 
 
 ## Resources & Links
