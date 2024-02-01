@@ -4,7 +4,7 @@
 
 # 🎲 Digital In-Context Experiments (DICE)
 
-DICE (formerly called _oFeeds_) offers an assortment of oTree applications designed to simulate news, shopping, and social media feeds. 
+DICE (formerly called _oFeeds_) offers an assortment of oTree ([Chen, Schonger, and Wickens 2016](https://doi.org/doi.org/10.1016/j.jbef.2015.12.001)) applications designed to simulate news, shopping, and social media feeds. 
 This suite of tools is tailored for marketing researchers, enabling them to develop more realistic stimuli for their studies.
 
 A key feature of DICE is its user-friendly design, which allows researchers to effortlessly manipulate a feed without any coding requirement. 
