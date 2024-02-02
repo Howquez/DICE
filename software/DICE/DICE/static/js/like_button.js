@@ -1,9 +1,6 @@
-console.log("Reactions ready!");
+console.log("Reactions (likes and replies) ready!");
 
 document.addEventListener('DOMContentLoaded', function() {
-    let repliesData = [];
-    let likesData = [];
-
     // Function to toggle the like state of a button
     function toggleLike(button) {
         const icon = button.querySelector('.like-icon');
@@ -30,54 +27,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Function to handle reply submission and class change
-    function replyOneUp(docId) {
-        const replyField = document.getElementById(`reply_to_item_${docId}`);
-        const replyText = replyField.value.trim();
-        const replyCountSpan = document.getElementById(`reply_count_${docId}`);
-        const replyIcon = document.getElementById(`reply_icon_${docId}`);
-
-        if (replyText) {
-            replyIcon.classList.remove('bi-chat', 'text-secondary');
-            replyIcon.classList.add('bi-chat-fill', 'text-primary');
-
-            let replyCount = parseInt(replyCountSpan.textContent);
-            replyCount++;
-            replyCountSpan.textContent = replyCount.toString();
-
-            replyField.value = '';
-            repliesData.push({ doc_id: docId, reply: replyText });
-        }
-    }
-
-    // Attach event listeners to reply modal buttons
-    document.querySelectorAll('.reply-modal-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const docId = this.id.replace('reply_modal_button_', '');
-            replyOneUp(docId);
-        });
-    });
-
-    // Function to collect likes
+    // Function to collect likes, ensuring doc_id is numeric
     function collectLikes() {
+        let likesData = [];
         document.querySelectorAll('.like-button').forEach(button => {
-            let docId = button.getAttribute('id').replace('like_button_', '');
+            let docId = parseInt(button.getAttribute('id').replace('like_button_', ''));
             let icon = button.querySelector('.like-icon');
             let isLiked = icon.classList.contains('bi-heart-fill');
             likesData.push({ doc_id: docId, liked: isLiked });
         });
+        return likesData;
     }
 
-    // Function to collect data
-    function collectData() {
-        collectLikes();  // Populates the likesData array
+    // Function to collect replies, harmonized with numeric doc_id
+    function collectReplies() {
+        let repliesData = [];
+        document.querySelectorAll('.reply-modal-button').forEach(button => {
+            let docId = parseInt(button.getAttribute('id').replace('reply_modal_button_', ''));
+            const replyField = document.getElementById(`reply_to_item_${docId}`);
+            const replyText = replyField.value.trim();
+            repliesData.push({ doc_id: docId, reply: replyText, hasReply: !!replyText });
+        });
+        return repliesData;
+    }
+
+    // Function to collect both likes and replies data, harmonizing their formats
+    function collectDataHarmonized() {
+        let likesData = collectLikes();  // Collecting likes data
+        let repliesData = collectReplies();  // Collecting replies data with the harmonized approach
         return { likes: JSON.stringify(likesData), replies: JSON.stringify(repliesData) };
     }
 
     // Event listener for the submit button
     document.getElementById('submitButton').addEventListener('click', function(event) {
-        //event.preventDefault();
-        let data = collectData();
+        let data = collectDataHarmonized();
         document.getElementById('likes_data').value = data.likes;
         document.getElementById('replies_data').value = data.replies;
         console.log("Data to send:", data);

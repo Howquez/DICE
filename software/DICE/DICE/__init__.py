@@ -387,7 +387,8 @@ class D_Debrief(Page):
 
 page_sequence = [A_Intro,
                  B_Briefing,
-                 C_Linkedin,
+                 # C_Linkedin,
+                 C_Feed,
                  D_Redirect,
                  D_Debrief]
 
