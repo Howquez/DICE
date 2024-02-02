@@ -1,0 +1,13 @@
+name: DICE-input-encoding
+title: DICE-input-encoding
+username: roggenkamp
+account: roggenkamp
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11099062
+bundleId: 8206669
+url: https://roggenkamp.shinyapps.io/DICE-input-encoding/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: Ohne Titel.qmd
