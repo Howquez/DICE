@@ -176,7 +176,7 @@ def preprocessing(df, config):
     df['retweets'] = df['retweets'].fillna(0).astype(int)
     df['likes'] = df['likes'].fillna(0).astype(int)
 
-    df['media'] = df['media'].apply(extract_first_url)
+    # df['media'] = df['media'].apply(extract_first_url)
     df['media'] = df['media'].str.replace("'|,", '', regex=True)
     df['pic_available'] = np.where(df['media'].str.match(pat='http'), True, False)
 
