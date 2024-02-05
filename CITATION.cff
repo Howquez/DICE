@@ -1,6 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this work, please cite it as below."
-title: "Digital In-Context Experiments (DICE)"
+message: "If you use this software, please cite it as below."
 authors:
   - family-names: "Roggenkamp"
     given-names: "Hauke"
@@ -11,6 +10,24 @@ authors:
   - family-names: "Hildebrand"
     given-names: "Christian"
     orcid: "https://orcid.org/0000-0003-4366-3093"
-version: "1.0"
+title: "Digital In-Context Experiments (DICE)"
+version: 1.0
 date-released: 2024-01-05
-repository-code: "https://osf.io/jcxvk"
+url: "https://github.com/Howquez/oFeeds"
+Preferred-citation:
+  type: unpublished
+  authors:
+  - family-names: "Roggenkamp"
+    given-names: "Hauke"
+    orcid: "https://orcid.org/0009-0005-5176-4718"
+  - family-names: "Boegershausen"
+    given-names: "Johannes"
+    orcid: "https://orcid.org/0000-0002-1429-9344"
+  - family-names: "Hildebrand"
+    given-names: "Christian"
+    orcid: "https://orcid.org/0000-0003-4366-3093"
+  month: 1
+  year: 2024
+  url: "https://osf.io/jcxvk"
+  start: 1
+  end: 57
