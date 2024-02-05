@@ -42,7 +42,7 @@ It provides guidance on how to utilize the tool for creating and customizing dyn
 - [OSF](https://osf.io/jcxvk/)
 - [DICE Feed Configurator Repository](https://github.com/Howquez/oFeeds-config)
 - Code licensed under [MIT License](LICENSE) with added citation requirement:
-- Please cite as: _Roggenkamp, H. C., Boegershausen, J., & Hildebrand, C. (2024, January 10). Digital In-Context Experiments (DICE). Retrieved from osf.io/jcxvk_
+- Please cite as: _Roggenkamp, H. C., Boegershausen, J., & Hildebrand, C. (2024, January 5). Digital In-Context Experiments (DICE). Retrieved from osf.io/jcxvk_
 - Shiny app to [encode DICE's input](https://roggenkamp.shinyapps.io/DICE-input-encoding/) `*.csv` file.
 - Shiny app to [pre-process DICE's data](https://roggenkamp.shinyapps.io/DICE-Preprocessing/) data.
 
