@@ -125,19 +125,7 @@
                     </div>
 
                     {{ if i.pic_available == True}}
-                        {{ if i.media_type == "image" }}
                         <img src="{{i.media}}" class="card-img ps-0 mt-2 rounded-4 img-fluid img-tweet" alt="...">
-                        {{ endif }}
-                        {{ if i.media_type == "youtube" }}
-                        <div class="iframe-wrapper">
-                            <iframe class="responsive-iframe video-item"
-                                    src="{{i.media}}&amp;rel=0&amp;modestbranding=1"
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen>
-                            </iframe>
-                        </div>
-                        {{ endif }}
                     {{ endif }}
                     <div class="d-flex border-top-0 mt-3 ms-5">
                         <div class="reply-button col" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}">

@@ -24,22 +24,11 @@
             <small>{{i.tweet}}</small>
         </p>
         {{ if i.pic_available == True }}
-            {{ if i.media_type == "image" }}
             <div class="text-center">
                 <img class="p-0 img-fluid px-0"
                      src="{{i.media}}">
             </div>
-            {{ endif }}
-            {{ if i.media_type == "youtube" }}
-            <div class="iframe-wrapper">
-                <iframe class="responsive-iframe video-item"
-                        src="{{i.media}}&amp;rel=0&amp;modestbranding=1"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen>
-                </iframe>
-            </div>
-            {{ endif }}
+
 
         {{ endif }}
     </div>
