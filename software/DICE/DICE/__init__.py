@@ -22,14 +22,16 @@ class C(BaseConstants):
 
     RULES_TEMPLATE = "DICE/T_Rules.html"
     PRIVACY_TEMPLATE = "DICE/T_Privacy.html"
-    TWEET_TEMPLATE = "DICE/T_Tweet.html"
-    LINKEDIN_TEMPLATE = "DICE/T_Linkedin_Post.html"
-    ATTENTION_TEMPLATE = "DICE/T_Attention_Check.html"
     TOPICS_TEMPLATE = "DICE/T_Trending_Topics.html"
     BANNER_TEMPLATE = "DICE/T_Banner_Ads.html"
 
+    ITEM_TWITTER = "DICE/T_Item_Twitter.html"
+    ITEM_LINKEDIN = "DICE/T_Item_Linkedin.html"
+    ITEM_MASS_MEDIA = "DICE/T_Item_Mass_Media.html"
+
 class Subsession(BaseSubsession):
     feed_conditions = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
+    FEED = models.StringField(doc='')
 
 class Group(BaseGroup):
     pass
@@ -55,6 +57,8 @@ class Player(BasePlayer):
 
 # FUNCTIONS -----
 def creating_session(subsession):
+
+    subsession.FEED = "DICE/T_Feed_" + subsession.session.config['channel_type'] + ".html"
 
     # read data (from seesion config)
     df = read_feed(subsession.session.config['data_path'])
@@ -387,7 +391,6 @@ class D_Debrief(Page):
 
 page_sequence = [A_Intro,
                  B_Briefing,
-                 # C_Linkedin,
                  C_Feed,
                  D_Redirect,
                  D_Debrief]
