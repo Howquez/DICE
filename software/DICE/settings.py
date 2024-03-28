@@ -2,9 +2,16 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-        name='DICE',
+        name='Twitter',
         app_sequence=['DICE'],
         num_demo_participants=3,
+        channel_type="Twitter",
+    ),
+    dict(
+        name='Linkedin_beta',
+        app_sequence=['DICE'],
+        num_demo_participants=3,
+        channel_type="Linkedin",
     )
 ]
 
