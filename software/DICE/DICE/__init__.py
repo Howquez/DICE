@@ -227,6 +227,9 @@ def create_redirect(player):
         if player.session.vars['completion_code'] is not None:
             link = link + '&' + 'cc=' + player.session.vars['completion_code']
 
+    if player.feed_condition is not None:
+        link = link + '&' + 'condition=' + player.feed_condition
+
     return link
 
 
