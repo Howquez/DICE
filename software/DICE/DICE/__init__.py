@@ -92,7 +92,6 @@ def creating_session(subsession):
 
         # I pushed the randomization to the player level using before_next_page on the A_Intro page.
         # this approach relies on the feed_conditions subsession variable defined above.
-        # the randomization is deployed in the T_Tweet.html template.
 
         # tweets = player.participant.tweets
         # condition = player.session.config['condition_col']
@@ -182,7 +181,8 @@ def preprocessing(df, config):
 
     # df['media'] = df['media'].apply(extract_first_url)
     df['media'] = df['media'].str.replace("'|,", '', regex=True)
-    df['pic_available'] = np.where(df['media'].str.match(pat='http'), True, False)
+    df['pic_available'] = np.where(df['media'].str.contains('http', na=False), True, False)
+    # print(df[['pic_available', 'media']])
 
     # create a name icon as a profile pic
     df['icon'] = df['username'].str[:2]
