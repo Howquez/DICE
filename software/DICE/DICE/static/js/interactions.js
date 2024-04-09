@@ -33,24 +33,24 @@ function replyOneUp(){
 
 
 
-// RETWEETS (Frontend only)
-var retweetButtons = document.querySelectorAll(".retweet-button");
+// REPOSTS (Frontend only)
+var repostButtons = document.querySelectorAll(".repost-button");
 
-retweetButtons.forEach(function(retweetButton) {
-    var retweetCount = retweetButton.querySelector(".retweet-count");
-    var retweetIcon  = retweetButton.querySelector(".retweet-icon");
+repostButtons.forEach(function(repostButton) {
+    var repostCount = repostButton.querySelector(".repost-count");
+    var repostIcon  = repostButton.querySelector(".repost-icon");
 
-    retweetButton.addEventListener("click", function() {
-      if (retweetButton.classList.contains("retweeted")) {
-        retweetButton.classList.remove("retweeted");
-        retweetCount.textContent = (parseInt(retweetCount.textContent) - 1).toString();
-        retweetIcon.className="bi bi-arrow-repeat text-secondary retweet-icon";
-        retweetIcon.removeAttribute("style")
+    repostButton.addEventListener("click", function() {
+      if (repostButton.classList.contains("reposted")) {
+        repostButton.classList.remove("reposted");
+        repostCount.textContent = (parseInt(repostCount.textContent) - 1).toString();
+        repostIcon.className="bi bi-arrow-repeat text-secondary repost-icon";
+        repostIcon.removeAttribute("style")
     } else {
-        retweetButton.classList.add("retweeted");
-        retweetCount.textContent = (parseInt(retweetCount.textContent) + 1).toString();
-        retweetIcon.className="bi bi-arrow-repeat text-primary retweet-icon";
-        retweetIcon.style="-webkit-text-stroke: 0.5px"
+        repostButton.classList.add("reposted");
+        repostCount.textContent = (parseInt(repostCount.textContent) + 1).toString();
+        repostIcon.className="bi bi-arrow-repeat text-primary repost-icon";
+        repostIcon.style="-webkit-text-stroke: 0.5px"
     }
 });
 });

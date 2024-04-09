@@ -157,26 +157,25 @@ def read_feed(path):
 # some pre-processing
 def preprocessing(df, config):
     # reformat date
-    df['datetime'] = pd.to_datetime(df['datetime'], errors='coerce')
+    df['datetime'] = pd.to_datetime(df['datetime'], errors='coerce', format='%d.%m.%y %H:%M')
     df['date'] = df['datetime'].dt.strftime('%d %b').str.replace(' ', '. ')
-    # df['date'] = df['datetime'].dt.strftime('%b. %d')
-    df['date'] = df['date'].str.replace('^0', '', regex=True)
+    df['date'] = df['date'].str.lstrip('0')
 
     # highlight hashtags, cashtags, mentions, etc.
-    df['tweet'] = df['tweet'].str.replace(r'\B(\#[a-zA-Z0-9_]+\b)',
+    df['text'] = df['text'].str.replace(r'\B(\#[a-zA-Z0-9_]+\b)',
                                                   r'<span class="text-primary">\g<0></span>', regex=True)
-    df['tweet'] = df['tweet'].str.replace(r'\B(\$[a-zA-Z0-9_\.]+\b)',
+    df['text'] = df['text'].str.replace(r'\B(\$[a-zA-Z0-9_\.]+\b)',
                                                   r'<span class="text-primary">\g<0></span>', regex=True)
-    df['tweet'] = df['tweet'].str.replace(r'\B(\@[a-zA-Z0-9_]+\b)',
+    df['text'] = df['text'].str.replace(r'\B(\@[a-zA-Z0-9_]+\b)',
                                                   r'<span class="text-primary">\g<0></span>', regex=True)
     # remove the href below, if you don't want them to leave your page
-    df['tweet'] = df['tweet'].str.replace(
+    df['text'] = df['text'].str.replace(
         r'(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])',
         r'<a class="text-primary">\g<0></a>', regex=True)
 
     # make numeric information integers and fill NAs with 0
     df['replies'] = df['replies'].fillna(0).astype(int)
-    df['retweets'] = df['retweets'].fillna(0).astype(int)
+    df['reposts'] = df['reposts'].fillna(0).astype(int)
     df['likes'] = df['likes'].fillna(0).astype(int)
 
     # df['media'] = df['media'].apply(extract_first_url)

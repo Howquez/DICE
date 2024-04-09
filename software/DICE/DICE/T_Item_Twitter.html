@@ -44,7 +44,7 @@
                             <small class="text-muted"> {{i.username}} &middot; Sponsored</small>
                         </h6>
                         <a class="card-text text-dark" href="{{i.target}}" target="_blank" style="text-decoration: none; cursor: pointer;">
-                            <p class="tweet-text" id="tweet_{{i.doc_id}}">{{i.tweet}}</p>
+                            <p class="tweet-text" id="tweet_{{i.doc_id}}">{{i.text}}</p>
                         </a>
                     </div>
 
@@ -58,9 +58,9 @@
                             <span class="bi bi-chat text-secondary reply-icon" id="reply_icon_{{i.doc_id}}" style="cursor: pointer">️</span>
                             <span class="reply-count text-secondary" id="reply_count_{{i.doc_id}}">{{i.replies}}</span>
                         </div>
-                        <div class="retweet-button col">
-                            <span class="bi bi-arrow-repeat text-secondary retweet-icon" style="cursor: pointer">️</span>
-                            <span class="retweet-count text-secondary">{{i.retweets}}</span>
+                        <div class="repost-button col">
+                            <span class="bi bi-arrow-repeat text-secondary repost-icon" style="cursor: pointer">️</span>
+                            <span class="repost-count text-secondary">{{i.reposts}}</span>
                         </div>
                         <div class="like-button col" id="like_button_{{i.doc_id}}">
                             <span class="bi bi-heart text-secondary like-icon" style="cursor: pointer">️</span>
@@ -120,7 +120,7 @@
                             <small class="text-muted"> {{i.username}} &middot; {{i.date }}</small>
                         </h6>
                         <p class="card-text">
-                            <p class="tweet-text" id="tweet_text_{{i.doc_id}}">{{i.tweet}}</p>
+                            <p class="tweet-text" id="tweet_text_{{i.doc_id}}">{{i.text}}</p>
                         </p>
                     </div>
 
@@ -132,9 +132,9 @@
                             <span class="bi bi-chat text-secondary reply-icon" id="reply_icon_{{i.doc_id}}" style="cursor: pointer">️</span>
                             <span class="reply-count text-secondary" id="reply_count_{{i.doc_id}}">{{i.replies}}</span>
                         </div>
-                        <div class="retweet-button col">
-                            <span class="bi bi-arrow-repeat text-secondary retweet-icon" style="cursor: pointer">️</span>
-                            <span class="retweet-count text-secondary">{{i.retweets}}</span>
+                        <div class="repost-button col">
+                            <span class="bi bi-arrow-repeat text-secondary repost-icon" style="cursor: pointer">️</span>
+                            <span class="repost-count text-secondary">{{i.reposts}}</span>
                         </div>
                         <div class="like-button col" id="like_button_{{i.doc_id}}">
                             <span class="bi bi-heart text-secondary like-icon" style="cursor: pointer">️</span>

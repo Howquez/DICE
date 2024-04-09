@@ -21,7 +21,7 @@
             </div>
         </div>
         <p class="px-3 my-2">
-            <small>{{i.tweet}}</small>
+            <small>{{i.text}}</small>
         </p>
         {{ if i.pic_available == True }}
             <div class="text-center">
@@ -39,7 +39,7 @@
                 <span class="like-count"> {{i.likes}} </span>
             </small>
             <small class="text-end text-muted">
-                <span class="retweet-count">{{i.replies}} </span>
+                <span class="reply-count">{{i.replies}} </span>
                 comments
             </small>
         </div>
