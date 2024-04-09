@@ -45,6 +45,7 @@ class Player(BasePlayer):
     # cta = models.BooleanField(doc='indicates whether CTA was clicked or not')
     scroll_sequence = models.LongStringField(doc='tracks the sequence of feed items a participant scrolled through.')
     viewport_data = models.LongStringField(doc='tracks the time feed items were visible in a participants viewport.')
+    rowheight_data = models.LongStringField(doc='tracks the time feed items were visible in a participants viewport.')
     likes_data = models.LongStringField(doc='tracks likes.', blank=True)
     replies_data = models.LongStringField(doc='tracks replies.', blank=True)
 
@@ -264,9 +265,9 @@ class C_Feed(Page):
         fields =  ['likes_data', 'replies_data', 'touch_capability', 'device_type']
 
         if not player.session.config['topics'] & player.session.config['show_cta']:
-            more_fields =  ['scroll_sequence', 'viewport_data'] # , 'cta']
+            more_fields =  ['scroll_sequence', 'viewport_data', "rowheight_data"] # , 'cta']
         else:
-            more_fields =  ['scroll_sequence', 'viewport_data']
+            more_fields =  ['scroll_sequence', 'viewport_data', "rowheight_data"]
 
         return fields + more_fields
 
@@ -311,64 +312,6 @@ class C_Feed(Page):
                 player.session.vars['prolific_completion_url'] = 'NA'
         else:
             player.session.vars['prolific_completion_url'] = 'NA'
-
-
-class C_Linkedin(Page):
-    form_model = 'player'
-
-    @staticmethod
-    def get_form_fields(player: Player):
-        fields =  ['likes_data', 'replies_data', 'touch_capability', 'device_type']
-
-        if not player.session.config['topics'] & player.session.config['show_cta']:
-            more_fields =  ['scroll_sequence', 'viewport_data'] # , 'cta']
-        else:
-            more_fields =  ['scroll_sequence', 'viewport_data']
-
-        return fields + more_fields
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        # ad = player.ad_condition
-        label_available = False
-        if player.participant.label is not None:
-            label_available = True
-        return dict(
-            tweets=player.participant.tweets.to_dict('index'),
-            topics=player.session.config['topics'],
-            search_term=player.session.config['search_term'],
-            label_available=label_available,
-            # banner_img='img/{}_banner.png'.format(ad),
-        )
-
-    @staticmethod
-    def live_method(player, data):
-        parts = data.split('=')
-        variable_name = parts[0].strip()
-        value = eval(parts[1].strip())
-
-        # Use getattr to get the current value of the attribute within the player object
-        current_value = getattr(player, variable_name, 0)
-
-        # Perform the addition assignment and update the attribute within the player object
-        setattr(player, variable_name, current_value + value)
-
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        player.participant.finished = True
-        if 'prolific_completion_url' in player.session.vars:
-            if player.session.vars['prolific_completion_url'] is not None:
-                if 'completion_code' in player.session.vars:
-                    if player.session.vars['completion_code'] is not None:
-                        player.session.vars['prolific_completion_url'] = 'https://app.prolific.com/submissions/complete?cc=' + player.session.vars['completion_code']
-                    else:
-                        player.session.vars['prolific_completion_url'] = 'https://app.prolific.com/submissions/complete'
-                else: player.session.vars['prolific_completion_url'] = 'https://app.prolific.com/submissions/complete'
-            else:
-                player.session.vars['prolific_completion_url'] = 'NA'
-        else:
-            player.session.vars['prolific_completion_url'] = 'NA'
-
 
 
 class D_Redirect(Page):
