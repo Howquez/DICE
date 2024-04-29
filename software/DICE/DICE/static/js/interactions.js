@@ -43,12 +43,16 @@ repostButtons.forEach(function(repostButton) {
     repostButton.addEventListener("click", function() {
       if (repostButton.classList.contains("reposted")) {
         repostButton.classList.remove("reposted");
-        repostCount.textContent = (parseInt(repostCount.textContent) - 1).toString();
+        if(parseInt(repostCount.textContent) >= 1000){
+            repostCount.textContent = (parseInt(repostCount.textContent) - 1).toString();
+        }
         repostIcon.className="bi bi-arrow-repeat text-secondary repost-icon";
         repostIcon.removeAttribute("style")
     } else {
         repostButton.classList.add("reposted");
-        repostCount.textContent = (parseInt(repostCount.textContent) + 1).toString();
+        if(parseInt(repostCount.textContent) >= 1000) {
+            repostCount.textContent = (parseInt(repostCount.textContent) + 1).toString();
+        }
         repostIcon.className="bi bi-arrow-repeat text-primary repost-icon";
         repostIcon.style="-webkit-text-stroke: 0.5px"
     }
