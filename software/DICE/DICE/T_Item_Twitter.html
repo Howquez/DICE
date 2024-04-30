@@ -1,6 +1,6 @@
 {{ if i.condition == player.feed_condition }}
     {{ if i.sponsored }}
-        <tr id="{{i.doc_id}}" style="background-color: #E5E4E2;">
+        <tr id="{{i.doc_id}}" style="background-color: #E5E4E2;" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
           <td>
             <div class="tweet d-flex align-items-start p-2">
               <!-- Profile picture -->
@@ -74,7 +74,7 @@
           </td>
         </tr>
     {{ else }}
-        <tr id="{{i.doc_id}}">
+        <tr id="{{i.doc_id}}" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
           <td>
             <div class="tweet d-flex align-items-start p-2">
               <!-- Profile picture -->
