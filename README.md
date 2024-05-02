@@ -27,8 +27,8 @@ It provides guidance on how to utilize the tool for creating and customizing dyn
 
 1. Create and upload a `*.csv` containing all the content you want to display as well as information about potential experimental conditions. You can download a template [here](https://feed-config-2053f6176aba.herokuapp.com/static/sample_feed.csv).
 2. If desired, create a post-experiment survey (e.g. in Qualtrics) with embedded data (to accept user IDs and completion codes as URL parameters).
-2. Visit the [DICE Feed Configurator](https://feed-config-2053f6176aba.herokuapp.com/) and provide the required information (such as a link to the `*.csv` file you uploaded and the Qualtrics survey).
-3. The DICE Feed Configurator provides URLs for the researcher to monitor the study and to distribute to prospective participants (e.g. via Prolific).
+2. Visit the **[DICE App](https://www.dice-app.org/)** and provide the required information (such as a link to the `*.csv` file you uploaded and the Qualtrics survey).
+3. The DICE App provides URLs for the researcher to monitor the study and to distribute to prospective participants (e.g. via Prolific).
 
 ## Prerequisites
 
@@ -40,7 +40,7 @@ It provides guidance on how to utilize the tool for creating and customizing dyn
 ## Resources & Links
 
 - [OSF](https://osf.io/jcxvk/)
-- [DICE Feed Configurator Repository](https://github.com/Howquez/oFeeds-config)
+- [DICE App Repository](https://github.com/Howquez/oFeeds-config)
 - Code licensed under [MIT License](LICENSE) with added citation requirement:
 - Please cite as: _Roggenkamp, H. C., Boegershausen, J., & Hildebrand, C. (2024, January 5). Digital In-Context Experiments (DICE). Retrieved from osf.io/jcxvk_
 - Shiny app to [encode DICE's input](https://roggenkamp.shinyapps.io/DICE-input-encoding/) `*.csv` file.
