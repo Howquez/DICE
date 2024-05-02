@@ -9,8 +9,12 @@
     <script src="{{ static 'js/like_button.js' }}"></script>
     <script src="{{ static 'js/interactions.js' }}"></script>
     <script src="{{ static 'js/scrolling.js' }}"></script>
+    {{ if subsession.FEED == "DICE/T_Feed_Generic.html" }}
+    <script src="{{ static 'js/swipes.js' }}"></script>
+    {{ else }}
     <script src="{{ static 'js/dwell.js' }}"></script>
     <script src="{{ static 'js/rowheights.js' }}"></script>
+    {{ endif }}
 {{ endblock }}
 
 {{ block styles }}

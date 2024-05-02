@@ -1,0 +1,131 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Mockup</title>
+    <link rel="icon" href="https://twitter.com/favicon.ico"/>
+</head>
+
+<body class="bg-white">
+
+    <!-- Hidden Fields -->
+    <input type="hidden" name="scroll_sequence" id="scroll_sequence" value="is">
+    <input type="hidden" name="viewport_data" id="viewport_data" value="">
+    <input type="hidden" name="rowheight_data" id="rowheight_data" value="NA">
+    <input type="hidden" name="cta" id="cta" value="False">
+    <input type="hidden" id="likes_data" name="likes_data">
+    <input type="hidden" id="replies_data" name="replies_data">
+    <input type="hidden" id="touch_capability" name="touch_capability" value="">
+    <input type="hidden" id="device_type" name="device_type" value="">
+
+
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="d-flex justify-content-center align-items-center bg-light" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;">
+        <div class="spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="container-fluid d-flex justify-content-center align-items-center" style="max-width: 1200px;" id="mainContent">
+            <!-- Feed -->
+            <div class="col overflow-auto col-sm-12 col-md-6 col-lg-6 p-0" style="height: 100vh;">
+
+                <div id="tweetCarousel" class="carousel slide carousel-fade" data-bs-ride="false" data-bs-interval="false">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active w-100" data-doc-id="0">
+                            <div id="carousel_content_0" class="w-100 bg-white">
+                              <div>
+                                <div class="tweet d-flex align-items-start p-2">
+                                  <!-- Profile picture -->
+                                  <div class="profile-pic me-2">
+                                    <img src="https://avatars.githubusercontent.com/u/19226126?v=4" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;"
+                                         alt="Profile picture of Howquez."
+                                         data-bs-toggle="tooltip"
+                                         data-bs-placement="bottom"
+                                         data-bs-html="true"
+                                         data-bs-custom-class="custom-tooltip"
+                                         title="<div class='text-start text-secondary'><b class='text-dark'>Howquez</b><br>
+                                         @howquez<br><br>
+                                         I like pizza. <br><br><b class='text-dark'>42</b> Followers</div>">
+                                  </div>
+
+                                  <!-- Tweet content -->
+                                  <div class="tweet-content w-100" id="tweet_0">
+                                    <!-- Tweet header -->
+                                    <div class="d-flex justify-content-between"
+                                         style="cursor: pointer;"
+                                         data-bs-toggle="tooltip"
+                                         data-bs-placement="bottom"
+                                         data-bs-html="true"
+                                         data-bs-custom-class="custom-tooltip"
+                                         title="<div class='text-start text-secondary'><b class='text-dark'>Howquez</b><br>
+                                         @howquez<br><br>
+                                         I like pizza. <br><br><b class='text-dark'>42</b> Followers</div>">
+                                      <div>
+                                        <small><strong>Howquez</strong></small>
+                                        <small class="text-muted">@howquez</small>
+                                        <small class="text-muted">&middot;</small>
+                                        <small class="text-muted">just now</small>
+                                      </div>
+
+                                    </div>
+
+                                    <!-- Tweet text -->
+                                    <p class="my-1" id="tweet_text_0">This is an intro on how things work.</p>
+
+                                    <!-- Tweet actions -->
+                                    <div class="d-flex justify-content-between mt-2">
+                                      <!-- Reply -->
+                                      <div class="reply-button col" data-bs-toggle="modal" data-bs-target="#replyModal_0" id="reply_button_0">
+                                        <span class="bi bi-chat text-secondary reply-icon" id="reply_icon_0" style="cursor: pointer">️</span>
+                                        <span class="reply-count text-secondary" id="reply_count_0">4</span>
+                                      </div>
+                                      <!-- Repost -->
+                                      <div class="repost-button col">
+                                        <span class="bi bi-arrow-repeat text-secondary repost-icon" style="cursor: pointer">️</span>
+                                        <span class="repost-count text-secondary">2</span>
+                                      </div>
+                                      <!-- Like -->
+                                      <div class="like-button col" id="like_button_0}">
+                                        <span class="bi bi-heart text-secondary like-icon" style="cursor: pointer">️</span>
+                                        <span class="like-count text-secondary">42</span>
+                                      </div>
+                                      <!-- Share -->
+                                      <div class="share-button col">
+                                        <span class="bi bi-upload text-secondary share-icon" style="cursor: pointer">️</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        {{ for i in tweets.values() }}
+                            {{ include C.ITEM_GENERIC }}
+                        {{ endfor }}
+                        <div class="carousel-item">
+                            <h2>Tweet N</h2>
+                            <p>This is the last tweet.</p>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-dark m-4" id="submitButton" type="submit">
+                                    Proceed
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#tweetCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#tweetCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+    </div>
+
+</body>

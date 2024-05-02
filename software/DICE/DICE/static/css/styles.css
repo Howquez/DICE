@@ -138,3 +138,24 @@ full-height {
     width: 100%;
     height: 100%;
 }
+
+/* Custom styles for the carousel */
+.carousel-item {
+            height: 100vh; /* Full viewport height */
+            display: none; /* Hide all items by default */
+            align-items: center;
+            justify-content: center;
+            flex-direction: column; /* Stack items vertically */
+        }
+.carousel-item.active {
+    display: flex; /* Only active item is displayed as flex */
+}
+.carousel-inner {
+    width: 100%;
+    height: 100vh; /* Match carousel height to viewport */
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon{
+    filter: invert(100%);
+}

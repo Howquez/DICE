@@ -28,6 +28,7 @@ class C(BaseConstants):
     ITEM_TWITTER = "DICE/T_Item_Twitter.html"
     ITEM_LINKEDIN = "DICE/T_Item_Linkedin.html"
     ITEM_MASS_MEDIA = "DICE/T_Item_Mass_Media.html"
+    ITEM_GENERIC = "DICE/T_Item_Generic.html"
 
 class Subsession(BaseSubsession):
     feed_conditions = models.StringField(doc='indicates the feed condition a player is randomly assigned to')

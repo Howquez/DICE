@@ -12,6 +12,12 @@ SESSION_CONFIGS = [
         app_sequence=['DICE'],
         num_demo_participants=3,
         channel_type="Linkedin",
+    ),
+    dict(
+        name='Generic_beta',
+        app_sequence=['DICE'],
+        num_demo_participants=3,
+        channel_type="Generic",
     )
 ]
 
