@@ -11,6 +11,7 @@ __pycache__/
 *.py[cod]
 **/.DS_Store
 *.ai
+*.psd
 
 # History files
 .Rhistory
