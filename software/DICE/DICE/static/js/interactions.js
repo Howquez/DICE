@@ -41,22 +41,27 @@ repostButtons.forEach(function(repostButton) {
     var repostIcon  = repostButton.querySelector(".repost-icon");
 
     repostButton.addEventListener("click", function() {
-      if (repostButton.classList.contains("reposted")) {
-        repostButton.classList.remove("reposted");
-        if(parseInt(repostCount.textContent) >= 1000){
-            repostCount.textContent = (parseInt(repostCount.textContent) - 1).toString();
+        let originalText = repostCount.textContent;
+        let repostNum = parseInt(originalText.replace(/[^0-9]/g, '')); // Remove non-numeric characters
+
+        if (repostButton.classList.contains("reposted")) {
+            repostButton.classList.remove("reposted");
+            if (!originalText.includes('K') && !originalText.includes('M')) {
+                repostNum--; // Decrement if no 'K' or 'M'
+                repostCount.textContent = repostNum.toString();
+            }
+            repostIcon.className="bi bi-arrow-repeat text-secondary repost-icon";
+            repostIcon.removeAttribute("style");
+        } else {
+            repostButton.classList.add("reposted");
+            if (!originalText.includes('K') && !originalText.includes('M')) {
+                repostNum++; // Increment if no 'K' or 'M'
+                repostCount.textContent = repostNum.toString();
+            }
+            repostIcon.className="bi bi-arrow-repeat text-primary repost-icon";
+            repostIcon.style="font-weight: bold"; // Adjust style to indicate active state
         }
-        repostIcon.className="bi bi-arrow-repeat text-secondary repost-icon";
-        repostIcon.removeAttribute("style")
-    } else {
-        repostButton.classList.add("reposted");
-        if(parseInt(repostCount.textContent) >= 1000) {
-            repostCount.textContent = (parseInt(repostCount.textContent) + 1).toString();
-        }
-        repostIcon.className="bi bi-arrow-repeat text-primary repost-icon";
-        repostIcon.style="-webkit-text-stroke: 0.5px"
-    }
-});
+    });
 });
 
 
