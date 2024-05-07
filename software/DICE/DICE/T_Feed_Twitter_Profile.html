@@ -8,164 +8,206 @@
 
 <body class="bg-light">
 
-    <!-- Hidden Fields -->
-    <input type="hidden" name="scroll_sequence" id="scroll_sequence" value="is">
-    <input type="hidden" name="viewport_data" id="viewport_data" value="">
-    <input type="hidden" name="rowheight_data" id="rowheight_data" value="">
-    <input type="hidden" name="cta" id="cta" value="False">
-    <input type="hidden" id="likes_data" name="likes_data">
-    <input type="hidden" id="replies_data" name="replies_data">
-    <input type="hidden" id="touch_capability" name="touch_capability" value="">
-    <input type="hidden" id="device_type" name="device_type" value="">
+<!-- Hidden Fields -->
+<input type="hidden" name="scroll_sequence" id="scroll_sequence" value="is">
+<input type="hidden" name="viewport_data" id="viewport_data" value="">
+<input type="hidden" name="rowheight_data" id="rowheight_data" value="">
+<input type="hidden" name="cta" id="cta" value="False">
+<input type="hidden" id="likes_data" name="likes_data">
+<input type="hidden" id="replies_data" name="replies_data">
+<input type="hidden" id="touch_capability" name="touch_capability" value="">
+<input type="hidden" id="device_type" name="device_type" value="">
 
 
 
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="d-flex justify-content-center align-items-center twitter-loading-bg" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;">
-        <i class="bi bi-twitter text-white twitter-logo-animate" style="font-size: 4rem;"></i>
-    </div>
+<!-- Loading Screen
+<div id="loadingScreen" class="d-flex justify-content-center align-items-center twitter-loading-bg" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;">
+    <i class="bi bi-twitter text-white twitter-logo-animate" style="font-size: 4rem;"></i>
+</div>
+-->
 
-    <!-- Main Content -->
-    <div class="container-fluid d-flex justify-content-center align-items-center" style="max-width: 1200px;" id="mainContent">
+<!-- Main Content -->
+<div class="container-fluid d-flex justify-content-center align-items-center" style="max-width: 1200px;" id="mainContent">
 
-        <div class="row p-0 m-0">
+    <div class="row p-0 m-0">
 
-            <!-- LHS -->
-            <div class="col overflow-auto d-none d-md-block col-md-3 py-0 pe-5 full-height" id="LHS">
-                <div class="d-flex justify-content-end">
-                    <div>
-                        <h1 class="mt-3 ms-3">
-                            <i class="bi bi-twitter text-primary"></i>
+        <!-- LHS -->
+        <div class="col overflow-auto d-none d-md-block col-md-3 py-0 pe-5 full-height" id="LHS">
+            <div class="d-flex justify-content-end">
+                <div>
+                    <h1 class="mt-3 ms-3">
+                        <i class="bi bi-twitter text-primary"></i>
+                    </h1>
+
+                    <div class="btn-group-vertical">
+                        <button class="btn btn-light rounded-5 mt-5 text-start text-secondary" type="button" disabled>
+                            <i class="bi bi-house"></i> Home
+                        </button>
+                        <button class="btn btn-light rounded-5 mt-3 text-start text-dark" type="button" disabled>
+                            <i class="bi bi-hash"></i>
+                            <b>Explore</b>
+                        </button>
+                        <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
+                            <i class="bi bi-bell"></i> Notifications
+                        </button>
+                        <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
+                            <i class="bi bi-envelope"></i> Messages
+                        </button>
+                        <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
+                            <i class="bi bi-bookmark"></i> Bookmarks
+                        </button>
+                        <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
+                            <i class="bi bi-file-medical"></i> Lists
+                        </button>
+                        <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
+                            <i class="bi bi-person-circle"></i> Profile
+                        </button>
+
+                        <input class="btn btn-primary rounded-5 mt-5 mb-5" type="button" value="Tweet"
+                               data-bs-toggle="modal" data-bs-target="#tweetModal">
+                    </div>
+
+                    <!-- User ID -->
+                    {{ if label_available }}
+                    <div class="hstack gap-3 text-secondary">
+                        <h1 class="text-end">
+                            <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
+                               data-bs-content="You have been assigned the following ID: {{ participant.label }}. Please use it to identify yourself if you encounter any problems."></i>
                         </h1>
+                        <small>
+                            Your ID:<br>
+                            <b class="text-dark">{{ participant.label }}</b>
+                        </small>
+                    </div>
+                    {{ endif }}
 
-                        <div class="btn-group-vertical">
-                            <button class="btn btn-light rounded-5 mt-5 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-house"></i> Home
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-dark" type="button" disabled>
-                                <i class="bi bi-hash"></i>
-                                <b>Explore</b>
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-bell"></i> Notifications
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-envelope"></i> Messages
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-bookmark"></i> Bookmarks
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-file-medical"></i> Lists
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-person-circle"></i> Profile
-                            </button>
+                </div>
+            </div>
+        </div>
 
-                            <input class="btn btn-primary rounded-5 mt-5 mb-5" type="button" value="Tweet"
-                                   data-bs-toggle="modal" data-bs-target="#tweetModal">
+        <!-- Feed -->
+        <div class="col overflow-auto col-sm-12 col-md-6 col-lg-6 p-0 bg-white" style="height: 100vh;">
+
+            <!-- Profile Header -->
+            <div class="bg-white p-0">
+                <div class="p-2">
+                    <h5 class="mb-0"><strong>WithHowquez</strong></h5>
+                    <small class="text-muted">23 posts</small>
+                </div>
+                <div class="position-relative">
+                    <!-- Banner Image -->
+                    <img src="https://pbs.twimg.com/profile_banners/1370329533480644608/1634751516/1500x500" class="img-fluid" alt="Banner image">
+
+                    <!-- Profile Information and Overlay Image -->
+                    <div class="position-absolute bottom-0 start-0 ms-3" style="width: 100%;">
+                        <!-- Profile Image that partially overlays the banner -->
+                        <div class="d-flex align-items-end" style="margin-bottom: -50px;"> <!-- Adjust margin-bottom to control overlay -->
+                            <img src="https://avatars.githubusercontent.com/u/19226126?v=4" class="rounded-circle border border-4 border-white" style="width: 100px; height: 100px; object-fit: cover;" alt="Profile picture">
                         </div>
-
-                        <!-- User ID -->
-                        {{ if label_available }}
-                        <div class="hstack gap-3 text-secondary">
-                            <h1 class="text-end">
-                                <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
-                                   data-bs-content="You have been assigned the following ID: {{ participant.label }}. Please use it to identify yourself if you encounter any problems."></i>
-                            </h1>
-                            <small>
-                                    Your ID:<br>
-                                    <b class="text-dark">{{ participant.label }}</b>
-                                </small>
-                        </div>
-                        {{ endif }}
-
                     </div>
                 </div>
             </div>
 
-            <!-- Feed -->
-            <div class="col overflow-auto col-sm-12 col-md-6 col-lg-6 p-0 bg-white" style="height: 100vh;">
-
-                <!-- Navbar -->
-                <div class="d-flex m-0 p-0 sticky-top justify-content-center bg-white shadow-sm"
-                     style="opacity:0.95">
-
-                    <input class="form-control m-3 rounded-5 text-dark"
-                       type="text"
-                       value="search: {{ search_term }}"
-                       aria-label="readonly input example"
-                       style="background-color:  #FFFFFF"
-                       readonly>
-
-                    <h1 class="mt-3 me-3 text-secondary d-md-none">
-                        <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
-                           data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
-                    </h1>
+            <!-- User Info -->
+            <div class="px-3 mt-n5 pb-3 bg-white border-start border-end">
+                <div class="d-flex justify-content-end align-items-end">
+                    <div>
+                        <button class="btn btn-outline-dark btn-sm rounded-pill mt-3" role="button">Following</button>
+                    </div>
                 </div>
-
-                <table class="table table-hover border-start border-end p-0 m-0 bg-white" id="tweet_table">
-                    <tbody>
-
-                        {{ for i in tweets.values() }}
-                            {{ include C.ITEM_TWITTER }}
-                        {{ endfor }}
-
-                        <tr class="">
-                            <td class="d-flex justify-content-center">
-                                <button class="btn btn-dark m-4" id="submitButton" type="submit">
-                                    Proceed
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="ms-3 pt-3">
+                    <strong>Howquez</strong>
+                    <p>Travel and fine art photographer based in Scandinavia</p>
+                    <div class="d-flex justify-content-start">
+                        <div class="me-3"><strong>59</strong> Following</div>
+                        <div><strong>2,030</strong> Followers</div>
+                    </div>
+                </div>
             </div>
 
-            <!-- RHS -->
-            <div class="col overflow-auto d-none d-md-block col-md-3 p-0 full-height" id="RHS" style="position: relative;">
-                {{ if topics }}
-                    <!-- Include Trending Topics -->
-                    {{ include C.TOPICS_TEMPLATE }}
-                {{ else }}
-                    <!-- Include Banner -->
-                    {{ include C.BANNER_TEMPLATE }}
-                {{ endif }}
-            </div>
+            <nav class="navbar navbar-expand bg-white border-start border-end border-bottom">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav w-100 justify-content-between"> <!-- Changed class here -->
+                            <li class="nav-item flex-fill text-center"> <!-- Added classes here -->
+                                <a class="nav-link active" aria-current="page" style="text-decoration: underline; text-decoration-color: #007bff; text-decoration-thickness: 5px"><strong>Posts</strong></a>
+                            </li>
+                            <li class="nav-item flex-fill text-center">
+                                <a class="nav-link"><strong>Replies</strong></a>
+                            </li>
+                            <li class="nav-item flex-fill text-center">
+                                <a class="nav-link"><strong>Media</strong></a>
+                            </li>
+                            <li class="nav-item flex-fill text-center">
+                                <a class="nav-link"><strong>Likes</strong></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <table class="table table-hover border-start border-end p-0 m-0 bg-white" id="tweet_table">
+                <tbody>
+
+                {{ for i in tweets.values() }}
+                {{ include C.ITEM_TWITTER }}
+                {{ endfor }}
+
+                <tr class="">
+                    <td class="d-flex justify-content-center">
+                        <button class="btn btn-dark m-4" id="submitButton" type="submit">
+                            Proceed
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- RHS -->
+        <div class="col overflow-auto d-none d-md-block col-md-3 p-0 full-height" id="RHS" style="position: relative;">
+            {{ if topics }}
+            <!-- Include Trending Topics -->
+            {{ include C.TOPICS_TEMPLATE }}
+            {{ else }}
+            <!-- Include Banner -->
+            {{ include C.BANNER_TEMPLATE }}
+            {{ endif }}
         </div>
     </div>
+</div>
 
 
 
 
-    <!-- Tweet Modal -->
-    <div class="modal fade" id="tweetModal" tabindex="-1" aria-labelledby="tweetModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row text-secondary">
-                        <div class="col-2">
-                            <h1 class="text-end">
-                                <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
-                                   data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
-                            </h1>
-                        </div>
-                        <div class="col">
+<!-- Tweet Modal -->
+<div class="modal fade" id="tweetModal" tabindex="-1" aria-labelledby="tweetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row text-secondary">
+                    <div class="col-2">
+                        <h1 class="text-end">
+                            <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
+                               data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                        </h1>
+                    </div>
+                    <div class="col">
                                 <textarea class="form-control border-light" id="tweet1" rows="4"
                                           placeholder="What are the first thoughts and feelings that come to your mind when you are scrolling through the entire feed?"></textarea>
-                            <!-- implement this https://stackoverflow.com/a/42853575 -->
-                        </div>
+                        <!-- implement this https://stackoverflow.com/a/42853575 -->
                     </div>
                 </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-primary w-25 rounded-5"
-                            data-bs-dismiss="modal">Tweet</button>
-                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary w-25 rounded-5"
+                        data-bs-dismiss="modal">Tweet</button>
             </div>
         </div>
     </div>
+</div>
 
 </body>

@@ -9,7 +9,7 @@
 <h5>Investigator</h5>
 <address>
     {{ session.config.title }} {{ session.config.full_name }},
-    <a href="mailto:{{ session.config.eMail }}?subject=Social Media Study: {{ participant.code }}">
+    <a href="mailto:{{ session.config.eMail }}?subject={{ session.config.study_name }}: {{ participant.code }}">
         {{ session.config.eMail }}
     </a>
 </address>

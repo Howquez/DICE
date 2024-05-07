@@ -12,19 +12,15 @@
     <div class="card mt-5 shadow-lg p-4">
         <div class="card-body">
             <h1 class="display-4">Welcome!</h1>
-            <p class="lead">Thank you for your interest in this study.</p>
-
             <p class="lead">
-                <small>
-                    This survey is anonymous and there are no right or wrong answers.
-                </small>
+                Thank you for your interest in this study. It is anonymous and there are no right or wrong answers.
             </p>
 
             <table class="table mt-5 mb-5 table-responsive">
                 <tbody>
                     <tr>
                         <th scope="row">Study</th>
-                        <td>Social Media Feed</td>
+                        <td>{{ session.config.study_name }}</td>
                     </tr>
                     <tr>
                         <th scope="row">
