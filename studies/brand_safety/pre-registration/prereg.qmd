@@ -1,0 +1,112 @@
+---
+title: 'Digital In-Context Experiments'
+subtitle: 'Brand Safety: Pre-Registration'
+author:
+- name: Hauke Roggenkamp
+  email: Hauke.Roggenkamp@unisg.ch
+  orcid: 0009-0005-5176-4718
+  corresponding: true
+  affiliations:
+    - name: Institute of Behavioral Science and Technology, University of St. Gallen
+      address: Torstrasse 25
+      city: St. Gallen
+      country: Switzerland
+      postal-code: 9000
+    - name: Faculty of Economics & Social Sciences, Helmut-Schmidt-University
+      address: Holstenhofweg 85
+      city: Hamburg
+      country: Germany
+      postal_code: 22043
+- name: Johannes Boegershausen
+  email: boegershausen@rsm.nl
+  orcid: 0000-0002-1429-9344
+  corresponding: false
+  affiliations:
+    - name: Rotterdam School of Management, Erasmus University 
+      address: Burgemeester Oudlaan 50
+      city: Rotterdam
+      country: Netherlands
+      postal-code: 3062
+- name: Christian Hildebrand
+  email: Christian.Hildebrand@unisg.ch
+  orcid: 0000-0003-4366-3093
+  corresponding: false
+  affiliations:
+    - name: Institute of Behavioral Science and Technology, University of St. Gallen
+      address: Torstrasse 25
+      city: St. Gallen
+      country: Switzerland
+      postal-code: 9000
+date: now
+date-format: dddd MMM D, YYYY, HH:mm z
+# format:
+#   html:
+#     embed-resources: true
+#     theme: cosmo
+format: pdf
+toc: false
+numbersections: true
+fig-cap-location: top
+bibliography: ../../../documentation/references.bib
+keywords: social media, user-generated content, digital marketing, in-context testing, ecological validity, ecological value, causal inference
+---
+
+This study directly relates to brand safety by highlighting how _malgorithms_ that place advertisements in insensitive or inappropriate contexts—such as promoting travel during natural disasters—can significantly impact consumer perception, resulting in brand dilution and damaging the brand's reputation.
+
+To explore this, we expose participants in the treatment group to a simulated Twitter feed that consists of real tweets describing the [severe flooding](https://www.bbc.com/news/articles/cle07g0zzqeo) currently affecting Brazil. Within this feed, we include a fictitious sponsored post by KLM, advertising flights to Brazil with the following copy:
+
+> Brazil's wild beauty calls! Experience nature like never before. Book your breathtaking adventure with KLM.
+
+![KLM Ad](../stimuli/brazil_wild_beauty.png){#fig-ad}
+
+The control group is exposed to the same ad in a different context that does not contain any tweets covering the flooding. Instead, the feeds cover other real topics such as a _Madonna_ concert.
+
+You can browse the flood-related feed [here](https://web.archive.org/web/20240509200732/https://ibt-hsg.herokuapp.com/p/6ni2o3bv/DICE/C_Feed/3) and the more general feed [here.](https://web.archive.org/web/20240509200758/https://ibt-hsg.herokuapp.com/p/97fable0/DICE/C_Feed/3)
+
+Both feeds are  interactive DICE feeds that resemble Twitter and cover posts from various users. Both contain 20 posts where the focal brand's sponsored post is displayed in fifth position.
+
+
+# Method and Measures
+
+We run a 2-cell (flood-context vs. general-context) between-subjects design in which each participant faces the sponsored post.
+
+After participants browse the social media feed, they are redirected to a Qualtrics survey that starts with basic demographic questions. Subsequently, they answer unaided and aided recall questions to indicate whether they remember seeing a _KLM_ ad. 
+
+Finally we elicit the participants' brand attitudes towards KLM before we debrief and redirect them to Prolific.
+
+
+# Primary Analysis
+
+Our primary interest lies in the effect the context has on our three-item brand attitude measure. Hence, we compute an average of these items and compare means using a simple OLS regression (to which we subsequently add potential covariates).
+
+We expect the flood-context to affect the brand attitude towards _KLM_ negatively, which is why we consider a one sided test.
+
+# Secondary Analysis
+
+We expect heterogeneous treatment effects, where recall and the (absence of) the dwell time participants allocate to the focal brand's sponsored ad moderate the treatment: Those participants who have not seen or processed the ad (approximated by a lack of dwell time and failures to recall the ad, respectively), shouldn't be affected by the brand logo.
+
+# Population
+
+We will recruit participants from Prolific who meet the following criteria:
+
+- Approval Rate >= 99%
+- First Language == ‘English’
+- Location == ‘USA’
+
+# Sample Size 
+
+As stated above, we expect our treatment effect to be heterogeneous. As a consequence, the sponsored ad can only affect brand evaluations if it cuts through the content clutter [@Ordenes_2019].
+
+Hence, we recruit 300 participants in a first pilot. To this end, we create a database containing 500 rows.
+
+# Exclusion Criteria
+
+We will only consider complete observations, that is, data from participants who browsed through the feed, answered the qualtrics survey and who were redirected to Prolific with a functional completion code.
+
+Because we gather process data, such as dwell time, we have tools to assess the data quality [@CuskleySulik_2024] -- at least during the exposure to the social media feed. If these data reveal inattentive participants, for instance, we may exclude them too but label the resulting analyses as exploratory.
+
+# Prior Data Collection
+
+We did not collect any data before.
+
+# References
