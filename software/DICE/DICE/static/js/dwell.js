@@ -38,25 +38,23 @@ function updateVisibleRowsDwellTime() {
     });
 }
 
-// Create an Intersection Observer
-const observer = new IntersectionObserver(handleRowVisibility, {
-    root: null, // Use the viewport as the root
-    rootMargin: '0px', // No margin
-    threshold: 0.5, // Trigger when at least 50% of the element is in the viewport
-});
+// Start observing rows only after the entire page has loaded
+window.onload = function() {
+    // Create an Intersection Observer
+    const observer = new IntersectionObserver(handleRowVisibility, {
+        root: null, // Use the viewport as the root
+        rootMargin: '0px', // No margin
+        threshold: 0.5, // Trigger when at least 50% of the element is in the viewport
+    });
 
-// Get all the table rows and observe them
-const tableRows = document.querySelectorAll('tr');
-tableRows.forEach((row) => {
-    observer.observe(row);
-});
+    // Get all the table rows and observe them
+    const tableRows = document.querySelectorAll('tr');
+    tableRows.forEach((row) => {
+        observer.observe(row);
+    });
+};
 
 // Attach the function to the submit button click event
 document.getElementById('submitButton').addEventListener('click', function() {
     updateVisibleRowsDwellTime();
-    // Here, you might also want to add any other actions to be performed on submit
-    // For example, you can put the code to handle the form submission here
 });
-
-
-

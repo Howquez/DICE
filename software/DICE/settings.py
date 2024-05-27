@@ -38,6 +38,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     url_param = 'PROLIFIC_PID',
     briefing = '', # '<h5>This could be your briefing</h5><p>Use HTML syntax to format your content to your liking.</p>',
     data_path='DICE/static/data/sample_tweets.csv', # 'https://raw.githubusercontent.com/Howquez/oFeeds/main/software/DICE/DICE/static/data/sample_tweets.csv', #'DICE/DICE/data/sample_tweets.csv',
+    delimiter=';',
     sort_by='datetime',
     condition_col='condition',
     topics = True,

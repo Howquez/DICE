@@ -63,7 +63,8 @@ def creating_session(subsession):
     subsession.FEED = "DICE/T_Feed_" + subsession.session.config['channel_type'] + ".html"
 
     # read data (from seesion config)
-    df = read_feed(subsession.session.config['data_path'])
+    df = read_feed(path = subsession.session.config['data_path'],
+                   delim = subsession.session.config['delimiter'])
     tweets = preprocessing(df, subsession.session.config)
     for player in subsession.get_players():
         player.participant.tweets = tweets
@@ -142,18 +143,18 @@ def check_url_exists(url):
         return False
 
 # function that reads data
-def read_feed(path):
+def read_feed(path, delim):
     if re.match(r'^https?://\S+', path):
         if 'github' in path:
-            tweets = pd.read_csv(path, sep=';')
+            tweets = pd.read_csv(path, sep = delim)
         elif 'drive.google.com' in path:
             file_id = path.split('/')[-2]
             download_url = f'https://drive.google.com/uc?id={file_id}'
-            tweets = pd.read_csv(download_url, sep=';')
+            tweets = pd.read_csv(download_url, sep = delim)
         else:
             raise ValueError("Unrecognized URL format")
     else:
-        tweets = pd.read_csv(path, sep=';')
+        tweets = pd.read_csv(path, sep = delim)
     return tweets
 
 # some pre-processing
