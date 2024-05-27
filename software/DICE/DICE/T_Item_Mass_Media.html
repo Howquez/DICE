@@ -22,7 +22,7 @@
         <div class="row justify-content-start m-3">
             <div class="card-body" id="tweet_{{i.doc_id}}" data-bs-toggle="offcanvas" data-bs-target="#off_{{i.doc_id}}" style="cursor: pointer;">
                 <div class="image-container">
-                    <img src="{{i.media}}" alt="Image {{i.doc_id }}" class="img-fluid">
+                    <img src="{{i.media}}" alt="{{i.alt_text}}" class="img-fluid">
                 </div>
                 <p class='text-danger mb-1 mt-2'>
                     {{i.likes}}
@@ -48,7 +48,7 @@
                 <!-- Feed -->
                 <div class="col overflow-auto col-sm-12 col-md-6 col-lg-6 p-3 feed-animation bg-white" style="height: 100vh;">
                     <div class="image-container">
-                        <img src="{{i.media}}" alt="Image {{i.doc_id }}" class="img-fluid">
+                        <img src="{{i.media}}" alt="{{i.alt_text}}" class="img-fluid">
                     </div>
                     <h3 class=" offcanvas-title mb-3" id="off-Label">{{i.text}}</h3>
                     <small class="text-muted"> {{i.datetime}} &middot; {{i.username}}.</small>

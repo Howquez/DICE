@@ -43,7 +43,7 @@
                           <!-- Tweet image if available -->
                           {{ if i.pic_available == True }}
                               <a href="{{i.target}}" target="_blank" style="text-decoration: none; cursor: pointer;">
-                                  <img src="{{i.media}}" class="img-fluid rounded-4 mt-2" alt="Tweet media">
+                                  <img src="{{i.media}}" class="img-fluid rounded-4 mt-2" alt="{{i.alt_text}}">
                               </a>
                           {{ endif }}
 
@@ -117,7 +117,7 @@
 
                           <!-- Tweet image if available -->
                           {{ if i.pic_available == True }}
-                          <img src="{{i.media}}" class="img-fluid rounded-4 mt-2" alt="Tweet media">
+                          <img src="{{i.media}}" class="img-fluid rounded-4 mt-2" alt="{{i.alt_text}}">
                           {{ endif }}
 
                           <!-- Tweet actions -->
