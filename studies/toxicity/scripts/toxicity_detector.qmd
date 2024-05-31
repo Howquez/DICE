@@ -1,0 +1,78 @@
+---
+title: "Sound Decisions? The Predictive Reliability of Voice Analytics on Consumer Preferences"
+subtitle: "Transcription"
+author:
+- name: Hauke Roggenkamp
+  email: Hauke.Roggenkamp@unisg.ch
+  orcid: 0009-0005-5176-4718
+  corresponding: true
+  affiliations:
+    - name: Institute of Behavioral Science and Technology, University of St. Gallen
+      address: Torstrasse 25
+      city: St. Gallen
+      country: Switzerland
+      postal-code: 9000
+    - name: Faculty of Economics & Social Sciences, Helmut-Schmidt-University
+      address: Holstenhofweg 85
+      city: Hamburg
+      country: Germany
+      postal_code: 22043
+date: now
+date-format: long
+format: 
+  html:
+    embed-resources: true
+    theme: cosmo
+    code-line-numbers: true
+toc: false
+number-sections: false
+fig-cap-location: top
+execute:
+  echo: true
+  warning: false
+jupyter: python3
+---
+
+Testing the Detoxify model by @Detoxify.
+
+```{python modules}
+from detoxify import Detoxify
+import pandas as pd
+```
+
+```{python read_data}
+stimuli = pd.read_csv("../stimuli/genAI_posts.csv", sep = ";")
+```
+
+```{python predict}
+detox_model = Detoxify('original')
+results = detox_model.predict(stimuli['text'].tolist())
+```
+
+```{python write_data}
+results_df = pd.DataFrame(results)
+data = pd.concat([stimuli, results_df], axis=1)
+
+# Define the output CSV file path
+csv_file_path = "../data/processed/toxicity_predictions.csv"
+
+# Write the DataFrame to a CSV file
+data.to_csv(csv_file_path, index=False, sep = ",")
+```
+
+```{python}
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(10, 6))
+data.groupby('condition')['toxicity'].mean().plot(kind='bar', color='skyblue')
+plt.title('Average Toxicity Score by Type')
+plt.xlabel('condition')
+plt.ylabel('Average Toxicity Score')
+plt.xticks(rotation=0)
+plt.grid(True)
+plt.show()
+
+```
+
+
+
