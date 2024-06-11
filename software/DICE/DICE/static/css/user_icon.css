@@ -1,0 +1,95 @@
+.poster {
+    width: 70%;
+    max-width: 100px; /* Adjust the max-width according to your needs */
+    height: auto;
+    margin: 5% auto; /* Adjust the percentage according to your needs */
+    position: relative;
+    border-radius: 50%; /* Use 50% to ensure it remains a circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.p1 {
+    background: #2b5876;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4e4376, #2b5876);  /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-gradient(linear, left top, right top, from(#4e4376), to(#2b5876));
+    background: -webkit-linear-gradient(left, #4e4376, #2b5876);
+    background: -o-linear-gradient(left, #4e4376, #2b5876);
+    background: linear-gradient(to right, #4e4376, #2b5876); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.p2 {
+    background: #f857a6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ff5858, #f857a6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-gradient(linear, left top, right top, from(#ff5858), to(#f857a6));
+    background: -webkit-linear-gradient(left, #ff5858, #f857a6);
+    background: -o-linear-gradient(left, #ff5858, #f857a6);
+    background: linear-gradient(to right, #ff5858, #f857a6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.p3 {
+    background: #AA076B;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #61045F, #AA076B);  /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-gradient(linear, left top, right top, from(#61045F), to(#AA076B));
+    background: -webkit-linear-gradient(left, #61045F, #AA076B);
+    background: -o-linear-gradient(left, #61045F, #AA076B);
+    background: linear-gradient(to right, #61045F, #AA076B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.p4 {
+    background: #43cea2;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #185a9d, #43cea2);  /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-gradient(linear, left top, right top, from(#185a9d), to(#43cea2));
+    background: -webkit-linear-gradient(left, #185a9d, #43cea2);
+    background: -o-linear-gradient(left, #185a9d, #43cea2);
+    background: linear-gradient(to right, #185a9d, #43cea2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.p5 {
+    background: #f953c6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #b91d73, #f953c6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-gradient(linear, left top, right top, from(#b91d73), to(#f953c6));
+    background: -webkit-linear-gradient(left, #b91d73, #f953c6);
+    background: -o-linear-gradient(left, #b91d73, #f953c6);
+    background: linear-gradient(to right, #b91d73, #f953c6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.p6 {
+    background: #1d2b64;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f8cdda, #1d2b64);  /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-gradient(linear, left top, right top, from(#f8cdda), to(#1d2b64));
+    background: -webkit-linear-gradient(left, #f8cdda, #1d2b64);
+    background: -o-linear-gradient(left, #f8cdda, #1d2b64);
+    background: linear-gradient(to right, #f8cdda, #1d2b64); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.p7 {
+    background: #3a6186;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #89253e, #3a6186);  /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-gradient(linear, left top, right top, from(#89253e), to(#3a6186));
+    background: -webkit-linear-gradient(left, #89253e, #3a6186);
+    background: -o-linear-gradient(left, #89253e, #3a6186);
+    background: linear-gradient(to right, #89253e, #3a6186); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.p8 {
+    background: #0f0c29;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-gradient(linear, left top, right top, from(#302b63), to(#0f0c29));
+    background: -webkit-linear-gradient(left, #302b63, #0f0c29);
+    background: -o-linear-gradient(left, #302b63, #0f0c29);
+    background: linear-gradient(to right, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.poster h4 {
+    top: 10px;
+    color: #fff;
+    position: relative;
+    font-size: 25px;
+    text-align: center;
+    font-weight: 100;
+}

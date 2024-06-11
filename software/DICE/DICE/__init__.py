@@ -59,69 +59,59 @@ class Player(BasePlayer):
 
 # FUNCTIONS -----
 def creating_session(subsession):
-
     subsession.FEED = "DICE/T_Feed_" + subsession.session.config['channel_type'] + ".html"
 
-    # read data (from seesion config)
-    df = read_feed(path = subsession.session.config['data_path'],
-                   delim = subsession.session.config['delimiter'])
-    tweets = preprocessing(df, subsession.session.config)
-    for player in subsession.get_players():
-        player.participant.tweets = tweets
+    # Load and preprocess data once but shuffle and assign for each player
+    df = read_feed(path=subsession.session.config['data_path'], delim=subsession.session.config['delimiter'])
+    processed_tweets = preprocessing(df, subsession.session.config)
 
-    # if the file contains any conditions, read them an assign groups to it
+    # Check if the file contains any conditions and assign groups to it
     condition = subsession.session.config['condition_col']
-    if condition in tweets.columns:
-        feed_conditions = tweets[condition].unique()
+    if condition in processed_tweets.columns:
+        feed_conditions = processed_tweets[condition].unique()
         subsession.feed_conditions = str(feed_conditions)
-        for player in subsession.get_players():
-            player.feed_condition = random.choice(feed_conditions)
 
-    # set banner ad conditions based on images in directory
-    # all_files = os.listdir('twitter/static/img')
-    # ad_conditions = []
-    # for file_name in all_files:
-    #     if file_name[0].isalpha() and file_name[1:].lower().endswith('.png') and file_name[1] == '_':
-    #         letter = file_name[0].upper()
-    #         if letter not in ad_conditions:
-    #             ad_conditions.append(letter)
-    # ad_conditions = list(set(ad_conditions))
-    # for player in subsession.get_players():
-    #     player.ad_condition = random.choice(ad_conditions)
-
-    # PREPARE DATA:
-    # subset data based on condition (if any)
     for player in subsession.get_players():
+        # Deep copy the DataFrame to ensure each player gets a unique shuffled version
+        tweets = processed_tweets.copy()
 
-        # I pushed the randomization to the player level using before_next_page on the A_Intro page.
-        # this approach relies on the feed_conditions subsession variable defined above.
+        # Assign a condition to the player if conditions are present
+        if condition in tweets.columns:
+            player.feed_condition = random.choice(feed_conditions)
+            # Optionally filter tweets based on the assigned condition here
+            # tweets = tweets[tweets[condition] == player.feed_condition]
 
-        # tweets = player.participant.tweets
-        # condition = player.session.config['condition_col']
-        # if condition in tweets.columns:
-        #     tweets = tweets[tweets[condition] == str(player.feed_condition)]
+        # Ensure the random number generator's seed is different for each player if needed
+        # np.random.seed()  # Optionally reset the seed for true randomness
 
-        # sort or shuffle data
-        sort_by = player.session.config['sort_by']
-        if sort_by in tweets.columns:
-            tweets = tweets.sort_values(by=sort_by, ascending=True)
-        else:
-            tweets = tweets.sample(frac=1, random_state=42)  # Set a random_state for reproducibility
-            # Reset the index after shuffling
-            tweets.reset_index(drop=True, inplace=True)
+        # Check for unique commented post
+        commented_post_exists = (tweets['commented_post'] == 1).sum() == 1
 
-        # subset first rows
-        # tweets = tweets.head(player.session.config['subset'])
+        # Conditional update of sequence if there is a unique commented post and sequence is 1
+        tweets.loc[(tweets['sequence'] == 1) & (tweets['commented_post'] == 0), 'sequence'] = \
+            np.where(commented_post_exists, np.nan, 1)
 
-        # index
-        tweets['index'] = range(1, len(tweets) + 1)
-        tweets['row'] = range(1, len(tweets) + 1)
+        # Set sequence to 1 for the row where commented_post is 1
+        tweets.loc[tweets['commented_post'] == 1, 'sequence'] = 1
 
-        # participant vars
+        # Generate ranks and exclude used ranks
+        ranks = np.arange(1, len(tweets) + 1)
+        available_ranks = ranks[~np.isin(ranks, tweets['sequence'].dropna())]
+
+        # Randomly sample available ranks to fill missing sequence values
+        np.random.shuffle(available_ranks)
+        missing_indices = tweets['sequence'].isnull()
+        tweets.loc[missing_indices, 'sequence'] = available_ranks[:sum(missing_indices)]
+
+        # Sort DataFrame by sequence
+        tweets.sort_values(by='sequence', inplace=True)
+
+        # Assign processed tweets to player-specific variable
         player.participant.tweets = tweets
 
-        # sequence
+        # Record the sequence for each player
         player.sequence = ', '.join(map(str, tweets['doc_id'].tolist()))
+        print(player.sequence)
 
 
 
@@ -157,12 +147,17 @@ def read_feed(path, delim):
         tweets = pd.read_csv(path, sep = delim)
     return tweets
 
+# Function to check if a URL exists in the text
+def is_url(s):
+    return bool(re.match(r'^https?:\/\/', str(s)))
+
 # some pre-processing
 def preprocessing(df, config):
     # reformat date
     df['datetime'] = pd.to_datetime(df['datetime'], errors='coerce', format='%d.%m.%y %H:%M')
     df['date'] = df['datetime'].dt.strftime('%d %b').str.replace(' ', '. ')
     df['date'] = df['date'].str.lstrip('0')
+    df['formatted_datetime'] = df['datetime'].dt.strftime('%I:%M %p · %b %d, %Y')
 
     # highlight hashtags, cashtags, mentions, etc.
     df['text'] = df['text'].str.replace(r'\B(\#[a-zA-Z0-9_]+\b)',
@@ -187,8 +182,12 @@ def preprocessing(df, config):
     # print(df[['pic_available', 'media']])
 
     # create a name icon as a profile pic
-    df['icon'] = df['username'].str[:2]
-    df['icon'] = df['icon'].str.title()
+    df['profile_pic_available'] = df['user_image'].apply(is_url)
+    df['icon'] = df['username'].str[:2].str.title()
+
+    # Assign a random color class from a predefined list
+    color_classes = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8']
+    df['color_class'] = np.random.choice(color_classes, size=len(df))
 
     # make sure user descriptions do not entail any '' or "" as this complicates visualization
     # also replace nan with some whitespace
@@ -198,11 +197,6 @@ def preprocessing(df, config):
 
     # make number of followers a formatted string
     df['user_followers'] = df['user_followers'].map('{:,.0f}'.format).str.replace(',', '.')
-
-    # check profile image urls
-    # df['profile_pic_available'] = df['user_image'].apply(
-        # lambda x: check_url_exists(x) if pd.notnull(x) else False)
-    df['profile_pic_available'] = True
 
     # Check if 'condition_col' is set and not empty, and if it's an existing column in df
     if ('condition_col' in config and

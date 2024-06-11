@@ -46,39 +46,6 @@ full-height {
     }
 }
 
-/* icons */
-
-    .p1 {
-        background: #FF0099; /* Fallback for old browsers */
-        height: 100%;
-        transition: background 0.5s ease;
-    }
-
-    .poster {
-        display: flex; /* Enables flexbox */
-        flex-direction: column; /* Stack children vertically */
-        justify-content: center; /* Centers children vertically */
-        align-items: center; /* Centers children horizontally */
-        height: 100%; /* Adjust as needed */
-        border-radius: 50%; /* Creates a circular shape */
-        width: 4vw; /* Adjust width as needed */
-        height: 4vw; /* Adjust height to match width for a perfect circle */
-        min-width: 40px;
-        min-height: 40px;
-        background-color: #FFF; /* Optional: Background color for the circle */
-        margin: auto; /* Centers the circle in its container */
-        object-fit: cover
-    }
-
-
-    .poster h4 {
-        color: #fff;
-        font-size: 1.5em;
-        text-align: center;
-        font-weight: 100;
-        margin: 0; /* Removes default margin */
-    }
-
     /* Media Query for smaller screens */
     @media (max-width: 600px) {
         .poster h4 {

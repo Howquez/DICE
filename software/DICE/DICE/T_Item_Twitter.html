@@ -74,77 +74,194 @@
           </td>
         </tr>
     {{ else }}
-        <tr id="{{i.doc_id}}" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
-          <td>
-            <div class="tweet d-flex align-items-start p-2">
-              <!-- Profile picture -->
-              <div class="profile-pic me-2">
-                <img src="{{i.user_image}}" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;"
-                     alt="Profile picture of {{i.username}}."
-                     data-bs-toggle="tooltip"
-                     data-bs-placement="bottom"
-                     data-bs-html="true"
-                     data-bs-custom-class="custom-tooltip"
-                     title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
-                     @{{i.handle}}<br><br>
-                     {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
-              </div>
+        {{ if i.commented_post }}
+            <div id="{{i.doc_id}}" class="border-start border-end border-bottom" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
+                <div class="tweet d-flex align-items-start p-2">
+                    <!-- Profile picture -->
+                    {{ if i.profile_pic_available }}
+                    <div class="profile-pic me-2">
+                        <img src="{{i.user_image}}" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;"
+                             alt="Profile picture of {{i.username}}."
+                             data-bs-toggle="tooltip"
+                             data-bs-placement="bottom"
+                             data-bs-html="true"
+                             data-bs-custom-class="custom-tooltip"
+                             title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
+                             @{{i.handle}}<br><br>
+                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                    </div>
+                    {{ else }}
+                    <div class="me-2 poster {{ i.color_class }}" style="width: 48px; height: 48px;">
+                        {{ i.icon}}
+                    </div>
+                    {{ endif }}
 
-              <!-- Tweet content -->
-              <div class="tweet-content w-100" id="tweet_{{i.doc_id}}">
-                <!-- Tweet header -->
-                <div class="d-flex justify-content-between"
-                     style="cursor: pointer;"
-                     data-bs-toggle="tooltip"
-                     data-bs-placement="bottom"
-                     data-bs-html="true"
-                     data-bs-custom-class="custom-tooltip"
-                     title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
-                     @{{i.handle}}<br><br>
-                     {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
-                  <div>
-                    <small><strong>{{i.username}}</strong></small>
-                    <small class="text-muted">@{{i.handle}}</small>
-                    <small class="text-muted">&middot;</small>
-                    <small class="text-muted">{{i.date}}</small>
-                  </div>
-
+                    <!-- Tweet content -->
+                    <div class="tweet-content w-100">
+                        <!-- Tweet header -->
+                        <div class="d-flex justify-content-between"
+                             style="cursor: pointer;"
+                             data-bs-toggle="tooltip"
+                             data-bs-placement="bottom"
+                             data-bs-html="true"
+                             data-bs-custom-class="custom-tooltip"
+                             title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
+                             @{{i.handle}}<br><br>
+                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                            <div>
+                                <small><strong>{{i.username}}</strong></small>
+                                <br>
+                                <small class="text-muted">@{{i.handle}}</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Tweet text -->
-                <p class="my-1" id="tweet_text_{{i.doc_id}}">{{i.text}}</p>
+                <!-- Everything from the tweet text onwards, placed beneath the profile picture -->
+                <div class="tweet-lower-content p-2">
+                    <!-- Tweet text -->
+                    <p class="my-1" id="tweet_text_{{i.doc_id}}">{{i.text}}</p>
 
-                <!-- Tweet image if available -->
-                {{ if i.pic_available == True }}
-                <img src="{{i.media}}" class="img-fluid rounded-4 mt-2" alt="{{i.alt_text}}">
-                {{ endif }}
+                    <!-- Tweet image if available -->
+                    {{ if i.pic_available == True }}
+                        <img src="{{i.media}}" class="img-fluid rounded-4 mt-2" alt="{{i.alt_text}}">
+                    {{ endif }}
 
-                <!-- Tweet actions -->
-                <div class="d-flex justify-content-between mt-2">
-                  <!-- Reply -->
-                  <div class="reply-button col" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}">
-                    <span class="bi bi-chat text-secondary reply-icon" id="reply_icon_{{i.doc_id}}" style="cursor: pointer">️</span>
-                    <span class="reply-count text-secondary" id="reply_count_{{i.doc_id}}">{{i.replies}}</span>
-                  </div>
-                  <!-- Repost -->
-                  <div class="repost-button col">
-                    <span class="bi bi-arrow-repeat text-secondary repost-icon" style="cursor: pointer">️</span>
-                    <span class="repost-count text-secondary">{{i.reposts}}</span>
-                  </div>
-                  <!-- Like -->
-                  <div class="like-button col" id="like_button_{{i.doc_id}}">
-                    <span class="bi bi-heart text-secondary like-icon" style="cursor: pointer">️</span>
-                    <span class="like-count text-secondary">{{i.likes}}</span>
-                  </div>
-                  <!-- Share -->
-                  <div class="share-button col">
-                    <span class="bi bi-upload text-secondary share-icon" style="cursor: pointer">️</span>
-                  </div>
+                    <!-- Date Time -->
+                    <div class="text-muted my-3">
+                        <p>
+                            <small>
+                                {{ i.formatted_datetime }}
+                            </small>
+                        </p>
+                    </div>
+
+                    <hr class="px-2">
+
+                    <!-- Tweet actions -->
+                    <div class="d-flex justify-content-between mt-2">
+                        <!-- Reply -->
+                        <div class="reply-button col ps-5" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}">
+                            <span class="bi bi-chat text-secondary reply-icon" id="reply_icon_{{i.doc_id}}" style="cursor: pointer">️</span>
+                            <span class="reply-count text-secondary" id="reply_count_{{i.doc_id}}">{{i.replies}}</span>
+                        </div>
+                        <!-- Repost -->
+                        <div class="repost-button col ps-5">
+                            <span class="bi bi-arrow-repeat text-secondary repost-icon" style="cursor: pointer">️</span>
+                            <span class="repost-count text-secondary">{{i.reposts}}</span>
+                        </div>
+                        <!-- Like -->
+                        <div class="like-button col ps-5" id="like_button_{{i.doc_id}}">
+                            <span class="bi bi-heart text-secondary like-icon" style="cursor: pointer">️</span>
+                            <span class="like-count text-secondary">{{i.likes}}</span>
+                        </div>
+                        <!-- Share -->
+                        <div class="share-button col ps-5">
+                            <span class="bi bi-upload text-secondary share-icon" style="cursor: pointer">️</span>
+                        </div>
+                    </div>
+
+                    <hr class="px-2">
+
+                    <!-- Parent container for alignment -->
+                    <div class="d-flex align-items-center my-0" value="Tweet" data-bs-toggle="modal" data-bs-target="#tweetModal">
+                        <!-- Poster element -->
+                        <div class="mx-2 poster p1 my-0" style="width: 48px; height: 48px;">
+                            You
+                        </div>
+
+                        <!-- Text next to the poster -->
+                        <div class="flex-grow-1 pt-3">
+                            <p class="text-secondary" style="font-size: 20px;">Post your reply</p>
+                        </div>
+
+                        <!-- Button next to the text -->
+                        <button type="button" class="btn btn-primary btn-sm rounded-pill me-2" disabled>
+                            Reply
+                        </button>
+                    </div>
+
                 </div>
-              </div>
             </div>
-          </td>
-        </tr>
+      {{ else }}
+            <tr id="{{i.doc_id}}" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
+                <td>
+                    <div class="tweet d-flex align-items-start p-2">
+                        <!-- Profile picture -->
+                        {{ if i.profile_pic_available }}
+                        <div class="profile-pic me-2">
+                            <img src="{{i.user_image}}" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;"
+                                 alt="Profile picture of {{i.username}}."
+                                 data-bs-toggle="tooltip"
+                                 data-bs-placement="bottom"
+                                 data-bs-html="true"
+                                 data-bs-custom-class="custom-tooltip"
+                                 title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
+                                 @{{i.handle}}<br><br>
+                                 {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                        </div>
+                        {{ else }}
+                        <div class="me-2 poster {{ i.color_class }}" style="width: 48px; height: 48px;">
+                            {{ i.icon}}
+                        </div>
+                        {{ endif }}
+
+                        <!-- Tweet content -->
+                        <div class="tweet-content w-100" id="tweet_{{i.doc_id}}">
+                            <!-- Tweet header -->
+                            <div class="d-flex justify-content-between"
+                                 style="cursor: pointer;"
+                                 data-bs-toggle="tooltip"
+                                 data-bs-placement="bottom"
+                                 data-bs-html="true"
+                                 data-bs-custom-class="custom-tooltip"
+                                 title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
+                                 @{{i.handle}}<br><br>
+                                 {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                                <div>
+                                    <small><strong>{{i.username}}</strong></small>
+                                    <small class="text-muted">@{{i.handle}}</small>
+                                    <small class="text-muted">&middot;</small>
+                                    <small class="text-muted">{{i.date}}</small>
+                                </div>
+
+                            </div>
+
+                            <!-- Tweet text -->
+                            <p class="my-1" id="tweet_text_{{i.doc_id}}">{{i.text}}</p>
+
+                            <!-- Tweet image if available -->
+                            {{ if i.pic_available == True }}
+                                <img src="{{i.media}}" class="img-fluid rounded-4 mt-2" alt="{{i.alt_text}}">
+                            {{ endif }}
+
+                            <!-- Tweet actions -->
+                            <div class="d-flex justify-content-between mt-2">
+                              <!-- Reply -->
+                                <div class="reply-button col" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}">
+                                    <span class="bi bi-chat text-secondary reply-icon" id="reply_icon_{{i.doc_id}}" style="cursor: pointer">️</span>
+                                    <span class="reply-count text-secondary" id="reply_count_{{i.doc_id}}">{{i.replies}}</span>
+                                </div>
+                                <!-- Repost -->
+                                <div class="repost-button col">
+                                    <span class="bi bi-arrow-repeat text-secondary repost-icon" style="cursor: pointer">️</span>
+                                    <span class="repost-count text-secondary">{{i.reposts}}</span>
+                                </div>
+                                <!-- Like -->
+                                <div class="like-button col" id="like_button_{{i.doc_id}}">
+                                    <span class="bi bi-heart text-secondary like-icon" style="cursor: pointer">️</span>
+                                    <span class="like-count text-secondary">{{i.likes}}</span>
+                                </div>
+                                <!-- Share -->
+                                <div class="share-button col">
+                                    <span class="bi bi-upload text-secondary share-icon" style="cursor: pointer">️</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+      {{ endif }}
     {{ endif }}
 
 
