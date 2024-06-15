@@ -5,8 +5,7 @@ import re
 import os
 import random
 import httplib2
-from itertools import cycle
-
+import itertools
 
 
 
@@ -68,7 +67,7 @@ def creating_session(subsession):
     # Check if the file contains any conditions and assign groups to it
     condition = subsession.session.config['condition_col']
     if condition in processed_tweets.columns:
-        feed_conditions = processed_tweets[condition].unique()
+        feed_conditions = itertools.cycle(processed_tweets[condition].unique())
         subsession.feed_conditions = str(feed_conditions)
 
     for player in subsession.get_players():
@@ -77,22 +76,30 @@ def creating_session(subsession):
 
         # Assign a condition to the player if conditions are present
         if condition in tweets.columns:
-            player.feed_condition = random.choice(feed_conditions)
-            # Optionally filter tweets based on the assigned condition here
-            # tweets = tweets[tweets[condition] == player.feed_condition]
+            player.feed_condition = next(feed_conditions)
+            tweets = tweets[tweets[condition] == player.feed_condition]
 
         # Ensure the random number generator's seed is different for each player if needed
         # np.random.seed()  # Optionally reset the seed for true randomness
 
-        # Check for unique commented post
-        commented_post_exists = (tweets['commented_post'] == 1).sum() == 1
+        # Initialize 'commented_post_exists' as False in case the column doesn't exist
+        commented_post_exists = False
+
+        # Only perform operations involving 'commented_post' if it exists in the DataFrame
+        if 'commented_post' in tweets.columns:
+            # Check for unique commented post
+            commented_post_exists = ((tweets['commented_post'] == 1) & (tweets["condition"] == player.feed_condition)).sum() == 1
+            if commented_post_exists == 1:
+                player.subsession.FEED = "DICE/T_Feed_" + subsession.session.config['channel_type'] + "_Replies.html"
+
+            # Set sequence to 1 for the row where commented_post is 1
+            tweets.loc[tweets['commented_post'] == 1, 'sequence'] = 1
+        else:
+            tweets['commented_post'] = 0
 
         # Conditional update of sequence if there is a unique commented post and sequence is 1
         tweets.loc[(tweets['sequence'] == 1) & (tweets['commented_post'] == 0), 'sequence'] = \
             np.where(commented_post_exists, np.nan, 1)
-
-        # Set sequence to 1 for the row where commented_post is 1
-        tweets.loc[tweets['commented_post'] == 1, 'sequence'] = 1
 
         # Generate ranks and exclude used ranks
         ranks = np.arange(1, len(tweets) + 1)
@@ -111,7 +118,7 @@ def creating_session(subsession):
 
         # Record the sequence for each player
         player.sequence = ', '.join(map(str, tweets['doc_id'].tolist()))
-        print(player.sequence)
+        # print(player.sequence)
 
 
 
@@ -199,6 +206,7 @@ def preprocessing(df, config):
     df['user_followers'] = df['user_followers'].map('{:,.0f}'.format).str.replace(',', '.')
 
     # Check if 'condition_col' is set and not empty, and if it's an existing column in df
+    # looks like legacy code as I force people to have a condition col by now.
     if ('condition_col' in config and
             config['condition_col'] and
             config['condition_col'] in df.columns):
@@ -234,15 +242,15 @@ class A_Intro(Page):
     form_model = 'player'
     @staticmethod
     def before_next_page(player, timeout_happened):
-        feed_conditions_str = player.subsession.feed_conditions
-        feed_conditions_list = feed_conditions_str.strip("[]").split()
-        random_condition = random.choice(feed_conditions_list)
-        cleaned_condition = random_condition.strip("'")
-        player.feed_condition = cleaned_condition
+        # feed_conditions_str = player.subsession.feed_conditions
+        # feed_conditions_list = feed_conditions_str.strip("[]").split()
+        # random_condition = random.choice(feed_conditions_list)
+        # cleaned_condition = random_condition.strip("'")
+        #player.feed_condition = cleaned_condition
 
         # update sequence
         df = player.participant.tweets
-        tweets = df[df['condition'] == cleaned_condition]
+        tweets = df[df['condition'] == player.feed_condition]
         player.sequence = ', '.join(map(str, tweets['doc_id'].tolist()))
 
 class B_Briefing(Page):
