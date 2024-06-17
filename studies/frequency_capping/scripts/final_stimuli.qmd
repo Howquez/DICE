@@ -128,7 +128,8 @@ tmp <- cbind(tweets[random_draw],
 
 ```{r}
 doc_id <- seq(from = 1, to = length, by = 1)
-sequence <- c(1, 2, 3, seq(from = 5, to = length + 1, by = 1))
+sequence <- seq(from = 1, to = length + 5, by = 1)
+sequence <- sequence[-seq(from = 6, to = length, by = 12)]
 datetime <- format(seq(from = lubridate::now(), 
                         by = "3 mins",
                         length.out = length),
@@ -141,20 +142,12 @@ user_followers[user_followers < 0] <- 42
 ```
 
 ```{r sponsored_post}
-# https://www.facebook.com/ads/library/?id=985477502791322
-ad_copy <- "The best nutrition for your baby. Delivered frozen to your doorstep!<br>
-🥦 Veggie-forward, balanced meals<br>
-💪 Half the sugar and twice the protein & healthy fats of most pouches<br>
-💯% daily nutrition — based on USDA’s Birth to 24 Guidelines<br>
-🥜 May help prevent food allergies by introducing allergens often + as early as 4-6 months<br>
-🌎 Award-winning, sustainable packaging<br>
-👩‍ Women-owned. Mom & dietitian-founded"
 
-sponsored_post <- data.table(doc_id = 9999,
+sponsored_post_A <- data.table(doc_id = 9999,
                              datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
-                             text = ad_copy,
-                             media = "https://scontent-zrh1-1.xx.fbcdn.net/v/t39.35426-6/444228106_1004969034341137_5831270106744356527_n.jpg?stp=dst-jpg_s600x600&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=hMX18DDIxm8Q7kNvgFcCxPw&_nc_ht=scontent-zrh1-1.xx&oh=00_AYCg87fBhoM1cZXUOLM7TR7aX1iM35R2VyQFwCd6ByLrPg&oe=666E30F4",
-                             alt_text = "A promotional image featuring an assortment of food items and a product with a purity award from the Clean Label Project. Displayed are sliced zucchini, an apple, a roasted chicken leg, a jar of green sauce, sliced coconut, a wooden spoon with yogurt, and turmeric.",
+                             text = "Ad A",
+                             media = NA,
+                             alt_text = NA,
                              likes = 42,
                              reposts = 12,
                              replies = 0,
@@ -167,7 +160,64 @@ sponsored_post <- data.table(doc_id = 9999,
                              sponsored = 1,
                              target = "https://squarebaby.com/",
                              condition = "A",
-                             sequence = 4)
+                             sequence = NA)
+
+sponsored_post_A <- data.table(doc_id = 9999,
+                             datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
+                             text = "Ad B",
+                             media = NA,
+                             alt_text = NA,
+                             likes = 42,
+                             reposts = 12,
+                             replies = 0,
+                             username = "Square Baby",
+                             handle = "SquareBabyFood",
+                             user_description = "The only organic baby food offering 💯% Daily Nutrition and a comprehensive Allergen Introduction Menu. Customized to your kiddo 👶. Fresh, organic, delivered.",
+                             user_image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmfrfojh946-1MF8b60I2ixREUL_6pQjAC6w&s",
+                             user_followers = 133,
+                             commented_post = 0,
+                             sponsored = 1,
+                             target = "https://squarebaby.com/",
+                             condition = "A",
+                             sequence = NA)
+
+sponsored_post_A <- data.table(doc_id = 9999,
+                             datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
+                             text = "Ad C",
+                             media = NA,
+                             alt_text = NA,
+                             likes = 42,
+                             reposts = 12,
+                             replies = 0,
+                             username = "Square Baby",
+                             handle = "SquareBabyFood",
+                             user_description = "The only organic baby food offering 💯% Daily Nutrition and a comprehensive Allergen Introduction Menu. Customized to your kiddo 👶. Fresh, organic, delivered.",
+                             user_image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmfrfojh946-1MF8b60I2ixREUL_6pQjAC6w&s",
+                             user_followers = 133,
+                             commented_post = 0,
+                             sponsored = 1,
+                             target = "https://squarebaby.com/",
+                             condition = "A",
+                             sequence = NA)
+
+sponsored_post_A <- data.table(doc_id = 9999,
+                             datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
+                             text = "Ad D",
+                             media = NA,
+                             alt_text = NA,
+                             likes = 42,
+                             reposts = 12,
+                             replies = 0,
+                             username = "Square Baby",
+                             handle = "SquareBabyFood",
+                             user_description = "The only organic baby food offering 💯% Daily Nutrition and a comprehensive Allergen Introduction Menu. Customized to your kiddo 👶. Fresh, organic, delivered.",
+                             user_image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmfrfojh946-1MF8b60I2ixREUL_6pQjAC6w&s",
+                             user_followers = 133,
+                             commented_post = 0,
+                             sponsored = 1,
+                             target = "https://squarebaby.com/",
+                             condition = "A",
+                             sequence = NA)
 ```
 
 ```{r}
@@ -194,6 +244,11 @@ stimuli <- rbind(sponsored_post,
 setorder(stimuli, sequence)
 stimuli[, doc_id := 1:.N]
 ```
+
+```{r}
+
+```
+
 
 # Write Data
 
