@@ -1,0 +1,269 @@
+---
+title: 'DICE'
+subtitle: "How Much Is Enough? Exploring Frequency Capping in Social Media Advertising"
+author:
+- name: Hauke Roggenkamp
+  email: Hauke.Roggenkamp@unisg.ch
+  orcid: 0009-0005-5176-4718
+  corresponding: true
+  affiliations:
+    - name: Institute of Behavioral Science and Technology, University of St. Gallen
+      address: Torstrasse 25
+      city: St. Gallen
+      country: Switzerland
+      postal-code: 9000
+    - name: Faculty of Economics & Social Sciences, Helmut-Schmidt-University
+      address: Holstenhofweg 85
+      city: Hamburg
+      country: Germany
+      postal_code: 22043
+date: now
+date-format: long
+format: 
+  html:
+    embed-resources: true
+    theme: cosmo
+    code-line-numbers: true
+toc: false
+number-sections: false
+fig-cap-location: top
+execute:
+  echo: true
+  warning: false
+jupyter: python3
+bibliography: ../../../documentation/references.bib
+---
+
+
+```{python}
+import os
+import json
+import pandas as pd
+from openai import OpenAI
+import re
+from IPython.display import Markdown
+from tabulate import tabulate
+import time
+```
+
+# OpenAI
+
+After having read the data, we initialize the openAI API.
+
+```{python}
+# Load the API key from the config.json file
+with open('config.json') as f:
+    config = json.load(f)
+    api_key = config.get("OPENAI_API_KEY")
+
+# Set the API key for the OpenAI client
+client = OpenAI(api_key=api_key)
+
+# Check if the API key is loaded correctly
+if not api_key:
+    raise ValueError("API key not found. Please check your config.json file.")
+```
+
+
+## Prompt 1
+
+```{python}
+gpt_assistant_prompt = "You are a helpful assistant." 
+
+gpt_user_prompt = """ FIRST, read the following news article excerpt providing some  context:
+  
+  'One month after flooding in southern Brazil affected over 2.3 million people and displaced more than 620,000, the International Federation of the Red Cross and Red Crescent Societies (IFRC) calls for continued support. Initial damage and humanitarian needs are exacerbated by ongoing rains, cold temperatures and the appearance of water-borne diseases. 
+
+“Though in many ways it feels like day one, we are four weeks into this emergency. Floodwaters remain trapped in many of the flooded areas, hampering the distribution of humanitarian aid and preventing the lowering of water levels that would allow people to return to their homes. With more rain and colder weather in the forecast, as well as a rise in water-borne diseases, every effort should be made to support the most vulnerable population, whose humanitarian needs continue to grow exponentially”, said Roger Alonso Morgui, IFRC Head of Operations for the Brazil floods response.'
+
+SECOND, read through this news story:
+  
+  Raphinha made a statement of support for his team-mates after former player Ronaldinho criticized the Brazil national team. The Brazilian legend made headlines on Saturday after claiming he will boycott watching the upcoming Copa América due to the squad's mentality. "This is perhaps one of the worst teams in recent years," said Ronaldinho on Instagram. "It has no respectable leaders, only average players for the majority ... A lack of love for the shirt, lack of grit and the most important of all: football."
+
+Raphinha, meanwhile, revealed that the players were surprised by the bold statement. Instead, he backed his team-mates in front of the media as they hope to win another international title.
+
+THIRD, consider that lonleyplanet describes Brazil as: "One of the world's most captivating places, Brazil is a country of powdery white-sand beaches, verdant rainforests and wild, rhythm-filled metropolises." They write that: 
+  "Whether you prefer wilderness or dense cities, the call of frogs in the rainforest or the beat of samba drums, Brazil has an experience lined up for you.
+
+The country’s status as a natural paradise is impossible to deny. While superlatives simply don’t do it justice, this continent-sized nation is home to the largest rainforest, the most sprawling wetlands, and more known species of plants, freshwater fish and mammals than any other country in the world.
+
+Brazil is also home to a myriad of indigenous and immigrant cultures, each with their own unique languages, foods and music. Get a taste for Afro-Brazilian heritage by eating acarajé in Salvador, dance samba in Rio de Janeiro, or move to the sounds of frevo in Olinda during Carnaval. The Amazon, too, hosts some of the biggest parties in Brazil.
+
+If you think you’ll be ready for another vacation at the end of all that, look no further than Brazil’s tropical islands for some downtime. To help you write up your shortlist of must-dos, here are the top things to do when you visit Brazil."
+
+FOURTH, invent tweets: draw some inspiration from the news article excerpt to invent realistic content and create a feed of 50 tweets that could come up if one was searching form "Brazil" on twitter. 
+
+Doing so, fulfil the following requirements:
+1. Do not append hashtags at the end of to the tweets. 
+2. Each tweet should be at least 200 characters long.
+3. Use language one typically finds on social media. And write the tweets from the perspective of a user who wants to express something.
+4. Create a series of 50 (fifty) tweets, not less.
+5. Enumerate the tweets.
+6. Only provide the 50 enumerated tweets and nothing else.
+"""
+
+gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
+# print(gpt_prompt)
+```
+
+```{python}
+message=[{"role": "assistant", "content": gpt_assistant_prompt}, {"role": "user", "content": gpt_user_prompt}]
+temperature=1
+
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=message,
+    temperature=0.66,
+    frequency_penalty=0.5,
+    seed=42
+)
+```
+
+```{python}
+output_1 = response.choices[0].message.content
+# print(output_1)
+```
+
+
+## Prompt 2
+
+The second prompt is designed to change the output format of the first prompt's result and to predict and classify the tweets: How civil are they; do they agree or disagree with the original tweet? The prompt uses default values for `temperature` and `frequency_penalty` as the process does not require any creativity.
+
+```{python}
+gpt_assistant_prompt = "You are a helpful assistant helping a social scientist evaluating tweets." 
+
+gpt_user_prompt = """Take a look at the following output. It shall represent tweets that are enumerated. Each tweet should cover a topic related to Brazil.
+
+Here is the ouput:""" + output_1 + """
+
+Now do the following:
+  FIRST, read through the tweets and remove tweets that do not seem as if they were written by a real person.
+  SECOND, label the tweets. Use the labels "flood", "travel", "sports", or "other".
+  THIRD, output the tweets in a json format: Strictly only respond with the data in json format and nothing else: {{"text": "here goes the tweet", "topic": "label"}}
+"""
+gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
+# print(gpt_prompt)
+```
+
+```{python}
+message=[{"role": "assistant", "content": gpt_assistant_prompt}, {"role": "user", "content": gpt_user_prompt}]
+temperature=1
+
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=message,
+    temperature=0,
+    frequency_penalty=0,
+    seed=42,
+    response_format={ "type": "json_object" }
+)
+```
+
+
+# Write Data
+
+```{python}
+output_2 = response.choices[0].message.content
+
+try:
+  json_obj = json.loads(output_2)
+  er = json_obj["tweets"]
+except:
+  print("Error")
+  
+generated_content = pd.DataFrame(er)
+```
+
+
+```{python}
+# Define the output CSV file path with time stamp
+ts = str(int(time.time()))
+csv_file_path = "../stimuli/LLM-generated/brazil_" + ts + ".csv"
+
+# Write the DataFrame to a CSV file
+generated_content.to_csv(csv_file_path, index=False, sep=";", encoding="utf-8-sig")
+```
+
+```{python}
+Markdown(tabulate(
+  generated_content[["text", "topic"]],
+  headers=["Generated Tweet", "Topic"]))
+  
+```
+
+# Create random user names, handles and bios
+
+Next, we read 80 real twitter names and -handles. For each of them, we create a random bio (that is, a short description) using the a similar prompting strategy as above (few-shot & strict json requirements).
+
+```{python}
+# https://www.usna.edu/Users/cs/nchamber/data/twitternames/
+tmp = pd.read_csv("../stimuli/usernames-train.txt", nrows = 80, skiprows = 200, sep = ";", names=["username", "handle", "real_name"])
+
+real_names = tmp[["username", "handle"]].copy()
+real_names['handle'] = real_names['handle'].str.replace('@', '', regex=False)
+
+real_names_string = real_names.to_string()
+```
+
+
+```{python}
+gpt_assistant_prompt = "You are a helpful assistant." 
+
+gpt_user_prompt = """
+The following data contains usernames and the corresponding handles of twitter users: """ + real_names_string + """
+
+Please read through them and then invent a unique bio per user, that is, a short description for each of the users. Think of your bio on Twitter as a "mini sales pitch" to followers. You can describe the following:
+  - "This is who I am"
+  - "This is what I do"
+  - "And this is what you can expect to hear about from me"
+  
+In addition, try to guess the user's gender. If the user is an organization, remove it from the output.
+
+Strictly only respond with the data in json format and nothing else: {{"username": "Max Mercy", "handle": "m_mercy", "user_description": "this is a short text describing me.", "gender": "female"}}
+"""
+gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
+```
+
+```{python}
+message=[{"role": "assistant", "content": gpt_assistant_prompt}, {"role": "user", "content": gpt_user_prompt}]
+temperature=1
+
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=message,
+    temperature=0,
+    frequency_penalty=0,
+    seed=42,
+    response_format={ "type": "json_object" }
+)
+```
+
+```{python}
+output_3 = response.choices[0].message.content
+
+try:
+  json_obj = json.loads(output_3)
+  er = json_obj["users"]
+except:
+  print("Error")
+  
+users = pd.DataFrame(er)
+```
+
+```{python}
+# Define the output CSV file path with time stamp
+ts = str(int(time.time()))
+csv_file_path = "../stimuli/LLM-generated/users_" + ts + ".csv"
+
+# Write the DataFrame to a CSV file
+users.to_csv(csv_file_path, index=False, sep=";", encoding="utf-8-sig")
+```
+
+```{python}
+Markdown(tabulate(
+  users,
+  headers=["Username","Handle", "User Bio", "Gender"]))
+```

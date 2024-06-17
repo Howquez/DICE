@@ -1,0 +1,459 @@
+---
+title: 'DICE'
+subtitle: "How Much Is Enough? Exploring Frequency Capping in Social Media Advertising"
+author:
+- name: Hauke Roggenkamp
+  email: Hauke.Roggenkamp@unisg.ch
+  orcid: 0009-0005-5176-4718
+  corresponding: true
+  affiliations:
+    - name: Institute of Behavioral Science and Technology, University of St. Gallen
+      address: Torstrasse 25
+      city: St. Gallen
+      country: Switzerland
+      postal-code: 9000
+    - name: Faculty of Economics & Social Sciences, Helmut-Schmidt-University
+      address: Holstenhofweg 85
+      city: Hamburg
+      country: Germany
+      postal_code: 22043
+- name: Johannes Boegershausen
+  email: boegershausen@rsm.nl
+  orcid: 0000-0002-1429-9344
+  corresponding: false
+  affiliations:
+    - name: Rotterdam School of Management, Erasmus University 
+      address: Burgemeester Oudlaan 50
+      city: Rotterdam
+      country: Netherlands
+      postal-code: 3062
+- name: Christian Hildebrand
+  email: Christian.Hildebrand@unisg.ch
+  orcid: 0000-0003-4366-3093
+  corresponding: false
+  affiliations:
+    - name: Institute of Behavioral Science and Technology, University of St. Gallen
+      address: Torstrasse 25
+      city: St. Gallen
+      country: Switzerland
+      postal-code: 9000
+date: now
+date-format: dddd MMM D, YYYY, HH:mm z
+format:
+  html:
+    embed-resources: true
+    theme: cosmo
+# format: pdf
+toc: false
+number-sections: false
+fig-cap-location: top
+execute:
+  echo: false
+bibliography: ../../../documentation/references.bib
+---
+
+The identifiable victim effect is the tendency show more empathy to an identifiable individual over a group of unidentified victims who are described using numerical statistics [see, e.g., @JenniLoewenstein_1997; @SmallLoewenstein_2003; @MaierChunWongFeldman_2023]. One significant study in this domain is by @SmallLoewensteinSlovic_2006 demonstrates how donors are more likely to contribute to charitable causes when they are presented with specific stories about individuals (identified victims) rather than abstract statistics about large groups of people. They found that personal stories evoke stronger emotional connections. We use DICE to create social media feeds where organic posts and advertisements compete for the participant's attention to study whether identified victims (compared to abstract statistics) cause social media advertisements to more effectively "cut through the content clutter" and drive ad recall [@Ordenes_2019].
+
+[Hier muss jetzt ein Bogen gespannt werden.]
+
+Frequency capping (FC) in online advertising refers to the practice of limiting the number of times a specific advertisement is shown to the same user within a set period. It is essential for preventing ad fatigue [see, e.g., @BraunMoe_2013; @SilbersteinShohamKlein_2023], where users become desensitized to an ad due to excessive exposure, which can lead to diminished engagement rates and a negative user experience. In addition, to these indirect costs, high caps also have direct costs as the marginal effect of ad exposure can be assumed to be diminishing. By setting an optimal cap, marketers aim to balance both direct and indirect costs as well as benefits associated to an ad's visibility. 
+
+Increasing the number of ad impressions, this study focuses on the trajectory of ad recall (as one measure of ad effectiveness).
+
+```{r}
+set.seed(42)
+```
+
+```{r install_packages}
+#| warning: false
+#| output: false
+
+options(repos = c(CRAN = "https://cran.r-project.org")) 
+
+
+if (!requireNamespace("groundhog", quietly = TRUE)) {
+  install.packages("groundhog")
+  library("groundhog")
+}
+
+pkgs <- c("magrittr", "data.table", "knitr", "stringr", "lubridate", 
+          "ggplot2", "wesanderson", "stargazer", "Rmisc", "margins")
+
+groundhog::groundhog.library(pkg = pkgs,
+                             date = "2024-01-01")
+
+rm(pkgs)
+```
+
+```{r layout}
+layout <- theme(panel.background = element_rect(fill = "white"),
+                legend.key = element_rect(fill = "white"),
+                panel.grid.major.y = element_line(colour = "grey", 
+                                                  linewidth = 0.25),
+                axis.ticks.y = element_blank(),
+                panel.grid.major.x = element_blank(),
+                axis.line.x.bottom = element_line(colour = "#000000", 
+                                                  linewidth = 0.5),
+                axis.line.y.left = element_blank(),
+                plot.title = element_text(size = rel(1))
+)
+```
+
+```{r colors}
+c_coral     <- "#f27981"
+c_yellow    <- "#F2EA79"
+c_turquoise <- "#79f2ea"
+c_purple    <- "#7981f2"
+
+c_pink   <- "#ed1e79"
+c_violet <- "#662d91"
+
+scale_color_custom_d <- function() {
+  scale_color_manual(values = c(c_pink, c_violet))
+}
+scale_fill_custom_d <- function() {
+  scale_fill_manual(values = c(c_pink, c_violet))
+}
+```
+
+# Experimental Design
+
+![2 (identified victim vs. abstract numbers) by 4 (number of focal ad impressions) between-subjects design](../idea/treatments.png)
+
+
+# Simulations
+
+```{r set_params}
+n <- 800   # sample size
+a <- 4     # Coefficient for logarithmic function
+b <- 0.75  # Rate parameter for logarithmic function
+c <- 2     # Coefficient for linear function
+intercept   <- -3   # Intercept for the logistic function
+noise_level <- 0.3  # This represents 10% noise level
+```
+
+```{r}
+#| eval: false
+# Generate x values
+cap <- runif(n, min = 0, max = 4)
+
+# Generate condition values (binary)
+condition <- rep(x = c(0, 1), times = n/2)
+
+# Generate probabilities based on condition
+p <- ifelse(test = condition == 1, 
+            yes = plogis(intercept + 2 * c * cap), 
+            no = plogis(intercept + c * cap))
+
+# Adjust probabilities by adding random noise
+# Assuming 'noise_level' is a parameter determining the magnitude of noise
+adjusted_p <- p + rnorm(n, mean = 0, sd = noise_level * mean(p))
+adjusted_p <- pmin(1, pmax(0, adjusted_p))  # Ensure probabilities stay within [0,1]
+
+
+# Generate binary recall values based on probabilities
+recall <- rbinom(n, size = 1, prob = adjusted_p)
+
+# Create a data.table
+float_sim <- data.table(cap = cap, 
+                        recall = recall, 
+                        condition = as.integer(condition))
+
+# Fit a logistic regression model
+float_model <- glm(formula = recall ~ condition + cap + condition*cap, 
+                 data = float_sim, 
+                 family = binomial)
+
+# Add fitted probabilities to the data.table
+float_sim[, fitted := predict(float_model, type = "response")]
+
+ggplot(data = float_sim) +
+  geom_point(mapping = aes(x = cap, 
+                           y = recall, 
+                           color = as.factor(condition)),
+             alpha = 0.66, shape = 3) +
+  geom_point(mapping = aes(x = cap, 
+                           y = fitted, 
+                           color = as.factor(condition)),
+             alpha = 0.66) +
+  labs(title = "Simulated Binary Data with Logarithmic and Linear Fits",
+       x = "Frequency Caps",
+       y = "Recall",
+       color = "Condition") +
+  scale_color_manual(values = wes_palette("BottleRocket2")) +
+  layout
+```
+
+```{r integer_visualization}
+#| eval: true
+# Generate x values
+cap <- rep(seq(from = 1, to = 4), each = n/4)
+
+# Generate condition values (binary)
+condition <- rep(x = c(0, 1), times = n/2)
+
+# Generate probabilities based on condition
+p <- ifelse(test = condition == 1, 
+            yes  = plogis(intercept + c * cap), 
+            no   = plogis(intercept + 1 * cap))
+
+# Adjust probabilities by adding random noise
+# Assuming 'noise_level' is a parameter determining the magnitude of noise
+adjusted_p <- p + rnorm(n, mean = 0, sd = noise_level * mean(p))
+adjusted_p <- pmin(1, pmax(0, adjusted_p))  # Ensure probabilities stay within [0,1]
+
+
+# Generate binary recall values based on probabilities
+recall <- rbinom(n, size = 1, prob = adjusted_p)
+
+# Create a data.table
+int_sim <- data.table(cap = cap, 
+                        recall = recall, 
+                        condition = as.integer(condition))
+
+# Fit a logistic regression model
+int_model <- glm(formula = recall ~ condition + cap + condition*cap, 
+                 data = int_sim, 
+                 family = binomial)
+
+# Add fitted probabilities to the data.table
+int_sim[, fitted := predict(int_model, type = "response")]
+
+tmp <- summarySE(data = int_sim,
+                 measurevar = "recall",
+                 groupvars=c("cap", "condition"),
+                 na.rm = FALSE,
+                 conf.interval = 0.95,
+                 .drop = TRUE) %>% 
+  data.table()
+
+tmp[, condition := as.factor(condition)]
+
+
+ggplot(data = tmp,
+       mapping = aes(x = cap, y = recall, group = condition, color = condition, lty = condition)) +
+  layout +
+  geom_hline(yintercept = 1) +
+  scale_color_custom_d() +
+  # scale_color_manual(values = wes_palette("BottleRocket2")) +
+  theme(legend.position="top") +
+  geom_line(show.legend=FALSE) +
+  geom_errorbar(aes(ymin=recall-ci, ymax=recall+ci), width=.25, alpha = 0.5) +
+  scale_y_continuous(expand = c(0, NA), limits = c(0, NA)) +
+  geom_point() +
+  labs(y = "Recall", x = "Number of Ad Impressions per Session", 
+       color = "Condition", lty = "Condition", caption = "Bars indicate 95% confidence intervals.")
+```
+
+
+
+$$
+\begin{align*}
+\text{recall} &= \beta_0 + \beta_1  \text{condition} + \beta_2  \text{cap} + \beta_3 \text{condition} \times \text{cap} + \epsilon
+\end{align*}
+$$
+
+
+
+```{r}
+#| results: asis
+lm_1 <- glm(formula = recall ~ cap + condition + cap*condition, 
+            data = int_sim,
+            family = binomial)
+
+stargazer::stargazer(lm_1, 
+                     dep.var.caption  = "Recall",
+                     dep.var.labels   = "Logistic Regressions",
+                     column.labels = c("float", "int"),
+                     omit = "Constant",
+                     header=FALSE,
+                     type = "html",
+                     digits = 2)
+```
+
+
+## Legacy
+
+```{r}
+#| eval: false
+# Generate x values
+cap <- runif(n, min = 0, max = 10)
+
+# Generate z values (binary)
+condition <- rbinom(n, size = 1, prob = 0.5)
+
+# Generate y values based on z
+recall <- ifelse(test = condition == 1, 
+                 yes = a * (1 - exp(-b * cap)), 
+                 no = c * cap + rnorm(n, mean = 0, sd = 0.5))
+
+# Create a data.table
+dt <- data.table(cap = cap, 
+                 recall = recall, 
+                 condition = condition)
+```
+
+
+```{r}
+#| eval: false
+# Fit a linear regression model with interaction terms
+model <- lm(formula = recall ~ condition * (cap + I((1 - exp(-b * cap)))), 
+            data = dt)
+
+
+# Plot the data and the fitted curves
+plot(dt$cap, dt$recall, 
+     main = "Simulated Data with Logarithmic and Linear Fits", 
+     xlab = "Frequency Caps", 
+     ylab = "Recall", 
+     col = ifelse(dt$z == 1, "blue", "green"), 
+     pch = 19)
+lines(sort(dt$cap[dt$condition == 1]), predict(model, newdata = dt[dt$condition == 1][order(cap)]), col = "red", lwd = 2)
+lines(sort(dt$cap[dt$condition == 0]), predict(model, newdata = dt[dt$condition == 0][order(cap)]), col = "orange", lwd = 2)
+
+```
+
+```{r float_simulation}
+#| eval: false
+# Generate cap values
+cap <- runif(n, min = 0, max = 10)
+
+# Generate probabilities based on condition
+p <- ifelse(test = condition == 1, 
+            yes = plogis(intercept + a * (1 - exp(-b * cap))), 
+            no = plogis(intercept + c * cap))
+
+# Generate binary recall values based on probabilities
+recall <- rbinom(n, size = 1, prob = p)
+
+# Create a data.table
+float_sim <- data.table(cap = cap, 
+                        recall = recall, 
+                        condition = as.integer(condition))
+
+# Fit a logistic regression model
+float_model <- glm(formula = recall ~ condition * (cap + I((1 - exp(-b * cap)))),
+                   data = float_sim,
+                   family = binomial)
+
+
+# Add fitted probabilities to the data.table
+float_sim[, fitted := predict(float_model, type = "response")]
+```
+
+
+```{r integer_simulation}
+#| eval: false
+# Generate cap values (integer values from 1 to 5)
+cap <- rep(seq(from = 1, to = 5), each = n/5)
+
+# Generate probabilities based on condition
+p <- ifelse(test = condition == 1, 
+            yes = plogis(intercept + a * (1 - exp(-b * cap))), 
+            no = plogis(intercept + c * cap))
+
+# Generate binary recall values based on probabilities
+recall <- rbinom(n, size = 1, prob = p)
+
+# Create a data.table
+int_sim <- data.table(cap = cap, 
+                      recall = recall, 
+                      condition = as.integer(condition))
+
+# Fit a logistic regression model
+int_model <- glm(formula = recall ~ condition * (cap + I((1 - exp(-b * cap)))), 
+                 data = int_sim, 
+                 family = binomial)
+
+# Add fitted probabilities to the data.table
+int_sim[, fitted := predict(int_model, type = "response")]
+```
+
+
+```{r float_viz}
+#| eval: false
+ggplot(data = float_sim) +
+  geom_point(mapping = aes(x = cap, 
+                           y = recall, 
+                           color = as.factor(condition)),
+             alpha = 0.66, shape = 3) +
+  geom_point(mapping = aes(x = cap, 
+                           y = fitted, 
+                           color = as.factor(condition)),
+             alpha = 0.66) +
+  labs(title = "Simulated Binary Data with Logarithmic and Linear Fits",
+       x = "Frequency Caps",
+       y = "Recall",
+       color = "Condition") +
+  layout
+```
+
+```{r integer_viz_1}
+#| eval: false
+ggplot(data = int_sim) +
+  geom_jitter(mapping = aes(x = cap, 
+                            y = recall, 
+                            color = as.factor(condition)),
+              height = 0.05, width = 0.1,
+              alpha = 0.66, shape = 3) +
+  geom_jitter(mapping = aes(x = cap, 
+                            y = fitted, 
+                            color = as.factor(condition)),
+              height = 0.05, width = 0.1,
+              alpha = 0.5) +
+  labs(title = "Simulated Binary Data with Logarithmic and Linear Fits",
+       x = "Frequency Caps",
+       y = "Recall",
+       color = "Condition") +
+  layout
+```
+
+```{r integer_viz_2}
+#| eval: false
+tmp <- summarySE(data = int_sim,
+                 measurevar = "recall",
+                 groupvars=c("cap", "condition"),
+                 na.rm = FALSE,
+                 conf.interval = 0.95,
+                 .drop = TRUE) %>% 
+  data.table()
+
+tmp[, condition := as.factor(condition)]
+
+
+ggplot(data = tmp,
+       mapping = aes(x = cap, y = recall, group = condition, color = condition)) +
+  layout +
+  theme(legend.position="bottom") +
+  geom_line(show.legend=FALSE, lty=2) +
+  geom_errorbar(aes(ymin=recall-ci, ymax=recall+ci), width=.25, alpha = 0.5) +
+  geom_point() +
+  labs(y = "Recall", x = "Frequency Caps", 
+       color = "Condition", caption = "Bars indicate 95% confidence intervals.")
+```
+
+```{r}
+#| eval: false
+#| results: asis
+
+float_lm <- glm(formula = recall ~ cap + condition + cap*condition, 
+            data = float_sim,
+            family = binomial)
+int_lm <- glm(formula = recall ~ cap + condition + cap*condition, 
+            data = int_sim,
+            family = binomial)
+
+
+stargazer::stargazer(float_model, int_model, float_lm, int_lm, 
+                     dep.var.caption  = "Recall",
+                     dep.var.labels   = "Logistic Regressions",
+                     column.labels = c("float", "int", "float", "int"),
+                     header=FALSE,
+                     type = "html",
+                     digits = 2)
+```
+
+
+
+
+# References
