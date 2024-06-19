@@ -12,11 +12,6 @@ author:
       city: St. Gallen
       country: Switzerland
       postal-code: 9000
-    - name: Faculty of Economics & Social Sciences, Helmut-Schmidt-University
-      address: Holstenhofweg 85
-      city: Hamburg
-      country: Germany
-      postal_code: 22043
 date: now
 date-format: long
 format: 
@@ -68,6 +63,7 @@ if not api_key:
 ## Prompt 1
 
 ```{python}
+#| eval: false
 gpt_assistant_prompt = "You are a helpful assistant." 
 
 gpt_user_prompt = """ FIRST, read the following news article excerpt providing some  context:
@@ -83,6 +79,7 @@ SECOND, read through this news story:
 Raphinha, meanwhile, revealed that the players were surprised by the bold statement. Instead, he backed his team-mates in front of the media as they hope to win another international title.
 
 THIRD, consider that lonleyplanet describes Brazil as: "One of the world's most captivating places, Brazil is a country of powdery white-sand beaches, verdant rainforests and wild, rhythm-filled metropolises." They write that: 
+  
   "Whether you prefer wilderness or dense cities, the call of frogs in the rainforest or the beat of samba drums, Brazil has an experience lined up for you.
 
 The country’s status as a natural paradise is impossible to deny. While superlatives simply don’t do it justice, this continent-sized nation is home to the largest rainforest, the most sprawling wetlands, and more known species of plants, freshwater fish and mammals than any other country in the world.
@@ -96,10 +93,13 @@ FOURTH, invent tweets: draw some inspiration from the news article excerpt to in
 Doing so, fulfil the following requirements:
 1. Do not append hashtags at the end of to the tweets. 
 2. Each tweet should be at least 200 characters long.
-3. Use language one typically finds on social media. And write the tweets from the perspective of a user who wants to express something.
+3. Use language one typically finds on social media. And write the tweets from the perspective of a user who wants to express their opinion or discuss the topic.
+4. If the tweets quote someone, use these quotation marks.
 4. Create a series of 50 (fifty) tweets, not less.
 5. Enumerate the tweets.
 6. Only provide the 50 enumerated tweets and nothing else.
+
+Please read through my instructions before answering. 
 """
 
 gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
@@ -107,15 +107,58 @@ gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
 ```
 
 ```{python}
+#| eval: true
+gpt_assistant_prompt = "You are a helpful assistant." 
+
+gpt_user_prompt = """ 
+Objective: Generate a series of 50 (fifty) tweets reflecting diverse aspects of Brazil, including recent events and cultural highlights.
+
+Contexts:
+
+Humanitarian Crisis:
+One month after flooding devastated southern Brazil, over 2.3 million people remain affected, with more than 620,000 displaced from their homes. The International Federation of the Red Cross and Red Crescent Societies (IFRC) has been actively involved, yet conditions worsen with ongoing rains and cold weather. The IFRC head of operations, Roger Alonso Morgui, noted, “Floodwaters remain trapped in many areas, hampering aid distribution and making it impossible for people to return home. With more rain forecasted and a rise in water-borne diseases, our efforts to support the vulnerable must intensify.”
+
+Climate Change:
+For years, scientists have warned that climate change would displace millions of people, reordering the world’s human presence as people searched for safety. The World Bank has estimated that more than 216 million people could be driven from their homes by sea level rise, flooding, desertification and other effects of warming temperatures. The Institute for Economics and Peace said the figure could reach 1.2 billion people. A future characterized by “climate refugees,” the European Parliament reported, was coming.
+That future now appears to have arrived. Floods in Pakistan in 2022 displaced an estimated 8 million people. Floods in Ethiopia in 2023 and Kenya this year forced hundreds of thousands more from their homes.
+And now, Brazil.
+
+Sports Controversy:
+Brazilian football is currently under scrutiny after Ronaldinho, a former national team player, publicly criticized the team's current state. On his social media, Ronaldinho expressed his dissatisfaction by stating, "This is perhaps one of the worst teams in recent years. It has no respectable leaders, only average players for the majority ... A lack of love for the shirt, lack of grit and the most important of all: football." In response, current player Raphinha defended the team, highlighting their surprise at Ronaldinho's comments and reaffirming their commitment to strive for success in the upcoming Copa América.
+
+Cultural Richness:
+Lonely Planet describes Brazil as a country of "powdery white-sand beaches, verdant rainforests and wild, rhythm-filled metropolises." Brazil’s natural and cultural landscapes offer experiences ranging from the sounds of samba in Rio de Janeiro to the quiet grandeur of the Amazon rainforest. The country hosts the world's largest rainforest and most sprawling wetlands, providing habitats for countless species of flora and fauna. Its cities pulse with music and diversity, reflecting a blend of indigenous and immigrant cultures that contribute to Brazil's unique identity.
+
+Task:
+Invent a series of 50 tweets that draw inspiration from the above contexts. The tweets should provide a mix of updates, personal opinions, and cultural highlights, reflecting the rich tapestry of current events and experiences in Brazil.
+
+Requirements for the Tweets:
+
+1. Each tweet must be about 200 characters long.
+2. Do not append hashtags at the end of tweets!
+3. Use conversational and expressive language typical of social media (e.g. a few posts may be all-lowercase or contain typos).
+4. Be specific. Especially when wiritng about culture and nature.
+5. If quoting someone, use the following quotation marks «».
+6. Enumerate each tweet, starting from 1 to 50.
+7. Do not use  emojis!
+
+Output:
+Provide 50 (fifty) enumerated tweets, not less. Ensure that the tweets encompass a blend of reactions to the humanitarian crisis, sports controversy, cultural descriptions, and more, showcasing a broad perspective on Brazil.
+"""
+
+gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
+```
+
+
+```{python}
 message=[{"role": "assistant", "content": gpt_assistant_prompt}, {"role": "user", "content": gpt_user_prompt}]
-temperature=1
 
 
 response = client.chat.completions.create(
     model="gpt-4o",
     messages=message,
-    temperature=0.66,
-    frequency_penalty=0.5,
+    temperature=0.45,
+    frequency_penalty=0.55,
     seed=42
 )
 ```
@@ -131,6 +174,7 @@ output_1 = response.choices[0].message.content
 The second prompt is designed to change the output format of the first prompt's result and to predict and classify the tweets: How civil are they; do they agree or disagree with the original tweet? The prompt uses default values for `temperature` and `frequency_penalty` as the process does not require any creativity.
 
 ```{python}
+#| eval: false
 gpt_assistant_prompt = "You are a helpful assistant helping a social scientist evaluating tweets." 
 
 gpt_user_prompt = """Take a look at the following output. It shall represent tweets that are enumerated. Each tweet should cover a topic related to Brazil.
@@ -138,12 +182,32 @@ gpt_user_prompt = """Take a look at the following output. It shall represent twe
 Here is the ouput:""" + output_1 + """
 
 Now do the following:
-  FIRST, read through the tweets and remove tweets that do not seem as if they were written by a real person.
+  FIRST, read through the tweets and remove tweets that do not seem as if they were written by a real person. If necessary mildly rewrite the tweets.
   SECOND, label the tweets. Use the labels "flood", "travel", "sports", or "other".
   THIRD, output the tweets in a json format: Strictly only respond with the data in json format and nothing else: {{"text": "here goes the tweet", "topic": "label"}}
 """
 gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
-# print(gpt_prompt)
+```
+
+```{python}
+gpt_assistant_prompt = "You are a helpful assistant helping a social scientist evaluating tweets." 
+
+gpt_user_prompt = """
+Objective: Review and categorize the following list of tweets related to Brazil:""" + output_1 + """
+
+Instructions:
+
+1. Read and Remove: Examine the provided tweets, which are each related to a topic concerning Brazil. Remove any tweets that do not sound like they were written by a real person.
+
+2. Label the Tweets: Assign a label to each tweet based on its content. Use the following labels:
+- "flood" for tweets discussing flooding or related humanitarian issues.
+- "travel" for tweets about tourism, cultural experiences, or natural attractions in Brazil.
+- "sports" for tweets related to Brazilian sports teams, events, or athletes.
+- "other" for any tweets that do not fit the categories above.
+
+3. Format Output as JSON: Provide labeled tweets strictly in JSON format. Each tweet should be represented as an object with two properties: text and topic. Example of the required JSON structure: {{"text": "here goes the tweet", "topic": "label"}}
+"""
+gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
 ```
 
 ```{python}
@@ -198,6 +262,7 @@ Markdown(tabulate(
 Next, we read 80 real twitter names and -handles. For each of them, we create a random bio (that is, a short description) using the a similar prompting strategy as above (few-shot & strict json requirements).
 
 ```{python}
+#| eval: false
 # https://www.usna.edu/Users/cs/nchamber/data/twitternames/
 tmp = pd.read_csv("../stimuli/usernames-train.txt", nrows = 80, skiprows = 200, sep = ";", names=["username", "handle", "real_name"])
 
@@ -209,6 +274,7 @@ real_names_string = real_names.to_string()
 
 
 ```{python}
+#| eval: false
 gpt_assistant_prompt = "You are a helpful assistant." 
 
 gpt_user_prompt = """
@@ -227,6 +293,7 @@ gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
 ```
 
 ```{python}
+#| eval: false
 message=[{"role": "assistant", "content": gpt_assistant_prompt}, {"role": "user", "content": gpt_user_prompt}]
 temperature=1
 
@@ -242,6 +309,7 @@ response = client.chat.completions.create(
 ```
 
 ```{python}
+#| eval: false
 output_3 = response.choices[0].message.content
 
 try:
@@ -254,6 +322,7 @@ users = pd.DataFrame(er)
 ```
 
 ```{python}
+#| eval: false
 # Define the output CSV file path with time stamp
 ts = str(int(time.time()))
 csv_file_path = "../stimuli/LLM-generated/users_" + ts + ".csv"
@@ -263,6 +332,7 @@ users.to_csv(csv_file_path, index=False, sep=";", encoding="utf-8-sig")
 ```
 
 ```{python}
+#| eval: false
 Markdown(tabulate(
   users,
   headers=["Username","Handle", "User Bio", "Gender"]))

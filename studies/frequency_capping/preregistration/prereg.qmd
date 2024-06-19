@@ -12,11 +12,6 @@ author:
       city: St. Gallen
       country: Switzerland
       postal-code: 9000
-    - name: Faculty of Economics & Social Sciences, Helmut-Schmidt-University
-      address: Holstenhofweg 85
-      city: Hamburg
-      country: Germany
-      postal_code: 22043
 - name: Johannes Boegershausen
   email: boegershausen@rsm.nl
   orcid: 0000-0002-1429-9344
@@ -52,13 +47,26 @@ execute:
 bibliography: ../../../documentation/references.bib
 ---
 
-The identifiable victim effect is the tendency show more empathy to an identifiable individual over a group of unidentified victims who are described using numerical statistics [see, e.g., @JenniLoewenstein_1997; @SmallLoewenstein_2003; @MaierChunWongFeldman_2023]. One significant study in this domain is by @SmallLoewensteinSlovic_2006 demonstrates how donors are more likely to contribute to charitable causes when they are presented with specific stories about individuals (identified victims) rather than abstract statistics about large groups of people. They found that personal stories evoke stronger emotional connections. We use DICE to create social media feeds where organic posts and advertisements compete for the participant's attention to study whether identified victims (compared to abstract statistics) cause social media advertisements to more effectively "cut through the content clutter" and drive ad recall [@Ordenes_2019].
+The identifiable victim effect is the tendency show more empathy to an identifiable individual over a group of unidentified victims who are described using numerical statistics [see, e.g., @JenniLoewenstein_1997; @SmallLoewenstein_2003; @MaierChunWongFeldman_2023]. One significant study in this domain is by @SmallLoewensteinSlovic_2006 demonstrates that donors are more likely to contribute to charitable causes when presented with specific stories about individuals, or _"identified victims"_, rather than abstract statistics about large groups. They found that personal stories evoke stronger emotional connections. 
 
-[Hier muss jetzt ein Bogen gespannt werden.]
+We use DICE to create social media feeds where organic posts and advertisements compete for the participant's attention to study whether identified victims (compared to abstract statistics) cause social media advertisements to more effectively _"cut through the content clutter"_ [@Ordenes_2019] and drive ad recall for the charities posting these ads.
 
-Frequency capping (FC) in online advertising refers to the practice of limiting the number of times a specific advertisement is shown to the same user within a set period. It is essential for preventing ad fatigue [see, e.g., @BraunMoe_2013; @SilbersteinShohamKlein_2023], where users become desensitized to an ad due to excessive exposure, which can lead to diminished engagement rates and a negative user experience. In addition, to these indirect costs, high caps also have direct costs as the marginal effect of ad exposure can be assumed to be diminishing. By setting an optimal cap, marketers aim to balance both direct and indirect costs as well as benefits associated to an ad's visibility. 
+A key managerial question for any organization, but particularly for organizations with limited budgets and resources, like charities, is to understand how frequently they need to show their advertising to effectively cut through the clutter and generate positive outcomes from the digital ads. Particularly effective ads  will likely need less exposure to users to produce positive outcomes like brand recall while avoiding negative reactions such as ad fatigue.
 
-Increasing the number of ad impressions, this study focuses on the trajectory of ad recall (as one measure of ad effectiveness).
+A key lever in online advertising is Frequency Capping (FC), which limits how often a specific advertisement is shown to the same user within a set period. It is essential for preventing ad fatigue [see, e.g., @BraunMoe_2013; @SilbersteinShohamKlein_2023], where users become desensitized to an ad due to excessive exposure, which can lead to diminished engagement rates and a negative user experience. In addition to these indirect costs, high caps also have direct costs as the marginal effect of ad exposure can be assumed to be diminishing. By setting an optimal cap, marketers aim to balance both direct and indirect costs as well as benefits associated to an ad's visibility. 
+
+Integrating these concepts, this study employs a 2 (identified victim vs. abstract numbers) by 4 (number of ad impressions) between-subjects design to investigate whether and how the identified victim effect drives ad recall over the course of varying degrees of ad penetration
+
+# Experimental Design
+
+On a high level, we create different feeds that contain both organic and sponsored posts as illustrated in @fig-design, where the first column on the left illustrates a feed that contains five sets of organic posts (grey boxes), three filler ads (yellow, green, and blue boxes) as well as one focal ad, which is either v.1 (showing an identified victim) or v.2 (showing abstract numbers). Moving from left to the right, the figure shows how the filler ads are successively replaced by the focal ad, essentially manipulating the amount of (focal-) ad impressions per feed.
+
+![2 (identified victim vs. abstract numbers) by 4 (number of focal ad impressions) between-subjects design](../idea/treatments.png){#fig-design}
+
+Given a frequency cap $\{1, 2, 3, 4\}$, we do neither vary the organic posts nor the filler ads between conditions. However, we do manipulate the focal ad (identified victim vs. abstract numbers). In addition, the order in which the ads are displayed is randomized between subjects too. Hence, some participants may encounter the ads in a sequence like `Ad A` > `Ad C` > `Ad B` > `Focal Ad`, whereas other see a sequence like `Focal Ad` > `Ad A` > `Ad C` > `Ad B` or any other variation. The "slots" in which an ad can be displayed remains constant.
+
+
+
 
 ```{r}
 set.seed(42)
@@ -115,10 +123,6 @@ scale_fill_custom_d <- function() {
   scale_fill_manual(values = c(c_pink, c_violet))
 }
 ```
-
-# Experimental Design
-
-![2 (identified victim vs. abstract numbers) by 4 (number of focal ad impressions) between-subjects design](../idea/treatments.png)
 
 
 # Simulations

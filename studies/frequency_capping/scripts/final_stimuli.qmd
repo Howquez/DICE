@@ -97,7 +97,7 @@ tweet_files <- list.files(path = "../stimuli/LLM-generated",
                           pattern = "brazil")
 dt_list <- list()
 i <- 1
-for(file in tweet_files){
+for(file in tail(x = tweet_files, n = 4)){
   tmp <- data.table::fread(paste0("../stimuli/LLM-generated/", file))
   dt_list[[i]] <- tmp
   i <- i + 1
@@ -112,24 +112,60 @@ tweets <- data.table::rbindlist(l = dt_list)[nchar(text) < 300]
 usernames <- data.table::fread("../stimuli/LLM-generated/users_1718529967.csv")
 ```
 
+```{r read_ads}
+ads_generic <- data.table::fread("../stimuli/ads_generic.csv")
+ads_focal   <- data.table::fread("../stimuli/ads_focal.csv")
+```
 
 # Data Manipulation
 
 ```{r}
-length <- nrow(usernames)
+length <- 60 # nrow(usernames)
 random_draw <- sample(x = tweets[, .N], size = length, replace = FALSE)
 ```
 
 
 ```{r}
+#| warning: false
+# Note that usernames will be recycled as 60 > usernames[, .N]
+
 tmp <- cbind(tweets[random_draw],
              usernames)
+tmp[, image_url := NA]
+tmp[, alt_text := NA]
+
+tmp[, .N, by = topic]
+```
+
+## Manual interference
+
+The tweets stored in `tmp` require some human intervention for three reasons:
+
+1. Some LLM-generated posts do not make much sense to a human and need to be deleted.
+2. Some posts should be appended by images.
+3. The random match between posts and users may not be optimal.
+
+Hence, we save the data, edit it manually and re-read it.
+
+```{r}
+data.table::fwrite(x = tmp, file = "../stimuli/to-be-supervized.csv", sep = ";")
+# write.csv(tmp, "../stimuli/to-be-supervized.csv", row.names = FALSE, fileEncoding = "UTF-8")
+
+# rm(tmp)
 ```
 
 ```{r}
+tmp <- data.table::fread("../stimuli/supervized.csv")
+```
+
+
+## Back to automation
+
+```{r}
+length <- tmp[, .N]
 doc_id <- seq(from = 1, to = length, by = 1)
 sequence <- seq(from = 1, to = length + 5, by = 1)
-sequence <- sequence[-seq(from = 6, to = length, by = 12)]
+sequence <- sequence[-seq(from = 6, to = length, by = 11)]
 datetime <- format(seq(from = lubridate::now(), 
                         by = "3 mins",
                         length.out = length),
@@ -142,7 +178,7 @@ user_followers[user_followers < 0] <- 42
 ```
 
 ```{r sponsored_post}
-
+#| eval: false
 sponsored_post_A <- data.table(doc_id = 9999,
                              datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
                              text = "Ad A",
@@ -162,7 +198,7 @@ sponsored_post_A <- data.table(doc_id = 9999,
                              condition = "A",
                              sequence = NA)
 
-sponsored_post_A <- data.table(doc_id = 9999,
+sponsored_post_B <- data.table(doc_id = 9999,
                              datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
                              text = "Ad B",
                              media = NA,
@@ -181,7 +217,7 @@ sponsored_post_A <- data.table(doc_id = 9999,
                              condition = "A",
                              sequence = NA)
 
-sponsored_post_A <- data.table(doc_id = 9999,
+sponsored_post_C <- data.table(doc_id = 9999,
                              datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
                              text = "Ad C",
                              media = NA,
@@ -200,7 +236,7 @@ sponsored_post_A <- data.table(doc_id = 9999,
                              condition = "A",
                              sequence = NA)
 
-sponsored_post_A <- data.table(doc_id = 9999,
+sponsored_post_D <- data.table(doc_id = 9999,
                              datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
                              text = "Ad D",
                              media = NA,
@@ -221,32 +257,57 @@ sponsored_post_A <- data.table(doc_id = 9999,
 ```
 
 ```{r}
-stimuli <- rbind(sponsored_post,
-                 data.table(doc_id,
-                            datetime,
-                            text = tmp$text,
-                            media = NA,
-                            alt_text = NA,
-                            likes,
-                            reposts,
-                            replies,
-                            username = tmp$username,
-                            handle = tmp$handle,
-                            user_description = tmp$user_description,
-                            user_image = tmp$user_image,
-                            user_followers,
-                            commented_post = 0,
-                            sponsored = 0,
-                            target = NA,
-                            condition = "A",
-                            sequence = NA)) # sequence))
+create_stimuli <- function(cond = "A", fc = 1){
+  ads <- 4
+  safe_seq <- if ((ads - fc) >= 1) {
+    seq(from = 1, to = ads - fc, by = 1)
+  } else {
+    integer(0)  # returns an empty integer vector if the condition is not met
+  }
+  stimuli <- rbind(ads_generic[safe_seq],
+                   ads_focal[condition == cond, .SD[rep(1, each = fc)]],
+                   data.table(doc_id,
+                              datetime,
+                              text = tmp$text,
+                              media = NA,
+                              alt_text = NA,
+                              likes,
+                              reposts,
+                              replies,
+                              username = tmp$username,
+                              handle = tmp$handle,
+                              user_description = tmp$user_description,
+                              user_image = tmp$user_image,
+                              user_followers,
+                              commented_post = 0,
+                              sponsored = 0,
+                              target = NA,
+                              condition = cond,
+                              sequence = sequence))
+  
+  setorder(stimuli, sequence)
+  stimuli[, condition := paste0(cond, "_", fc)]
+  stimuli[, doc_id := 1:.N]
+  
+  return(stimuli)
+}
 
-setorder(stimuli, sequence)
-stimuli[, doc_id := 1:.N]
-```
+test <- create_stimuli()
 
-```{r}
+stimuli <- rbind(create_stimuli(cond = "A", fc = 1),
+                 create_stimuli(cond = "A", fc = 2),
+                 create_stimuli(cond = "A", fc = 3),
+                 create_stimuli(cond = "A", fc = 4),
+                 create_stimuli(cond = "B", fc = 1),
+                 create_stimuli(cond = "B", fc = 2),
+                 create_stimuli(cond = "B", fc = 3),
+                 create_stimuli(cond = "B", fc = 4))
 
+# rbind the same data X times.
+# dt_list <- lapply(1:N, function(i) {
+#     copy(stimuli)[, condition := i]
+# })
+# result_dt <- rbindlist(dt_list)
 ```
 
 
