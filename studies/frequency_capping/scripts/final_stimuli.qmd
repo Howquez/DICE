@@ -151,7 +151,7 @@ Hence, we save the data, edit it manually and re-read it.
 data.table::fwrite(x = tmp, file = "../stimuli/to-be-supervized.csv", sep = ";")
 # write.csv(tmp, "../stimuli/to-be-supervized.csv", row.names = FALSE, fileEncoding = "UTF-8")
 
-# rm(tmp)
+rm(tmp)
 ```
 
 ```{r}
@@ -269,7 +269,7 @@ create_stimuli <- function(cond = "A", fc = 1){
                    data.table(doc_id,
                               datetime,
                               text = tmp$text,
-                              media = NA,
+                              media = tmp$image_url,
                               alt_text = NA,
                               likes,
                               reposts,
