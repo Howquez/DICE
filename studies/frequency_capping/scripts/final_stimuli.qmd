@@ -164,8 +164,8 @@ tmp <- data.table::fread("../stimuli/supervized.csv")
 ```{r}
 length <- tmp[, .N]
 doc_id <- seq(from = 1, to = length, by = 1)
-sequence <- seq(from = 1, to = length + 5, by = 1)
-sequence <- sequence[-seq(from = 6, to = length, by = 11)]
+sequence <- seq(from = 1, to = length + 4, by = 1)
+sequence <- sequence[-seq(from = 6, length.out = 4, by = 15)]
 datetime <- format(seq(from = lubridate::now(), 
                         by = "3 mins",
                         length.out = length),
