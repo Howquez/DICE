@@ -270,7 +270,7 @@ create_stimuli <- function(cond = "A", fc = 1){
                               datetime,
                               text = tmp$text,
                               media = tmp$image_url,
-                              alt_text = NA,
+                              alt_text = tmp$alt_text,
                               likes,
                               reposts,
                               replies,
@@ -291,8 +291,6 @@ create_stimuli <- function(cond = "A", fc = 1){
   
   return(stimuli)
 }
-
-test <- create_stimuli()
 
 stimuli <- rbind(create_stimuli(cond = "A", fc = 1),
                  create_stimuli(cond = "A", fc = 2),
