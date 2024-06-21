@@ -1,5 +1,5 @@
 ---
-title: 'DICE'
+title: 'DICE Pre-Test'
 subtitle: "How Much Is Enough? Exploring Frequency Capping in Social Media Advertising"
 author:
 - name: Hauke Roggenkamp
@@ -63,9 +63,21 @@ On a high level, we create different feeds that contain both organic and sponsor
 
 ![2 (identified victim vs. abstract numbers) by 4 (number of focal ad impressions) between-subjects design](../idea/treatments.png){#fig-design}
 
-Given a frequency cap $\{1, 2, 3, 4\}$, we do neither vary the organic posts nor the filler ads between conditions. However, we do manipulate the focal ad (identified victim vs. abstract numbers). In addition, the order in which the ads are displayed is randomized between subjects too. Hence, some participants may encounter the ads in a sequence like `Ad A` > `Ad C` > `Ad B` > `Focal Ad`, whereas other see a sequence like `Focal Ad` > `Ad A` > `Ad C` > `Ad B` or any other variation. The "slots" in which an ad can be displayed remains constant.
+Given a frequency cap $\{1, 2, 3, 4\}$, we do neither vary the organic posts nor the filler ads between conditions. However, we do manipulate the focal ad (identified victim vs. abstract numbers). In addition, the order in which the ads are displayed is randomized between subjects too. Hence, some participants may encounter the ads in a sequence like `Ad A` > `Ad C` > `Ad B` > `Focal Ad`, whereas other see a sequence like `Focal Ad` > `Ad A` > `Ad C` > `Ad B` or any other variation. The "slots" in which an ad can be displayed remain constant.^[We expose participants to ads in 6th, 21st, 36st, and 51st position of the feed.]
 
 
+# Stimuli
+
+The two variations of the focal ad are displayed in @fig-stimuli.
+
+::: {#fig-stimuli layout-ncol=2}
+
+![Identified Victim Condition](../stimuli/images/creative_focal_treatment.png){#fig-ad-identified}
+
+![Abstract Condition](../stimuli/images/creative_focal_control.png){#fig-ad-abstract}
+
+Variations of Focal Ad
+:::
 
 
 ```{r}
@@ -276,6 +288,53 @@ stargazer::stargazer(lm_1,
 ```
 
 
+# Method and Measures
+
+We run a 2-cell (flood-context vs. general-context) between-subjects design in which each participant faces the sponsored post.
+
+After participants browse the social media feed, they are redirected to a Qualtrics survey that starts with basic demographic questions. Subsequently, they answer unaided and aided recall questions to indicate whether they remember seeing a _KLM_ ad. 
+
+Finally we elicit the participants' brand attitudes towards KLM before we debrief and redirect them to Prolific.
+
+
+# Primary Analysis
+
+Our primary interest lies in the effect the context has on our three-item brand attitude measure. Hence, we compute an average of these items and compare means using a simple OLS regression (to which we subsequently add potential covariates).
+
+We expect the flood-context to affect the brand attitude towards _KLM_ negatively, which is why we consider a one sided test.
+
+# Secondary Analysis
+
+We expect heterogeneous treatment effects, where recall and the (absence of) the dwell time participants allocate to the focal brand's sponsored ad moderate the treatment: Those participants who have not seen or processed the ad (approximated by a lack of dwell time and failures to recall the ad, respectively), shouldn't be affected by the brand logo.
+
+# Population
+
+We will recruit participants from Prolific who meet the following criteria:
+
+- Approval Rate >= 99%
+- First Language == ‘English’
+- Location == ‘USA’
+
+# Sample Size 
+
+As stated above, we expect our treatment effect to be heterogeneous. As a consequence, the sponsored ad can only affect brand evaluations if it cuts through the content clutter [@Ordenes_2019].
+
+Hence, we recruit 300 participants in a first pilot. To this end, we create a database containing 500 rows.
+
+# Exclusion Criteria
+
+We will only consider complete observations, that is, data from participants who browsed through the feed, answered the qualtrics survey and who were redirected to Prolific with a functional completion code.
+
+Because we gather process data, such as dwell time, we have tools to assess the data quality [@CuskleySulik_2024] -- at least during the exposure to the social media feed. If these data reveal inattentive participants, for instance, we may exclude them too but label the resulting analyses as exploratory.
+
+# Prior Data Collection
+
+We did not collect any data before.
+
+# References
+
+<!--
+
 ## Legacy
 
 ```{r}
@@ -457,7 +516,7 @@ stargazer::stargazer(float_model, int_model, float_lm, int_lm,
                      digits = 2)
 ```
 
-
+-->
 
 
 # References
