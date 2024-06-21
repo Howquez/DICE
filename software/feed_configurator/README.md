@@ -1,1 +1,0 @@
-# oFeeds Configurator
