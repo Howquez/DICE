@@ -314,6 +314,13 @@ stimuli <- rbind(create_stimuli(cond = "A", fc = 1),
 data.table::fwrite(stimuli, file = "../stimuli/brazil_june.csv", sep = ";")
 ```
 
+# Write Pilot Stimuli
+
+```{r}
+data.table::fwrite(rbind(create_stimuli(cond = "A", fc = 2),
+                        create_stimuli(cond = "B", fc = 2)),
+                  file = "../stimuli/brazil_pilot.csv")
+```
 
 
 # Session Info
