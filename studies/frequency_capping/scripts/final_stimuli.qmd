@@ -235,7 +235,8 @@ data.table::fwrite(stimuli, file = "../stimuli/brazil_final.csv", sep = ";")
 ```{r}
 data.table::fwrite(rbind(create_stimuli(cond = "A", fc = 2),
                          create_stimuli(cond = "B", fc = 2)),
-                   file = "../stimuli/brazil_pretest.csv")
+                   file = "../stimuli/brazil_pretest.csv",
+                   sep = ";")
 ```
 
 
