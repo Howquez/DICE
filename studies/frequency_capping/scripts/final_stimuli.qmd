@@ -148,13 +148,13 @@ The tweets stored in `tmp` require some human intervention for three reasons:
 Hence, we save the data, edit it manually and re-read it.
 
 ```{r}
-data.table::fwrite(x = tmp, file = "../stimuli/to-be-supervized.csv", sep = ";")
+data.table::fwrite(x = tmp, file = "../stimuli/to-be-supervised.csv", sep = ";")
 
 rm(tmp)
 ```
 
 ```{r}
-tmp <- data.table::fread("../stimuli/supervized.csv")
+tmp <- data.table::fread("../stimuli/supervised.csv")
 ```
 
 
@@ -174,85 +174,6 @@ reposts <-  as.integer(runif(n = length, min = 0, max = 9))
 replies <-  as.integer(runif(n = length, min = 0, max = 24))
 user_followers <- as.integer(rnorm(n = length, mean = 400, sd = 200))
 user_followers[user_followers < 0] <- 42
-```
-
-```{r sponsored_post}
-#| eval: false
-sponsored_post_A <- data.table(doc_id = 9999,
-                             datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
-                             text = "Ad A",
-                             media = NA,
-                             alt_text = NA,
-                             likes = 42,
-                             reposts = 12,
-                             replies = 0,
-                             username = "Square Baby",
-                             handle = "SquareBabyFood",
-                             user_description = "The only organic baby food offering 💯% Daily Nutrition and a comprehensive Allergen Introduction Menu. Customized to your kiddo 👶. Fresh, organic, delivered.",
-                             user_image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmfrfojh946-1MF8b60I2ixREUL_6pQjAC6w&s",
-                             user_followers = 133,
-                             commented_post = 0,
-                             sponsored = 1,
-                             target = "https://squarebaby.com/",
-                             condition = "A",
-                             sequence = NA)
-
-sponsored_post_B <- data.table(doc_id = 9999,
-                             datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
-                             text = "Ad B",
-                             media = NA,
-                             alt_text = NA,
-                             likes = 42,
-                             reposts = 12,
-                             replies = 0,
-                             username = "Square Baby",
-                             handle = "SquareBabyFood",
-                             user_description = "The only organic baby food offering 💯% Daily Nutrition and a comprehensive Allergen Introduction Menu. Customized to your kiddo 👶. Fresh, organic, delivered.",
-                             user_image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmfrfojh946-1MF8b60I2ixREUL_6pQjAC6w&s",
-                             user_followers = 133,
-                             commented_post = 0,
-                             sponsored = 1,
-                             target = "https://squarebaby.com/",
-                             condition = "A",
-                             sequence = NA)
-
-sponsored_post_C <- data.table(doc_id = 9999,
-                             datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
-                             text = "Ad C",
-                             media = NA,
-                             alt_text = NA,
-                             likes = 42,
-                             reposts = 12,
-                             replies = 0,
-                             username = "Square Baby",
-                             handle = "SquareBabyFood",
-                             user_description = "The only organic baby food offering 💯% Daily Nutrition and a comprehensive Allergen Introduction Menu. Customized to your kiddo 👶. Fresh, organic, delivered.",
-                             user_image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmfrfojh946-1MF8b60I2ixREUL_6pQjAC6w&s",
-                             user_followers = 133,
-                             commented_post = 0,
-                             sponsored = 1,
-                             target = "https://squarebaby.com/",
-                             condition = "A",
-                             sequence = NA)
-
-sponsored_post_D <- data.table(doc_id = 9999,
-                             datetime = format(lubridate::now() - 1, "%d.%m.%y %H:%M"),
-                             text = "Ad D",
-                             media = NA,
-                             alt_text = NA,
-                             likes = 42,
-                             reposts = 12,
-                             replies = 0,
-                             username = "Square Baby",
-                             handle = "SquareBabyFood",
-                             user_description = "The only organic baby food offering 💯% Daily Nutrition and a comprehensive Allergen Introduction Menu. Customized to your kiddo 👶. Fresh, organic, delivered.",
-                             user_image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmfrfojh946-1MF8b60I2ixREUL_6pQjAC6w&s",
-                             user_followers = 133,
-                             commented_post = 0,
-                             sponsored = 1,
-                             target = "https://squarebaby.com/",
-                             condition = "A",
-                             sequence = NA)
 ```
 
 ```{r}
@@ -300,26 +221,21 @@ stimuli <- rbind(create_stimuli(cond = "A", fc = 1),
                  create_stimuli(cond = "B", fc = 3),
                  create_stimuli(cond = "B", fc = 4))
 
-# rbind the same data X times.
-# dt_list <- lapply(1:N, function(i) {
-#     copy(stimuli)[, condition := i]
-# })
-# result_dt <- rbindlist(dt_list)
 ```
 
 
 # Write Data
 
 ```{r}
-data.table::fwrite(stimuli, file = "../stimuli/brazil_june.csv", sep = ";")
+data.table::fwrite(stimuli, file = "../stimuli/brazil_final.csv", sep = ";")
 ```
 
 # Write Pilot Stimuli
 
 ```{r}
 data.table::fwrite(rbind(create_stimuli(cond = "A", fc = 2),
-                        create_stimuli(cond = "B", fc = 2)),
-                  file = "../stimuli/brazil_pilot.csv")
+                         create_stimuli(cond = "B", fc = 2)),
+                   file = "../stimuli/brazil_pretest.csv")
 ```
 
 
