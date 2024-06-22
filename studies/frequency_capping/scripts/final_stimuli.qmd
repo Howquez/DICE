@@ -1,5 +1,5 @@
 ---
-title: 'DICE'
+title: "DICE"
 subtitle: "How Much Is Enough? Exploring Frequency Capping in Social Media Advertising"
 author:
 - name: Hauke Roggenkamp
@@ -50,7 +50,7 @@ if (!requireNamespace("groundhog", quietly = TRUE)) {
 }
 
 pkgs <- c("magrittr", "data.table", "knitr", "stringr", "lubridate", 
-          "ggplot2", "patchwork", "ghibli", "sjPlot", "gtsummary", "psych", "effectsize")
+          "ggplot2")
 
 groundhog::groundhog.library(pkg = pkgs,
                              date = "2024-01-01")
@@ -148,7 +148,7 @@ The tweets stored in `tmp` require some human intervention for three reasons:
 Hence, we save the data, edit it manually and re-read it.
 
 ```{r}
-data.table::fwrite(x = tmp, file = "../stimuli/to-be-supervised.csv", sep = ";")
+# data.table::fwrite(x = tmp, file = "../stimuli/to-be-supervised.csv", sep = ";")
 
 rm(tmp)
 ```
