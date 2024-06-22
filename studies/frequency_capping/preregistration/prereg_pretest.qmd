@@ -34,11 +34,11 @@ author:
       postal-code: 9000
 date: now
 date-format: dddd MMM D, YYYY, HH:mm z
-# format:
-#   html:
-#     embed-resources: true
-#     theme: cosmo
-format: pdf
+format:
+  html:
+    embed-resources: true
+    theme: cosmo
+# format: pdf
 toc: false
 number-sections: false
 fig-cap-location: top
@@ -68,7 +68,7 @@ Given a frequency cap $\{1, 2, 3, 4\}$, we do neither vary the organic posts nor
 
 # Stimuli
 
-The two variations of the focal ad are displayed in @fig-stimuli. You can find a feed displaying the abstract ads [here](https://web.archive.org/web/20240621212002/https://ibt-hsg.herokuapp.com/p/qxirdbjm/DICE/C_Feed/3).
+The two variations of the focal ad creative are displayed in @fig-stimuli.
 
 ::: {#fig-stimuli layout-ncol=2}
 
@@ -79,10 +79,25 @@ The two variations of the focal ad are displayed in @fig-stimuli. You can find a
 Variations of Focal Ad
 :::
 
+In addition, we vary the ad copy:
+
+- Identified Victim Condition: _»I just want to go home.« whispers João, 7, displaced by the floods in Brazil. His story is one of many, but today, you can make a difference for him. Help João and others like him find safety. Donate now. <br><br>#HelpJoao #BrazilFloodRelief_
+- Abstract Condition: _Thousands have been displaced by the floods in Brazil and want to go home. Today, you can make a difference for the those in need and help them find safety. Donate now. <br><br>#HelpBrazil #BrazilFloodRelief_
+
+You can find a feed displaying the abstract ad [here](https://web.archive.org/web/20240622054500/https://ibt-hsg.herokuapp.com/p/9w95moss/DICE/C_Feed/3).
+
+Before participants browse the feed, we brief them as follows:
+
+> _Instructions: Welcome to our study covering a typical social media feed that focuses on the topic of Brazil.
+Please interact with the feed as you normally would on social media. Feel free to like, comment, or simply read through the posts according to your preference.
+Once you reach the end of the feed, you'll find a button to proceed with the study. Click this button to move on to a series of short questions about your experience with the feed._
+
 
 # Pre-Test
 
-We run a 2-cell (identified victim vs. abstract numbers) between-subjects design with two ad exposures as a pre-test (i.e., only the second column of @fig-design). We pre-test the experiment as we implemented new features in the DICE software, that measure the height in which each post is resolved on a participant's device, for instance. In addition, we measure whether ads are clicked. Most importantly, we also changed the mechanisms randomizing the conditions as well as potential randomizations of the order in which posts of a feed are displayed.
+We run a 2-cell (identified victim vs. abstract numbers) between-subjects design with two ad exposures as a pre-test (i.e., only the second column of @fig-design). 
+
+We pre-test the experiment as we implemented new features in the DICE software, that measure the height in which each post is resolved on a participant's device, for instance. In addition, we measure whether ads are clicked. Most importantly, we also changed the mechanisms randomizing the conditions as well as potential randomizations of the order in which posts of a feed are displayed.
 
 
 ## Primary Analysis
@@ -93,7 +108,7 @@ Our primary interest lies in the identified victim effect on these recall measur
 
 ## Population
 
-We will recruit participants from Prolific who meet the following criteria:
+We will recruit participants from Prolific who haven't participated in other DICE studies before and meet the following additional criteria:
 
 - Approval Rate >= 99%
 - First Language == ‘English’
@@ -101,7 +116,7 @@ We will recruit participants from Prolific who meet the following criteria:
 
 ## Sample Size 
 
-We recruit 100 participants in a first pilot. To this end, we create a database containing 200 rows.
+We recruit 100 participants in a first pilot. To this end, we create a [database](https://ibt-hsg.herokuapp.com/SessionData/mkkum3r5) containing 200 rows. The corresponding session-code is `mkkum3r5`.
 
 ## Exclusion Criteria
 
