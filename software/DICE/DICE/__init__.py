@@ -48,7 +48,7 @@ class Player(BasePlayer):
     rowheight_data = models.LongStringField(doc='tracks the time feed items were visible in a participants viewport.')
     likes_data = models.LongStringField(doc='tracks likes.', blank=True)
     replies_data = models.LongStringField(doc='tracks replies.', blank=True)
-    sponsored_post_clicks = models.LongStringField(doc='tracks the clicks on sponsored posts.')
+    sponsored_post_clicks = models.LongStringField(doc='tracks the clicks on sponsored posts.', blank=True)
 
 
     touch_capability = models.BooleanField(doc="indicates whether a participant uses a touch device to access survey.",
