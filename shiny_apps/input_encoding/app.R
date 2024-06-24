@@ -112,7 +112,13 @@ server <- function(input, output) {
       paste("DICE-input-", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
-      write.table(values$DT, file = file, fileEncoding = "UTF-8", sep = ";", row.names = FALSE, quote = TRUE)
+      write.table(values$DT, 
+                  file = file, 
+                  fileEncoding = "UTF-8", 
+                  sep = ";", 
+                  row.names = FALSE, 
+                  quote = TRUE,
+                  na = "")
     }
   )
   

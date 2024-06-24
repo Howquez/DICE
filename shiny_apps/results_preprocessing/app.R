@@ -1,7 +1,6 @@
-# Pakages -----
+# Packages -----
 library("pacman")
-p_load(magrittr, data.table, knitr, stringr, jsonlite)
-
+p_load(magrittr, data.table, knitr, stringr, jsonlite, shiny)
 
 # Define UI for data upload app ----
 ui <- fluidPage(
@@ -22,28 +21,7 @@ ui <- fluidPage(
                            "text/comma-separated-values,text/plain",
                            ".csv")),
       
-      # Horizontal line ----
       tags$hr(),
-      
-      # # Input: Checkbox if file has header ----
-      # checkboxInput("header", "Header", TRUE),
-      # 
-      # # Input: Select separator ----
-      # radioButtons("sep", "Separator",
-      #              choices = c(Comma = ",",
-      #                          Semicolon = ";",
-      #                          Tab = "\t"),
-      #              selected = ","),
-      # 
-      # # Input: Select quotes ----
-      # radioButtons("quote", "Quote",
-      #              choices = c(None = "",
-      #                          "Double Quote" = '"',
-      #                          "Single Quote" = "'"),
-      #              selected = '"'),
-      # 
-      # # Horizontal line ----
-      # tags$hr(),
       
       # Input: Select number of rows to display ----
       radioButtons("disp", "Display Data",
@@ -55,52 +33,33 @@ ui <- fluidPage(
       
       # Download Button
       downloadButton("downloadData", "Download Processed Data")
-      
     ),
     
     # Main panel for displaying outputs ----
     mainPanel(
-      
       # Output: Data file ----
       tableOutput("contents")
-      
     )
-    
   )
 )
 
-# Define server logic to read selected file ----
+# Define server logic ----
 server <- function(input, output) {
   
-  output$contents <- renderTable({
-    
-    # input$file1 will be NULL initially. After the user selects
-    # and uploads a file, head of that data file by default,
-    # or all rows if selected, will be shown.
-    
+  # Define 'final' as a reactive expression
+  final <- reactive({
     req(input$file1)
     
-    # when reading semicolon separated files,
-    # having a comma separator causes `read.csv` to error
-    tryCatch(
-      {
-        df <- data.table::fread(input$file1$datapath,
-                       # header = input$header,
-                       # sep = input$sep,
-                       # quote = input$quote,
-                       skip = "participant.tweets",
-                       ) %>% 
-          as.data.table()
-      },
-      error = function(e) {
-        # return a safeError if a parsing error occurs
-        stop(safeError(e))
-      }
-    )
+    tryCatch({
+      df <- fread(input$file1$datapath) %>% 
+        as.data.table()
+    }, error = function(e) {
+      stop(safeError(e))
+    })
     
     # Preprocessing: select cols and only complete observations
     cols <- str_detect(string = names(df), 
-                       pattern = "participant.label|participant.code|likes_data|replies_data|favorable|sequence|viewport|condition")
+                       pattern = "session.code|participant.label|participant.code|likes_data|replies_data|sequence|viewport|rowheight|sponsored|condition|device_type|touch_capability|time_started")
     
     data <- df[participant._index_in_pages >= 4, ..cols]
     
@@ -112,6 +71,9 @@ server <- function(input, output) {
       str_to_lower() %>%
       setnames(x = data)
     
+    # Edit Date Format
+    data[, participant_time_started_utc := participant_time_started_utc %>% str_sub(start = 1, end = 19)]
+
     # Create Item Sequence DT
     display <- data[, 
                     .(tweet = unlist(base::strsplit(x = sequence, 
@@ -195,25 +157,65 @@ server <- function(input, output) {
              new = 'tweet')
     
     
+    # Create Rowheight DT
+    rowheight <- data[nchar(rowheight_data) > 1,
+                      fromJSON(str_replace_all(string = rowheight_data,
+                                               pattern = '""',
+                                               replacement = '"')),
+                      by = participant_code][!is.na(doc_id)]
+    
+    # rename
+    setnames(x = rowheight,
+             old = 'doc_id',
+             new = 'tweet')
+    
+    
+    
+    # Create Sponsored Post (Ad) Clicks
+    ad_clicks <- data[nchar(sponsored_post_clicks) > 1,
+                      fromJSON(str_replace_all(string = sponsored_post_clicks,
+                                               pattern = '""',
+                                               replacement = '"')),
+                      by = participant_code][!is.na(doc_id)]
+    
+    ad_clicks[, ad_click := TRUE]
+    
+    # rename
+    setnames(x = ad_clicks,
+             old = 'doc_id',
+             new = 'tweet')
+  
+    
+    
     # Merge to Final DT
-    merge_1 <- merge(data[, .(participant_code, participant_label, condition)], display, by = c("participant_code"), all = TRUE)
+    merge_1 <- merge(data[, .(session_code, participant_code, participant_label, touch_capability, device_type, condition, participant_time_started_utc)], display, by = c("participant_code"), all = TRUE)
     merge_2 <- merge(merge_1, viewport, by = c("participant_code", "tweet"), all = TRUE)
     merge_3 <- merge(merge_2, flow_collapsed, by = c("participant_code", "tweet"), all = TRUE)
-    tmp     <- merge(merge_3, reactions, by = c("participant_code", "tweet"), all = TRUE)
+    merge_4 <- merge(merge_3, reactions, by = c("participant_code", "tweet"), all = TRUE)
+    merge_5 <- merge(merge_4, ad_clicks, by = c("participant_code", "tweet"), all = TRUE)
+    tmp     <- merge(merge_5, rowheight, by = c("participant_code", "tweet"), all = TRUE)
     
-    # Reorder columns
-    new_order <- c(1, 3, 4)
+    # Reorder columns (and rows)
+    new_order <- c(3, 1, 4, 8, 5, 6, 7)
     remaining_cols <- setdiff(1:ncol(tmp), new_order)
     final <- tmp[, c(new_order, remaining_cols), with = FALSE]
+    setorder(final, session_code, participant_code, displayed_sequence)
+    
+    # Re-re-name
+    setnames(x = final,
+             new = 'doc_id',
+             old = 'tweet')
     
     
+    return(final)  # Return the processed data frame
+  })
+  
+  output$contents <- renderTable({
     if(input$disp == "head") {
-      return(head(final))
+      head(final())
+    } else {
+      final()
     }
-    else {
-      return(final)
-    }
-    
   })
   
   output$downloadData <- downloadHandler(
@@ -221,10 +223,9 @@ server <- function(input, output) {
       paste("DICE-processed-", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
-      write.csv(final, file)
+      write.csv(final(), file, row.names = FALSE)
     }
   )
-  
 }
 
 # Create Shiny app ----
