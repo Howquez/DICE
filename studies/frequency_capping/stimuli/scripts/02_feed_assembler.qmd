@@ -224,11 +224,11 @@ stimuli <- rbind(create_stimuli(fc = 1),
 # Write Data
 
 ```{r}
-write.csv(x = stimuli,
-          file = "../csv/fc_final.csv",
-          fileEncoding = "UTF-8",
-          sep = ";",
-          row.names = FALSE)
+write.csv2(x = stimuli,
+           file = "../csv/fc_final.csv",
+           fileEncoding = "UTF-8",
+           # sep = ";", # default with write.csv2()
+           row.names = FALSE)
 ```
 
 
