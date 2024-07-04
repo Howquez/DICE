@@ -149,7 +149,7 @@ Hence, we save the data, edit it manually and re-read it.
 ```{r}
 data.table::fwrite(x = tmp, file = "../csv/to-be-supervised.csv", sep = ";")
 
-# rm(tmp)
+rm(tmp)
 ```
 
 ```{r}
