@@ -202,8 +202,7 @@ create_stimuli <- function(fc = 1){
   stimuli[sequence == 0, sequence := NA]
   stimuli[sponsored == TRUE]$sequence <- seq(from = 5, by = 5, length.out = fc)
   setorder(stimuli, sequence)
-  stimuli[, doc_id := 1:.N]
-  
+
   return(stimuli)
 }
 

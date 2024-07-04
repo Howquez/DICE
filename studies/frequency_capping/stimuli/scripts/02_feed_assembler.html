@@ -3216,22 +3216,21 @@ vertical-align: -.125em;
 <span id="cb13-24"><a href="#cb13-24"></a>  stimuli[sequence <span class="sc">==</span> <span class="dv">0</span>, sequence <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
 <span id="cb13-25"><a href="#cb13-25"></a>  stimuli[sponsored <span class="sc">==</span> <span class="cn">TRUE</span>]<span class="sc">$</span>sequence <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">5</span>, <span class="at">by =</span> <span class="dv">5</span>, <span class="at">length.out =</span> fc)</span>
 <span id="cb13-26"><a href="#cb13-26"></a>  <span class="fu">setorder</span>(stimuli, sequence)</span>
-<span id="cb13-27"><a href="#cb13-27"></a>  stimuli[, doc_id <span class="sc">:</span><span class="er">=</span> <span class="dv">1</span><span class="sc">:</span>.N]</span>
-<span id="cb13-28"><a href="#cb13-28"></a>  </span>
-<span id="cb13-29"><a href="#cb13-29"></a>  <span class="fu">return</span>(stimuli)</span>
-<span id="cb13-30"><a href="#cb13-30"></a>}</span>
-<span id="cb13-31"><a href="#cb13-31"></a></span>
-<span id="cb13-32"><a href="#cb13-32"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>)</span>
-<span id="cb13-33"><a href="#cb13-33"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>)</span>
-<span id="cb13-34"><a href="#cb13-34"></a></span>
-<span id="cb13-35"><a href="#cb13-35"></a>stimuli <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>),</span>
-<span id="cb13-36"><a href="#cb13-36"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>),</span>
-<span id="cb13-37"><a href="#cb13-37"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">3</span>),</span>
-<span id="cb13-38"><a href="#cb13-38"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">4</span>),</span>
-<span id="cb13-39"><a href="#cb13-39"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">5</span>),</span>
-<span id="cb13-40"><a href="#cb13-40"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">6</span>),</span>
-<span id="cb13-41"><a href="#cb13-41"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">7</span>),</span>
-<span id="cb13-42"><a href="#cb13-42"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-27"><a href="#cb13-27"></a></span>
+<span id="cb13-28"><a href="#cb13-28"></a>  <span class="fu">return</span>(stimuli)</span>
+<span id="cb13-29"><a href="#cb13-29"></a>}</span>
+<span id="cb13-30"><a href="#cb13-30"></a></span>
+<span id="cb13-31"><a href="#cb13-31"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>)</span>
+<span id="cb13-32"><a href="#cb13-32"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>)</span>
+<span id="cb13-33"><a href="#cb13-33"></a></span>
+<span id="cb13-34"><a href="#cb13-34"></a>stimuli <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>),</span>
+<span id="cb13-35"><a href="#cb13-35"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>),</span>
+<span id="cb13-36"><a href="#cb13-36"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">3</span>),</span>
+<span id="cb13-37"><a href="#cb13-37"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">4</span>),</span>
+<span id="cb13-38"><a href="#cb13-38"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">5</span>),</span>
+<span id="cb13-39"><a href="#cb13-39"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">6</span>),</span>
+<span id="cb13-40"><a href="#cb13-40"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">7</span>),</span>
+<span id="cb13-41"><a href="#cb13-41"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
