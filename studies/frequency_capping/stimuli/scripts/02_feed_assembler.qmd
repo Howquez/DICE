@@ -24,6 +24,7 @@ number-sections: false
 fig-cap-location: top
 execute:
   echo: true
+  warning: false
 bibliography: ../../../../documentation/references.bib
 ---
 
@@ -224,7 +225,11 @@ stimuli <- rbind(create_stimuli(fc = 1),
 # Write Data
 
 ```{r}
-data.table::fwrite(stimuli, file = "../csv/fc_final.csv", sep = ";")
+write.csv(x = stimuli,
+          file = "../csv/fc_final.csv",
+          fileEncoding = "UTF-8",
+          sep = ";",
+          row.names = FALSE)
 ```
 
 
