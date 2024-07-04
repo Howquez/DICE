@@ -1,0 +1,236 @@
+---
+title: "DICE"
+subtitle: "How Much Is Enough? Exploring Frequency Capping in Social Media Advertising"
+author:
+- name: Hauke Roggenkamp
+  email: Hauke.Roggenkamp@unisg.ch
+  orcid: 0009-0005-5176-4718
+  corresponding: true
+  affiliations:
+    - name: Institute of Behavioral Science and Technology, University of St. Gallen
+      address: Torstrasse 25
+      city: St. Gallen
+      country: Switzerland
+      postal-code: 9000
+date: now
+date-format: long
+format: 
+  html:
+    embed-resources: true
+    theme: cosmo
+    code-line-numbers: true
+toc: false
+number-sections: false
+fig-cap-location: top
+execute:
+  echo: true
+bibliography: ../../../../documentation/references.bib
+---
+
+
+# Setup
+
+```{r}
+set.seed(42)
+```
+
+
+## Install Packages
+
+```{r install_packages}
+#| warning: false
+#| output: false
+
+options(repos = c(CRAN = "https://cran.r-project.org")) 
+
+
+if (!requireNamespace("groundhog", quietly = TRUE)) {
+    install.packages("groundhog")
+    library("groundhog")
+}
+
+pkgs <- c("magrittr", "data.table", "knitr", "stringr", "lubridate", 
+          "ggplot2")
+
+groundhog::groundhog.library(pkg = pkgs,
+                             date = "2024-01-01")
+
+rm(pkgs)
+```
+
+
+## Layout
+
+```{r layout}
+layout <- theme(panel.background = element_rect(fill = "white"),
+                legend.key = element_rect(fill = "white"),
+                panel.grid.major.y = element_line(colour = "grey", 
+                                                  linewidth = 0.25),
+                axis.ticks.y = element_blank(),
+                panel.grid.major.x = element_blank(),
+                axis.line.x.bottom = element_line(colour = "#000000", 
+                                                  linewidth = 0.5),
+                axis.line.y.left = element_blank(),
+                plot.title = element_text(size = rel(1))
+)
+```
+
+```{r colors}
+
+c_coral     <- "#f27981"
+c_yellow    <- "#F2EA79"
+c_turquoise <- "#79f2ea"
+c_purple    <- "#7981f2"
+
+scale_color_custom_d <- function() {
+  scale_color_manual(values = c(c_purple, c_coral, c_turquoise, c_yellow))
+}
+scale_fill_custom_d <- function() {
+  scale_fill_manual(values = c(c_purple, c_coral, c_turquoise, c_yellow))
+}
+```
+
+## Read Data
+
+```{r read_tweets}
+tweet_files <- list.files(path = "../csv/LLM-generated",
+                          pattern = "flood")
+dt_list <- list()
+i <- 1
+for(file in tweet_files){
+  tmp <- data.table::fread(paste0("../csv/LLM-generated/", file), header = TRUE, sep = ";")
+  dt_list[[i]] <- tmp[2:.N]
+  i <- i + 1
+}
+
+tweets <- data.table::rbindlist(l = dt_list, fill = TRUE, use.names = TRUE)[nchar(text) < 300]
+
+rm(list = c("tmp", "i", "tweet_files", "file", "dt_list"))
+```
+
+```{r read_usernames}
+usernames <- data.table::fread("../csv/LLM-generated/users_1718529967.csv")
+```
+
+```{r read_ads}
+focal_ad   <- data.table::fread("../csv/ads_focal.csv")
+```
+
+# Data Manipulation
+
+```{r}
+length <- 60 # nrow(usernames)
+random_draw <- sample(x = tweets[, .N], size = length, replace = FALSE)
+```
+
+
+```{r}
+#| warning: false
+# Note that usernames will be recycled as 60 > usernames[, .N]
+
+tmp <- cbind(tweets[random_draw],
+             usernames)
+tmp[, image_url := NA]
+tmp[, alt_text := NA]
+
+# tmp[, .N, by = topic]
+```
+
+## Manual interference
+
+The tweets stored in `tmp` require some human intervention for three reasons:
+
+1. Some LLM-generated posts do not make much sense to a human and need to be deleted.
+2. Some posts should be appended by images.
+3. The random match between posts and users may not be optimal.
+
+Hence, we save the data, edit it manually and re-read it.
+
+```{r}
+data.table::fwrite(x = tmp, file = "../csv/to-be-supervised.csv", sep = ";")
+
+# rm(tmp)
+```
+
+```{r}
+tmp <- data.table::fread("../csv/supervised.csv")
+```
+
+
+## Back to automation
+
+```{r}
+length <- tmp[, .N]
+doc_id <- seq(from = 1, to = length, by = 1)
+sequence <- NA
+datetime <- format(seq(from = lubridate::now(), 
+                        by = "3 mins",
+                        length.out = length),
+                    "%d.%m.%y %H:%M")
+likes <-  as.integer(runif(n = length, min = 0, max = 42))
+reposts <-  as.integer(runif(n = length, min = 0, max = 9))
+replies <-  as.integer(runif(n = length, min = 0, max = 24))
+user_followers <- as.integer(rnorm(n = length, mean = 400, sd = 200))
+user_followers[user_followers < 0] <- 42
+```
+
+```{r}
+create_stimuli <- function(fc = 1){
+  
+  stimuli <- rbind(focal_ad[, .SD[rep(1, each = fc)]],
+                   data.table(doc_id,
+                              datetime,
+                              text = tmp$text,
+                              media = tmp$image_url,
+                              alt_text = tmp$alt_text,
+                              likes,
+                              reposts,
+                              replies,
+                              username = tmp$username,
+                              handle = tmp$handle,
+                              user_description = tmp$user_description,
+                              user_image = tmp$user_image,
+                              user_followers,
+                              commented_post = 0,
+                              sponsored = 0,
+                              target = NA,
+                              condition = NA,
+                              sequence = 0)[1:(.N - fc)])
+  
+  stimuli[, condition := paste0("fc_", fc)]
+  stimuli[sequence == 0, sequence := NA]
+  stimuli[sponsored == TRUE]$sequence <- seq(from = 5, by = 5, length.out = fc)
+  setorder(stimuli, sequence)
+  stimuli[, doc_id := 1:.N]
+  
+  return(stimuli)
+}
+
+test <- create_stimuli(fc = 1)
+test <- create_stimuli(fc = 2)
+
+stimuli <- rbind(create_stimuli(fc = 1),
+                 create_stimuli(fc = 2),
+                 create_stimuli(fc = 3),
+                 create_stimuli(fc = 4),
+                 create_stimuli(fc = 5),
+                 create_stimuli(fc = 6),
+                 create_stimuli(fc = 7),
+                 create_stimuli(fc = 8))
+
+```
+
+
+# Write Data
+
+```{r}
+data.table::fwrite(stimuli, file = "../csv/fc_final.csv", sep = ";")
+```
+
+
+# Session Info
+
+```{r session_info}
+sessionInfo()
+```
+

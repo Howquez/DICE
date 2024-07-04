@@ -1,0 +1,243 @@
+---
+title: 'DICE'
+subtitle: "How Much Is Enough? Exploring Frequency Capping in Social Media Advertising"
+author:
+- name: Hauke Roggenkamp
+  email: Hauke.Roggenkamp@unisg.ch
+  orcid: 0009-0005-5176-4718
+  corresponding: true
+  affiliations:
+    - name: Institute of Behavioral Science and Technology, University of St. Gallen
+      address: Torstrasse 25
+      city: St. Gallen
+      country: Switzerland
+      postal-code: 9000
+date: now
+date-format: long
+format: 
+  html:
+    embed-resources: true
+    theme: cosmo
+    code-line-numbers: true
+toc: false
+number-sections: false
+fig-cap-location: top
+execute:
+  echo: true
+  warning: false
+jupyter: python3
+bibliography: ../../../../documentation/references.bib
+---
+
+
+```{python}
+import os
+import requests
+from bs4 import BeautifulSoup
+import json
+import pandas as pd
+from openai import OpenAI
+import re
+from IPython.display import Markdown
+from tabulate import tabulate
+import time
+```
+
+
+# Read Online Sources
+
+```{python}
+#| output: false
+#| 
+# URL of the article
+url = 'https://www.theguardian.com/global-development/article/2024/may/24/brazil-floods'
+
+# Sending a request to the URL
+response = requests.get(url)
+
+# Checking if the request was successful
+if response.status_code == 200:
+    # Parsing the HTML content of the page
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    # Finding the article text; adjust the tag and class as needed based on the webpage structure
+    article_text = soup.find('div', class_='article-body-commercial-selector').get_text(strip=True)
+    
+    # Writing the text to a file
+    with open('../inspo/Spring_2024_Guardian.txt', 'w', encoding='utf-8') as file:
+        file.write(article_text)
+else:
+    print("Failed to retrieve the article")
+```
+
+
+```{python}
+#| eval: false
+raw = parser.from_file("../inspo/Brazil-Humanitarian-SitRep-No.-1-(Floods-Rio-Grande-do-Sul)-26-June-2024.pdf.pdf")
+raw["content"]
+print(raw['content'])
+```
+
+# OpenAI
+
+After having read the data, we initialize the openAI API.
+
+```{python}
+# Load the API key from the config.json file
+with open('../../config.json') as f:
+    config = json.load(f)
+    api_key = config.get("OPENAI_API_KEY")
+
+# Set the API key for the OpenAI client
+client = OpenAI(api_key=api_key)
+
+# Check if the API key is loaded correctly
+if not api_key:
+    raise ValueError("API key not found. Please check your config.json file.")
+```
+
+
+## Prompt 1
+
+```{python}
+#| eval: false
+gpt_assistant_prompt = "You are a helpful assistant." 
+
+gpt_user_prompt = """ FIRST, read the following news article excerpt providing some  context:
+  """ + article_text + """
+
+SECOND, invent tweets: draw some inspiration from the news article excerpt to invent realistic content and create a feed of 50 tweets that could come up if one was searching form "Brazil" on twitter. 
+
+Doing so, fulfil the following requirements:
+1. Do not append hashtags at the end of to the tweets. 
+2. Each tweet should be at least 200 characters long.
+3. Use language one typically finds on social media. And write the tweets from the perspective of a user who wants to express their opinion or discuss the topic.
+4. If the tweets quote someone, use Guillemets as quotation marks.
+4. Create a series of 50 (fifty) tweets, not less.
+5. Enumerate the tweets.
+6. Only provide the 50 enumerated tweets and nothing else.
+
+Please read through my instructions before answering. 
+"""
+
+gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
+# print(gpt_prompt)
+```
+
+```{python}
+#| eval: true
+gpt_assistant_prompt = "You are a helpful assistant." 
+
+gpt_user_prompt = """ 
+Objective: Generate a series of 30 (thirty) tweets reflecting diverse aspects of Brazil, including recent events.
+
+Contexts:
+Here is a newspaper article by The Guardian:
+  """ + article_text + """
+
+
+Task:
+Invent a series of 50 tweets that draw inspiration from the above context. The tweets should provide a mix of updates, and personal opinions. Focus on the consequences for children.
+
+Requirements for the Tweets:
+
+1. Each tweet must be about 250 characters long.
+2. Do not append hashtags at the end of tweets!
+3. Use conversational and expressive language typical of social media (e.g. a few posts may be all-lowercase or contain typos).
+4. Be specific. Especially when wiritng about culture and nature.
+5. If quoting someone, use Guillemets as quotation marks «».
+6. Enumerate each tweet, starting from 1 to 50.
+7. Do not use  emojis!
+
+Output:
+Provide 30 (thirty) enumerated tweets, not less. Ensure that the tweets encompass a blend of reactions to the humanitarian and climate-related crisis, showcasing a broad perspective on Brazil.
+"""
+
+gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
+```
+
+
+```{python}
+message=[{"role": "assistant", "content": gpt_assistant_prompt}, {"role": "user", "content": gpt_user_prompt}]
+
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=message,
+    temperature=0.42,
+    frequency_penalty=0.42,
+    seed=42
+)
+```
+
+```{python}
+output_1 = response.choices[0].message.content
+# print(output_1)
+```
+
+
+## Prompt 2
+
+The second prompt is designed to change the output format of the first prompt's result and to predict and classify the tweets: How civil are they; do they agree or disagree with the original tweet? The prompt uses default values for `temperature` and `frequency_penalty` as the process does not require any creativity.
+
+
+```{python}
+gpt_assistant_prompt = "You are a helpful assistant helping a social scientist evaluating tweets." 
+
+gpt_user_prompt = """
+Objective: Review and categorize the following list of tweets related to Brazil:""" + output_1 + """
+
+Instructions:
+
+1. Read and Remove: Examine the provided tweets, which are each related to a topic concerning Brazil. Remove any tweets that do not sound like they were written by a real person.
+
+2. Label the Tweets: Assign a label to each tweet based on its content. Use the following labels:
+- "flood" for tweets discussing flooding or related humanitarian issues.
+- "other" for any tweets that do not fit the categories above.
+
+3. Remove english quotation marks with Guillemets «».
+
+4. Format Output as JSON: Provide labeled tweets strictly in JSON format. Each tweet should be represented as an object with two properties: text and topic. Example of the required JSON structure: {{"text": "here goes the tweet", "topic": "label"}}
+"""
+gpt_prompt = gpt_assistant_prompt, gpt_user_prompt
+```
+
+```{python}
+message=[{"role": "assistant", "content": gpt_assistant_prompt}, {"role": "user", "content": gpt_user_prompt}]
+temperature=1
+
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=message,
+    temperature=0,
+    frequency_penalty=0,
+    seed=42,
+    response_format={ "type": "json_object" }
+)
+```
+
+
+# Write Data
+
+```{python}
+output_2 = response.choices[0].message.content
+
+try:
+  json_obj = json.loads(output_2)
+  er = json_obj["tweets"]
+except:
+  print("Error")
+  
+generated_content = pd.DataFrame(er)
+```
+
+
+```{python}
+# Define the output CSV file path with time stamp
+ts = str(int(time.time()))
+csv_file_path = "../csv/LLM-generated/flood_" + ts + ".csv"
+
+# Write the DataFrame to a CSV file
+generated_content.to_csv(csv_file_path, index=False, sep=";", encoding="utf-8-sig")
+```
