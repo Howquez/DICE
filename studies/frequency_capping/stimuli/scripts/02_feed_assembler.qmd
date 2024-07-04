@@ -200,7 +200,7 @@ create_stimuli <- function(fc = 1){
   
   stimuli[, condition := paste0("fc_", fc)]
   stimuli[sequence == 0, sequence := NA]
-  stimuli[sponsored == TRUE]$sequence <- seq(from = 5, by = 5, length.out = fc)
+  stimuli[sponsored == TRUE]$sequence <- seq(from = 7, by = 7, length.out = fc)
   setorder(stimuli, sequence)
 
   return(stimuli)
@@ -215,8 +215,7 @@ stimuli <- rbind(create_stimuli(fc = 1),
                  create_stimuli(fc = 4),
                  create_stimuli(fc = 5),
                  create_stimuli(fc = 6),
-                 create_stimuli(fc = 7),
-                 create_stimuli(fc = 8))
+                 create_stimuli(fc = 7))
 
 ```
 
