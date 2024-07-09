@@ -215,7 +215,8 @@ stimuli <- rbind(create_stimuli(fc = 1),
                  create_stimuli(fc = 4),
                  create_stimuli(fc = 5),
                  create_stimuli(fc = 6),
-                 create_stimuli(fc = 7))
+                 create_stimuli(fc = 7),
+                 create_stimuli(fc = 8))
 
 ```
 
