@@ -130,11 +130,6 @@ length <- 60 # nrow(usernames)
 random_draw <- sample(x = tweets[, .N], size = length, replace = FALSE)
 ```
 
-```{r}
-tweets[, text := str_replace_all(string = text, pattern = '"', replacement = "")]
-tweets[, text := str_replace_all(string = text, pattern = "'", replacement = "")]
-```
-
 
 ```{r}
 #| warning: false
@@ -261,10 +256,20 @@ stimuli <- rbind(create_stimuli(fc = 1),
                  create_stimuli(fc = 7),
                  create_stimuli(fc = 8))
 
+
+```
+
+```{r fix_doc_id}
 # make sure there is a unique doc_id for each post.
 #   here, the high number makes the doc_id stand out
 #   in addition, the last two digits indicate the placement of the ad.
 stimuli[doc_id == 9999, doc_id := 9900 + sequence]
+```
+
+```{r fix_text}
+stimuli[, text := str_replace_all(string = text, pattern = '"', replacement = "")]
+stimuli[, text := str_replace_all(string = text, pattern = "'", replacement = "")]
+stimuli[, text := str_replace_all(string = text, pattern = "^\\s", replacement = "")]
 ```
 
 
