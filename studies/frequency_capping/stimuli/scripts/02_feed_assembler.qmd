@@ -277,9 +277,9 @@ stimuli[, text := str_replace_all(string = text, pattern = "^\\s", replacement =
 
 ```{r}
 write.csv2(x = stimuli,
-           file = "../csv/fc_final.csv",
+           file = "../csv/frequency_caps_stimuli.csv",
            fileEncoding = "UTF-8",
-           # sep = ";", # default with write.csv2()
+           # sep = ";", # no need: default with write.csv2()
            row.names = FALSE)
 ```
 
