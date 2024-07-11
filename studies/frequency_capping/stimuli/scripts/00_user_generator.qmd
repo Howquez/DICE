@@ -1,0 +1,130 @@
+---
+title: 'DICE'
+subtitle: "How Much Is Enough? Exploring Frequency Capping in Social Media Advertising"
+author:
+- name: Hauke Roggenkamp
+  email: Hauke.Roggenkamp@unisg.ch
+  orcid: 0009-0005-5176-4718
+  corresponding: true
+  affiliations:
+    - name: Institute of Behavioral Science and Technology, University of St. Gallen
+      address: Torstrasse 25
+      city: St. Gallen
+      country: Switzerland
+      postal-code: 9000
+date: now
+date-format: long
+format: 
+  html:
+    embed-resources: true
+    theme: cosmo
+    code-line-numbers: true
+toc: false
+number-sections: false
+fig-cap-location: top
+execute:
+  echo: true
+  warning: false
+jupyter: python3
+bibliography: ../../../../documentation/references.bib
+---
+
+```{python}
+# !mkdir env
+# !python3 -m venv env
+# !source env/bin/activate
+# !python3 -m pip install pandas requests pillow
+```
+
+
+```{python}
+!export PATH="/Users/haukeroggenkamp/TechX Dropbox/Hauke Roggenkamp/oFeeds/env/bin:$PATH"
+!echo $PATH  # Check if the path is set correctly
+!which python  # Verify again
+!which pip  # Verify again
+```
+
+```{python}
+# !python3 -m pip install pandas requests pillow
+```
+
+
+```{python}
+import pandas as pd
+import requests
+from PIL import Image
+from io import BytesIO
+```
+
+```{python}
+users = pd.read_csv("../users/users_in.csv", sep = ";")
+urls = users["user_image"][[1,2,3]]
+```
+
+
+```{python}
+# Function to extract the filename from the URL
+def extract_filename(url):
+    # Find the start and end of the unique ID
+    start = url.find("photo-") + 6  # Adjust to capture the ID after 'photo-'
+    end = url.find("?")
+    # Extract and return the ID
+    return url[start:end] if start != -1 and end != -1 else None
+```
+
+```{python}
+# Function to convert and save images
+def convert_and_save(url, save_path):
+    # Download the image
+    response = requests.get(url)
+    response.raise_for_status()  # Raises an HTTPError for bad responses
+
+    # Open the image from bytes, convert and save as WebP
+    with Image.open(BytesIO(response.content)) as img:
+        img.save(save_path, 'WEBP')
+
+```
+
+```{python}
+# Process each URL
+for url in urls:
+    file_name = extract_filename(url)
+    if file_name:
+        convert_and_save(url, f"../users/webp/photo-{file_name}.webp")
+```
+
+
+```{python}
+# Load user data
+users = pd.read_csv("../users/users_in.csv", sep=";")
+
+# Function to extract the filename from the URL
+def extract_filename(url):
+    start = url.find("photo-") + 6  # Find the start after 'photo-'
+    end = url.find("?")  # Find the end before '?'
+    return url[start:end] if start != -1 and end != -1 else None
+
+# Function to convert and save images
+def convert_and_save(url, save_path):
+    response = requests.get(url)
+    response.raise_for_status()  # Ensure the request was successful
+    with Image.open(BytesIO(response.content)) as img:
+        img.save(save_path, 'WEBP')
+
+# Process each URL and update DataFrame
+def process_image(url):
+    file_name = "photo-" + extract_filename(url)
+    if file_name:
+        new_path = f"../users/webp/{file_name}.webp"
+        convert_and_save(url, new_path)
+        # Return new URL to be used in the DataFrame
+        return f"https://raw.githubusercontent.com/Howquez/oFeeds/main/studies/frequency_capping/stimuli/users/webp/{file_name}.webp"
+    return url  # Return original URL if no file_name extracted
+
+# Update 'user_image' column with new URLs
+users['user_image'] = users['user_image'].apply(process_image)
+
+# Optionally, save the updated DataFrame to a new CSV
+users.to_csv("../users/users_out.csv", index=False, sep=";")
+```
+
