@@ -46,8 +46,8 @@ options(repos = c(CRAN = "https://cran.r-project.org"))
 
 
 if (!requireNamespace("groundhog", quietly = TRUE)) {
-    install.packages("groundhog")
-    library("groundhog")
+  install.packages("groundhog")
+  library("groundhog")
 }
 
 pkgs <- c("magrittr", "data.table", "knitr", "stringr", "lubridate", 
@@ -99,7 +99,9 @@ tweet_files <- list.files(path = "../csv/LLM-generated",
 dt_list <- list()
 i <- 1
 for(file in tweet_files){
-  tmp <- data.table::fread(paste0("../csv/LLM-generated/", file), header = TRUE, sep = ";")
+  # tmp <- data.table::fread(paste0("../csv/LLM-generated/", file), header = TRUE, sep = ";")
+  tmp <- data.table(read.csv2(file = paste0("../csv/LLM-generated/", file),
+                              fileEncoding = "UTF-8"))
   dt_list[[i]] <- tmp[2:.N]
   i <- i + 1
 }
@@ -110,11 +112,15 @@ rm(list = c("tmp", "i", "tweet_files", "file", "dt_list"))
 ```
 
 ```{r read_usernames}
-usernames <- data.table::fread("../csv/LLM-generated/users_1718529967.csv")
+# usernames <- data.table::fread("../users/users_out.csv")
+usernames <- data.table(read.csv2(file = "../users/users_out.csv",
+                                  fileEncoding = "UTF-8"))
 ```
 
 ```{r read_ads}
-focal_ad   <- data.table::fread("../csv/ads_focal.csv")
+# focal_ad   <- data.table::fread("../csv/ads_focal.csv")
+focal_ad <- data.table(read.csv2(file = "../csv/ads_focal.csv",
+                                 fileEncoding = "UTF-8"))
 ```
 
 # Data Manipulation
@@ -148,13 +154,44 @@ The tweets stored in `tmp` require some human intervention for three reasons:
 Hence, we save the data, edit it manually and re-read it.
 
 ```{r}
-data.table::fwrite(x = tmp, file = "../csv/to-be-supervised.csv", sep = ";")
+# data.table::fwrite(x = tmp, file = "../csv/to-be-supervised.csv", sep = ";")
+write.csv2(x = tmp,
+           file = "../csv/to-be-supervised.csv",
+           fileEncoding = "UTF-8",
+           row.names = FALSE)
 
 rm(tmp)
 ```
 
 ```{r}
-tmp <- data.table::fread("../csv/supervised.csv")
+# tmp <- data.table::fread("../csv/supervised.csv")
+tmp <- data.table(read.csv2(file = "../csv/supervised.csv",
+                            fileEncoding = "UTF-8"))
+```
+
+
+```{r temporary_stuff}
+#| eval: false
+#| echo: false
+usernames[, pic_id := str_extract_all(string = user_image, pattern = "photo-.*") %>% 
+            str_replace_all(pattern = "\\.webp$", replacement = "")]
+tmp[, pic_id := str_extract_all(string = user_image, pattern = "photo-.*") %>% 
+      str_replace_all(pattern = "\\?.*$", replacement = "")]
+
+# tmp[, user_image := NULL]
+test <- merge.data.table(x = tmp,
+                         y = usernames[, .(pic_id, user_image)],
+                         by = "pic_id") %>% unique()
+test[, pic_id := NULL]
+test[, user_image.x := NULL]
+setnames(test, "user_image.y", "user_image")
+tmp <- test 
+
+write.csv2(x = tmp,
+           file = "../csv/supervised.csv",
+           fileEncoding = "UTF-8",
+           # sep = ";", # default with write.csv2()
+           row.names = FALSE)
 ```
 
 
@@ -165,9 +202,9 @@ length <- tmp[, .N]
 doc_id <- seq(from = 1, to = length, by = 1)
 sequence <- NA
 datetime <- format(seq(from = lubridate::now(), 
-                        by = "3 mins",
-                        length.out = length),
-                    "%d.%m.%y %H:%M")
+                       by = "3 mins",
+                       length.out = length),
+                   "%d.%m.%y %H:%M")
 likes <-  as.integer(runif(n = length, min = 0, max = 42))
 reposts <-  as.integer(runif(n = length, min = 0, max = 9))
 replies <-  as.integer(runif(n = length, min = 0, max = 24))
@@ -196,13 +233,14 @@ create_stimuli <- function(fc = 1){
                               sponsored = 0,
                               target = NA,
                               condition = NA,
-                              sequence = 0)[1:(.N - fc)])
+                              sequence = 0)[1:(.N - fc)],
+                   fill=TRUE)
   
   stimuli[, condition := paste0("fc_", fc)]
   stimuli[sequence == 0, sequence := NA]
   stimuli[sponsored == TRUE]$sequence <- seq(from = 7, by = 7, length.out = fc)
   setorder(stimuli, sequence)
-
+  
   return(stimuli)
 }
 
@@ -218,6 +256,10 @@ stimuli <- rbind(create_stimuli(fc = 1),
                  create_stimuli(fc = 7),
                  create_stimuli(fc = 8))
 
+# make sure there is a unique doc_id for each post.
+#   here, the high number makes the doc_id stand out
+#   in addition, the last two digits indicate the placement of the ad.
+stimuli[doc_id == 9999, doc_id := 9900 + sequence]
 ```
 
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Hauke Roggenkamp">
-<meta name="dcterms.date" content="2024-07-09">
+<meta name="dcterms.date" content="2024-07-11">
 
 <title>DICE</title>
 <style>
@@ -3050,7 +3050,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 9, 2024</p>
+      <p class="date">July 11, 2024</p>
     </div>
   </div>
   
@@ -3072,8 +3072,8 @@ vertical-align: -.125em;
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;groundhog&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb2-5"><a href="#cb2-5"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;groundhog&quot;</span>)</span>
-<span id="cb2-6"><a href="#cb2-6"></a>    <span class="fu">library</span>(<span class="st">&quot;groundhog&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;groundhog&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  <span class="fu">library</span>(<span class="st">&quot;groundhog&quot;</span>)</span>
 <span id="cb2-7"><a href="#cb2-7"></a>}</span>
 <span id="cb2-8"><a href="#cb2-8"></a></span>
 <span id="cb2-9"><a href="#cb2-9"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;stringr&quot;</span>, <span class="st">&quot;lubridate&quot;</span>, </span>
@@ -3122,20 +3122,26 @@ vertical-align: -.125em;
 <span id="cb5-3"><a href="#cb5-3"></a>dt_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
 <span id="cb5-4"><a href="#cb5-4"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb5-5"><a href="#cb5-5"></a><span class="cf">for</span>(file <span class="cf">in</span> tweet_files){</span>
-<span id="cb5-6"><a href="#cb5-6"></a>  tmp <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(<span class="st">&quot;../csv/LLM-generated/&quot;</span>, file), <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)</span>
-<span id="cb5-7"><a href="#cb5-7"></a>  dt_list[[i]] <span class="ot">&lt;-</span> tmp[<span class="dv">2</span><span class="sc">:</span>.N]</span>
-<span id="cb5-8"><a href="#cb5-8"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a>}</span>
-<span id="cb5-10"><a href="#cb5-10"></a></span>
-<span id="cb5-11"><a href="#cb5-11"></a>tweets <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">rbindlist</span>(<span class="at">l =</span> dt_list, <span class="at">fill =</span> <span class="cn">TRUE</span>, <span class="at">use.names =</span> <span class="cn">TRUE</span>)[<span class="fu">nchar</span>(text) <span class="sc">&lt;</span> <span class="dv">300</span>]</span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="co"># tmp &lt;- data.table::fread(paste0(&quot;../csv/LLM-generated/&quot;, file), header = TRUE, sep = &quot;;&quot;)</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="fu">read.csv2</span>(<span class="at">file =</span> <span class="fu">paste0</span>(<span class="st">&quot;../csv/LLM-generated/&quot;</span>, file),</span>
+<span id="cb5-8"><a href="#cb5-8"></a>                              <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>))</span>
+<span id="cb5-9"><a href="#cb5-9"></a>  dt_list[[i]] <span class="ot">&lt;-</span> tmp[<span class="dv">2</span><span class="sc">:</span>.N]</span>
+<span id="cb5-10"><a href="#cb5-10"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a>}</span>
 <span id="cb5-12"><a href="#cb5-12"></a></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">c</span>(<span class="st">&quot;tmp&quot;</span>, <span class="st">&quot;i&quot;</span>, <span class="st">&quot;tweet_files&quot;</span>, <span class="st">&quot;file&quot;</span>, <span class="st">&quot;dt_list&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-13"><a href="#cb5-13"></a>tweets <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">rbindlist</span>(<span class="at">l =</span> dt_list, <span class="at">fill =</span> <span class="cn">TRUE</span>, <span class="at">use.names =</span> <span class="cn">TRUE</span>)[<span class="fu">nchar</span>(text) <span class="sc">&lt;</span> <span class="dv">300</span>]</span>
+<span id="cb5-14"><a href="#cb5-14"></a></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">c</span>(<span class="st">&quot;tmp&quot;</span>, <span class="st">&quot;i&quot;</span>, <span class="st">&quot;tweet_files&quot;</span>, <span class="st">&quot;file&quot;</span>, <span class="st">&quot;dt_list&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>usernames <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">&quot;../csv/LLM-generated/users_1718529967.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># usernames &lt;- data.table::fread(&quot;../users/users_out.csv&quot;)</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>usernames <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="fu">read.csv2</span>(<span class="at">file =</span> <span class="st">&quot;../users/users_out.csv&quot;</span>,</span>
+<span id="cb6-3"><a href="#cb6-3"></a>                                  <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>focal_ad   <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">&quot;../csv/ads_focal.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># focal_ad   &lt;- data.table::fread(&quot;../csv/ads_focal.csv&quot;)</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>focal_ad <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="fu">read.csv2</span>(<span class="at">file =</span> <span class="st">&quot;../csv/ads_focal.csv&quot;</span>,</span>
+<span id="cb7-3"><a href="#cb7-3"></a>                                 <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -3165,12 +3171,18 @@ vertical-align: -.125em;
 </ol>
 <p>Hence, we save the data, edit it manually and re-read it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>data.table<span class="sc">::</span><span class="fu">fwrite</span>(<span class="at">x =</span> tmp, <span class="at">file =</span> <span class="st">&quot;../csv/to-be-supervised.csv&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="fu">rm</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># data.table::fwrite(x = tmp, file = &quot;../csv/to-be-supervised.csv&quot;, sep = &quot;;&quot;)</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">write.csv2</span>(<span class="at">x =</span> tmp,</span>
+<span id="cb10-3"><a href="#cb10-3"></a>           <span class="at">file =</span> <span class="st">&quot;../csv/to-be-supervised.csv&quot;</span>,</span>
+<span id="cb10-4"><a href="#cb10-4"></a>           <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>,</span>
+<span id="cb10-5"><a href="#cb10-5"></a>           <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="fu">rm</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>tmp <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">&quot;../csv/supervised.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># tmp &lt;- data.table::fread(&quot;../csv/supervised.csv&quot;)</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>tmp <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="fu">read.csv2</span>(<span class="at">file =</span> <span class="st">&quot;../csv/supervised.csv&quot;</span>,</span>
+<span id="cb11-3"><a href="#cb11-3"></a>                            <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="back-to-automation" class="level2">
@@ -3180,9 +3192,9 @@ vertical-align: -.125em;
 <span id="cb12-2"><a href="#cb12-2"></a>doc_id <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> length, <span class="at">by =</span> <span class="dv">1</span>)</span>
 <span id="cb12-3"><a href="#cb12-3"></a>sequence <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
 <span id="cb12-4"><a href="#cb12-4"></a>datetime <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">seq</span>(<span class="at">from =</span> lubridate<span class="sc">::</span><span class="fu">now</span>(), </span>
-<span id="cb12-5"><a href="#cb12-5"></a>                        <span class="at">by =</span> <span class="st">&quot;3 mins&quot;</span>,</span>
-<span id="cb12-6"><a href="#cb12-6"></a>                        <span class="at">length.out =</span> length),</span>
-<span id="cb12-7"><a href="#cb12-7"></a>                    <span class="st">&quot;%d.%m.%y %H:%M&quot;</span>)</span>
+<span id="cb12-5"><a href="#cb12-5"></a>                       <span class="at">by =</span> <span class="st">&quot;3 mins&quot;</span>,</span>
+<span id="cb12-6"><a href="#cb12-6"></a>                       <span class="at">length.out =</span> length),</span>
+<span id="cb12-7"><a href="#cb12-7"></a>                   <span class="st">&quot;%d.%m.%y %H:%M&quot;</span>)</span>
 <span id="cb12-8"><a href="#cb12-8"></a>likes <span class="ot">&lt;-</span>  <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="at">n =</span> length, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">42</span>))</span>
 <span id="cb12-9"><a href="#cb12-9"></a>reposts <span class="ot">&lt;-</span>  <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="at">n =</span> length, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">9</span>))</span>
 <span id="cb12-10"><a href="#cb12-10"></a>replies <span class="ot">&lt;-</span>  <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="at">n =</span> length, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">24</span>))</span>
@@ -3210,27 +3222,33 @@ vertical-align: -.125em;
 <span id="cb13-18"><a href="#cb13-18"></a>                              <span class="at">sponsored =</span> <span class="dv">0</span>,</span>
 <span id="cb13-19"><a href="#cb13-19"></a>                              <span class="at">target =</span> <span class="cn">NA</span>,</span>
 <span id="cb13-20"><a href="#cb13-20"></a>                              <span class="at">condition =</span> <span class="cn">NA</span>,</span>
-<span id="cb13-21"><a href="#cb13-21"></a>                              <span class="at">sequence =</span> <span class="dv">0</span>)[<span class="dv">1</span><span class="sc">:</span>(.N <span class="sc">-</span> fc)])</span>
-<span id="cb13-22"><a href="#cb13-22"></a>  </span>
-<span id="cb13-23"><a href="#cb13-23"></a>  stimuli[, condition <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="st">&quot;fc_&quot;</span>, fc)]</span>
-<span id="cb13-24"><a href="#cb13-24"></a>  stimuli[sequence <span class="sc">==</span> <span class="dv">0</span>, sequence <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
-<span id="cb13-25"><a href="#cb13-25"></a>  stimuli[sponsored <span class="sc">==</span> <span class="cn">TRUE</span>]<span class="sc">$</span>sequence <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">7</span>, <span class="at">by =</span> <span class="dv">7</span>, <span class="at">length.out =</span> fc)</span>
-<span id="cb13-26"><a href="#cb13-26"></a>  <span class="fu">setorder</span>(stimuli, sequence)</span>
-<span id="cb13-27"><a href="#cb13-27"></a></span>
-<span id="cb13-28"><a href="#cb13-28"></a>  <span class="fu">return</span>(stimuli)</span>
-<span id="cb13-29"><a href="#cb13-29"></a>}</span>
-<span id="cb13-30"><a href="#cb13-30"></a></span>
-<span id="cb13-31"><a href="#cb13-31"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>)</span>
-<span id="cb13-32"><a href="#cb13-32"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>)</span>
-<span id="cb13-33"><a href="#cb13-33"></a></span>
-<span id="cb13-34"><a href="#cb13-34"></a>stimuli <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>),</span>
-<span id="cb13-35"><a href="#cb13-35"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>),</span>
-<span id="cb13-36"><a href="#cb13-36"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">3</span>),</span>
-<span id="cb13-37"><a href="#cb13-37"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">4</span>),</span>
-<span id="cb13-38"><a href="#cb13-38"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">5</span>),</span>
-<span id="cb13-39"><a href="#cb13-39"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">6</span>),</span>
-<span id="cb13-40"><a href="#cb13-40"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">7</span>),</span>
-<span id="cb13-41"><a href="#cb13-41"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-21"><a href="#cb13-21"></a>                              <span class="at">sequence =</span> <span class="dv">0</span>)[<span class="dv">1</span><span class="sc">:</span>(.N <span class="sc">-</span> fc)],</span>
+<span id="cb13-22"><a href="#cb13-22"></a>                   <span class="at">fill=</span><span class="cn">TRUE</span>)</span>
+<span id="cb13-23"><a href="#cb13-23"></a>  </span>
+<span id="cb13-24"><a href="#cb13-24"></a>  stimuli[, condition <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="st">&quot;fc_&quot;</span>, fc)]</span>
+<span id="cb13-25"><a href="#cb13-25"></a>  stimuli[sequence <span class="sc">==</span> <span class="dv">0</span>, sequence <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb13-26"><a href="#cb13-26"></a>  stimuli[sponsored <span class="sc">==</span> <span class="cn">TRUE</span>]<span class="sc">$</span>sequence <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">7</span>, <span class="at">by =</span> <span class="dv">7</span>, <span class="at">length.out =</span> fc)</span>
+<span id="cb13-27"><a href="#cb13-27"></a>  <span class="fu">setorder</span>(stimuli, sequence)</span>
+<span id="cb13-28"><a href="#cb13-28"></a>  </span>
+<span id="cb13-29"><a href="#cb13-29"></a>  <span class="fu">return</span>(stimuli)</span>
+<span id="cb13-30"><a href="#cb13-30"></a>}</span>
+<span id="cb13-31"><a href="#cb13-31"></a></span>
+<span id="cb13-32"><a href="#cb13-32"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>)</span>
+<span id="cb13-33"><a href="#cb13-33"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>)</span>
+<span id="cb13-34"><a href="#cb13-34"></a></span>
+<span id="cb13-35"><a href="#cb13-35"></a>stimuli <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>),</span>
+<span id="cb13-36"><a href="#cb13-36"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>),</span>
+<span id="cb13-37"><a href="#cb13-37"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">3</span>),</span>
+<span id="cb13-38"><a href="#cb13-38"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">4</span>),</span>
+<span id="cb13-39"><a href="#cb13-39"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">5</span>),</span>
+<span id="cb13-40"><a href="#cb13-40"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">6</span>),</span>
+<span id="cb13-41"><a href="#cb13-41"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">7</span>),</span>
+<span id="cb13-42"><a href="#cb13-42"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">8</span>))</span>
+<span id="cb13-43"><a href="#cb13-43"></a></span>
+<span id="cb13-44"><a href="#cb13-44"></a><span class="co"># make sure there is a unique doc_id for each post.</span></span>
+<span id="cb13-45"><a href="#cb13-45"></a><span class="co">#   here, the high number makes the doc_id stand out</span></span>
+<span id="cb13-46"><a href="#cb13-46"></a><span class="co">#   in addition, the last two digits indicate the placement of the ad.</span></span>
+<span id="cb13-47"><a href="#cb13-47"></a>stimuli[doc_id <span class="sc">==</span> <span class="dv">9999</span>, doc_id <span class="sc">:</span><span class="er">=</span> <span class="dv">9900</span> <span class="sc">+</span> sequence]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -3272,11 +3290,11 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] vctrs_0.6.5       cli_3.6.2         rlang_1.1.2       xfun_0.41        
- [5] stringi_1.8.3     generics_0.1.3    jsonlite_1.8.7    glue_1.6.2       
+ [5] stringi_1.8.3     generics_0.1.3    jsonlite_1.8.8    glue_1.6.2       
  [9] colorspace_2.1-0  htmltools_0.5.7   fansi_1.0.6       scales_1.3.0     
 [13] rmarkdown_2.25    grid_4.3.1        tibble_3.2.1      munsell_0.5.0    
 [17] evaluate_0.23     fastmap_1.1.1     yaml_2.3.8        lifecycle_1.0.4  
-[21] compiler_4.3.1    dplyr_1.1.3       pkgconfig_2.0.3   htmlwidgets_1.6.4
+[21] compiler_4.3.1    dplyr_1.1.4       pkgconfig_2.0.3   htmlwidgets_1.6.4
 [25] timechange_0.2.0  rstudioapi_0.15.0 digest_0.6.33     groundhog_3.2.0  
 [29] R6_2.5.1          tidyselect_1.2.0  utf8_1.2.4        pillar_1.9.0     
 [33] parallel_4.3.1    withr_2.5.2       tools_4.3.1       gtable_0.3.4     </code></pre>
