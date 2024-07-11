@@ -319,6 +319,9 @@ class C_Feed(Page):
         else:
             player.session.vars['prolific_completion_url'] = 'NA'
 
+        if player.id_in_group != 1:
+            player.participant.tweets = ""
+
 
 class D_Redirect(Page):
 
