@@ -49,7 +49,7 @@ bibliography: ../../../documentation/references.bib
 
 While the effectiveness of repeated online advertisements tends to diminish as costs increase, online marketers often employ frequency caps in their campaigns. _Frequency Capping_ refers to the practice of limiting the number of times a specific advertisement is shown to the same user within a set period. It is essential for preventing _ad fatigue_ or _ad wear-out_ [see, e.g., @PietersRosbergenWedel_1999; @CampbellKeller_2003; @BraunMoe_2013; @SilbersteinShohamKlein_2023], where users become desensitized to an ad due to excessive ad exposure, which can limit an ad's effectiveness and lead to diminished engagement rates as well as negative user experiences. This study mimics the practice of frequency capping in the context of social media advertising^[Within this context, we use the terms _ad_ and _sponsored post_ interchangeably.] to better understand the relationship between (repetitive) ad exposure and recall, brand attitude and ad exposure duration as a proxy for (the absence of) attention.
 
-We use DICE to mimic social media feeds with frequency capping. Specifically, we create a feed where organic posts and advertisements compete for the participant's attention. By manipulating the frequency in which an ad is displayed within the feed, we study three facets of ad wear-out: learning, acceptance, and, to some degree, attention. To study learning, we elicit recall and measure how many ad exposures are required to _"cut through the content clutter"_ [@Ordenes_2019]. We investigate acceptance by focusing on brand attitude. Because the ads are displayed in an interactive social media feed, participants control the exposure duration the respective ad themselves. This offers them ways to adapt to repetition by reducing or increasing the duration of exposure to ads [@PietersRosbergenWedel_1999, p. 424]. We measure exposure duration, or _dwell time_, to investigate attention wear-out.  
+We use DICE to mimic social media feeds with frequency capping. Specifically, we create a feed where organic posts and advertisements compete for the participant's attention. By manipulating the frequency in which an advertisement is displayed within the feed, we study three facets of ad wear-out: learning, acceptance, and, to some degree, attention. To study learning, we elicit recall and measure how many ad exposures are required to _"cut through the content clutter"_ [@Ordenes_2019]. We investigate acceptance by focusing on brand attitude. Because the ads are displayed in an interactive social media feed, participants control the exposure duration the respective advertisement themselves. This offers them ways to adapt to repetition by reducing or increasing the duration of exposure to ads [@PietersRosbergenWedel_1999, p. 424]. We measure exposure duration, or _dwell time_, to investigate attention wear-out.  
 
 
 # Experimental Design
@@ -62,7 +62,7 @@ We create eight feeds with a total of 60 posts and $N \in \{1, 2, 3, 4, 5, 6, 7,
 
 # Stimuli
 
-The feed displays posts covering the [severe flooding](https://www.bbc.com/news/articles/cle07g0zzqeo) that affected Brazil earlier this year. Within this feed, we display a fictitious sponsored post by UNICEF.
+The feed displays posts covering the [severe flooding](https://www.bbc.com/news/articles/cle07g0zzqeo) that affected Brazil earlier this year. Within this feed, we display a fictitious sponsored post by UNICEF^[We acknowledge that UNICEF is a well known brand many participants are familiar with. This may lead to higher rates of recall but make the estimation of the effect the exposures have on attitude rather conservative [@CampbellKeller_2003].].
 
 For this study, we created only one creative and one ad copy, which participants are exposed to up to eight times. The creative, depicted in @fig-stimulus is inspired by a [real sponsored post by UNICEF USA](https://www.facebook.com/ads/library/?id=500871092292935).
 
@@ -84,8 +84,6 @@ The copy stems from [another post by the same account](https://www.facebook.com/
 > Children need peace, NOW. 
 
 
-You can the feed with 3 ad exposures [here](https://perma.cc/VY5J-X37S).
-
 # Method and Procedure
 
 We run a 8-cell between-subjects design in which a participant faces the sponsored post either 1, 2, ..., 7 or 8 times.
@@ -98,25 +96,29 @@ After participants browse the social media feed, they are redirected to a Qualtr
 Our primary interest lies in the effect the repetitive ad exposure has on two variables: (unaided) recall and brand attitude.
 
 **Recall**
-We expect recall to increase in the number of ad exposures but expect diminishing marginal effects and a potential ceiling effect. We test this using a simple logistic regression (where we may control for a set of covariates $\mathbf{X}$). 
+We expect recall to increase in the number of ad exposures but expect diminishing marginal effects and a potential ceiling for high-exposure conditions. We test this using a simple logistic regression (where we may control for a set of covariates $\mathbf{X}$). 
 
 $$
 \text{recall} = \beta_0 + \beta_1  \text{ad exposure} + \beta_2\mathbf{X} + \epsilon
 $$
 
 **Brand Attitude**
-The literature revealed a non-monotonic inverted-U relationship between exposure and affect toward the ad and has identified several factors that moderate the relationship [@PietersRosbergenWedel_1999, p. 424], that is, a _wear-in_ followed by a _wear-out_ [@CampbellKeller_2003, p. 292]. We ignore potential moderators and expect to estimate such a pattern using a simple OLS regression where $\beta_1 > 0$ and $\beta_2 < 0$.
+The literature revealed a non-monotonic inverted-U relationship between exposure and affect toward the advertisement and has identified several factors that moderate the relationship [@PietersRosbergenWedel_1999, p. 424], that is, a _wear-in_ followed by a _wear-out_ [@CampbellKeller_2003, p. 292]. We ignore potential moderators and expect to estimate such a pattern using a simple OLS regression where $\beta_1 > 0$ and $\beta_2 < 0$.
 
 $$
 \text{brand attitude} = \beta_0 + \beta_1  \text{ad exposure} + \beta_2\text{ad exposure}^2 + \epsilon
 $$
 
-We measure brand attitude using a three-item, seven-point differential scale, anchored by dislike–like, unfavorable–favorable, and negative–positive. The three items were displayed in a random order. We average these items for our `brand_attitude` measure.
+We measure brand attitude using @CampbellKeller_2003's four-item, seven-point differential scale, anchored by bad–good, low quality–high quality, unappealing–appealing, and unpleasant–pleasant. The four items are displayed in a random order. We average these items for our `brand_attitude` measure.
+
+**Ad Attitude**
+Following @CampbellKeller_2003, we apply the same items, procedure, and analyses to the attitude towards the advertisement. 
+
 
 # Exploratory Analysis
 
 We will also analyze DICE's dwell time measure, i.e., the exposure duration participants allocate to individual posts. 
-In addition, we measure whether participants click in a sponsored post. We expect very small click-through-rates that potentially diminish in ad exposures.
+In addition, we measure whether participants click in a sponsored post. We expect very small click-through-rates that potentially diminish in ad exposures. We also use a deliberately vague open text field asking participants to _"[...] share your thoughts about the social media feed you just browsed (e.g., any aspects you particularly liked or disliked)."_ We'll analyze the responses using large language models and focus on preceptions of the feed, the brand, and the advertisements.
 
 # Population
 
@@ -126,9 +128,13 @@ We will recruit participants from Prolific who meet the following criteria:
 - First Language == ‘English’
 - Location == ‘USA’
 
-# Sample Size 
+In addition, we will exclude participants who participated in other DICE experiments.
 
-We recruit 1,600 participants. To this end, we create a database (`session code = ya9q5ayn`) containing 3000 rows.
+# Sample Size & Recruitment
+
+We recruit 1,600 participants via prolific. To this end, we create four databases with 600 rows each.^[This way, we collect data in batches and reduce the load on the database.]
+
+We expect the experiment to take 5 minutes on average and pay 0.80 GBP (i.e., 9.60 GBP/hr).
 
 # Exclusion Criteria
 
@@ -138,7 +144,24 @@ Because we gather process data, such as dwell time, we have tools to assess the 
 
 # Prior Data Collection
 
-We did not collect any data before.
+We collected 72 observations before. However, a technical issue caused by too much strain on the database lead to a crash during the session. For this reason, we could not proceed with the data collection as planned. We will not include this data for future analyses.
+
+# Procedure {width=100% .appendix}
+
+Participants enter the experiment, submit a consent form and receive the following briefing:
+
+> **Instructions**
+> Welcome to our study covering a typical social media feed that focuses on the topic of _Brazil_.
+> Please interact with the feed as you normally would on social media. Feel free to like, comment, or simply read through the posts according to your preference.
+> Once you reach the end of the feed, you'll find a button to proceed with the study. Click this button to move on to a series of short questions about your experience with the feed.
+
+Subsequently, they browse the social media feed. You can browse an archived version of the feed with three ad exposures [here]().
+
+Next, we direct participants to a Qualtrics survey that is displayed in the PDF^[You can right-click and download it.] below.
+
+Finally, participants were redirected to Prolific to complete the study.
+
+![](../stimuli/qualtrics/20240711_qualtrics_survey.pdf)
 
 # References
 
