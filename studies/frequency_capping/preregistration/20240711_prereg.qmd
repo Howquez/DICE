@@ -34,11 +34,11 @@ author:
       postal-code: 9000
 date: now
 date-format: dddd MMM D, YYYY, HH:mm z
-format:
-  html:
-    embed-resources: true
-    theme: cosmo
-# format: pdf
+# format:
+#   html:
+#     embed-resources: true
+#     theme: cosmo
+format: pdf
 toc: false
 number-sections: false
 fig-cap-location: top
@@ -155,7 +155,7 @@ Participants enter the experiment, submit a consent form and receive the followi
 > Please interact with the feed as you normally would on social media. Feel free to like, comment, or simply read through the posts according to your preference.
 > Once you reach the end of the feed, you'll find a button to proceed with the study. Click this button to move on to a series of short questions about your experience with the feed.
 
-Subsequently, they browse the social media feed. You can browse an archived version of the feed with three ad exposures [here]().
+Subsequently, they browse the social media feed. You can browse an archived version of the feed with eight ad exposures [here](https://web.archive.org/web/20240711165948/https://ibt-hsg.herokuapp.com/p/x6e98scb/DICE/C_Feed/3).
 
 Next, we direct participants to a Qualtrics survey that is displayed in the PDF^[You can right-click and download it.] below.
 
