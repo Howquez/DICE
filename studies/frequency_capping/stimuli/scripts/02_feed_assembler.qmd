@@ -130,6 +130,11 @@ length <- 60 # nrow(usernames)
 random_draw <- sample(x = tweets[, .N], size = length, replace = FALSE)
 ```
 
+```{r}
+tweets[, text := str_replace_all(string = text, pattern = '"', replacement = "")]
+tweets[, text := str_replace_all(string = text, pattern = "'", replacement = "")]
+```
+
 
 ```{r}
 #| warning: false

@@ -3152,14 +3152,18 @@ vertical-align: -.125em;
 <span id="cb8-2"><a href="#cb8-2"></a>random_draw <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> tweets[, .N], <span class="at">size =</span> length, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Note that usernames will be recycled as 60 &gt; usernames[, .N]</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a>tmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(tweets[random_draw],</span>
-<span id="cb9-4"><a href="#cb9-4"></a>             usernames)</span>
-<span id="cb9-5"><a href="#cb9-5"></a>tmp[, image_url <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
-<span id="cb9-6"><a href="#cb9-6"></a>tmp[, alt_text <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
-<span id="cb9-7"><a href="#cb9-7"></a></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co"># tmp[, .N, by = topic]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>tweets[, text <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace_all</span>(<span class="at">string =</span> text, <span class="at">pattern =</span> <span class="st">&#39;&quot;&#39;</span>, <span class="at">replacement =</span> <span class="st">&quot;&quot;</span>)]</span>
+<span id="cb9-2"><a href="#cb9-2"></a>tweets[, text <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace_all</span>(<span class="at">string =</span> text, <span class="at">pattern =</span> <span class="st">&quot;&#39;&quot;</span>, <span class="at">replacement =</span> <span class="st">&quot;&quot;</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Note that usernames will be recycled as 60 &gt; usernames[, .N]</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a>tmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(tweets[random_draw],</span>
+<span id="cb10-4"><a href="#cb10-4"></a>             usernames)</span>
+<span id="cb10-5"><a href="#cb10-5"></a>tmp[, image_url <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb10-6"><a href="#cb10-6"></a>tmp[, alt_text <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb10-7"><a href="#cb10-7"></a></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co"># tmp[, .N, by = topic]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="manual-interference" class="level2">
 <h2 class="anchored" data-anchor-id="manual-interference">Manual interference</h2>
@@ -3171,101 +3175,101 @@ vertical-align: -.125em;
 </ol>
 <p>Hence, we save the data, edit it manually and re-read it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># data.table::fwrite(x = tmp, file = &quot;../csv/to-be-supervised.csv&quot;, sep = &quot;;&quot;)</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">write.csv2</span>(<span class="at">x =</span> tmp,</span>
-<span id="cb10-3"><a href="#cb10-3"></a>           <span class="at">file =</span> <span class="st">&quot;../csv/to-be-supervised.csv&quot;</span>,</span>
-<span id="cb10-4"><a href="#cb10-4"></a>           <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>,</span>
-<span id="cb10-5"><a href="#cb10-5"></a>           <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb10-6"><a href="#cb10-6"></a></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="fu">rm</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># data.table::fwrite(x = tmp, file = &quot;../csv/to-be-supervised.csv&quot;, sep = &quot;;&quot;)</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="fu">write.csv2</span>(<span class="at">x =</span> tmp,</span>
+<span id="cb11-3"><a href="#cb11-3"></a>           <span class="at">file =</span> <span class="st">&quot;../csv/to-be-supervised.csv&quot;</span>,</span>
+<span id="cb11-4"><a href="#cb11-4"></a>           <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>,</span>
+<span id="cb11-5"><a href="#cb11-5"></a>           <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="fu">rm</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># tmp &lt;- data.table::fread(&quot;../csv/supervised.csv&quot;)</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>tmp <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="fu">read.csv2</span>(<span class="at">file =</span> <span class="st">&quot;../csv/supervised.csv&quot;</span>,</span>
-<span id="cb11-3"><a href="#cb11-3"></a>                            <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># tmp &lt;- data.table::fread(&quot;../csv/supervised.csv&quot;)</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>tmp <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="fu">read.csv2</span>(<span class="at">file =</span> <span class="st">&quot;../csv/supervised.csv&quot;</span>,</span>
+<span id="cb12-3"><a href="#cb12-3"></a>                            <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="back-to-automation" class="level2">
 <h2 class="anchored" data-anchor-id="back-to-automation">Back to automation</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>length <span class="ot">&lt;-</span> tmp[, .N]</span>
-<span id="cb12-2"><a href="#cb12-2"></a>doc_id <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> length, <span class="at">by =</span> <span class="dv">1</span>)</span>
-<span id="cb12-3"><a href="#cb12-3"></a>sequence <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>datetime <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">seq</span>(<span class="at">from =</span> lubridate<span class="sc">::</span><span class="fu">now</span>(), </span>
-<span id="cb12-5"><a href="#cb12-5"></a>                       <span class="at">by =</span> <span class="st">&quot;3 mins&quot;</span>,</span>
-<span id="cb12-6"><a href="#cb12-6"></a>                       <span class="at">length.out =</span> length),</span>
-<span id="cb12-7"><a href="#cb12-7"></a>                   <span class="st">&quot;%d.%m.%y %H:%M&quot;</span>)</span>
-<span id="cb12-8"><a href="#cb12-8"></a>likes <span class="ot">&lt;-</span>  <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="at">n =</span> length, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">42</span>))</span>
-<span id="cb12-9"><a href="#cb12-9"></a>reposts <span class="ot">&lt;-</span>  <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="at">n =</span> length, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">9</span>))</span>
-<span id="cb12-10"><a href="#cb12-10"></a>replies <span class="ot">&lt;-</span>  <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="at">n =</span> length, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">24</span>))</span>
-<span id="cb12-11"><a href="#cb12-11"></a>user_followers <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> length, <span class="at">mean =</span> <span class="dv">400</span>, <span class="at">sd =</span> <span class="dv">200</span>))</span>
-<span id="cb12-12"><a href="#cb12-12"></a>user_followers[user_followers <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">42</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>length <span class="ot">&lt;-</span> tmp[, .N]</span>
+<span id="cb13-2"><a href="#cb13-2"></a>doc_id <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> length, <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb13-3"><a href="#cb13-3"></a>sequence <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>datetime <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">seq</span>(<span class="at">from =</span> lubridate<span class="sc">::</span><span class="fu">now</span>(), </span>
+<span id="cb13-5"><a href="#cb13-5"></a>                       <span class="at">by =</span> <span class="st">&quot;3 mins&quot;</span>,</span>
+<span id="cb13-6"><a href="#cb13-6"></a>                       <span class="at">length.out =</span> length),</span>
+<span id="cb13-7"><a href="#cb13-7"></a>                   <span class="st">&quot;%d.%m.%y %H:%M&quot;</span>)</span>
+<span id="cb13-8"><a href="#cb13-8"></a>likes <span class="ot">&lt;-</span>  <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="at">n =</span> length, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">42</span>))</span>
+<span id="cb13-9"><a href="#cb13-9"></a>reposts <span class="ot">&lt;-</span>  <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="at">n =</span> length, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">9</span>))</span>
+<span id="cb13-10"><a href="#cb13-10"></a>replies <span class="ot">&lt;-</span>  <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="at">n =</span> length, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">24</span>))</span>
+<span id="cb13-11"><a href="#cb13-11"></a>user_followers <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> length, <span class="at">mean =</span> <span class="dv">400</span>, <span class="at">sd =</span> <span class="dv">200</span>))</span>
+<span id="cb13-12"><a href="#cb13-12"></a>user_followers[user_followers <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">42</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>create_stimuli <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">fc =</span> <span class="dv">1</span>){</span>
-<span id="cb13-2"><a href="#cb13-2"></a>  </span>
-<span id="cb13-3"><a href="#cb13-3"></a>  stimuli <span class="ot">&lt;-</span> <span class="fu">rbind</span>(focal_ad[, .SD[<span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">each =</span> fc)]],</span>
-<span id="cb13-4"><a href="#cb13-4"></a>                   <span class="fu">data.table</span>(doc_id,</span>
-<span id="cb13-5"><a href="#cb13-5"></a>                              datetime,</span>
-<span id="cb13-6"><a href="#cb13-6"></a>                              <span class="at">text =</span> tmp<span class="sc">$</span>text,</span>
-<span id="cb13-7"><a href="#cb13-7"></a>                              <span class="at">media =</span> tmp<span class="sc">$</span>image_url,</span>
-<span id="cb13-8"><a href="#cb13-8"></a>                              <span class="at">alt_text =</span> tmp<span class="sc">$</span>alt_text,</span>
-<span id="cb13-9"><a href="#cb13-9"></a>                              likes,</span>
-<span id="cb13-10"><a href="#cb13-10"></a>                              reposts,</span>
-<span id="cb13-11"><a href="#cb13-11"></a>                              replies,</span>
-<span id="cb13-12"><a href="#cb13-12"></a>                              <span class="at">username =</span> tmp<span class="sc">$</span>username,</span>
-<span id="cb13-13"><a href="#cb13-13"></a>                              <span class="at">handle =</span> tmp<span class="sc">$</span>handle,</span>
-<span id="cb13-14"><a href="#cb13-14"></a>                              <span class="at">user_description =</span> tmp<span class="sc">$</span>user_description,</span>
-<span id="cb13-15"><a href="#cb13-15"></a>                              <span class="at">user_image =</span> tmp<span class="sc">$</span>user_image,</span>
-<span id="cb13-16"><a href="#cb13-16"></a>                              user_followers,</span>
-<span id="cb13-17"><a href="#cb13-17"></a>                              <span class="at">commented_post =</span> <span class="dv">0</span>,</span>
-<span id="cb13-18"><a href="#cb13-18"></a>                              <span class="at">sponsored =</span> <span class="dv">0</span>,</span>
-<span id="cb13-19"><a href="#cb13-19"></a>                              <span class="at">target =</span> <span class="cn">NA</span>,</span>
-<span id="cb13-20"><a href="#cb13-20"></a>                              <span class="at">condition =</span> <span class="cn">NA</span>,</span>
-<span id="cb13-21"><a href="#cb13-21"></a>                              <span class="at">sequence =</span> <span class="dv">0</span>)[<span class="dv">1</span><span class="sc">:</span>(.N <span class="sc">-</span> fc)],</span>
-<span id="cb13-22"><a href="#cb13-22"></a>                   <span class="at">fill=</span><span class="cn">TRUE</span>)</span>
-<span id="cb13-23"><a href="#cb13-23"></a>  </span>
-<span id="cb13-24"><a href="#cb13-24"></a>  stimuli[, condition <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="st">&quot;fc_&quot;</span>, fc)]</span>
-<span id="cb13-25"><a href="#cb13-25"></a>  stimuli[sequence <span class="sc">==</span> <span class="dv">0</span>, sequence <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
-<span id="cb13-26"><a href="#cb13-26"></a>  stimuli[sponsored <span class="sc">==</span> <span class="cn">TRUE</span>]<span class="sc">$</span>sequence <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">7</span>, <span class="at">by =</span> <span class="dv">7</span>, <span class="at">length.out =</span> fc)</span>
-<span id="cb13-27"><a href="#cb13-27"></a>  <span class="fu">setorder</span>(stimuli, sequence)</span>
-<span id="cb13-28"><a href="#cb13-28"></a>  </span>
-<span id="cb13-29"><a href="#cb13-29"></a>  <span class="fu">return</span>(stimuli)</span>
-<span id="cb13-30"><a href="#cb13-30"></a>}</span>
-<span id="cb13-31"><a href="#cb13-31"></a></span>
-<span id="cb13-32"><a href="#cb13-32"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>)</span>
-<span id="cb13-33"><a href="#cb13-33"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>)</span>
-<span id="cb13-34"><a href="#cb13-34"></a></span>
-<span id="cb13-35"><a href="#cb13-35"></a>stimuli <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>),</span>
-<span id="cb13-36"><a href="#cb13-36"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>),</span>
-<span id="cb13-37"><a href="#cb13-37"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">3</span>),</span>
-<span id="cb13-38"><a href="#cb13-38"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">4</span>),</span>
-<span id="cb13-39"><a href="#cb13-39"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">5</span>),</span>
-<span id="cb13-40"><a href="#cb13-40"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">6</span>),</span>
-<span id="cb13-41"><a href="#cb13-41"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">7</span>),</span>
-<span id="cb13-42"><a href="#cb13-42"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">8</span>))</span>
-<span id="cb13-43"><a href="#cb13-43"></a></span>
-<span id="cb13-44"><a href="#cb13-44"></a><span class="co"># make sure there is a unique doc_id for each post.</span></span>
-<span id="cb13-45"><a href="#cb13-45"></a><span class="co">#   here, the high number makes the doc_id stand out</span></span>
-<span id="cb13-46"><a href="#cb13-46"></a><span class="co">#   in addition, the last two digits indicate the placement of the ad.</span></span>
-<span id="cb13-47"><a href="#cb13-47"></a>stimuli[doc_id <span class="sc">==</span> <span class="dv">9999</span>, doc_id <span class="sc">:</span><span class="er">=</span> <span class="dv">9900</span> <span class="sc">+</span> sequence]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>create_stimuli <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">fc =</span> <span class="dv">1</span>){</span>
+<span id="cb14-2"><a href="#cb14-2"></a>  </span>
+<span id="cb14-3"><a href="#cb14-3"></a>  stimuli <span class="ot">&lt;-</span> <span class="fu">rbind</span>(focal_ad[, .SD[<span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">each =</span> fc)]],</span>
+<span id="cb14-4"><a href="#cb14-4"></a>                   <span class="fu">data.table</span>(doc_id,</span>
+<span id="cb14-5"><a href="#cb14-5"></a>                              datetime,</span>
+<span id="cb14-6"><a href="#cb14-6"></a>                              <span class="at">text =</span> tmp<span class="sc">$</span>text,</span>
+<span id="cb14-7"><a href="#cb14-7"></a>                              <span class="at">media =</span> tmp<span class="sc">$</span>image_url,</span>
+<span id="cb14-8"><a href="#cb14-8"></a>                              <span class="at">alt_text =</span> tmp<span class="sc">$</span>alt_text,</span>
+<span id="cb14-9"><a href="#cb14-9"></a>                              likes,</span>
+<span id="cb14-10"><a href="#cb14-10"></a>                              reposts,</span>
+<span id="cb14-11"><a href="#cb14-11"></a>                              replies,</span>
+<span id="cb14-12"><a href="#cb14-12"></a>                              <span class="at">username =</span> tmp<span class="sc">$</span>username,</span>
+<span id="cb14-13"><a href="#cb14-13"></a>                              <span class="at">handle =</span> tmp<span class="sc">$</span>handle,</span>
+<span id="cb14-14"><a href="#cb14-14"></a>                              <span class="at">user_description =</span> tmp<span class="sc">$</span>user_description,</span>
+<span id="cb14-15"><a href="#cb14-15"></a>                              <span class="at">user_image =</span> tmp<span class="sc">$</span>user_image,</span>
+<span id="cb14-16"><a href="#cb14-16"></a>                              user_followers,</span>
+<span id="cb14-17"><a href="#cb14-17"></a>                              <span class="at">commented_post =</span> <span class="dv">0</span>,</span>
+<span id="cb14-18"><a href="#cb14-18"></a>                              <span class="at">sponsored =</span> <span class="dv">0</span>,</span>
+<span id="cb14-19"><a href="#cb14-19"></a>                              <span class="at">target =</span> <span class="cn">NA</span>,</span>
+<span id="cb14-20"><a href="#cb14-20"></a>                              <span class="at">condition =</span> <span class="cn">NA</span>,</span>
+<span id="cb14-21"><a href="#cb14-21"></a>                              <span class="at">sequence =</span> <span class="dv">0</span>)[<span class="dv">1</span><span class="sc">:</span>(.N <span class="sc">-</span> fc)],</span>
+<span id="cb14-22"><a href="#cb14-22"></a>                   <span class="at">fill=</span><span class="cn">TRUE</span>)</span>
+<span id="cb14-23"><a href="#cb14-23"></a>  </span>
+<span id="cb14-24"><a href="#cb14-24"></a>  stimuli[, condition <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="st">&quot;fc_&quot;</span>, fc)]</span>
+<span id="cb14-25"><a href="#cb14-25"></a>  stimuli[sequence <span class="sc">==</span> <span class="dv">0</span>, sequence <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb14-26"><a href="#cb14-26"></a>  stimuli[sponsored <span class="sc">==</span> <span class="cn">TRUE</span>]<span class="sc">$</span>sequence <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">7</span>, <span class="at">by =</span> <span class="dv">7</span>, <span class="at">length.out =</span> fc)</span>
+<span id="cb14-27"><a href="#cb14-27"></a>  <span class="fu">setorder</span>(stimuli, sequence)</span>
+<span id="cb14-28"><a href="#cb14-28"></a>  </span>
+<span id="cb14-29"><a href="#cb14-29"></a>  <span class="fu">return</span>(stimuli)</span>
+<span id="cb14-30"><a href="#cb14-30"></a>}</span>
+<span id="cb14-31"><a href="#cb14-31"></a></span>
+<span id="cb14-32"><a href="#cb14-32"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>)</span>
+<span id="cb14-33"><a href="#cb14-33"></a>test <span class="ot">&lt;-</span> <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>)</span>
+<span id="cb14-34"><a href="#cb14-34"></a></span>
+<span id="cb14-35"><a href="#cb14-35"></a>stimuli <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">1</span>),</span>
+<span id="cb14-36"><a href="#cb14-36"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">2</span>),</span>
+<span id="cb14-37"><a href="#cb14-37"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">3</span>),</span>
+<span id="cb14-38"><a href="#cb14-38"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">4</span>),</span>
+<span id="cb14-39"><a href="#cb14-39"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">5</span>),</span>
+<span id="cb14-40"><a href="#cb14-40"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">6</span>),</span>
+<span id="cb14-41"><a href="#cb14-41"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">7</span>),</span>
+<span id="cb14-42"><a href="#cb14-42"></a>                 <span class="fu">create_stimuli</span>(<span class="at">fc =</span> <span class="dv">8</span>))</span>
+<span id="cb14-43"><a href="#cb14-43"></a></span>
+<span id="cb14-44"><a href="#cb14-44"></a><span class="co"># make sure there is a unique doc_id for each post.</span></span>
+<span id="cb14-45"><a href="#cb14-45"></a><span class="co">#   here, the high number makes the doc_id stand out</span></span>
+<span id="cb14-46"><a href="#cb14-46"></a><span class="co">#   in addition, the last two digits indicate the placement of the ad.</span></span>
+<span id="cb14-47"><a href="#cb14-47"></a>stimuli[doc_id <span class="sc">==</span> <span class="dv">9999</span>, doc_id <span class="sc">:</span><span class="er">=</span> <span class="dv">9900</span> <span class="sc">+</span> sequence]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="write-data" class="level1">
 <h1>Write Data</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">write.csv2</span>(<span class="at">x =</span> stimuli,</span>
-<span id="cb14-2"><a href="#cb14-2"></a>           <span class="at">file =</span> <span class="st">&quot;../csv/fc_final.csv&quot;</span>,</span>
-<span id="cb14-3"><a href="#cb14-3"></a>           <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>,</span>
-<span id="cb14-4"><a href="#cb14-4"></a>           <span class="co"># sep = &quot;;&quot;, # default with write.csv2()</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a>           <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">write.csv2</span>(<span class="at">x =</span> stimuli,</span>
+<span id="cb15-2"><a href="#cb15-2"></a>           <span class="at">file =</span> <span class="st">&quot;../csv/fc_final.csv&quot;</span>,</span>
+<span id="cb15-3"><a href="#cb15-3"></a>           <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>,</span>
+<span id="cb15-4"><a href="#cb15-4"></a>           <span class="co"># sep = &quot;;&quot;, # default with write.csv2()</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a>           <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="session-info" class="level1">
 <h1>Session Info</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.3.1 (2023-06-16)
 Platform: x86_64-apple-darwin20 (64-bit)
