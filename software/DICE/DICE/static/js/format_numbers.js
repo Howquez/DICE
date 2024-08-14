@@ -22,9 +22,9 @@ function formatNumber(num) {
     return (Math.round(num / (divisor / 10)) / 10).toFixed(1) + suffix; // Keeps one decimal place for thousands less than 10K
 }
 
-window.onload = function() {
-    // Define the classes you want to modify
+document.addEventListener('DOMContentLoaded', function() {
     const classes = ['like-count', 'repost-count', 'reply-count'];
+    console.log('number formatting triggered');
 
     classes.forEach(cls => {
         document.querySelectorAll('.' + cls).forEach(element => {
@@ -32,4 +32,4 @@ window.onload = function() {
             element.innerText = formattedNumber;
         });
     });
-};
+});

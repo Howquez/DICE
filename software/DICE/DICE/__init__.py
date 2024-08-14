@@ -55,6 +55,8 @@ class Player(BasePlayer):
                                            blank=True)
     device_type = models.StringField(doc="indicates the participant's device type based on screen width.",
                                            blank=True)
+    screen_resolution = models.StringField(doc="indicates the participant's screen resolution, i.e., width x height.",
+                                           blank=True)
 
 
 
@@ -268,7 +270,7 @@ class C_Feed(Page):
 
     @staticmethod
     def get_form_fields(player: Player):
-        fields =  ['likes_data', 'replies_data', 'sponsored_post_clicks', 'touch_capability', 'device_type']
+        fields =  ['likes_data', 'replies_data', 'sponsored_post_clicks', 'touch_capability', 'device_type', 'screen_resolution']
 
         if not player.session.config['topics'] & player.session.config['show_cta']:
             more_fields =  ['scroll_sequence', 'viewport_data', "rowheight_data"] # , 'cta']

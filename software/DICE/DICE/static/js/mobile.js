@@ -1,4 +1,4 @@
-console.log('mobile ready')
+console.log('mobile ready');
 
 function isTouchDevice() {
     return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
@@ -19,3 +19,10 @@ function getDeviceTypeByScreen() {
 
 document.getElementById('device_type').value = getDeviceTypeByScreen();
 
+// Capture screen resolution
+function getScreenResolution() {
+    return window.screen.width + 'x' + window.screen.height;
+}
+
+// Set the screen resolution in the hidden input field
+document.getElementById('screen_resolution').value = getScreenResolution();
