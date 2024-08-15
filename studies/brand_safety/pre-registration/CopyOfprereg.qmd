@@ -1,0 +1,147 @@
+---
+title: 'Digital In-Context Experiments'
+subtitle: 'Brand Safety: Pre-Registration'
+# author:
+# - name: Hauke Roggenkamp
+#   email: Hauke.Roggenkamp@unisg.ch
+#   orcid: 0009-0005-5176-4718
+#   corresponding: true
+#   affiliations:
+#     - name: Institute of Behavioral Science and Technology, University of St. Gallen
+#       address: Torstrasse 25
+#       city: St. Gallen
+#       country: Switzerland
+#       postal-code: 9000
+#     - name: Faculty of Economics & Social Sciences, Helmut-Schmidt-University
+#       address: Holstenhofweg 85
+#       city: Hamburg
+#       country: Germany
+#       postal_code: 22043
+# - name: Johannes Boegershausen
+#   email: boegershausen@rsm.nl
+#   orcid: 0000-0002-1429-9344
+#   corresponding: false
+#   affiliations:
+#     - name: Rotterdam School of Management, Erasmus University 
+#       address: Burgemeester Oudlaan 50
+#       city: Rotterdam
+#       country: Netherlands
+#       postal-code: 3062
+# - name: Christian Hildebrand
+#   email: Christian.Hildebrand@unisg.ch
+#   orcid: 0000-0003-4366-3093
+#   corresponding: false
+#   affiliations:
+#     - name: Institute of Behavioral Science and Technology, University of St. Gallen
+#       address: Torstrasse 25
+#       city: St. Gallen
+#       country: Switzerland
+#       postal-code: 9000
+date: now
+date-format: dddd MMM D, YYYY, HH:mm z
+# format:
+#   html:
+#     embed-resources: true
+#     theme: cosmo
+format: pdf
+toc: false
+numbersections: true
+fig-cap-location: top
+bibliography: ../../../documentation/references.bib
+---
+
+Brand safety is a critical concern in digital advertising, particularly on social media platforms where automated systems place ads in dynamic, user-generated content environments. Misplacements can lead to significant reputational damage, with studies showing that about 70% of brands take brand safety seriously [@GumGum_2017; @AhmadEtAl_2024]. Despite efforts to prevent ad placement alongside overtly harmful content, misplacements adjacent to disasters, divisive political content, and misinformation remain prevalent. Many decision-makers are unaware of their ads appearing on misinformation websites.
+
+To illustrate the unique capabilities of DICE, we propose a simple study that extends beyond altering individual posts to modifying entire feeds: Unlike traditional online platform studies, we hold the ad copy and creative constant while manipulating the surrounding context between-subjects. 
+Importantly, this study design is uniquely feasible within the DICE paradigm due to its precise control over the contextual environment—a capability not available in other experimental methodologies such as vignette or online platform studies. This level of control is crucial when examining brand safety, a phenomenon inherently defined by an advertisement's context. By manipulating the surrounding content while keeping the ad constant, we can directly investigate how context impacts brand perceptions, offering insights into brand safety that would be challenging to obtain through alternative research approaches.
+
+We test the intuitive hypothesis that an inappropriate (compared to a more general and appropriate) context negatively affects brand attitudes.
+
+
+# Experimental Design
+
+Our study focuses on scenarios where airlines promote travel destinations through targeted advertising, placing ads in contexts that align with specific destinations. Given that major airlines serve numerous destinations globally, these ad placements are typically managed through automated programmatic systems. We leverage this automated placement approach to create two hypothetical scenarios featuring KLM Royal Dutch Airlines (KLM) promoting flights to Brazil. Prior to running this study, Brazil was experiencing severe flooding that claimed at least 95 lives [@Buschschlueter_2024]. To simulate real-world conditions, we scraped real tweets from that period and assembled them to two distinct Twitter feeds: one covering the natural disaster and another featuring more general content, including coverage of Madonna's free concert in Rio de Janeiro.
+
+For the illustrative character of this study, we assume that automated placement systems primarily target the keyword "Brazil" without considering nuanced contextual factors. This assumption allows us to simulate how the same advertisement might appear in markedly different contexts on a social media platform. Consequently, we place an identical fictitious sponsored post by KLM, promoting flights to Brazil, into both Twitter feeds. The advertisement features a creative (as shown in @fig-ad) as well as copy that read: _"Brazil's wild beauty calls! Experience nature like never before. Book your breathtaking adventure with KLM."_ While this messaging would typically be considered appropriate for tourism promotion, it appears strikingly insensitive when juxtaposed against news of a natural disaster. 
+
+![KLM Ad Creative](https://github.com/Howquez/oFeeds/blob/main/studies/brand_safety/stimuli/brazil_wild_beauty_compressed.png?raw=true){#fig-ad}
+
+# Implementation
+
+We implement the two cell between-subjects design by creating a csv file that contains two times twenty rows (i.e., twenty tweets for each condition). Whereas all other columns are unique, two of these rows represent one and the same apart from their assignment to either one of the two conditions. To specify the sponsored posts, we set `sponsored` to 1, provide a landing page in the `target` column to which participants are directed when clicking on the ad. In addition, we set its `sequence` parameter to 5 to guarantee that it is displayed in fifth position of the feed. We do not specify that parameter for any other row such that DICE orders the remaining tweets randomly between-subject. Finally, we add a `source` column that provides URLs to the tweets we scraped. Even though this column is not required (as DICE does not evaluate it) we consider such a column useful for documentation purposes. The described csv file, whose structure we illustrate in @tbl-csv, will then be uploaded to Github such that we can pass the corresponding URL to the DICE app.
+
+| doc_id | text                                                  | username        | condition     | sponsored | target    | sequence |
+|------|------------------------------------|-----------------|------------|-----------|--------------|----------|
+| 1      | Madonna breaks the record for biggest audience...     | chart data      | appro...   | 0         |           |          |
+| 2      | Saudades do Rio 🫶🏼<br><br>didn’t want to leave...     | diplo           | appro...   | 0         |           |          |
+| 3      | 50 million people watched on TV Madonna...            | Madonna Daily   | appro...   | 0         |           |          |
+| 4      | Chelsea really wanted Real Madrid-bound...            | Nizaar Kinsella | appro...   | 0         |           |          |
+| 5      | Brazil's wild beauty calls! Experience nature...      | KLM             | appro...   | 1         | [KLM url] | 5        |
+| ...    | ...                                                   | ...             | ...           | ...       |           |          |
+| 25     | Brazil's wild beauty calls! Experience nature...      | KLM             | inappro... | 1         | [KLM url] | 5        |
+| ...    | ...                                                   | ...             | ...           | ...       |           |          |
+| 40     | i mentioned this on another tweet! if you can help... | Evil Scientist  | inappro... | 0         |           |          |
+
+: CSV Excerpt {#tbl-csv}
+
+# Measures and Procedure
+
+Participants read instructions and browse one of two twitter feeds (appropriate vs. inappropriate context) in which we place the KLM ad, before they are directed to a Qualtrics survey.
+The two feeds consist of 20 real tweets each where the focal ad (by KLM) is placedin fifth position.^[You can browse the flooding-related, inappropriate feed [here](https://web.archive.org/web/20240815081113/https://ibt-hsg.herokuapp.com/p/efhnz8mx/DICE/C_Feed/3) and the more general, appropriate feed [here.](https://web.archive.org/web/20240815081225/https://ibt-hsg.herokuapp.com/p/frwzl1vd/DICE/C_Feed/3)]
+In the Qualtrics survey, we elicit whether participants recall a brand advertising in the feed—first uncued and then cued (i.e., participants saw a list of a diverse range of brands and had to indicate whether they recall seeing them).
+Next, participants evaluate the target brand on three seven-point scales presented in a random order (1 = "Negative/Unfavorable/Dislike" and 7 = "Positive/Favorable/Like"), which we will average into a single measure.
+Finally, participants will describe their experience interacting with the feed in an open text field, indicate whether they were aware of the flooding, provide demographic information, and read a debriefing before they are redirected to Prolific.
+
+# Primary Analysis
+
+Our primary interest lies in the effect the context has on our three-item brand attitude measure. Hence, we compute an average of these items and compare means using a simple OLS regression:
+
+$$
+y_{i} = \alpha + \beta_1 D_i + \epsilon_i
+$$
+where $y_{i}$ denotes the averaged brand attitude measure and where $D_i$ is treatment dummy: 
+
+$$
+D_i =
+\begin{cases}
+1 & \text{if } i \text{ was exposed to inapproriate context}, \\
+0 & \text{if } i \text{ was exposed to approriate context}.
+\end{cases}
+$$
+
+$\beta_1$ is the coefficient of interest. We expect the inappropriate context to have a negative effect on the brand attitude (i.e. $\beta_1 <0$).
+
+
+# Secondary Analysis
+
+We expect the main effect described above to be heterogeneous. Specifically, we expect the the effect to be stronger (i.e. $|\beta_1|$ to be larger) for those participants who recall seeing an ad for the target brand, compared to those, who do not recall seeing it.
+
+Furthermore, we expect a positive correlation between dwell time (that is, the time the sponsored post was visible to the participant) and recall: the more time a participant allocates to the sponsored post, the more likely it is that she will recall seeing it.
+
+Finally, we expect the dwell time to moderate the main effect as indicated by $\beta_3$ in the following OLS regression: The more time participants allocate to the sponsored post, the stronger its effect on brand attitude.
+
+$$
+y_{i} = \alpha + \beta_1 D_i + \beta_2 \text{ dwell time}_i + \beta_3 D_i \times \text{ dwell time}_i + \epsilon_i
+$$
+
+# Population
+
+We will recruit participants from Prolific who meet the following criteria:
+
+- Approval Rate >= 99%
+- First Language == ‘English’
+- Location == ‘USA’
+
+# Sample Size 
+
+We recruit 1000 participants. To this end, we create databases containing 1400 rows.
+
+# Exclusion Criteria
+
+We will only consider complete observations, that is, data from participants who browsed through the feed, answered the qualtrics survey and who were redirected to Prolific with a functional completion code.
+
+Because we gather process data, such as dwell time, we have tools to assess the data quality [see, e.g., @CuskleySulik_2024]–at least during the exposure to the social media feed. If these data reveal inattentive participants, for instance, we may exclude them too but label the resulting analyses as exploratory.
+
+
+
+# References
