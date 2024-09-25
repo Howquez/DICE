@@ -12,6 +12,7 @@ __pycache__/
 **/.DS_Store
 *.ai
 *.psd
+*.indd
 
 # History files
 .Rhistory
@@ -40,4 +41,15 @@ __pycache__/
 .Rproj.user
 
 # hide my content
+analyses/
+data/
+literature/
+DICE_literature/
+feedback/
+Manager interviews/
+meeting_notes/
+misc/
+slides/
 writeup/
+config.json
+
