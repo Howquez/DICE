@@ -35,19 +35,23 @@ SESSION_CONFIG_DEFAULTS = dict(
     study_name = 'A study about ice cream',
     channel_type = 'Twitter',
     survey_link = 'https://unisg.qualtrics.com/jfe/form/SV_0DnMoLpM0VxjhrM',
+    dwell_threshold = 75,
     url_param = 'PROLIFIC_PID',
     briefing = '', # '<h5>This could be your briefing</h5><p>Use HTML syntax to format your content to your liking.</p>',
-    data_path= "https://raw.githubusercontent.com/Howquez/oFeeds/main/studies/brand_safety/stimuli/brazil.csv", # 'DICE/static/data/sample_tweets.csv', # "https://raw.githubusercontent.com/Howquez/oFeeds/main/studies/frequency_capping/stimuli/brazil_pretest.csv",
+    data_path= 'DICE/static/data/sample_tweets.csv', # "https://raw.githubusercontent.com/Howquez/oFeeds/main/studies/frequency_capping/stimuli/brazil_pretest.csv",
     delimiter=';',
     sort_by='datetime',
     condition_col='condition',
+    search_term = '#Yosemite',
+
+    # Legacy ?
     topics = True,
     # copy_text = '50M Jobseekers. <br><br> 150+ Job Boards. <br><br> One Click.',
     copy_text= '', # 'Happy<br>National<br>Fried Chicken<br>Day!',
     show_cta = False,
     cta_text = '', # 'Post Jobs Free',
-    landing_page = 'https://unisg.qualtrics.com/jfe/form/SV_0DnMoLpM0VxjhrM',
-    search_term = '#Yosemite',
+    # landing_page = 'https://unisg.qualtrics.com/jfe/form/SV_0DnMoLpM0VxjhrM',
+
 )
 
 PARTICIPANT_FIELDS = ['tweets', 'finished']

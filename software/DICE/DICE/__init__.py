@@ -250,7 +250,7 @@ class A_Intro(Page):
         # feed_conditions_list = feed_conditions_str.strip("[]").split()
         # random_condition = random.choice(feed_conditions_list)
         # cleaned_condition = random_condition.strip("'")
-        #player.feed_condition = cleaned_condition
+        # player.feed_condition = cleaned_condition
 
         # update sequence
         df = player.participant.tweets
@@ -292,6 +292,13 @@ class C_Feed(Page):
             label_available=label_available,
             # banner_img='img/{}_banner.png'.format(ad),
         )
+
+    @staticmethod
+    def js_vars(player: Player):
+        return dict(
+            dwell_threshold=player.session.config['dwell_threshold'],
+        )
+
 
     @staticmethod
     def live_method(player, data):
