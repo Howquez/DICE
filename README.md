@@ -45,8 +45,8 @@ As the tool is still under development, please [contact me](mailto:hauke.roggenk
 - [DICE App Repository](https://github.com/Howquez/oFeeds-config)
 - Code licensed under [MIT License](LICENSE) with added citation requirement:
 - Please cite as: _Roggenkamp, H. C., Boegershausen, J., & Hildebrand, C. (2024, January 5). Digital In-Context Experiments (DICE). Retrieved from osf.io/jcxvk_
-- Shiny app to [encode DICE's input](https://roggenkamp.shinyapps.io/DICE-input-encoding/) `*.csv` file.
-- Shiny app to [pre-process DICE's data](https://roggenkamp.shinyapps.io/DICE-Preprocessing/).
+- Shiny app to [encode DICE's input](https://dice-app.shinyapps.io/DICE-input-encoding/) `*.csv` file.
+- Shiny app to [pre-process DICE's data](https://dice-app.shinyapps.io/DICE-Preprocessing/).
 
 <!--
 ## 🧵 Mimic Social Media Feeds with _oTweet_
