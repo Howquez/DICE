@@ -118,7 +118,7 @@ def process_image(url):
         new_path = f"../users/webp/{file_name}.webp"
         convert_and_save(url, new_path)
         # Return new URL to be used in the DataFrame
-        return f"https://raw.githubusercontent.com/Howquez/oFeeds/main/studies/frequency_capping/stimuli/users/webp/{file_name}.webp"
+        return f"https://raw.githubusercontent.com/Howquez/DICE/main/studies/frequency_capping/stimuli/users/webp/{file_name}.webp"
     return url  # Return original URL if no file_name extracted
 
 # Update 'user_image' column with new URLs
