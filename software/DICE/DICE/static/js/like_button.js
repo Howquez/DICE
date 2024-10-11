@@ -1,4 +1,4 @@
-console.log("Reactions (likes and replies) ready!");
+console.log("Reactions (likes, replies, and promoted content clicks) ready!");
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Document is ready!");
@@ -61,38 +61,74 @@ document.addEventListener('DOMContentLoaded', function() {
         return repliesData;
     }
 
+    function initializePromotedData() {
+        let promotedData = [];
+        document.querySelectorAll('.promoted-content').forEach(tweet => {
+            let docId = parseInt(tweet.closest('.tweet-content').id.replace('tweet_', ''));
+            promotedData.push({ doc_id: docId, clicked: false });
+        });
+        document.getElementById('promoted_post_clicks').value = JSON.stringify(promotedData);
+        return promotedData;
+    }
+
+    let promotedData = initializePromotedData();
+
+    function trackPromotedClicks(post) {
+        let docId = parseInt(post.id.replace('tweet_', ''));
+        promotedData = JSON.parse(document.getElementById('promoted_post_clicks').value);
+
+        let item = promotedData.find(item => item.doc_id === docId);
+        if (item) {
+            item.clicked = true;
+        } else {
+            promotedData.push({ doc_id: docId, clicked: true });
+        }
+
+        document.getElementById('promoted_post_clicks').value = JSON.stringify(promotedData);
+        console.log("Promoted content click tracked. Data:", JSON.stringify(promotedData));
+    }
+
+    document.querySelectorAll('.promoted-content').forEach(tweet => {
+        const clickableElements = tweet.querySelectorAll('.spons-post p, .spons-post a, .spons-post img');
+        clickableElements.forEach(element => {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                trackPromotedClicks(tweet.closest('.tweet-content'));
+
+                if (element.tagName === 'A' || element.parentElement.tagName === 'A') {
+                    const link = element.tagName === 'A' ? element : element.parentElement;
+                    setTimeout(() => {
+                        window.open(link.href, '_blank');
+                    }, 100);
+                }
+            });
+        });
+    });
+
     function collectDataHarmonized() {
         let likesData = collectLikes();
         let repliesData = collectReplies();
-        return { likes: JSON.stringify(likesData), replies: JSON.stringify(repliesData) };
+        let promotedClicksData = JSON.parse(document.getElementById('promoted_post_clicks').value);
+        return {
+            likes: JSON.stringify(likesData),
+            replies: JSON.stringify(repliesData),
+            promoted_clicks: JSON.stringify(promotedClicksData)
+        };
     }
-
-    // Function to track clicks on sponsored posts and record their doc_id
-    function trackSponsoredClicks(post) {
-        let sponsoredData = JSON.parse(document.getElementById('sponsored_post_clicks').value || '[]');
-        let docId = parseInt(post.getAttribute('id').replace('tweet_', ''));
-        sponsoredData.push({ doc_id: docId });
-        document.getElementById('sponsored_post_clicks').value = JSON.stringify(sponsoredData);
-        console.log("Sponsored post click tracked. Data:", JSON.stringify(sponsoredData));
-    }
-
-    // Attach event listeners for clicks on sponsored posts using the 'sponsored-post' class
-    document.querySelectorAll('.sponsored-post').forEach(post => {
-        post.addEventListener('click', function() {
-            trackSponsoredClicks(this.closest('.tweet-content'));
-        });
-    });
 
     document.getElementById('submitButtonTop').addEventListener('click', function(event) {
         let data = collectDataHarmonized();
         document.getElementById('likes_data').value = data.likes;
         document.getElementById('replies_data').value = data.replies;
+        document.getElementById('promoted_post_clicks').value = data.promoted_clicks;
         console.log("Data to send:", data);
     });
-   document.getElementById('submitButtonBottom').addEventListener('click', function(event) {
+
+    document.getElementById('submitButtonBottom').addEventListener('click', function(event) {
         let data = collectDataHarmonized();
         document.getElementById('likes_data').value = data.likes;
         document.getElementById('replies_data').value = data.replies;
+        document.getElementById('promoted_post_clicks').value = data.promoted_clicks;
         console.log("Data to send:", data);
     });
 

@@ -48,7 +48,7 @@ class Player(BasePlayer):
     rowheight_data = models.LongStringField(doc='tracks the time feed items were visible in a participants viewport.')
     likes_data = models.LongStringField(doc='tracks likes.', blank=True)
     replies_data = models.LongStringField(doc='tracks replies.', blank=True)
-    sponsored_post_clicks = models.LongStringField(doc='tracks the clicks on sponsored posts.', blank=True)
+    promoted_post_clicks = models.LongStringField(doc='tracks the clicks on sponsored posts.', blank=True)
 
 
     touch_capability = models.BooleanField(doc="indicates whether a participant uses a touch device to access survey.",
@@ -270,7 +270,7 @@ class C_Feed(Page):
 
     @staticmethod
     def get_form_fields(player: Player):
-        fields =  ['likes_data', 'replies_data', 'sponsored_post_clicks', 'touch_capability', 'device_type', 'screen_resolution']
+        fields =  ['likes_data', 'replies_data', 'promoted_post_clicks', 'touch_capability', 'device_type', 'screen_resolution']
 
         if not player.session.config['topics'] & player.session.config['show_cta']:
             more_fields =  ['scroll_sequence', 'viewport_data', "rowheight_data"] # , 'cta']
