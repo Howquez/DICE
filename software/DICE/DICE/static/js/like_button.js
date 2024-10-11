@@ -83,7 +83,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    document.getElementById('submitButton').addEventListener('click', function(event) {
+    document.getElementById('submitButtonTop').addEventListener('click', function(event) {
+        let data = collectDataHarmonized();
+        document.getElementById('likes_data').value = data.likes;
+        document.getElementById('replies_data').value = data.replies;
+        console.log("Data to send:", data);
+    });
+   document.getElementById('submitButtonBottom').addEventListener('click', function(event) {
         let data = collectDataHarmonized();
         document.getElementById('likes_data').value = data.likes;
         document.getElementById('replies_data').value = data.replies;

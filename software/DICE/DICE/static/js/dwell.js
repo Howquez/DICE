@@ -1,9 +1,3 @@
-console.log("dwell ready")
-
-// js vars
-let dwell_threshold = js_vars.dwell_threshold
-console.log("Dwell Threshold = " + dwell_threshold)
-
 // Array to store row visibility duration data
 var rowVisibilityData = [];
 
@@ -78,7 +72,7 @@ function initializeObserver() {
     const observer = new IntersectionObserver(handleRowVisibility, {
         root: null,
         rootMargin: '0px',
-        threshold: dwell_threshold / 100,
+        threshold: 0.5,
     });
 
     document.querySelectorAll('tr[id]').forEach(row => observer.observe(row));
@@ -86,6 +80,12 @@ function initializeObserver() {
 
     // Add event listener for page visibility changes
     document.addEventListener('visibilitychange', handleVisibilityChange);
+}
+
+// Function to handle submit button clicks
+function handleSubmit(event) {
+    updateVisibleRowsDwellTime();
+    console.log('Submit button clicked:', event.target.id);
 }
 
 // Wait for both window load and pre-loader completion
@@ -102,10 +102,12 @@ window.addEventListener('load', function() {
             }
         }, 100); // Check every 100ms
     }
-});
 
-// Attach the function to the submit button click event
-document.getElementById('submitButton').addEventListener('click', updateVisibleRowsDwellTime);
+    // Attach event listeners to all submit buttons
+    document.querySelectorAll('button[type="submit"]').forEach(button => {
+        button.addEventListener('click', handleSubmit);
+    });
+});
 
 // Add an event listener for when the user is about to leave the page
 window.addEventListener('beforeunload', updateVisibleRowsDwellTime);
