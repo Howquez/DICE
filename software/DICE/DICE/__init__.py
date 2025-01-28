@@ -135,13 +135,7 @@ def extract_first_url(text):
     return None
 
 # check urls
-h = httplib2.Http()
-def check_url_exists(url):
-    try:
-        resp = h.request(url, 'HEAD')
-        return int(resp[0]['status']) < 400
-    except Exception:
-        return False
+# h = httplib2.Http()
 
 # function that reads data
 def read_feed(path, delim):
@@ -165,7 +159,14 @@ def is_url(s):
 # some pre-processing
 def preprocessing(df, config):
     # reformat date
-    df['datetime'] = pd.to_datetime(df['datetime'], errors='coerce', format='%d.%m.%y %H:%M')
+    df['datetime'] = pd.to_datetime(df['datetime'], errors='coerce')  # Try parsing with flexible format first
+    mask = df['datetime'].isna()  # If any dates failed to parse, try with the specific format
+    if mask.any():
+        df.loc[mask, 'datetime'] = pd.to_datetime(
+            df.loc[mask, 'datetime'],
+            errors='coerce',
+            format='%d.%m.%y %H:%M'
+        )
     df['date'] = df['datetime'].dt.strftime('%d %b').str.replace(' ', '. ')
     df['date'] = df['date'].str.lstrip('0')
     df['formatted_datetime'] = df['datetime'].dt.strftime('%I:%M %p · %b %d, %Y')
