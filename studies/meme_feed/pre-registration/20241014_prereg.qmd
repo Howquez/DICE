@@ -1,0 +1,128 @@
+---
+title: 'DICE Case Study: Meme Feed'
+subtitle: "Pre-Registration"
+# author:
+# - name: Hauke Roggenkamp
+#   email: Hauke.Roggenkamp@unisg.ch
+#   orcid: 0009-0005-5176-4718
+#   corresponding: true
+#   affiliations:
+#     - name: Institute of Behavioral Science and Technology, University of St. Gallen
+#       address: Torstrasse 25
+#       city: St. Gallen
+#       country: Switzerland
+#       postal-code: 9000
+# - name: Johannes Boegershausen
+#   email: boegershausen@rsm.nl
+#   orcid: 0000-0002-1429-9344
+#   corresponding: false
+#   affiliations:
+#     - name: Rotterdam School of Management, Erasmus University 
+#       address: Burgemeester Oudlaan 50
+#       city: Rotterdam
+#       country: Netherlands
+#       postal-code: 3062
+# - name: Christian Hildebrand
+#   email: Christian.Hildebrand@unisg.ch
+#   orcid: 0000-0003-4366-3093
+#   corresponding: false
+#   affiliations:
+#     - name: Institute of Behavioral Science and Technology, University of St. Gallen
+#       address: Torstrasse 25
+#       city: St. Gallen
+#       country: Switzerland
+#       postal-code: 9000
+date: now
+date-format: dddd MMM D, YYYY, HH:mm z
+# format:
+#   html:
+#     embed-resources: true
+#     theme: cosmo
+format: pdf
+toc: false
+number-sections: false
+fig-cap-location: top
+execute:
+  echo: false
+bibliography: ../../../documentation/references.bib
+---
+
+Research on advertising effectiveness has evolved across different media contexts, each with its unique characteristics. @AgarwalHosanagarSmith_2011 investigated sponsored search advertising, finding that top positions, while generating more clicks, may not always be optimal for revenue or profit due to increased costs. Focusing on websites and the position of links, @MurphyHofackerMizerski_2017 reach similar conclusions: top positions genrate more clicks (primacy effect). In addition, they find a recency effect, where visitors tend to click on links at the end of the list. However, these contexts differ from social media as users actively search for information in finite lists, creating a distinct engagement dynamic.
+
+In contrast, @WedelPieters_2000 focused on yet another context: print advertising. Using eye-tracking methodology to link visual attention to brand memory they also find support for both the primacy and the recency effect. While eye-tracking is well-suited to capture attention [see also @SimonovVallettiVeiga_2024], the obtrusive measurement in controlled settings may not translate directly to the naturalistic, user-controlled environment of social media browsing.
+
+The unique nature of social media consumption – characterized by rapid scrolling and passive exposure – creates a distinct viewing experience that warrants specific investigation. @Ordenes_2019 explored content characteristics that "cut through the clutter" to drive sharing of brand messages on social media. However, less is known about how exposure to sponsored posts within a social media feed influences brand recall, and whether strategies like bidding for top positions are truly effective in this context.
+
+This study aims to address this gap by examining the relationship between post exposure in a simulated social media feed and subsequent brand recall as well as engagement metrics: by unobtrusively measuring dwell time on posts as well as reactions such as likes, comments and clicks), assessing both uncued and cued brand recall, we provide new insights into attention and memory processes in social media advertising. 
+
+
+# Experimental Design
+
+To investigate these questions, we design a controlled experiment simulating a social media feed environment using DICE. We recruit participants and expose them to a custom-designed feed containing both organic and sponsored posts. The feed comprises 40 posts in total, with 35 organic posts scraped from 9GAG and 5 sponsored posts. This ratio of organic to sponsored content closely mirrors typical social media experiences.
+
+The order and position of all posts within the feed are randomized between subjects to control for potential order effects. This randomization not only affects the overall sequence of posts but also varies the intervals between sponsored posts, creating a diverse set of browsing experiences.
+
+Participants browse the simulated feed on their own devices, allowing for unobtrusive measurement of dwell time for each post by tracking how long it remains visible in the device's viewport. We also record user interactions such as likes, comments, and clicks on each post to assess engagement levels. Following exposure to the feed, participants complete both uncued and cued recall tasks to measure their memory for the advertised brands.
+
+# Stimuli
+
+The sponsored posts promote five well-known consumer electronics brands: Apple, Samsung, Whoop, Nintendo, and Bose. To ensure authenticity and relevance, these sponsored posts are real advertisements copied directly from Facebook's Ad Library. Most of these ads combine text and image in a style familiar to social media users, ensuring congruence with the organic content.
+
+You can browse an examplary feed here: [https://perma.cc/87B9-H6ZV](https://perma.cc/87B9-H6ZV).
+
+
+# Method and Procedure
+
+After participants browse the social media feed, they are redirected to a Qualtrics survey that starts with basic demographic questions. Subsequently, they answer unaided and aided recall questions to indicate whether they remember seeing the ad. More specifically, we first ask participants:
+
+> _Please list any brands from which you recall having seen an ad in the social media
+feed you have just browsed. (If you recall multiple ads, please comma-separate your answer, i.e.,
+"brand x, organization y, ...". Type "n/a" if you don't recall any ads.)_
+
+Subsequently, we provide a list (in randomized order) of 20 brands^[JBL, Oura, Bose, Sony Playstation, Amazon, LG, T-Mobile, Nintendo, Whoop, Apple, Logitech, Microsoft, Beats by Dre, Sonos, GoPro, Samsung, Fitbit, Spotify, Dell, Verizon, and "I do not recall any sponsored posts".] and ask:
+
+> _Please select the brands in the list below from which you recall seeing an ad (i.e.,
+sponsored post) in the feed._
+
+
+# Primary Analyses
+
+Our primary interest lies in the effect of ad exposure on recall.
+
+We expect recall (both cued and uncued) to be affected by the an ad's position: the closer an ad is displayed to the top, the higher the odds of recall. We test this using a simple logistic regression and take into account that, due to the randomization, some positions may be slightly over- and others underrepresented (i.e., it may happen that the fifth post happens to be a sponsored post in the feeds of 38 participants whereas the sixth post may only represent a sponsored post in 25 occasions). 
+
+# Secondary Analysis
+
+We will also analyze DICE's dwell time measure, i.e., the exposure duration participants allocate to individual posts. We expect participants to devote more time to organic posts compared to sponsored posts. In addition, we expect the dwell time also to be affected by a post's position: the closer a post is displayed to the top, the higher the measured dwell time. We test this using a simple OLS regression and control for a post's height as some posts may be longer and take more space of a participant's viewport.
+
+
+# Exploratory Analysis
+
+In addition, we measure whether participants react to posts. For instance, they may like or comment organic posts or click in a sponsored post.
+
+# Population
+
+We will recruit participants from Prolific who meet the following criteria:
+
+- Approval Rate >= 99%
+- First Language == ‘English’
+- Location == ‘USA’
+- Age >= 18 & Age <= 35
+
+In addition, we will exclude participants who participated in other DICE experiments.
+
+# Sample Size & Recruitment
+
+We recruit 300 participants via prolific. To this end, we create four databases with 500 rows each.^[This way, we collect data in batches and reduce the load on the database.]
+
+We expect the experiment to take 5 minutes on average and pay 0.75 GBP (i.e., 9.00 GBP/hr).
+
+# Exclusion Criteria
+
+We will only consider complete observations, that is, data from participants who browsed through the feed, answered the Qualtrics survey and who were redirected to Prolific with a functional completion code.
+
+Because we gather process data, such as dwell time, we have tools to assess the data quality [@CuskleySulik_2024] -- at least during the exposure to the social media feed. If these data reveal inattentive participants, for instance, we may exclude them too but label the resulting analyses as exploratory.
+
+
+# References
+
