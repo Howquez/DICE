@@ -1,0 +1,243 @@
+---
+title: "Robustness Checks"
+subtitle: "Case Study 2"
+date: now
+date-format: long
+keep-tex: false
+format: pdf
+toc: false
+number-sections: false
+fig-cap-location: top
+echo: false
+bibliography: ../../_references.bib
+---
+
+```{r install_packages}
+#| warning: false
+#| output: false
+
+options(repos = c(CRAN = "https://cran.r-project.org")) 
+
+
+if (!requireNamespace("groundhog", quietly = TRUE)) {
+    install.packages("groundhog")
+    library("groundhog")
+}
+
+pkgs <- c("magrittr", "data.table", "knitr", "stringr", "english", "moments",
+          "ggplot2", "patchwork", "ggdist", "gghalves", "sjPlot", "wesanderson", "ggsci",
+          "stargazer", "gt", "MOTE",
+          "lme4")
+
+groundhog::groundhog.library(pkg = pkgs,
+                             date = "2024-10-01")
+
+rm(pkgs)
+```
+
+
+```{r timestamp_1}
+t1 <- Sys.time()
+```
+
+```{r layout}
+layout <- theme(panel.background = element_rect(fill = "white"),
+                legend.key = element_rect(fill = "white"),
+                panel.grid.major.y = element_line(colour = "grey", 
+                                                  linewidth = 0.25),
+                axis.ticks.y = element_blank(),
+                panel.grid.major.x = element_blank(),
+                axis.line.x.bottom = element_line(colour = "#000000", 
+                                                  linewidth = 0.5),
+                axis.line.y.left = element_blank(),
+                plot.title = element_text(size = rel(1))
+)
+```
+
+```{r colors}
+c_orange <- "#F0941F"
+c_teal   <- "#196774"
+
+c_positive <- "#377E39"
+c_negative <- "#7D3756"
+
+scale_color_custom_d <- function() {
+  scale_color_manual(values = c(c_orange, c_teal))
+}
+
+scale_fill_custom_d <- function() {
+  scale_fill_manual(values = c(c_orange, c_teal))
+}
+
+scale_color_custom_2d <- function() {
+  scale_color_manual(values = c(c_positive, c_negative))
+}
+
+scale_fill_custom_2d <- function() {
+  scale_fill_manual(values = c(c_positive, c_negative))
+}
+```
+
+
+```{r read_data}
+data <- fread(file = "../data/processed/meme-feed-data.csv", na.strings = "")
+```
+
+```{r subset_data}
+subset <- data[is.finite(log_dwell_pixel) & 
+                     displayed_sequence < 39 & 
+                     displayed_sequence > 2]
+```
+
+```{r seed}
+set.seed(42)
+```
+
+
+# Empirical Model
+
+To estimate the impact of ad positioning on brand recall in social media feeds, we employed a mixed-effects logistic regression model with brand fixed effects to account for the binary nature of recall outcome (recalled vs. not recalled) while considering the hierarchical structure of our data: multiple observations nested within participants and ads. We assume a binomial distribution as each observation represents a single trial with two possible outcomes (recalled vs. not recalled), where $p_{ij}$ represents the probability of participant $i$ recalling brand $j$:
+
+$$
+\text{recall}_{ij} \sim \text{Binomial}(1, p_{ij})
+$$
+
+We estimated the effect of ad positioning on recall and captured between-participant heterogeneity through random intercepts while controlling for brand fixed effects:
+
+$$
+\text{logit}(p_{ij}) = a + a_i + \mathbf{x}_{ij} \mathbf{b} + \sum_{j=1}^{J-1} \gamma_j \text{Brand}_j
+$$
+
+where $a$ is the global intercept, $a_i$ is the participant-specific random intercept, $\mathbf{x}_{ij}$ is a vector of continuous predictors (e.g., position and dwell time) with corresponding coefficient vector $\mathbf{b}$, and $\gamma_j$ represents the fixed effects for each brand $j$ (with Apple serving as the reference category). The random participant effects $a_i$ follows from our experimental design, given that the random assignment of ad positions ensures zero correlation between participant characteristics and the explanatory variables. Brand effects are treated as fixed parameters rather than random effects, allowing for potential correlation between brand characteristics and positioning.
+
+The random participant effects $a_i$ follows from our experimental design, given that the random assignment of ad positions ensures zero correlation between participant characteristics and the explanatory variables. Brand effects are treated as fixed parameters rather than random effects, allowing for potential correlation between brand characteristics and core explanatory variables such as dwell time.
+
+Finally, for better comparability between models, we z-standardized all explanatory variables. The regression coefficients effects on the dependent variable are therefore quantified in standard deviations. This allowed us to compare the relative effect sizes between regression models. Because of the logit link, the odds ratio is $100 \times (e^{\beta} - 1)$, which gives the percentage change in the odds of recall.
+
+# Uncued Recall
+
+Here, we reproduce @tbl-mixed-effects and @fig-by-brand using uncued (or "free") instead of cued recall as our dependent variable, using the same empirical strategy as before. 
+
+Both the @tbl-mixed-effects and @fig-by-brand show that our findings are not sensitive to this alternative model specification as we still observe a primacy effect in out naïve Model 1 that vanishes as we control for dwell time in Model 3. 
+
+
+```{r}
+#| warning: false
+
+tmp <- copy(subset[sponsored == 1])
+
+tmp[, log_dwell_pixel := scale(log_dwell_pixel)]
+tmp[, displayed_sequence := scale(displayed_sequence)]
+tmp[, age := scale(age)]
+
+glmer_0 <- glmer(recalled_brand_uncued ~ displayed_sequence + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+glmer_1 <- glmer(recalled_brand_uncued ~ displayed_sequence + I(displayed_sequence^2) + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+glmer_2 <- glmer(recalled_brand_uncued ~ log_dwell_pixel + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+glmer_3 <- glmer(recalled_brand_uncued ~ displayed_sequence + I(displayed_sequence^2) + log_dwell_pixel + brand + 
+                   (1|participant_label),
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+glmer_4 <- glmer(recalled_brand_uncued ~ displayed_sequence + log_dwell_pixel +
+                   (1|participant_label) + (1|brand),
+                 data = tmp,
+                 family = binomial(link = "logit"))
+```
+
+
+In addition, ad recall also significantly varied across brands. @fig-by-brand (Panel A) visualizes the relationship between dwell time and position across the five brands in our study. We observe a consistent negative relationship between position and dwell time across all brands, with posts placed later in the feed receiving less attention. We also find that Apple and Nintendo generated significantly higher dwell time than all other brands (see the parallel upward shift of the regression line compared to Bose, Samsung, and Whoop). Panel B further shows how dwell time predicts recall probability consistently across all brands.
+
+```{r}
+#| eval: true
+#| warning: false
+#| label: tbl-mixed-effects
+#| tbl-cap: Estimates of Recall as a Function of Ad Position and Dwell Time
+#| results: asis
+
+
+stargazer(glmer_1, glmer_2, glmer_3,
+          dep.var.caption  = "log(Odds Ratio)",
+          dep.var.labels   = c("Recall", "log(Dwell Time) per Pixel"),
+          # model.names = TRUE,
+          omit = "brand",
+          covariate.labels = c("Position",
+                               "(Position)²",
+                               "Dwell Time"),
+          add.lines = list(c("Ad Fixed Effects", "Yes", "Yes", "Yes")),
+          omit.stat = c("bic", "ll"),
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          font.size = "scriptsize",
+          notes = c("Standard errors in parentheses.",
+                    # "The reported dwell time measure captures", 
+                    # "log(seconds a post was visible) per vertical pixel.",
+                    "Explanatory variables are z-standardized."),
+          notes.align = "l",
+          # type = "text",
+          df = FALSE,
+          header = FALSE)
+```
+
+```{r}
+p4 <- ggplot(data = subset[sponsored == 1], 
+       mapping = aes(x = displayed_sequence, y = log_dwell_pixel, 
+                     col = brand)) +
+  geom_smooth(method = "lm", formula = "y ~ x", se = FALSE) +
+  coord_cartesian(ylim = c(-0.001, 0.005)) +
+  scale_x_continuous(limits = c(1, 40), expand = c(0, NA), breaks = c(3, 10, 20, 30, 38)) +
+  geom_vline(xintercept = 3, alpha = 0.25) +
+  geom_vline(xintercept = 38, alpha = 0.25) +
+  scale_colour_tron() +
+  layout +
+  labs(title = "B", y = "Dwell Time", x = "Position", col = "Brand")
+```
+
+```{r}
+p6 <- ggplot(data = subset[sponsored == 1], 
+       mapping = aes(x = log_dwell_pixel, y = as.numeric(recalled_brand_uncued),
+                     col = brand)) +
+  geom_smooth(method = "glm", 
+              method.args = list(family = "binomial"),
+              formula = "y ~ x", se = FALSE) +
+  scale_colour_tron() +
+  scale_x_continuous(breaks = c(-0.02, 0, 0.02)) +
+  layout +
+  labs(title = "C", y = "Recall", x = "Dwell Time", col = "Brand")
+```
+
+
+```{r}
+#| label: fig-by-brand
+#| fig-cap: "Ad Position, Dwell Time, and Recall Across Brands"
+#| fig-cap-location: top
+
+(p4 + p6 + plot_layout(guides = "collect")) & theme(legend.position = "bottom")
+
+```
+
+
+# Session Info {.appendix}
+
+```{r timestamp_2}
+t2 <- Sys.time()
+```
+
+The analyses presented in this document required `r round(t2 - t1, digits = 2)` seconds, after loading and installing the required packages. _Rendering_ the document (i.e., presenting the results in a PDF) required slightly more time (up to one minute). Below, we print the `sessionInfo()` to document the hardware and software used to render this document.
+
+```{r}
+sessionInfo()
+```
+
+
+

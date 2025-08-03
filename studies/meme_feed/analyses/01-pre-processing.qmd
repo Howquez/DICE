@@ -1,0 +1,264 @@
+---
+title: "Pre-Processing"
+subtitle: "Case Study 2"
+date: now
+date-format: long
+format: pdf
+toc: false
+number-sections: false
+fig-cap-location: top
+echo: true
+bibliography: ../../_references.bib
+---
+
+# Setup
+
+## Install Packages
+
+```{r install_packages}
+#| warning: false
+#| output: false
+
+options(repos = c(CRAN = "https://cran.r-project.org")) 
+
+
+if (!requireNamespace("groundhog", quietly = TRUE)) {
+    install.packages("groundhog")
+    library("groundhog")
+}
+
+pkgs <- c("magrittr", "data.table", "knitr", "stringr", "jsonlite", 
+          "quanteda", "quanteda.textstats")
+
+groundhog::groundhog.library(pkg = pkgs,
+                             date = "2024-10-01")
+
+rm(pkgs)
+```
+
+```{r timestamp_1}
+t1 <- Sys.time()
+```
+
+# Data
+
+```{r read_data}
+input  <- data.table::fread(file = "../stimuli/9gag.csv")
+dice   <- data.table::fread(file = "../data/raw/DICE-processed-2024-10-15.csv")
+qualtrics <- data.table::fread(file = "../data/raw/DICE_Meme_Feed_October+15,+2024_18.35.csv")
+page_times <- data.table::fread(file = "../data/raw/PageTimes-2024-10-15.csv")
+
+```
+
+```{r}
+set.seed(42)
+```
+
+## Manipulations
+
+```{r set_names}
+setnames(old = "PROLIFIC_PID",
+         new = "participant_label",
+         x = qualtrics)
+
+qualtrics <- qualtrics[c(-1, -2)]
+```
+
+```{r}
+input[, sponsored := as.logical(sponsored)]
+```
+
+```{r}
+dice[, log_dwell_time := log(seconds_in_viewport)]
+dice[, log_dwell_pixel := log_dwell_time / height]
+```
+
+```{r page_times}
+times <- page_times[session_code == dice[, unique(session_code)] & 
+  participant_code %in% dice[, unique(participant_code)]]
+
+setorderv(x = times, cols = c("session_code", "participant_id_in_session", "page_index"))
+
+times[, 
+      time_spent_on_page := epoch_time_completed - shift(epoch_time_completed, n = 1, fill = NA, type = "lag"),
+      by = c("session_code", "participant_id_in_session")]
+```
+
+## Merge Data
+
+### Merge Qualtrics and DICE to Output
+
+```{r merge_0}
+dice_plus <- data.table::merge.data.table(x = dice,
+                                          y = times[page_name == "C_Feed",
+                                                    .(participant_code, time_spent_on_page)],
+                                          by = "participant_code")
+```
+
+```{r merge_1}
+output <- data.table::merge.data.table(x = dice_plus,
+                                       y = qualtrics,
+                                       by = "participant_label")
+
+```
+
+
+### Merge Output and Input
+
+```{r merge_2}
+data <- data.table::merge.data.table(x = output,
+                          y = input,
+                          by = c("doc_id", "condition"))
+
+setorder(data, participant_code, displayed_sequence)
+```
+
+
+### Processing
+
+
+```{r uncued_recall}
+data[, uncued_whoop := ifelse(test = str_detect(string = str_to_lower(uncued_recall),
+                                                pattern = "whoo"),
+                              yes = TRUE,
+                              no  = FALSE)]
+
+data[, uncued_samsung := ifelse(test = str_detect(string = str_to_lower(uncued_recall),
+                                                pattern = "samsung"),
+                              yes = TRUE,
+                              no  = FALSE)]
+
+data[, uncued_bose := ifelse(test = str_detect(string = str_to_lower(uncued_recall),
+                                                pattern = "bose|boise"),
+                              yes = TRUE,
+                              no  = FALSE)]
+
+data[, uncued_nintendo := ifelse(test = str_detect(string = str_to_lower(uncued_recall),
+                                                pattern = "nintendo|switch"),
+                              yes = TRUE,
+                              no  = FALSE)]
+
+data[, uncued_apple := ifelse(test = str_detect(string = str_to_lower(uncued_recall),
+                                                pattern = "apple"),
+                              yes = TRUE,
+                              no  = FALSE)]
+```
+
+```{r cued_recall}
+data[, cued_whoop := ifelse(test = str_detect(string = str_to_lower(cued_recall),
+                                                pattern = "whoop"),
+                              yes = TRUE,
+                              no  = FALSE)]
+
+data[, cued_samsung := ifelse(test = str_detect(string = str_to_lower(cued_recall),
+                                                pattern = "samsung"),
+                              yes = TRUE,
+                              no  = FALSE)]
+
+data[, cued_bose := ifelse(test = str_detect(string = str_to_lower(cued_recall),
+                                                pattern = "bose"),
+                              yes = TRUE,
+                              no  = FALSE)]
+
+data[, cued_nintendo := ifelse(test = str_detect(string = str_to_lower(cued_recall),
+                                                pattern = "nintendo"),
+                              yes = TRUE,
+                              no  = FALSE)]
+
+data[, cued_apple := ifelse(test = str_detect(string = str_to_lower(cued_recall),
+                                                pattern = "apple"),
+                              yes = TRUE,
+                              no  = FALSE)]
+```
+
+```{r brand_recall}
+
+data[sponsored == TRUE, recalled_brand_uncued := FALSE]
+data[sponsored == TRUE, recalled_brand_cued := FALSE]
+
+data[sponsored == TRUE & username == "Apple" & uncued_apple == TRUE, 
+     recalled_brand_uncued := TRUE]
+data[sponsored == TRUE & username == "WHOOP" & uncued_whoop == TRUE, 
+     recalled_brand_uncued := TRUE]
+data[sponsored == TRUE & username == "Bose" & uncued_bose == TRUE, 
+     recalled_brand_uncued := TRUE]
+data[sponsored == TRUE & username == "Nintendo of America" & uncued_nintendo == TRUE, 
+     recalled_brand_uncued := TRUE]
+data[sponsored == TRUE & username == "Samsung US" & uncued_samsung == TRUE, 
+     recalled_brand_uncued := TRUE]
+
+data[sponsored == TRUE & username == "Apple" & cued_apple == TRUE, 
+     recalled_brand_cued := TRUE]
+data[sponsored == TRUE & username == "WHOOP" & cued_whoop == TRUE, 
+     recalled_brand_cued := TRUE]
+data[sponsored == TRUE & username == "Bose" & cued_bose == TRUE, 
+     recalled_brand_cued := TRUE]
+data[sponsored == TRUE & username == "Nintendo of America" & cued_nintendo == TRUE, 
+     recalled_brand_cued := TRUE]
+data[sponsored == TRUE & username == "Samsung US" & cued_samsung == TRUE, 
+     recalled_brand_cued := TRUE]
+
+```
+
+```{r brand_names}
+data[username != "9GAG ❤️ Memeland", brand := username]
+data[username == "Nintendo of America", brand := "Nintendo"]
+data[username == "Samsung US", brand := "Samsung"]
+data[username == "WHOOP", brand := "Whoop"]
+data[, brand := as.factor(brand)]
+```
+
+```{r impute_reactions}
+data[is.na(liked), liked := FALSE]
+data[is.na(hasReply), hasReply := FALSE]
+```
+
+```{r covariates}
+# text length
+data[, text_length := nchar(text)]
+
+# gunning fog readability index (as used in Robertson et al. 2022)
+corpus <- corpus(data$text)
+readability_stats <- quanteda.textstats::textstat_readability(data$text, measure = "FOG")
+data[, text_complexity := readability_stats$FOG]
+
+# whether participant has liked/replied to any post
+data[, has_liked_any := any(liked), by = participant_label]
+data[, has_replied_any := any(hasReply), by = participant_label]
+
+# whether participant has liked/replied to any sponsored post
+data[sponsored == 1, has_liked_sponsored := any(liked), by = participant_label]
+data[sponsored == 1, has_replied_sponsored := any(hasReply), by = participant_label]
+
+# Device Types
+data[, is_desktop := ifelse(test = device_type == "Desktop", yes = 1, no = 0)]
+data[, device_type := as.factor(device_type)]
+
+# Demographics
+data[, female := ifelse(test = gender == "Female", yes = TRUE, no = FALSE)]
+data[, age := as.numeric(age)]
+```
+
+```{r post_type}
+data[, type := as.factor(ifelse(test = sponsored, yes = "Sponsored Posts", no = "Organic Posts"))]
+```
+
+## Write Data
+
+```{r write}
+data.table::fwrite(x = data, file = "../data/processed/meme-feed-data.csv")
+```
+
+
+# Session Info {.appendix}
+
+```{r timestamp_2}
+t2 <- Sys.time()
+```
+
+The analyses presented in this document required `r round(t2 - t1, digits = 2)` seconds, after loading and installing the required packages. _Rendering_ the document (i.e., presenting the results in a PDF) required slightly more time (up to one minute). Below, we print the `sessionInfo()` to document the hardware and software used to render this document.
+
+```{r}
+sessionInfo()
+```
+

@@ -59,7 +59,7 @@ server <- function(input, output) {
     
     # Preprocessing: select cols and only complete observations
     cols <- str_detect(string = names(df), 
-                       pattern = "session.code|participant.label|participant.code|likes_data|replies_data|sequence|viewport|rowheight|sponsored|condition|device_type|touch_capability|time_started")
+                       pattern = "session.code|participant.label|participant.code|likes_data|replies_data|sequence|viewport|promoted|rowheight|sponsored|condition|device_type|touch_capability|time_started")
     
     data <- df[participant._index_in_pages >= 4, ..cols]
     
@@ -172,19 +172,16 @@ server <- function(input, output) {
     
     
     # Create Sponsored Post (Ad) Clicks
-    ad_clicks <- data[nchar(sponsored_post_clicks) > 1,
-                      fromJSON(str_replace_all(string = sponsored_post_clicks,
+    ad_clicks <- data[nchar(promoted_post_clicks) > 1,
+                      fromJSON(str_replace_all(string = promoted_post_clicks,
                                                pattern = '""',
                                                replacement = '"')),
                       by = participant_code][!is.na(doc_id)]
-    
-    ad_clicks[, ad_click := TRUE]
-    
+
     # rename
     setnames(x = ad_clicks,
              old = 'doc_id',
              new = 'tweet')
-  
     
     
     # Merge to Final DT
@@ -194,6 +191,7 @@ server <- function(input, output) {
     merge_4 <- merge(merge_3, reactions, by = c("participant_code", "tweet"), all = TRUE)
     merge_5 <- merge(merge_4, ad_clicks, by = c("participant_code", "tweet"), all = TRUE)
     tmp     <- merge(merge_5, rowheight, by = c("participant_code", "tweet"), all = TRUE)
+    
     
     # Reorder columns (and rows)
     new_order <- c(3, 1, 4, 8, 5, 6, 7)
@@ -205,6 +203,9 @@ server <- function(input, output) {
     setnames(x = final,
              new = 'doc_id',
              old = 'tweet')
+    
+    # replace click-NAs with FALSE
+    final[is.na(clicked), clicked := FALSE]
     
     
     return(final)  # Return the processed data frame

@@ -1,0 +1,1293 @@
+---
+title: "Case Study 2: Position Effects and Rivalrous Attention"
+date: now
+date-format: long
+keep-tex: false
+format: 
+  pdf:
+    include-in-header:
+      text: |
+        \usepackage{titling}
+        \usepackage{sectsty}
+        \usepackage{lettrine}
+        \usepackage{amsmath}
+        \renewcommand{\LettrineTextFont}{\normalfont}
+        \allsectionsfont{\rmfamily}
+        \renewcommand{\familydefault}{\rmdefault}
+toc: false
+number-sections: true
+fig-cap-location: top
+echo: false
+warning: false
+bibliography: ../../_references.bib
+---
+
+```{r fresh_start}
+rm(list = ls())
+```
+
+```{r install_packages}
+#| warning: false
+#| output: false
+
+options(repos = c(CRAN = "https://cran.r-project.org")) 
+
+
+if (!requireNamespace("groundhog", quietly = TRUE)) {
+    install.packages("groundhog")
+}
+
+pkgs <- c("magrittr", "data.table", "knitr", "stringr", "english", "moments", "devtools",
+          "ggplot2", "patchwork", "ggdist", "gghalves", "sjPlot", "wesanderson", "ggsci",
+          "stargazer", "gt", "gtsummary", "flextable", "MOTE",
+          "mediation", "lme4", "optimx")
+
+groundhog::groundhog.library(pkg = pkgs,
+                             date = "2024-10-01")
+
+rm(pkgs)
+```
+
+```{r seed}
+set.seed(42)
+RNGkind(kind = "Mersenne-Twister", 
+        normal.kind = "Inversion", 
+        sample.kind = "Rejection")
+```
+
+```{r timestamp_1}
+t1 <- Sys.time()
+```
+
+```{r layout}
+layout <- theme(panel.background = element_rect(fill = "white"),
+                legend.key = element_rect(fill = "white"),
+                panel.grid.major.y = element_line(colour = "grey", 
+                                                  linewidth = 0.25),
+                axis.ticks.y = element_blank(),
+                panel.grid.major.x = element_blank(),
+                axis.line.x.bottom = element_line(colour = "#000000", 
+                                                  linewidth = 0.5),
+                axis.line.y.left = element_blank(),
+                plot.title = element_text(size = rel(1))
+)
+```
+
+```{r colors}
+c_orange <- "#F0941F"
+c_teal   <- "#196774"
+
+c_positive <- "#377E39"
+c_negative <- "#7D3756"
+
+scale_color_custom_d <- function() {
+  scale_color_manual(values = c(c_orange, c_teal))
+}
+
+scale_fill_custom_d <- function() {
+  scale_fill_manual(values = c(c_orange, c_teal))
+}
+
+scale_color_custom_2d <- function() {
+  scale_color_manual(values = c(c_positive, c_negative))
+}
+
+scale_fill_custom_2d <- function() {
+  scale_fill_manual(values = c(c_positive, c_negative))
+}
+```
+
+
+```{r read_data}
+data <- fread(file = "../data/processed/meme-feed-data.csv", na.strings = "")
+```
+
+```{r subset_data}
+subset <- data[is.finite(log_dwell_pixel) & 
+                     displayed_sequence < 39 & 
+                     displayed_sequence > 2]
+```
+
+\lettrine[lines=2]{R}{ ather} than focusing on a single post, Case Study 2 examines how multiple brands compete for user attention within the same feed—a common scenario in social media advertising where multiple advertisers target the same user and try to “cut through the clutter” of both organic content and competing ads [@Ordenes_2019]. Case Study 2 also illustrates how to approximate attention patterns across an entire feed containing multiple sponsored posts from different advertisers in the same product category. By studying how users engage with multiple sponsored posts in a single feed, we can better understand the dynamics of attention allocation in social media environments where brands compete for attention simultaneously, building on related memory and context effects studied in traditional advertising environments [@PietersWarlopWedel_2002]. Specifically, we examine how the position of sponsored posts affects brand recall when multiple brands are presented within the same feed, and how the dwell times captured through DICE help explain these effects.
+
+# Experimental Design
+
+To investigate the relationship between ad placement and brand recall, we simulated a social media feed containing both organic and sponsored posts. Whereas the set of organic and sponsored posts was the same for all participants, we randomized the sequence in which participants were exposed to these posts between subjects. 
+
+The feed featured thirty-five organic posts and five consumer electronics ads (sponsored posts; see @fig-design^[The figure displays five exemplary feeds used in Case Study 2. The positioning of sponsored and organic content in the study was fully randomized. The sponsored posts are highlighted for expositional clarity. Each feed contained identical content: the same thirty-five organic posts and five sponsored posts, as shown in the second column, where both the BOSE and Apple ads are displayed. An example feed is accessible at https://tiny.cc/DICE2.] for example feeds). We selected ads from established consumer electronics brands (i.e., Apple, Bose, Nintendo, Samsung, Whoop). The sponsored posts were actual ads retrieved from Facebook’s Ad Library, a publicly accessible database that archives advertisements run by advertisers across Meta’s platforms. The selected sponsored posts shared similar basic characteristics, including the presence of a product image, brand logo, and brief text as part of the advertisement. The organic content featured a collection of memes taken from the platform 9gag, a popular internet meme collection with over sixteen million followers on X. We intentionally chose memes as organic content to offer a conservative test of how branded content “competes” for attention on social media, particularly among younger users  [@MalodiaEtAl_2022]. 
+
+![Exemplary DICE Feeds from Study 2](../img/design.png){#fig-design}
+
+
+
+# Procedure
+
+```{r device_type_shared}
+N <- subset[, length(unique(participant_label))]
+share_desktop <- round(100 * subset[device_type == "Desktop",
+                                    length(unique(participant_label))] / N)
+share_mobile  <- round(100 * subset[device_type == "Mobile",
+                                    length(unique(participant_label))] / N)
+share_tablet  <- round(100 * subset[device_type == "Tablet",
+                                    length(unique(participant_label))] / N)
+```
+
+We recruited `r data[, length(unique(participant_label))]` younger American participants from Prolific ($M_{age}$=`r data[, sprintf(fmt = "%.2f", mean(age, na.rm = TRUE))]` years; `r data[, round(100*mean(female, na.rm = TRUE))]`% female). Participants browsed the simulated feed on their own devices (`r share_desktop`% desktop, `r share_mobile`% mobile, and `r share_tablet`% tablet). After scrolling through the feed, we redirected participants to a Qualtrics survey in which participants first provided demographic information as a filler task. Next, we measured whether participants recalled seeing the ads by the five brands in the feed. Specifically, we measured both free and cued recall. To measure cued recall, we showed participants a list of twenty brands from different categories and asked them to indicate whether they recalled seeing them [@CampbellKeller_2003; @SimonovVallettiVeiga_2025], including a no-recall option. The results for both recall measures were highly consistent; we report the cued recall results in the manuscript for parsimony (the results for unaided recall are reported in @sec-uncued).
+
+# Data
+
+Our dataset comprises `r subset[, length(unique(participant_label))]` participants and `r format(x = subset[, .N], big.mark = ",")` observations at the participant $\times$ post level. In the subsequent analyses, we focus on sponsored posts. We exclude the first and final two posts from our analysis due to participants familiarizing themselves with DICE when loading the feed (i.e., for the first posts) and deciding whether to proceed to the follow-up survey at the bottom of the feed (i.e., for the last posts) (note that this screening was not necessary in Case Study 1 as the focal sponsored post was always shown in fifth position). Thus, our effective sample for Case Study 2 is `r format(x = subset[sponsored == 1 & is.finite(log_dwell_pixel) & displayed_sequence < 39 & displayed_sequence > 2, .N], big.mark = ",")` observations on the participant $\times$ _sponsored_ post level.
+
+Position in feed (subsequently referred to only as “position”) is our main independent variable. We measured post-level dwell times as the number of seconds at least 50 percent of a post’s pixels were visible on screen. We log-transformed the raw dwell times to reduce skewness. Unlike Case Study 1, where we focused on a single post (i.e., the KLM ad), the focal posts of interest (i.e., ads) in Case Study 2 vary in their post height. Thus, as described in the “Behavioral Data” section of the DICE App Implementation, we normalized our dwell time measure by dividing it by post height to control for differently sized posts (i.e., the height in pixels of a sponsored post on a participant’s screen). 
+
+We also tracked actual reactions to the content such as likes and replies to individual posts.
+In the full sample featuring both organic and sponsored posts, we observed 
+`r subset[has_liked_any == TRUE, length(unique(participant_label))]`
+(`r subset[has_replied_any == TRUE, length(unique(participant_label))]`)
+participants who liked (replied to) any post in the feed. These numbers are lower for sponsored posts (ads shown in the feed) with
+`r subset[has_liked_sponsored == TRUE, length(unique(participant_label))]`
+(`r subset[has_replied_sponsored == TRUE, length(unique(participant_label))]`)
+participants liked (replied to) at least one sponsored post or ad. Given the low incident rate, we did not analyze these likes and comments any further.
+
+
+# Results and discussion
+
+```{r empirical-models}
+tmp <- copy(subset[sponsored == 1])
+tmp[, log_dwell_pixel := scale(log_dwell_pixel)]
+tmp[, displayed_sequence := scale(displayed_sequence)]
+
+
+glmer_1 <- glmer(recalled_brand_cued ~ displayed_sequence + I(displayed_sequence^2) + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+glmer_2 <- glmer(recalled_brand_cued ~ log_dwell_pixel + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+glmer_3 <- glmer(recalled_brand_cued ~ displayed_sequence + I(displayed_sequence^2) + log_dwell_pixel + brand + 
+                   (1|participant_label),
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+```
+
+```{r model-statistics}
+model_1_output <- summary(glmer_1)
+  model_1_coefficients <- coef(model_1_output)
+  model_1_beta_1 <- apa(model_1_coefficients[2, 1], decimals = 3, leading = FALSE)
+  model_1_se_1   <- apa(model_1_coefficients[2, 2], decimals = 3, leading = FALSE)
+  model_1_z_1    <- apa(model_1_coefficients[2, 3], decimals = 3, leading = FALSE)
+  model_1_p_1    <- apa(model_1_coefficients[2, 4], decimals = 3, leading = FALSE)
+
+model_2_output <- summary(glmer_2)
+  model_2_coefficients <- coef(model_2_output)
+  model_2_beta_3 <- apa(model_2_coefficients[2, 1], decimals = 3, leading = FALSE)
+  model_2_se_3   <- apa(model_2_coefficients[2, 2], decimals = 3, leading = FALSE)
+  model_2_z_3    <- apa(model_2_coefficients[2, 3], decimals = 3, leading = FALSE)
+  model_2_p_3    <- apa(model_2_coefficients[2, 4], decimals = 3, leading = FALSE)
+  
+model_3_output <- summary(glmer_3)
+  model_3_coefficients <- coef(model_3_output)
+  model_3_beta_1 <- apa(model_3_coefficients[2, 1], decimals = 3, leading = FALSE)
+  model_3_se_1   <- apa(model_3_coefficients[2, 2], decimals = 3, leading = FALSE)
+  model_3_z_1    <- apa(model_3_coefficients[2, 3], decimals = 3, leading = FALSE)
+  model_3_p_1    <- apa(model_3_coefficients[2, 4], decimals = 3, leading = FALSE)
+  model_3_beta_3 <- apa(model_3_coefficients[4, 1], decimals = 3, leading = FALSE)
+  model_3_se_3   <- apa(model_3_coefficients[4, 2], decimals = 3, leading = FALSE)
+  model_3_z_3    <- apa(model_3_coefficients[4, 3], decimals = 3, leading = FALSE)
+  model_3_p_3    <- apa(model_3_coefficients[4, 4], decimals = 3, leading = FALSE)
+```
+
+To test the impact of ad position on brand recall, we used a mixed-effects model with a logistic link function to account for multiple observations nested within participants and ads. We estimated the effect of ad position on recall and captured between-participant heterogeneity through random intercepts while controlling for brand fixed effects (for more details, see @sec-model).
+
+The effect of _position_ on recall was significant and negative
+($\beta_1$ = `r model_1_beta_1`, 
+SE = `r model_1_se_1`,
+z = `r model_1_z_1`,
+p = `r model_1_p_1`;
+see Model 1 in @tbl-mixed-effects), suggesting a primacy effect such that the further up (down) an ad is displayed in a feed, the more (less) participants recall seeing the ad. We also examined potential non-linear effects of position (i.e., to assess whether especially the beginning and end of a feed promote ad recall) by adding a quadratic term, but found no statistically significant effect. These results are robust to alternative model specifications, such as using _uncued_ recall (instead of cued recall) as our dependent variable or using a dummy variable to contrast the first ad position against all subsequent positions (see @sec-uncued and @sec-dummies, respectively). 
+
+
+```{r hierarchical-mediation}
+tmp <- copy(subset[sponsored == 1])
+tmp[, log_dwell_pixel := scale(log_dwell_pixel)]
+tmp[, displayed_sequence := scale(displayed_sequence)]
+
+
+med_model <- lmer(log_dwell_pixel ~ displayed_sequence + brand + (1|participant_label), 
+                  data = tmp)
+
+out_model <- glmer(recalled_brand_cued ~ displayed_sequence + brand + log_dwell_pixel + 
+                   (1|participant_label), 
+                   data = tmp, 
+                   family = binomial(link = "logit"),
+                   control = glmerControl(optimizer = "optimx",
+                                          optCtrl = list(method = "nlminb")))
+
+
+# check convergence
+# summary(med_model)
+# summary(out_model)
+
+# mediation analysis
+med_results <- mediation::mediate(med_model, out_model,
+                                  treat = "displayed_sequence",
+                                  mediator = "log_dwell_pixel",
+                                  boot = FALSE, sims = 1000)
+
+# plot(med_results)
+```
+
+```{r 1-1-1-statistics}
+model_summary <- summary(med_results)
+
+acme_estimate <- apa(model_summary$d.avg, decimals = 3, leading = FALSE)
+acme_ci_lower <- apa(model_summary$d.avg.ci[1], decimals = 3, leading = FALSE)
+acme_ci_upper <- apa(model_summary$d.avg.ci[2], decimals = 3, leading = FALSE)
+prop_med <- apa(model_summary$n.avg, decimals = 3, leading = FALSE)
+prop_med_ci_lower <- apa(model_summary$n.avg.ci[1], decimals = 3, leading = FALSE)
+prop_med_ci_upper <- apa(model_summary$n.avg.ci[2], decimals = 3, leading = FALSE)
+total_effect_p <- apa(model_summary$tau.p, decimals = 3, leading = FALSE)
+```
+
+As shown in Model 2 in @tbl-mixed-effects, the post-level dwell time of a user significantly predicts ad recall
+($\beta_3$ = `r model_2_beta_3`, 
+SE = `r model_2_se_3`,
+z = `r model_2_z_3`,
+p = `r model_2_p_3`).
+More importantly, we also found that the dwell time allocated to an ad was a stronger predictor of recall than the position of the ad in the feed. Specifically, Model 3, including both position and dwell time, shows that the effect of position becomes non-significant 
+($\beta_1$ = `r model_3_beta_1`, 
+SE = `r model_3_se_1`,
+z = `r model_3_z_1`,
+p = `r model_3_p_1`),
+while the dwell time coefficient remains unchanged and significant 
+($\beta_3$ = `r model_3_beta_3`, 
+SE = `r model_3_se_3`,
+z = `r model_3_z_3`,
+p = `r model_3_p_3`). 
+The minimal change in the Akaike information criterion when adding the position coefficients between Model 2 and Model 3 suggests that including ad position does not improve the model’s fit to the data. A subsequent 1-1-1 hierarchical mediation analysis [@ZhangEtAl_2008] indeed supports that post-level dwell time significantly mediates the relationship between ad position and recall
+($a \times b = `r acme_estimate`$, 
+95% CI = [`r acme_ci_lower`, `r acme_ci_upper`], 
+proportion mediated = `r prop_med`, 
+95% CI = [`r prop_med_ci_lower`, `r prop_med_ci_upper`], 
+p = 
+`r total_effect_p`).
+@sec-brands reports additional analyses that suggest limited heterogeneity in these patterns across different sponsored posts. While brands may differ in their baseline dwell times due to potential familiarity differences, dwell time consistently predicts recall across brands.
+
+
+```{r}
+#| tbl-cap: Estimates of Recall as a Function of Ad Position and Dwell Time
+#| results: asis
+#| label: tbl-mixed-effects
+n_obs <- format(nobs(glmer_1), big.mark = ",")
+
+tbl_1 <- tbl_regression(
+  glmer_1, 
+  intercept = TRUE,  # This ensures the intercept is included
+  include = c(displayed_sequence, `I(displayed_sequence^2)`),
+  estimate_fun = ~ style_number(.x, digits = 3),
+  pvalue_fun = label_style_pvalue(digits = 3, zero.print = "."),
+  conf.int = FALSE,
+  label = list(
+    displayed_sequence ~ "Position",
+    `I(displayed_sequence^2)` ~ "Position²"
+  ),
+  add_estimate_to_reference_rows = FALSE
+) |>
+  modify_column_unhide(columns = std.error) |>
+  add_glance_table(include = AIC)
+
+tbl_2 <- tbl_regression(
+  glmer_2, 
+  intercept = TRUE,
+  include = c(log_dwell_pixel),
+  estimate_fun = ~ style_number(.x, digits = 3),
+  pvalue_fun = label_style_pvalue(digits = 3, zero.print = "."),
+  conf.int = FALSE,
+  label = list(
+    log_dwell_pixel ~ "Dwell Time"
+  ),
+  add_estimate_to_reference_rows = FALSE
+) |>
+  modify_column_unhide(columns = std.error) |>
+  add_glance_table(include = AIC)
+
+tbl_3 <- tbl_regression(
+  glmer_3, 
+  intercept = TRUE,
+  include = c(displayed_sequence, `I(displayed_sequence^2)`, log_dwell_pixel),
+  estimate_fun = ~ style_number(.x, digits = 3),
+  pvalue_fun = label_style_pvalue(digits = 3, zero.print = "."),
+  conf.int = FALSE,
+  label = list(
+    displayed_sequence ~ "Position",
+    `I(displayed_sequence^2)` ~ "Position²",
+    log_dwell_pixel ~ "Dwell Time"
+  ),
+  add_estimate_to_reference_rows = FALSE
+) |>
+  modify_column_unhide(columns = std.error) |>
+  add_glance_table(include = AIC)
+
+table <- tbl_merge(
+  tbls = list(tbl_1, tbl_2, tbl_3),
+  tab_spanner = c("Model 1", "Model 2", "Model 3")
+) |>
+  modify_table_body(
+    ~ .x |>
+      dplyr::arrange(
+        factor(label, levels = c("(Intercept)", "Position", "Position²", "Dwell Time", "AIC"))
+      )
+  ) |>
+  modify_header(
+    label ~ "",
+    estimate_1 ~ "beta",
+    estimate_2 ~ "beta",
+    estimate_3 ~ "beta",
+    std.error_1 ~ "SE",
+    std.error_2 ~ "SE",
+    std.error_3 ~ "SE",
+    p.value_1 ~ "p",
+    p.value_2 ~ "p",
+    p.value_3 ~ "p"
+  )
+
+# docx (with footnote though)
+table |>
+  as_flex_table() |>
+  flextable::add_footer_lines(
+    values = paste0(
+      "N = ", n_obs, " observations (at the participant × sponsored post level). ",
+      "beta = standardized regression coefficient (log odds ratio), SE = Standard Error. ",
+      "Brand fixed effects are included in all models. Explanatory variables are z-standardized. ",
+      "The reported dwell time measure captures log(dwell time) per vertical pixel."
+    )
+  ) |>
+  flextable::save_as_docx(path = "../tables/CS2-table-2-logistic-regression-cued.docx")
+
+table |>
+  as_gt() |>
+  gt::rm_footnotes() |>
+  gt::tab_source_note(
+    source_note = paste0(
+      "N = ", n_obs, " observations (at the participant × sponsored post level). ",
+      "beta = standardized regression coefficient (log odds ratio), SE = Standard Error. ",
+      "Brand fixed effects are included in all models. Explanatory variables are z-standardized. ",
+      "The reported dwell time measure captures log(dwell time) per vertical pixel."
+    )
+  ) |>
+  as_latex()
+```
+From a substantive perspective, the findings demonstrate how memory formation operates when brands compete for limited attention in a social media environment, consistent with prior work on attention and memory under competitive exposure [@PietersWarlopWedel_2002]. From a more methodological perspective, Case Study 2 demonstrates how to combine the behavioral data (i.e., post-level dwell time as a proxy of attention) with self-reports from conventional survey measures (e.g., recall of branded content).
+
+
+\cleardoublepage
+
+# References
+
+::: {#refs}
+:::
+
+# Appendix {.appendix}
+
+## Empirical Model {#sec-model}
+
+To estimate the impact of ad positioning on brand recall in social media feeds, we employed a mixed-effects logistic regression model with brand fixed effects to account for the binary nature of recall outcome (recalled vs. not recalled) while considering the hierarchical structure of our data: multiple observations nested within participants and ads. We assume a binomial distribution as each observation represents a single trial with two possible outcomes (recalled vs. not recalled), where $p_{ij}$ represents the probability of participant $i$ recalling brand $j$:
+
+$$
+\text{recall}_{ij} \sim \text{Binomial}(1, p_{ij})
+$$
+
+We estimated the effect of ad positioning on recall and captured between-participant heterogeneity through random intercepts while controlling for brand fixed effects:
+
+$$
+\text{logit}(p_{ij}) = a + a_i + \mathbf{x}_{ij} \mathbf{b} + \sum_{j=1}^{J-1} \gamma_j \text{Brand}_j
+$$
+
+where $a$ is the global intercept, $a_i$ is the participant-specific random intercept, $\mathbf{x}_{ij}$ is a vector of continuous predictors (e.g., position and dwell time) with corresponding coefficient vector $\mathbf{b}$, and $\gamma_j$ represents the fixed effects for each brand $j$ (with Apple serving as the reference category). The random participant effects $a_i$ follows from our experimental design, given that the random assignment of ad positions ensures zero correlation between participant characteristics and the explanatory variables. Brand effects are treated as fixed parameters rather than random effects, allowing for potential correlation between brand characteristics and positioning.
+
+The random participant effects $a_i$ follows from our experimental design, given that the random assignment of ad positions ensures zero correlation between participant characteristics and the explanatory variables. Brand effects are treated as fixed parameters rather than random effects, allowing for potential correlation between brand characteristics and core explanatory variables such as dwell time.
+
+Finally, for better comparability between models, we z-standardized all explanatory variables. The regression coefficients effects on the dependent variable are therefore quantified in standard deviations. This allowed us to compare the relative effect sizes between regression models. Because of the logit link, the odds ratio is $100 \times (e^{\beta} - 1)$, which gives the percentage change in the odds of recall.
+
+## Ad Position, Dwell Time, and Recall Across Brands {#sec-brands}
+
+Ad recall significantly varied across brands. @fig-by-brand (Panel A) visualizes the relationship between dwell time and position across the five brands in our study. We observe a consistent negative relationship between position and dwell time across all brands, with posts placed later in the feed receiving less attention. 
+
+```{r}
+p4 <- ggplot(data = subset[sponsored == 1], 
+       mapping = aes(x = displayed_sequence, y = log_dwell_pixel, 
+                     col = brand)) +
+  geom_smooth(method = "lm", formula = "y ~ x", se = FALSE) +
+  coord_cartesian(ylim = c(-0.001, 0.005)) +
+  scale_x_continuous(limits = c(1, 40), expand = c(0, NA), breaks = c(3, 10, 20, 30, 38)) +
+  geom_vline(xintercept = 3, alpha = 0.25) +
+  geom_vline(xintercept = 38, alpha = 0.25) +
+  scale_colour_tron() +
+  layout +
+  labs(title = "B", y = "Dwell Time", x = "Position", col = "Brand")
+```
+
+```{r}
+p6 <- ggplot(data = subset[sponsored == 1], 
+       mapping = aes(x = log_dwell_pixel, y = as.numeric(recalled_brand_cued),
+                     col = brand)) +
+  geom_smooth(method = "glm", 
+              method.args = list(family = "binomial"),
+              formula = "y ~ x", se = FALSE) +
+  scale_colour_tron() +
+  scale_x_continuous(breaks = c(-0.02, 0, 0.02)) +
+  layout +
+  labs(title = "C", y = "Recall", x = "Dwell Time", col = "Brand")
+```
+
+
+```{r}
+#| label: fig-by-brand
+#| fig-cap: "Ad Position, Dwell Time, and Recall Across Brands"
+#| fig-cap-location: top
+
+(p4 + p6 + plot_layout(guides = "collect")) & theme(legend.position = "bottom")
+
+```
+
+However, we also find that Apple and Nintendo generated significantly higher dwell time than all other brands (see the parallel upward shift of the regression line compared to Bose, Samsung, and Whoop). Panel B further shows how dwell time predicts recall probability consistently across all brands. The positive slope of all curves in Panel B indicates that increased dwell time enhances recall probability across all brands consistently, even for less familiar brands like Whoop. This suggests that while brands may differ in their baseline dwell time due to potential familiarity differences, we find a highly consistent empirical regularity of how dwell time ultimately predicts recall.
+
+## Robustness Checks
+
+### Uncued Recall {#sec-uncued}
+
+Here, we reproduce @tbl-mixed-effects using uncued (or "free") instead of cued recall as our dependent variable, using the same empirical strategy as before. 
+
+@tbl-mixed-effects-uncued reproduces these findings and shows that they are robust to this alternative model specification: we still observe a primacy effect in out naïve Model 1 that vanishes as we control for dwell time in Model 3.
+
+```{r empirical-models-uncued}
+tmp <- copy(subset[sponsored == 1])
+tmp[, log_dwell_pixel := scale(log_dwell_pixel)]
+tmp[, displayed_sequence := scale(displayed_sequence)]
+
+
+glmer_1 <- glmer(recalled_brand_uncued ~ displayed_sequence + I(displayed_sequence^2) + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+glmer_2 <- glmer(recalled_brand_uncued ~ log_dwell_pixel + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+glmer_3 <- glmer(recalled_brand_uncued ~ displayed_sequence + I(displayed_sequence^2) + log_dwell_pixel + brand + 
+                   (1|participant_label),
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+```
+
+```{r model-statistics-uncued}
+model_1_output <- summary(glmer_1)
+  model_1_coefficients <- coef(model_1_output)
+  model_1_beta_1 <- apa(model_1_coefficients[2, 1], decimals = 3, leading = FALSE)
+  model_1_se_1   <- apa(model_1_coefficients[2, 2], decimals = 3, leading = FALSE)
+  model_1_z_1    <- apa(model_1_coefficients[2, 3], decimals = 3, leading = FALSE)
+  model_1_p_1    <- apa(model_1_coefficients[2, 4], decimals = 3, leading = FALSE)
+
+model_2_output <- summary(glmer_2)
+  model_2_coefficients <- coef(model_2_output)
+  model_2_beta_3 <- apa(model_2_coefficients[2, 1], decimals = 3, leading = FALSE)
+  model_2_se_3   <- apa(model_2_coefficients[2, 2], decimals = 3, leading = FALSE)
+  model_2_z_3    <- apa(model_2_coefficients[2, 3], decimals = 3, leading = FALSE)
+  model_2_p_3    <- apa(model_2_coefficients[2, 4], decimals = 3, leading = FALSE)
+  
+model_3_output <- summary(glmer_3)
+  model_3_coefficients <- coef(model_3_output)
+  model_3_beta_1 <- apa(model_3_coefficients[2, 1], decimals = 3, leading = FALSE)
+  model_3_se_1   <- apa(model_3_coefficients[2, 2], decimals = 3, leading = FALSE)
+  model_3_z_1    <- apa(model_3_coefficients[2, 3], decimals = 3, leading = FALSE)
+  model_3_p_1    <- apa(model_3_coefficients[2, 4], decimals = 3, leading = FALSE)
+  model_3_beta_3 <- apa(model_3_coefficients[4, 1], decimals = 3, leading = FALSE)
+  model_3_se_3   <- apa(model_3_coefficients[4, 2], decimals = 3, leading = FALSE)
+  model_3_z_3    <- apa(model_3_coefficients[4, 3], decimals = 3, leading = FALSE)
+  model_3_p_3    <- apa(model_3_coefficients[4, 4], decimals = 3, leading = FALSE)
+```
+
+The effect of position on _uncued_ recall was significant and negative
+($\beta_1$ = `r model_1_beta_1`, 
+SE = `r model_1_se_1`,
+z = `r model_1_z_1`,
+p = `r model_1_p_1`;
+see Model 1 in @tbl-mixed-effects-uncued), suggesting a primacy effect such that the further up (down) an ad is displayed in a feed, the more (less) participants recall seeing the ad. We also examined potential non-linear effects of position (i.e., to assess whether especially the beginning and end of a feed promote uncued ad recall) by adding a quadratic term, but found no statistically significant effect.
+
+
+```{r hierarchical-mediation-uncued}
+#| warning: true
+tmp <- copy(subset[sponsored == 1])
+tmp[, log_dwell_pixel := scale(log_dwell_pixel)]
+tmp[, displayed_sequence := scale(displayed_sequence)]
+
+
+med_model <- lmer(log_dwell_pixel ~ displayed_sequence + brand + (1|participant_label), 
+                  data = tmp)
+
+out_model <- glmer(recalled_brand_uncued ~ displayed_sequence + brand + log_dwell_pixel + 
+                   (1|participant_label), 
+                   data = tmp, 
+                   family = binomial(link = "logit"),
+                   control = glmerControl(optimizer = "optimx",
+                                          optCtrl = list(method = "nlminb")))
+
+# mediation analysis
+med_results <- mediation::mediate(med_model, out_model,
+                                  treat = "displayed_sequence",
+                                  mediator = "log_dwell_pixel",
+                                  boot = FALSE, sims = 1000)
+```
+
+```{r 1-1-1-statistics-uncued}
+model_summary <- summary(med_results)
+
+acme_estimate <- apa(model_summary$d.avg, decimals = 3, leading = FALSE)
+acme_ci_lower <- apa(model_summary$d.avg.ci[1], decimals = 3, leading = FALSE)
+acme_ci_upper <- apa(model_summary$d.avg.ci[2], decimals = 3, leading = FALSE)
+prop_med <- apa(model_summary$n.avg, decimals = 3, leading = FALSE)
+prop_med_ci_lower <- apa(model_summary$n.avg.ci[1], decimals = 3, leading = FALSE)
+prop_med_ci_upper <- apa(model_summary$n.avg.ci[2], decimals = 3, leading = FALSE)
+total_effect_p <- apa(model_summary$tau.p, decimals = 3, leading = FALSE)
+```
+
+As shown in Model 2 in @tbl-mixed-effects-uncued, the post-level dwell time of a user significantly predicts uncued recall
+($\beta_3$ = `r model_2_beta_3`, 
+SE = `r model_2_se_3`,
+z = `r model_2_z_3`,
+p = `r model_2_p_3`).
+More importantly, we also found that the dwell time allocated to an ad was a stronger predictor of uncued recall than the position of the ad in the feed. Specifically, Model 3, including both position and dwell time, shows that the effect of position becomes non-significant 
+($\beta_1$ = `r model_3_beta_1`, 
+SE = `r model_3_se_1`,
+z = `r model_3_z_1`,
+p = `r model_3_p_1`),
+while the dwell time coefficient remains unchanged and significant 
+($\beta_3$ = `r model_3_beta_3`, 
+SE = `r model_3_se_3`,
+z = `r model_3_z_3`,
+p = `r model_3_p_3`). 
+The minimal change in the Akaike information criterion when adding the position coefficients between Model 2 and Model 3 suggests that including ad position does not improve the model’s fit to the data. A subsequent 1-1-1 hierarchical mediation analysis [@ZhangEtAl_2008] indeed supports that post-level dwell time significantly mediates the relationship between ad position and uncued recall
+($a \times b = `r acme_estimate`$, 
+95% CI = [`r acme_ci_lower`, `r acme_ci_upper`], 
+proportion mediated = `r prop_med`, 
+95% CI = [`r prop_med_ci_lower`, `r prop_med_ci_upper`], 
+p = 
+`r total_effect_p`).
+
+
+```{r}
+#| tbl-cap: Estimates of Uncued Recall as a Function of Ad Position and Dwell Time
+#| results: asis
+#| label: tbl-mixed-effects-uncued
+n_obs <- format(nobs(glmer_1), big.mark = ",")
+
+tbl_1 <- tbl_regression(
+  glmer_1, 
+  intercept = TRUE,  # This ensures the intercept is included
+  include = c(displayed_sequence, `I(displayed_sequence^2)`),
+  estimate_fun = ~ style_number(.x, digits = 3),
+  pvalue_fun = label_style_pvalue(digits = 3, zero.print = "."),
+  conf.int = FALSE,
+  label = list(
+    displayed_sequence ~ "Position",
+    `I(displayed_sequence^2)` ~ "Position²"
+  ),
+  add_estimate_to_reference_rows = FALSE
+) |>
+  modify_column_unhide(columns = std.error) |>
+  add_glance_table(include = AIC)
+
+tbl_2 <- tbl_regression(
+  glmer_2, 
+  intercept = TRUE,
+  include = c(log_dwell_pixel),
+  estimate_fun = ~ style_number(.x, digits = 3),
+  pvalue_fun = label_style_pvalue(digits = 3, zero.print = "."),
+  conf.int = FALSE,
+  label = list(
+    log_dwell_pixel ~ "Dwell Time"
+  ),
+  add_estimate_to_reference_rows = FALSE
+) |>
+  modify_column_unhide(columns = std.error) |>
+  add_glance_table(include = AIC)
+
+tbl_3 <- tbl_regression(
+  glmer_3, 
+  intercept = TRUE,
+  include = c(displayed_sequence, `I(displayed_sequence^2)`, log_dwell_pixel),
+  estimate_fun = ~ style_number(.x, digits = 3),
+  pvalue_fun = label_style_pvalue(digits = 3, zero.print = "."),
+  conf.int = FALSE,
+  label = list(
+    displayed_sequence ~ "Position",
+    `I(displayed_sequence^2)` ~ "Position²",
+    log_dwell_pixel ~ "Dwell Time"
+  ),
+  add_estimate_to_reference_rows = FALSE
+) |>
+  modify_column_unhide(columns = std.error) |>
+  add_glance_table(include = AIC)
+
+table <- tbl_merge(
+  tbls = list(tbl_1, tbl_2, tbl_3),
+  tab_spanner = c("Model 1", "Model 2", "Model 3")
+) |>
+  modify_table_body(
+    ~ .x |>
+      dplyr::arrange(
+        factor(label, levels = c("(Intercept)", "Position", "Position²", "Dwell Time", "AIC"))
+      )
+  ) |>
+  modify_header(
+    label ~ "",
+    estimate_1 ~ "beta",
+    estimate_2 ~ "beta",
+    estimate_3 ~ "beta",
+    std.error_1 ~ "SE",
+    std.error_2 ~ "SE",
+    std.error_3 ~ "SE",
+    p.value_1 ~ "p",
+    p.value_2 ~ "p",
+    p.value_3 ~ "p"
+  )
+
+# docx (with footnote though)
+table |>
+  as_flex_table() |>
+  flextable::add_footer_lines(
+    values = paste0(
+      "N = ", n_obs, " observations (at the participant × sponsored post level). ",
+      "beta = standardized regression coefficient (log odds ratio), SE = Standard Error. ",
+      "Brand fixed effects are included in all models. Explanatory variables are z-standardized. ",
+      "The reported dwell time measure captures log(dwell time) per vertical pixel."
+    )
+  ) |>
+  flextable::save_as_docx(path = "../tables/CS2-table-2-logistic-regression-uncued.docx")
+
+table |>
+  as_gt() |>
+  gt::rm_footnotes() |>
+  gt::tab_source_note(
+    source_note = paste0(
+      "N = ", n_obs, " observations (at the participant × sponsored post level). ",
+      "beta = standardized regression coefficient (log odds ratio), SE = Standard Error. ",
+      "Brand fixed effects are included in all models. Explanatory variables are z-standardized. ",
+      "The reported dwell time measure captures log(dwell time) per vertical pixel."
+    )
+  ) |>
+  as_latex()
+```
+
+
+### Dummy-Coded Ad Position Effects {#sec-dummies}
+
+To complement the analysis reported in the main manuscript, which used a continuous measure of ad position, we also dummy-coded the first ad position (vs. all others) to isolate the effect of initial ad exposure on recall. In line with the continuous measure reported in the main analysis in the manuscript, we find that ads displayed first in the feed were significantly more likely to be recalled (b = .356, SE = .157, p = .023), indicating a primacy effect. However, this effect was no longer significant when post-level dwell time was included in the model, while dwell time remained a robust predictor of recall across all model specifications (b = .703, SE = .092, p < .001). 
+
+```{r create_ad_sequence}
+tmp <- copy(subset[sponsored == 1])
+
+setorder(tmp, session_code, participant_code, displayed_sequence)
+tmp[, ad_sequence := 1:.N, by = participant_code]
+tmp[, first_ad := (ifelse(test = ad_sequence == 1, yes = 1, no = 0))]
+
+tmp[, log_dwell_pixel := scale(log_dwell_pixel)]
+```
+
+```{r subset}
+selected_participants_1 <- tmp[ad_sequence == 1 & displayed_sequence <= 5, participant_code]
+selected_participants_2 <- tmp[ad_sequence == 2 & displayed_sequence >= 15, participant_code]
+subset_1 <- tmp[participant_code %in% selected_participants_1]
+subset_2 <- tmp[participant_code %in% selected_participants_1 & participant_code %in% selected_participants_2]
+```
+
+```{r no-subset}
+#| include: false
+
+glmer_1 <- glmer(recalled_brand_cued ~ first_ad +
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_2 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_3 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + first_ad +
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_4 <- glmer(recalled_brand_cued ~ first_ad + log_dwell_pixel +
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_5 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + log_dwell_pixel + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_6 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + first_ad + log_dwell_pixel +
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+
+stargazer(glmer_1, glmer_2, glmer_3, glmer_4, glmer_5, glmer_6,
+          dep.var.caption  = "log(Odds Ratio)",
+          dep.var.labels   = c("Recall", "log(Dwell Time) per Pixel"),
+          omit = "brand",
+          omit.stat = c("bic", "ll"),
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          report = "vc*s", # "vc*sp",
+          font.size = "scriptsize",
+          notes.align = "l",
+          type = "text",
+          df = FALSE,
+          header = FALSE,
+          table.placement = "htbp",
+          float = FALSE)
+```
+
+```{r displayed-early-subset}
+#| include: false
+
+glmer_1 <- glmer(recalled_brand_cued ~ first_ad +
+                   (1|participant_label) + brand,
+                 data = subset_1,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_2 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + 
+                   (1|participant_label) + brand,
+                 data = subset_1,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_3 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + first_ad +
+                   (1|participant_label) + brand,
+                 data = subset_1,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_4 <- glmer(recalled_brand_cued ~ first_ad + log_dwell_pixel +
+                   (1|participant_label) + brand,
+                 data = subset_1,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_5 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + log_dwell_pixel + 
+                   (1|participant_label) + brand,
+                 data = subset_1,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_6 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + first_ad + log_dwell_pixel +
+                   (1|participant_label) + brand,
+                 data = subset_1,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+
+stargazer(glmer_1, glmer_2, glmer_3, glmer_4, glmer_5, glmer_6,
+          dep.var.caption  = "log(Odds Ratio)",
+          dep.var.labels   = c("Recall", "log(Dwell Time) per Pixel"),
+          omit = "brand",
+          omit.stat = c("bic", "ll"),
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          report = "vc*s", # "vc*sp",
+          font.size = "scriptsize",
+          notes.align = "l",
+          type = "text",
+          df = FALSE,
+          header = FALSE,
+          table.placement = "htbp",
+          float = FALSE)
+```
+
+```{r displayed-early-subset-2}
+#| include: false
+
+glmer_1 <- glmer(recalled_brand_cued ~ first_ad +
+                   (1|participant_label) + brand,
+                 data = subset_2,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_2 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + 
+                   (1|participant_label) + brand,
+                 data = subset_2,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_3 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + first_ad +
+                   (1|participant_label) + brand,
+                 data = subset_2,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_4 <- glmer(recalled_brand_cued ~ first_ad + log_dwell_pixel +
+                   (1|participant_label) + brand,
+                 data = subset_2,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_5 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + log_dwell_pixel + 
+                   (1|participant_label) + brand,
+                 data = subset_2,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_6 <- glmer(recalled_brand_cued ~ ad_sequence + I(ad_sequence^2) + first_ad + log_dwell_pixel +
+                   (1|participant_label) + brand,
+                 data = subset_2,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+
+stargazer(glmer_1, glmer_2, glmer_3, glmer_4, glmer_5, glmer_6,
+          dep.var.caption  = "log(Odds Ratio)",
+          dep.var.labels   = c("Recall", "log(Dwell Time) per Pixel"),
+          omit = "brand",
+          omit.stat = c("bic", "ll"),
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          report = "vc*s", # "vc*sp",
+          font.size = "scriptsize",
+          notes.align = "l",
+          type = "text",
+          df = FALSE,
+          header = FALSE,
+          table.placement = "htbp",
+          float = FALSE)
+```
+
+
+```{r}
+#| eval: false
+#| warning: true
+#| label: tbl-mixed-effects-robustness
+#| tbl-cap: Estimates of Recall as a Function of Ad Position and Dwell Time
+#| results: asis
+
+tmp <- copy(data[is.finite(log_dwell_pixel) & 
+                   sponsored == 1])
+
+tmp[, first_post := as.factor(ifelse(test = displayed_sequence == 1,
+                                     yes = 1, 
+                                     no = 0))]
+
+tmp[, last_post := as.factor(ifelse(test = displayed_sequence == 40,
+                                     yes = 1, 
+                                     no = 0))]
+
+tmp <- copy(subset[sponsored == 1])
+
+tmp[, first_post := as.factor(ifelse(test = displayed_sequence == 3,
+                                     yes = 1, 
+                                     no = 0))]
+
+tmp[, last_post := as.factor(ifelse(test = displayed_sequence == 38,
+                                     yes = 1, 
+                                     no = 0))]
+
+
+tmp[, log_dwell_pixel := scale(log_dwell_pixel)]
+tmp[, displayed_sequence := scale(displayed_sequence)]
+
+glmer_0 <- glmer(recalled_brand_cued ~ first_post +
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_1 <- glmer(recalled_brand_cued ~ displayed_sequence + I(displayed_sequence^2) + 
+                   (1|participant_label) + brand + first_post,
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_2 <- glmer(recalled_brand_cued ~ log_dwell_pixel + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+glmer_3 <- glmer(recalled_brand_cued ~ displayed_sequence + I(displayed_sequence^2) + log_dwell_pixel + 
+                   (1|participant_label) + brand + first_post,
+                 data = tmp,
+                 family = binomial(link = "logit"),
+                 control = glmerControl(optimizer = "optimx", 
+                                      optCtrl = list(method = "nlminb")))
+
+stargazer(glmer_0, glmer_1, glmer_2, glmer_3,
+          dep.var.caption  = "log(Odds Ratio)",
+          dep.var.labels   = c("Recall", "log(Dwell Time) per Pixel"),
+          # model.names = TRUE,
+          omit = "brand",
+          # covariate.labels = c("Position",
+          #                      "(Position)²",
+          #                      "Dwell Time",
+          #                      "First Post",
+          #                      "Last Post"),
+          add.lines = list(c("Brand Fixed Effects", "Yes", "Yes", "Yes")),
+          omit.stat = c("bic", "ll"),
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          report = "vc*s", # "vc*sp",
+          font.size = "scriptsize",
+          # notes = c("Standard errors in parentheses.",
+                    # "The reported dwell time measure captures", 
+                    # "log(seconds a post was visible) per vertical pixel.",
+                    # "Explanatory variables are z-standardized."),
+          notes.align = "l",
+          type = "text",
+          df = FALSE,
+          header = FALSE,
+          table.placement = "htbp",
+          float = FALSE)
+```
+
+
+```{r}
+#| eval: false
+
+tmp <- copy(subset[sponsored == 1])
+
+# tmp <- copy(data[is.finite(log_dwell_pixel) &
+#                    sponsored == 1])
+
+tmp[, first_post := as.factor(ifelse(test = displayed_sequence <= 3,
+                                     yes = 1, 
+                                     no = 0))]
+
+tmp[, last_post := as.factor(ifelse(test = displayed_sequence >= 37,
+                                     yes = 1, 
+                                     no = 0))]
+
+# tmp[, position_factor := as.factor(displayed_sequence)]
+# 
+# glmer_0 <- glmer(recalled_brand_cued ~ (1|participant_label) + brand + position_factor,
+#                  data = tmp,
+#                  family = binomial(link = "logit"))
+# 
+# stargazer(glmer_0, type = "text")
+
+glmer_1 <- glmer(recalled_brand_cued ~ (1|participant_label) + brand + first_post + last_post,
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+glmer_2 <- glmer(recalled_brand_cued ~ log_dwell_pixel + 
+                   (1|participant_label) + brand,
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+glmer_3 <- glmer(recalled_brand_cued ~ log_dwell_pixel + (1|participant_label) + brand + first_post + last_post,
+                 data = tmp,
+                 family = binomial(link = "logit"))
+
+stargazer(glmer_1, glmer_2, glmer_3,
+          dep.var.caption  = "log(Odds Ratio)",
+          dep.var.labels   = c("Recall"),
+          # model.names = TRUE,
+          omit = "brand",
+          covariate.labels = c("Dwell Time",
+                               "First Post",
+                               "Last Post"),
+          add.lines = list(c("Brand Fixed Effects", "Yes", "Yes", "Yes")),
+          omit.stat = c("bic", "ll"),
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          report = "vc*s", # "vc*sp",
+          font.size = "scriptsize",
+          # notes = c("Standard errors in parentheses.",
+                    # "The reported dwell time measure captures", 
+                    # "log(seconds a post was visible) per vertical pixel.",
+                    # "Explanatory variables are z-standardized."),
+          notes.align = "l",
+          type = "text",
+          df = FALSE,
+          header = FALSE,
+          table.placement = "htbp",
+          float = FALSE)
+```
+
+
+```{r}
+#| eval: false
+
+# Calculate participant means
+tmp[, ":="(
+  participant_mean_position = mean(displayed_sequence, na.rm = TRUE),
+  participant_mean_dwell = mean(log_dwell_time, na.rm = TRUE)
+), by = participant_code]
+
+# Center within participants (group-mean centering)
+tmp[, ":="(
+  position_cwc = displayed_sequence - participant_mean_position,
+  dwell_cwc = log_dwell_time - participant_mean_dwell
+)]
+
+# Standardize all variables for easier interpretation
+tmp[, ":="(
+  position_cwc_std = as.numeric(scale(position_cwc)),
+  dwell_cwc_std = as.numeric(scale(dwell_cwc)),
+  participant_mean_position_std = as.numeric(scale(participant_mean_position)),
+  participant_mean_dwell_std = as.numeric(scale(participant_mean_dwell))
+)]
+
+# STEP 1: Total effect (X → Y)
+# Test effect of position on recall without mediator
+model_total <- glmer(
+  recalled_brand_cued ~ position_cwc_std + participant_mean_position_std + 
+                       brand + (1 | participant_code),
+  data = tmp,
+  family = binomial(link = "logit")
+)
+
+# STEP 2: First path (X → M) 
+# Test effect of position on dwell time
+model_a_path <- lmer(
+  log_dwell_time ~ position_cwc_std + participant_mean_position_std + 
+                   brand + (1 | participant_code),
+  data = tmp
+)
+
+# STEP 3: Direct effect (X + M → Y)
+# Test effect of position on recall controlling for dwell time
+model_direct <- glmer(
+  recalled_brand_cued ~ position_cwc_std + participant_mean_position_std +
+                       dwell_cwc_std + participant_mean_dwell_std +
+                       brand + (1 | participant_code),
+  data = tmp,
+  family = binomial(link = "logit")
+)
+
+# Extract coefficients for mediation calculation
+# Within-participant effects (the effects of interest for 1-1-1 mediation)
+a_within <- fixef(model_a_path)["position_cwc_std"]
+b_within <- fixef(model_direct)["dwell_cwc_std"]
+c_prime_within <- fixef(model_direct)["position_cwc_std"]
+c_total_within <- fixef(model_total)["position_cwc_std"]
+
+# Between-participant effects 
+a_between <- fixef(model_a_path)["participant_mean_position_std"]
+b_between <- fixef(model_direct)["participant_mean_dwell_std"]
+c_prime_between <- fixef(model_direct)["participant_mean_position_std"]
+c_total_between <- fixef(model_total)["participant_mean_position_std"]
+
+# Calculate indirect effects
+indirect_within <- a_within * b_within
+indirect_between <- a_between * b_between
+
+# Calculate standard errors for Sobel test
+# Extract variance-covariance matrix
+vcov_a <- vcov(model_a_path)
+vcov_direct <- vcov(model_direct)
+
+# Standard errors for the paths
+se_a_within <- sqrt(vcov_a["position_cwc_std", "position_cwc_std"])
+se_b_within <- sqrt(vcov_direct["dwell_cwc_std", "dwell_cwc_std"])
+se_a_between <- sqrt(vcov_a["participant_mean_position_std", "participant_mean_position_std"])
+se_b_between <- sqrt(vcov_direct["participant_mean_dwell_std", "participant_mean_dwell_std"])
+
+# Sobel test for within-participant mediation
+sobel_se_within <- sqrt(a_within^2 * se_b_within^2 + b_within^2 * se_a_within^2)
+sobel_z_within <- indirect_within / sobel_se_within
+sobel_p_within <- 2 * (1 - pnorm(abs(sobel_z_within)))
+
+# Sobel test for between-participant mediation  
+sobel_se_between <- sqrt(a_between^2 * se_b_between^2 + b_between^2 * se_a_between^2)
+sobel_z_between <- indirect_between / sobel_se_between
+sobel_p_between <- 2 * (1 - pnorm(abs(sobel_z_between)))
+
+# Create results summary
+cat("=== MULTILEVEL MEDIATION RESULTS ===\n\n")
+
+cat("WITHIN-PARTICIPANT EFFECTS:\n")
+cat(sprintf("a-path (Position → Dwell Time): %.3f (SE = %.3f)\n", 
+            a_within, se_a_within))
+cat(sprintf("b-path (Dwell Time → Recall): %.3f (SE = %.3f)\n", 
+            b_within, se_b_within))
+cat(sprintf("c'-path (Direct effect): %.3f\n", c_prime_within))
+cat(sprintf("c-path (Total effect): %.3f\n", c_total_within))
+cat(sprintf("Indirect effect (a×b): %.3f\n", indirect_within))
+cat(sprintf("Sobel test: z = %.3f, p = %.3f\n\n", sobel_z_within, sobel_p_within))
+
+cat("BETWEEN-PARTICIPANT EFFECTS:\n")
+cat(sprintf("a-path (Position → Dwell Time): %.3f (SE = %.3f)\n", 
+            a_between, se_a_between))
+cat(sprintf("b-path (Dwell Time → Recall): %.3f (SE = %.3f)\n", 
+            b_between, se_b_between))
+cat(sprintf("c'-path (Direct effect): %.3f\n", c_prime_between))
+cat(sprintf("c-path (Total effect): %.3f\n", c_total_between))
+cat(sprintf("Indirect effect (a×b): %.3f\n", indirect_between))
+cat(sprintf("Sobel test: z = %.3f, p = %.3f\n\n", sobel_z_between, sobel_p_between))
+
+# Model comparison
+cat("MODEL FIT COMPARISON:\n")
+cat(sprintf("Total effect model AIC: %.1f\n", AIC(model_total)))
+cat(sprintf("Direct effect model AIC: %.1f\n", AIC(model_direct)))
+
+# Print model summaries
+cat("\n=== DETAILED MODEL RESULTS ===\n")
+cat("\nSTEP 1 - Total Effect Model:\n")
+print(summary(model_total))
+
+cat("\nSTEP 2 - A-Path Model (Position → Dwell Time):\n")
+print(summary(model_a_path))
+
+cat("\nSTEP 3 - Direct Effect Model:\n")
+print(summary(model_direct))
+
+# Additional analysis: Test if within and between effects differ significantly
+# This is exploratory and would require additional statistical testing
+cat("\n=== INTERPRETATION NOTES ===\n")
+cat("1. Within-participant effects reflect how changes in position affect recall\n")
+cat("   through dwell time for the same participant across different ads.\n\n")
+cat("2. Between-participant effects reflect how participants who generally see\n")
+cat("   ads in different positions differ in their overall recall patterns.\n\n")
+cat("3. The CWC(M) approach separates these effects, avoiding confounding\n")
+cat("   that occurs with traditional grand-mean centering.\n\n")
+
+if (sobel_p_within < 0.05) {
+  cat("CONCLUSION: Significant within-participant mediation detected.\n")
+  cat("Dwell time mediates the effect of ad position on recall within participants.\n")
+} else {
+  cat("CONCLUSION: No significant within-participant mediation detected.\n")
+}
+
+if (sobel_p_between < 0.05) {
+  cat("Between-participant mediation is also significant.\n")
+} else {
+  cat("No significant between-participant mediation detected.\n")
+}
+```
+
+```{r}
+#| eval: false
+
+# Prepare data with CWC(M) centering but NO standardization
+tmp[, ":="(
+  participant_mean_position = mean(displayed_sequence, na.rm = TRUE),
+  participant_mean_dwell = mean(log_dwell_time, na.rm = TRUE)
+), by = participant_code]
+
+# Center within participants (but keep original scales)
+tmp[, ":="(
+  position_cwc = displayed_sequence - participant_mean_position,
+  dwell_cwc = log_dwell_time - participant_mean_dwell
+)]
+
+# Run models without standardization
+model_total_unstd <- glmer(
+  recalled_brand_cued ~ position_cwc + participant_mean_position + 
+                       brand + (1 | participant_code),
+  data = tmp,
+  family = binomial(link = "logit")
+)
+
+model_a_path_unstd <- lmer(
+  log_dwell_time ~ position_cwc + participant_mean_position + 
+                   brand + (1 | participant_code),
+  data = tmp
+)
+
+model_direct_unstd <- glmer(
+  recalled_brand_cued ~ position_cwc + participant_mean_position +
+                       dwell_cwc + participant_mean_dwell +
+                       brand + (1 | participant_code),
+  data = tmp,
+  family = binomial(link = "logit")
+)
+
+# Extract coefficients (now in original units)
+a_within_unstd <- fixef(model_a_path_unstd)["position_cwc"]
+b_within_unstd <- fixef(model_direct_unstd)["dwell_cwc"]
+c_prime_within_unstd <- fixef(model_direct_unstd)["position_cwc"]
+c_total_within_unstd <- fixef(model_total_unstd)["position_cwc"]
+
+# Calculate indirect effect
+indirect_within_unstd <- a_within_unstd * b_within_unstd
+
+# Standard errors
+vcov_a_unstd <- vcov(model_a_path_unstd)
+vcov_direct_unstd <- vcov(model_direct_unstd)
+
+se_a_within_unstd <- sqrt(vcov_a_unstd["position_cwc", "position_cwc"])
+se_b_within_unstd <- sqrt(vcov_direct_unstd["dwell_cwc", "dwell_cwc"])
+
+# Sobel test
+sobel_se_within_unstd <- sqrt(a_within_unstd^2 * se_b_within_unstd^2 + b_within_unstd^2 * se_a_within_unstd^2)
+sobel_z_within_unstd <- indirect_within_unstd / sobel_se_within_unstd
+sobel_p_within_unstd <- 2 * (1 - pnorm(abs(sobel_z_within_unstd)))
+
+cat("=== UNSTANDARDIZED MULTILEVEL MEDIATION RESULTS ===\n\n")
+
+cat("WITHIN-PARTICIPANT EFFECTS (Original Units):\n")
+cat(sprintf("a-path (Position → Dwell Time): %.4f log-seconds per position\n", a_within_unstd))
+cat(sprintf("b-path (Dwell Time → Recall): %.4f log-odds per log-second\n", b_within_unstd))
+cat(sprintf("c'-path (Direct effect): %.4f log-odds per position\n", c_prime_within_unstd))
+cat(sprintf("c-path (Total effect): %.4f log-odds per position\n", c_total_within_unstd))
+cat(sprintf("Indirect effect (a×b): %.4f log-odds per position\n", indirect_within_unstd))
+cat(sprintf("Sobel test: z = %.3f, p = %.4f\n\n", sobel_z_within_unstd, sobel_p_within_unstd))
+
+# Convert to more interpretable metrics
+cat("INTERPRETATION IN MEANINGFUL UNITS:\n")
+cat(sprintf("- Moving 1 position later reduces dwell time by %.3f log-seconds\n", abs(a_within_unstd)))
+cat(sprintf("- Each additional log-second of dwell time multiplies recall odds by %.3f\n", exp(b_within_unstd)))
+cat(sprintf("- Indirect effect: Moving 1 position later changes recall odds by factor of %.3f\n", exp(indirect_within_unstd)))
+cat(sprintf("  (i.e., %.1f%% change in odds)\n", 100 * (exp(indirect_within_unstd) - 1)))
+```
+
+
+## Session Info 
+
+```{r timestamp_2}
+t2 <- Sys.time()
+```
+
+The analyses presented in this document required `r round(t2 - t1, digits = 2)` seconds, after loading and installing the required packages. _Rendering_ the document (i.e., presenting the results in a PDF) required slightly more time (up to one minute). Below, we print the `sessionInfo()` to document the hardware and software used to render this document.
+
+```{r}
+sessionInfo()
+# devtools::session_info()
+```
+
+

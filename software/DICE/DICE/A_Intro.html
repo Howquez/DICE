@@ -24,17 +24,17 @@
                     </tr>
                     <tr>
                         <th scope="row">
-                            Privacy
+                            Consent
                         </th>
                         <td>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="GDPR" required>
-                                <label class="form-check-label" for="GDPR">
+                                <input class="form-check-input" type="checkbox" id="consent_form" required>
+                                <label class="form-check-label" for="consent_form">
                                     I agree to the anonymized analysis of my answers for the purpose of scientific
                                     evaluation according to the
-                                    <a class="text-success" data-bs-toggle="offcanvas" data-bs-target="#offcanvasGDPR" id="gdpr_text" style="cursor: pointer;">
-                                        <u>privacy policy</u>
-                                    </a>.
+                                    <a class="text-success" data-bs-toggle="offcanvas" data-bs-target="#offcanvasconsent_form" id="consent_text" style="cursor: pointer;">
+                                        <u>consent form.</u>
+                                    </a>
                                 </label>
                             </div>
                         </td>
@@ -51,13 +51,13 @@
     </div>
 
     <!-- GDPR Offcanvas-->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasGDPR" aria-labelledby="offcanvasGDPRLabel">
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasconsent_form" aria-labelledby="offcanvasconsent_label">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasGDPRLabel">Privacy Policy</h5>
+            <h5 class="offcanvas-title" id="offcanvasconsent_label"></h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            {{ include C.PRIVACY_TEMPLATE }}
+            {{ include C.CONSENT_TEMPLATE }}
         </div>
     </div>
 </body>

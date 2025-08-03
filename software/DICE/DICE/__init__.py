@@ -20,7 +20,7 @@ class C(BaseConstants):
     NUM_ROUNDS = 1
 
     RULES_TEMPLATE = "DICE/T_Rules.html"
-    PRIVACY_TEMPLATE = "DICE/T_Privacy.html"
+    CONSENT_TEMPLATE = "DICE/T_Consent.html"
     TOPICS_TEMPLATE = "DICE/T_Trending_Topics.html"
     BANNER_TEMPLATE = "DICE/T_Banner_Ads.html"
 
@@ -245,6 +245,13 @@ def create_redirect(player):
 # PAGES
 class A_Intro(Page):
     form_model = 'player'
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        print(len(player.session.config['briefing']) > 0)
+        return dict(
+            custom_consent_available=len(player.session.config['briefing']) > 0,
+        )
     @staticmethod
     def before_next_page(player, timeout_happened):
         # feed_conditions_str = player.subsession.feed_conditions

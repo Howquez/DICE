@@ -1,0 +1,583 @@
+---
+title: "Case Study 1: Feed Composition and Context Effects"
+date: now
+date-format: long
+keep-tex: false
+format: 
+  pdf:
+    include-in-header:
+      text: |
+        \usepackage{titling}
+        \usepackage{sectsty}
+        \usepackage{lettrine}
+        \usepackage{amsmath}
+        \renewcommand{\LettrineTextFont}{\normalfont}
+        \allsectionsfont{\rmfamily}
+        \renewcommand{\familydefault}{\rmdefault}
+toc: false
+number-sections: true
+fig-cap-location: top
+echo: false
+bibliography: ../../_references.bib
+---
+
+```{r install_packages}
+#| warning: false
+#| output: false
+
+options(repos = c(CRAN = "https://cran.r-project.org")) 
+
+
+if (!requireNamespace("groundhog", quietly = TRUE)) {
+    install.packages("groundhog")
+}
+
+pkgs <- c("magrittr", "data.table", "knitr", "stringr", "english", "moments", "devtools",
+          "ggplot2", "patchwork", "scales",  "ggdist", "gghalves", "sjPlot", "gtsummary", "wesanderson", "ggsci",
+          "stargazer", "gt", "gtsummary", "flextable", "kableExtra", "MOTE", "dplyr",
+          "lme4")
+
+groundhog::groundhog.library(pkg = pkgs,
+                             date = "2024-10-01")
+
+rm(pkgs)
+```
+
+```{r timestamp_1}
+t1 <- Sys.time()
+```
+
+```{r seed}
+set.seed(42)
+```
+
+```{r layout}
+layout <- theme(panel.background = element_rect(fill = "white"),
+                legend.key = element_rect(fill = "white"),
+                panel.grid.major.y = element_line(colour = "grey", 
+                                                  linewidth = 0.25),
+                axis.ticks.y = element_blank(),
+                panel.grid.major.x = element_blank(),
+                axis.line.x.bottom = element_line(colour = "#000000", 
+                                                  linewidth = 0.5),
+                axis.line.y.left = element_blank(),
+                plot.title = element_text(size = rel(1))
+)
+```
+
+```{r colors}
+c_negative <- "#F0941F"
+c_positive   <- "#196774"
+
+# c_positive <- "#377E39"
+# c_negative <- "#7D3756"
+# 
+# c_positive <- "#009E73"
+# c_negative <- "#CC79A7"
+
+scale_color_custom_d <- function() {
+  scale_color_manual(values = c(c_orange, c_teal))
+}
+
+scale_fill_custom_d <- function() {
+  scale_fill_manual(values = c(c_orange, c_teal))
+}
+
+scale_color_custom_2d <- function() {
+  scale_color_manual(values = c(c_positive, c_negative))
+}
+
+scale_fill_custom_2d <- function() {
+  scale_fill_manual(values = c(c_positive, c_negative))
+}
+```
+
+```{r helpers}
+
+# Create function to get effect size stats
+get_effect_size <- function(data) {
+  es <- effectsize::cohens_d(brand_attitude ~ condition, 
+                            data = data, 
+                            pooled_sd = FALSE)
+  list(
+    d = round(es$Cohens_d, 3),
+    ci_low = round(es$CI_low, 3),
+    ci_high = round(es$CI_high, 3),
+    n = nrow(data)
+  )
+}
+```
+
+```{r read_data}
+short <- fread(file = "../data/processed/brand-safety-short.csv", na.strings = "")
+long  <- fread(file = "../data/processed/brand-safety-long.csv", na.strings = "")
+```
+
+```{r rename_conditions}
+short[, condition := as.factor(ifelse(test = condition == "inappropriate", yes = "unsafe", no = "safe"))]
+long[, condition := as.factor(ifelse(test = condition == "inappropriate", yes = "unsafe", no = "safe"))]
+```
+
+```{r}
+all_short <- copy(short)
+short <- short[is.finite(log_dwell_pixel)] # [is_flood_aware == FALSE]
+```
+
+```{r str-to-int}
+long[, displayed_sequence := as.integer(displayed_sequence)]
+long[, seconds_in_viewport := as.numeric(seconds_in_viewport)]
+long[, log_dwell_pixel := as.numeric(log_dwell_pixel)]
+long[, log_dwell_time := as.numeric(log_dwell_time)]
+```
+
+```{r subset_data}
+subset <- long[is.finite(log_dwell_pixel) & 
+                     displayed_sequence < 19 & 
+                     displayed_sequence > 2]
+```
+
+```{r}
+short[, log_time_spent := log(time_spent_on_page - seconds_in_viewport)]
+```
+
+
+\lettrine[lines=2]{C}{ ase} Study 1 demonstrates DICE’s capability to study context effects with high experimental control and study realism. This study illustrates how researchers can systematically manipulate the broader context (i.e., the composition of the feed) in which users encounter a specific post (in this case, a sponsored post from a brand). Substantively, Case Study 1 examines the issue of brand safety in social media advertising. Brand safety refers to the idea that advertising should not appear in contexts that could harm a brand’s reputation [@FournierSrinivasan_2023]. This concern is particularly relevant for social media advertising, where platforms use automated systems to place ads in dynamic, user-generated content environments. These systems often lack the nuanced understanding needed to identify potentially problematic contexts that could harm a brand. While industry reports suggest that up to 75% of brands have experienced such unsafe brand exposures [@AhmadEtAl_2024; @GumGum_2017], examining these effects in the field risks apparent brand damage.
+
+# Experimental design
+
+To test how brand (un)safe contexts affect brand perceptions, we created two social media feeds that were identical in structure but varied in their content surrounding a sponsored post (see @fig-design^[The figure shows how DICE enables the controlled manipulation of feed contexts. The identical sponsored post by KLM (highlighted) appears in the “brand-safe” feeds (left) surrounded by neutral Brazil content versus “brand-unsafe” feeds (right) where it appears alongside posts about the Brazil flooding disaster. The sponsored post always remains in the fifth position, while surrounding organic posts are fully randomized. An example feed for the brand-unsafe condition is accessible at https://tiny.cc/DICE1 .] for exemplary screenshots of the brand (un)safe feeds). The sponsored post in both conditions was an ad by the airline KLM promoting flights to Brazil. 
+
+In the brand-safe condition, the sponsored post was surrounded by actual organic posts covering Brazil scraped from the web. In the brand-unsafe condition, however, the sponsored post was surrounded by another set of scraped organic posts about the severe flooding that occurred during the time of the study. Such a situation is precisely the type of contextual mismatch that automated systems can create and managers fear due to the adverse consequences for brands [@AhmadEtAl_2024; @GumGum_2017]. In both conditions, the sponsored post was always fixed in the fifth position, whereas the order of the organic posts varied randomly.
+
+![Exemplary DICE Feeds from Study 1](../img/design.png){#fig-design}
+
+# Procedure
+
+```{r device_type_shared}
+N <- short[, .N]
+share_desktop <- round(100 * short[device_type == "Desktop", .N] / N)
+share_mobile  <- round(100 * short[device_type == "Mobile", .N] / N)
+share_tablet  <- round(100 * short[device_type == "Tablet", .N] / N)
+```
+
+```{r c_alpha}
+short[, brand_att_1 := as.numeric(as.character(brand_att_1))]
+short[, brand_att_2 := as.numeric(as.character(brand_att_2))]
+short[, brand_att_3 := as.numeric(as.character(brand_att_3))]
+
+alpha <- psych::alpha(x = short[, .(brand_att_1, brand_att_2, brand_att_3)])
+```
+
+We recruited 982 US-American participants on Prolific ($M_{age} = `r short[, round(mean(age, na.rm = TRUE))]`$ years; `r round(short[, mean(female, na.rm = TRUE)] * 100)`% female) to participate in the study. Participants browsed the simulated feed on their own devices (`r share_desktop`% desktop, `r share_mobile`% mobile, and `r share_tablet`% tablet). After scrolling through the feed, participants were redirected to a Qualtrics survey in which they first provided demographic information as a filler task. Next, participants reported their brand attitude toward KLM using three seven-point scales (1 = "Negative/Unfavorable/Dislike" and 7 = "Positive/Favorable/Like"; $\alpha$ = `r round(alpha$total$raw_alpha, digits = 2)`). Finally, we assessed participants’ awareness of the Brazil flooding. For this and all studies, all stimuli, materials, data, and analysis code are available on the Open Science Framework (OSF): <https://osf.io/2xs5c/?view_only=4bf95d2a2c8449218b5fa7cd288f626a>.
+
+
+# Data
+
+The dataset comprises `r all_short[, length(unique(participant_label))]` participants and `r format(x = all_short[, length(unique(participant_label))] * 20, big.mark = ",")` observations at the participant × post level. We restrict our analyses to user engagement with the sponsored post (i.e., the KLM ad) and log-transformed the raw dwell times to reduce skewness. The final sample contains 955 observations on the participant × sponsored post level^[This number is slightly less than our total N as some participants had technical issues that led to failed participant × post pairs.]. 
+
+# Results and discussion
+
+```{r regression models}
+lm_main <- lm(brand_attitude ~ condition, data = short)
+
+lm_x1 <- lm(brand_attitude ~ condition * log_dwell_time, data = short)
+lm_x2 <- lm(brand_attitude ~ condition * log_dwell_time + log_time_spent, data = short)
+lm_x3 <- lm(brand_attitude ~ condition * log_time_spent, data = short)
+
+lm_dwell <- lm(log_dwell_time ~ condition, data = short)
+```
+
+
+```{r reporting_main_effect}
+
+model_summary <- summary(lm_main)
+df_main <- model_summary$df[2]
+
+beta <- model_summary$coefficients[2, 1]  # F-statistic value
+se   <- model_summary$coefficients[2, 2]  # SE
+t_value <- model_summary$coefficients[2, 3]  
+f_value <- model_summary$fstatistic[1]  # F-statistic value
+f_df1 <- model_summary$fstatistic[2]    # degrees of freedom for the model
+f_df2 <- model_summary$fstatistic[3]    # degrees of freedom for the residuals
+p_value <- pf(f_value, f_df1, f_df2, lower.tail = FALSE)  # p-value from F-statistic
+cohensD <- apa(effectsize::cohens_d(brand_attitude ~ condition, data = short, pooled_sd = FALSE)$Cohens_d, decimals = 3, leading = FALSE)
+```
+
+
+```{r reporting_moderation}
+model_summary <- summary(lm_x1)
+
+coefficients <- coef(model_summary)
+df_moderation <- model_summary$df[2]  # Residual degrees of freedom
+
+condition_beta <- coefficients[2, 1]
+condition_se <- coefficients[2, 2]
+condition_t <- coefficients[2, 3]
+condition_p <- coefficients[2, 4]
+
+dwell_beta <- coefficients[3, 1]
+dwell_se <- coefficients[3, 2]
+dwell_t <- coefficients[3, 3]
+dwell_p <- coefficients[3, 4]
+
+interaction_beta <- coefficients[4, 1]
+interaction_se <- coefficients[4, 2]
+interaction_t <- coefficients[4, 3]
+interaction_p <- coefficients[4, 4]
+
+```
+
+```{r reporting_dwell_differences}
+model_summary <- summary(lm_dwell)
+
+coefficients <- coef(model_summary)
+dwell_condition_df <- model_summary$df[2]
+
+dwell_condition_beta <- coefficients[2, 1]
+dwell_condition_se <- coefficients[2, 2]
+dwell_condition_t <- coefficients[2, 3]
+dwell_condition_p <- coefficients[2, 4]
+```
+
+```{r reporting_robustness}
+model_summary <- summary(lm_x2)
+
+coefficients <- coef(model_summary)
+df_robustness <- model_summary$df[2]
+
+robustness_beta <- coefficients[5, 1]
+robustness_se <- coefficients[5, 2]
+robustness_t <- coefficients[5, 3]
+robustness_p <- coefficients[5, 4]
+```
+
+Brand attitudes toward KLM were significantly less positive in the brand-unsafe feed condition ($M_u = `r short[condition == "unsafe", apa(mean(brand_attitude, na.rm = TRUE), decimals = 3, leading = FALSE)]`$, $SD_u = `r short[condition == "unsafe", apa(sd(brand_attitude, na.rm = TRUE), decimals = 3, leading = FALSE)]`$) compared to the brand-safe feed condition
+($M_s = `r short[condition == "safe", apa(mean(brand_attitude, na.rm = TRUE), decimals = 3, leading = FALSE)]`$, 
+$SD_s = `r short[condition == "safe", apa(sd(brand_attitude, na.rm = TRUE), decimals = 3, leading = FALSE)]`$,
+$b = `r apa(beta, decimals = 3, leading = FALSE)`$, 
+$SE = `r apa(se, decimals = 3, leading = FALSE)`$, 
+$t(`r df_main`)  = `r apa(t_value, decimals = 3, leading = FALSE)`$, 
+$p = `r apa(p_value, decimals = 3, leading = FALSE)`$, 
+$d = `r cohensD`$).
+
+To further explore the interplay between the KLM ad’s context and brand attitudes, we examined whether the dwell time of the ad  moderated the previously reported main effect  of context. An OLS regression revealed a statistically significant interaction between the context’s brand safety and dwell time
+($b = `r apa(interaction_beta, decimals = 3, leading = FALSE)`$,
+$SE = `r apa(interaction_se, decimals = 3, leading = FALSE)`$,
+$t(`r df_moderation`) = `r apa(interaction_t, decimals = 3, leading = FALSE)`$,
+$p = `r apa(interaction_p, decimals = 3, leading = FALSE)`$),
+indicating that the lack of attention shapes how context affects brand attitudes (see @fig-moderation-effects). This suggests that the negative effect of an unsafe context on brand attitude only emerged when participants spent a sufficient amount of time viewing the sponsored post. In contrast, among those participants with minimal dwell time, there was little difference in brand attitudes between safe and unsafe contexts. The main effects of brand safety 
+($b = `r apa(condition_beta, decimals = 3, leading = FALSE)`$,
+$SE = `r apa(condition_se, decimals = 3, leading = FALSE)`$,
+$t(`r df_moderation`) = `r apa(condition_t, decimals = 3, leading = FALSE)`$,
+$p = `r apa(condition_p, decimals = 3, leading = FALSE)`$) and dwell time 
+($b = `r apa(dwell_beta, decimals = 3, leading = FALSE)`$,
+$SE = `r apa(dwell_se, decimals = 3, leading = FALSE)`$,
+$t(`r df_moderation`) = `r apa(dwell_t, decimals = 3, leading = FALSE)`$,
+$p = `r apa(dwell_p, decimals = 3, leading = FALSE)`$)
+were not significant. 
+The ad’s dwell time did not vary across brand safety conditions 
+($b = `r apa(dwell_condition_beta, decimals = 3, leading = FALSE)`$,
+$SE = `r apa(dwell_condition_se, decimals = 3, leading = FALSE)`$,
+$t(`r dwell_condition_df`) = `r apa(robustness_t, decimals = 3, leading = FALSE)`$,
+$p = `r apa(dwell_condition_p, decimals = 3, leading = FALSE)`$). 
+Finally, this moderation is robust to alternative model specifications (see @sec-robustness-checks) where we repeated the same analysis while controlling for the dwell time allocated to all organic posts
+($b = `r apa(robustness_beta, decimals = 3, leading = FALSE)`$,
+$SE = `r apa(robustness_se, decimals = 3, leading = FALSE)`$,
+$t(`r df_robustness`) = `r apa(robustness_t, decimals = 3, leading = FALSE)`$,
+$p = `r apa(robustness_p, decimals = 3, leading = FALSE)`$). 
+
+
+```{r johnson_neyman}
+
+q_95 <- short[, quantile(x = log_dwell_time, probs = 0.95, na.rm = TRUE)]
+q_05 <- short[, quantile(x = log_dwell_time, probs = 0.05, na.rm = TRUE)]
+
+# Find Johnson Neyman through simulation
+
+# sub <- short[is.finite(log_dwell_time)]
+sub <- copy(short)
+tmp <- data.table(log_dwell_time = seq(from = min(sub$log_dwell_time, 
+                                                           na.rm = TRUE),
+                                       to = max(sub$log_dwell_time, 
+                                                         na.rm = TRUE),
+                                       length.out = 100),
+                  condition = rep(x = c("safe", "unsafe"),
+                                  each = 100))
+
+lm_jn <- lm(brand_attitude ~ log_dwell_time * condition, data = sub)
+
+predictions <- predict(lm_jn, newdata = tmp, interval = "confidence")
+
+tmp[, c("fit", "lwr", "upr") := as.data.table(predictions)]
+
+safe <- tmp[condition == "safe"]
+unsafe <- tmp[condition == "unsafe"]
+
+non_overlap_point <- which(safe$lwr > unsafe$upr)
+
+jn_point <- safe$log_dwell_time[non_overlap_point[1]-1]
+jn_seconds <- round(exp(jn_point), digits = 2)
+```
+
+
+```{r}
+#| label: fig-moderation-effects
+#| fig-cap: "Moderation of the Effect of Context on Brand Attitudes by Dwell Time"
+#| fig-cap-location: top
+
+sub[condition == "unsafe", condition := "Unsafe"]
+sub[condition == "safe", condition := "Safe"]
+
+ggplot(data = sub,
+       mapping = aes(x = log_dwell_time,
+                     y = brand_attitude,
+                     fill = condition,
+                     col = condition)) +
+  geom_rect(aes(xmin = -Inf, xmax = jn_point, ymin = 1, ymax = 7.2),
+            fill = "#cccccc", col = NA, alpha = 0.025) + 
+  geom_vline(xintercept = jn_point, lty = 2) +
+  geom_smooth(method = "lm", formula = "y ~ x") +
+  layout +
+  labs(x = "log(Dwell Time)",
+       y = "Brand Attitude",
+       # title = "Moderating Effect of Dwell Time on Brand Attitude",
+       caption = paste0("Johnson-Neyman-Interval indicated by grey area.
+                        Its cutoff (indicated by the dashed vertical line) translates to exp(",
+                        round(jn_point, digits = 2), ") = ",
+       jn_seconds,
+       " seconds.
+       The white (grey) area shows for which participants the effect of context is significant
+       (non-significant)."), #The x-axis ranges from the 5th to the 95th percentile of the distribution.
+       color = "",
+       fill = "") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0)), breaks = 1:7) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0))) +
+  coord_cartesian(xlim = c(q_05, q_95),
+                  ylim = c(1, 7.2)) +
+  scale_fill_custom_2d() +
+  scale_color_custom_2d() +
+  layout +
+  theme(legend.position = "bottom")
+  
+```
+
+From a substantive perspective, the findings provide experimental support for brand safety concerns and reveal an intuitive nuance: contextual misplacements primarily harm brand perceptions when consumers pay sufficient attention to the content. When attention is minimal (indicated by minimal dwell times), the negative impact of unsafe contexts appears to be neutralized. From a methodological perspective, this study illustrates how researchers can manipulate entire feed compositions rather than just single social media posts. It also showcases how DICE’s dwell time data can be interpreted as a proxy of attention. A lack of dwell time for a post, however, implies a lack of attention to this content.
+
+
+# References
+
+::: {#refs}
+:::
+
+# Appendix {.appendix}
+
+## Robustness Checks {#sec-robustness-checks}
+
+To test the robustness of our findings, we conducted additional analyses controlling for participants' dwell time on organic posts that constituted our experimental manipulation. Since the brand safety manipulation involved varying the content of organic posts surrounding the sponsored ad (brand-safe vs. brand-unsafe), it was important to verify that our results were not simply driven by differential attention to these organic posts across conditions.
+
+Models 1 and 2 in @tbl-robustness feature the main findings reported in the manuscript. Model 3 adds the dwell time on all organic posts as a covariate, while Model 4 replaces the dwell time on the sponsored post with the dwell time on the organic posts. Both models demonstrate that our key findings (i.e., the main effects as well as the interaction between brand safety and dwell time) were robust. The interaction effect (Brand-Unsafe × Dwell Time KLM) remained significant, indicating that the moderating role of attention on context effects persists even after accounting for engagement with the manipulated organic content. Model 4 additionally shows that dwell time on organic posts also moderates the brand safety effect.
+
+```{r}
+#| eval: false
+#| warning: false
+#| label: tbl-robustness-stargazer
+#| tbl-cap: Estimates of Brand Attitude as a Function of Brand Safety and Dwell Times
+#| results: asis
+
+stargazer(lm_main, lm_x1, lm_x2, lm_x3,
+          dep.var.caption = "",
+          dep.var.labels = c("Brand Attitude"),
+          covariate.labels = c("Brand-Unsafe",
+                               "Dwell Time (KLM)",
+                               "Dwell Time (Organic)",
+                               "Brand-Unsafe x Dwell Time (KLM)",
+                               "Brand-Unsafe x Dwell Time (Organic)"),
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          report = "vc*s", # "vc*sp",
+          font.size = "scriptsize",
+          notes = c("Standard errors in parentheses.",
+                    "All reported dwell time measures are log-transformed.",
+                    "Dwell Time (Organic) captures the time spent on the",
+                    "entire feed minus the sponsored post's dwell time."),
+          notes.align = "l",
+          type = "latex",
+          df = FALSE,
+          header = FALSE,
+          table.placement = "!htbp",
+          float = FALSE)
+```
+
+
+```{r}
+#| eval: true
+#| warning: false
+#| label: tbl-robustness
+#| tbl-cap: Estimates of Brand Attitude as a Function of Brand Safety and Dwell Times
+#| results: asis
+
+n_obs <- format(nobs(lm_x1), big.mark = ",")
+
+tbl_1 <- tbl_regression(
+  lm_main, 
+  estimate_fun = ~ style_number(.x, digits = 3),
+  pvalue_fun = label_style_pvalue(digits = 3, zero.print = "."),
+  conf.int = FALSE,
+  show_single_row = "condition",
+  intercept = TRUE,
+  add_estimate_to_reference_rows = FALSE
+) |>
+  modify_column_unhide(columns = std.error) |>
+  add_glance_table(include = r.squared)
+
+tbl_2 <- tbl_regression(
+  lm_x1, 
+  estimate_fun = ~ style_number(.x, digits = 3),
+  pvalue_fun = label_style_pvalue(digits = 3, zero.print = "."),
+  conf.int = FALSE, 
+  show_single_row = "condition",
+  intercept = TRUE,
+  add_estimate_to_reference_rows = FALSE
+) |>
+  modify_column_unhide(columns = std.error) |>
+  add_glance_table(include = r.squared)
+
+tbl_3 <- tbl_regression(
+  lm_x2, 
+  estimate_fun = ~ style_number(.x, digits = 3),
+  pvalue_fun = label_style_pvalue(digits = 3, zero.print = "."),
+  conf.int = FALSE,
+  show_single_row = "condition",
+  intercept = TRUE,
+  add_estimate_to_reference_rows = FALSE
+) |>
+  modify_column_unhide(columns = std.error) |>
+  add_glance_table(include = r.squared)
+
+tbl_4 <- tbl_regression(
+  lm_x3, 
+  estimate_fun = ~ style_number(.x, digits = 3),
+  pvalue_fun = label_style_pvalue(digits = 3, zero.print = "."),
+  conf.int = FALSE, 
+  show_single_row = "condition",
+  intercept = TRUE,
+  add_estimate_to_reference_rows = FALSE
+) |>
+  modify_column_unhide(columns = std.error) |>
+  add_glance_table(include = r.squared)
+
+table <- tbl_merge(
+  tbls = list(tbl_1, tbl_2, tbl_3, tbl_4),
+  tab_spanner = c("Model 1", "Model 2", "Model 3", "Model 4")
+) |>
+  # Remove empty rows
+  modify_table_body(
+    ~ .x |>
+      dplyr::filter(
+        !(is.na(estimate_1) & is.na(estimate_2) & is.na(estimate_3) & is.na(estimate_4))
+      )
+  ) |>
+  modify_table_body(
+    ~ .x |>
+      dplyr::mutate(
+        label = case_when(
+          label == "(Intercept)" ~ "Constant",
+          label == "condition" ~ "Brand-Unsafe",
+          label == "log_dwell_time" ~ "Dwell Time (KLM)",
+          label == "log_time_spent" ~ "Dwell Time (Organic)",
+          label == "unsafe * log_dwell_time" ~ "Brand-Unsafe × Dwell Time (KLM)",
+          label == "unsafe * log_time_spent" ~ "Brand-Unsafe × Dwell Time (Organic)",
+          label == "condition * log_dwell_time" ~ "Brand-Unsafe × Dwell Time (KLM)",
+          label == "condition * log_time_spent" ~ "Brand-Unsafe × Dwell Time (Organic)",
+          TRUE ~ label
+        )
+      )
+  ) |>
+  modify_table_body(
+    ~ .x |>
+      dplyr::arrange(
+        factor(label, levels = c(
+          "Brand-Unsafe",
+          "Dwell Time (KLM)",
+          "Dwell Time (Organic)",
+          "Brand-Unsafe × Dwell Time (KLM)",
+          "Brand-Unsafe × Dwell Time (Organic)",
+          "Constant",
+          "R²"
+        ))
+      )
+  ) |>
+  modify_header(
+    label ~ "",
+    estimate_1 ~ "b",
+    estimate_2 ~ "b",
+    estimate_3 ~ "b",
+    estimate_4 ~ "b",
+    std.error_1 ~ "SE",
+    std.error_2 ~ "SE",
+    std.error_3 ~ "SE",
+    std.error_4 ~ "SE",
+    p.value_1 ~ "p",
+    p.value_2 ~ "p",
+    p.value_3 ~ "p",
+    p.value_4 ~ "p"
+  )
+
+# docx (with footnote supercript though)
+table |>
+  as_flex_table() |>
+  flextable::add_footer_lines(
+    values = paste0(
+      "N = ", n_obs, " observations (at the participant × sponsored post level). ",
+      "b = OLS coefficients, SE = Standard Error. ",
+      "The reported dwell time measures are log-transformed."
+    )
+  ) |>
+  flextable::save_as_docx(path = "regression_table.docx")
+
+# table |>
+#   as_gt() |>
+#   gt::rm_footnotes() |>
+#   gt::tab_source_note(
+#     source_note = paste0(
+#       "N = ", n_obs, " observations (at the participant × sponsored post level). ",
+#       "b = OLS coefficients, SE = Standard Error. ",
+#       "The reported dwell time measures are log-transformed."
+#     )
+#   ) |>
+#   as_latex()
+
+table |>
+  as_kable_extra(
+    format = "latex",
+    booktabs = TRUE,
+    escape = FALSE
+  ) |>
+  kable_styling(
+    latex_options = c("scale_down", "hold_position")
+  ) |>
+  footnote(
+    general = paste0(
+      "N = ", n_obs, " observations (at the participant × sponsored post level). ",
+      "b = OLS coefficients, SE = Standard Error. ",
+      "The reported dwell time measures are log-transformed."
+    ),
+    general_title = "",
+    footnote_as_chunk = TRUE,
+    escape = FALSE
+  ) |>
+  landscape()
+```
+
+## Session Info 
+
+```{r timestamp_2}
+t2 <- Sys.time()
+```
+
+The analyses presented in this document required `r round(t2 - t1, digits = 2)` seconds, after loading and installing the required packages. _Rendering_ the document (i.e., presenting the results in a PDF) required slightly more time (up to one minute). Below, we print the `sessionInfo()` to document the hardware and software used to render this document.
+
+```{r}
+sessionInfo()
+# devtools::session_info()
+```
+

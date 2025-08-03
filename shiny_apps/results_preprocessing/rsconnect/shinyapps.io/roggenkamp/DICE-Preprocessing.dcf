@@ -5,8 +5,8 @@ account: roggenkamp
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11059033
-bundleId: 8781217
-url: https://roggenkamp.shinyapps.io/DICE-Preprocessing/
+bundleId: 10637553
+url: https://dice-app.shinyapps.io/DICE-Preprocessing/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
