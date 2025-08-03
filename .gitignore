@@ -44,7 +44,6 @@ writeup/
 studies/*
 !studies/meme_feed/
 !studies/brand_safety/
-!studies/toxicity/
 !studies/README.pdf
 
 # Partial inclusion for misc folder  
