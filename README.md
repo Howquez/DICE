@@ -30,23 +30,28 @@ It provides guidance on how to utilize the tool for creating and customizing dyn
 2. Visit the **[DICE App](https://www.dice-app.org/)** and provide the required information (such as a [raw](https://docs.github.com/enterprise-cloud@latest/repositories/working-with-files/using-files/viewing-a-file#:~:text=With%20the%20raw%20view%2C%20you,the%20file%20view%2C%20click%20Raw.) link to the `*.csv` file you uploaded and the Qualtrics survey).
 3. The DICE App provides URLs for the researcher to monitor the study and to distribute to prospective participants (e.g. via Prolific).
 
-As the tool is still under development, please [contact me](mailto:hauke.roggenkamp@unisg.ch) prior to running a study.
+As the tool is under development, please [contact me](mailto:hauke.roggenkamp@unisg.ch) prior to running a study.
 
-## Prerequisites
+## Recommended Setup
 
-1. **Prolific:** DICE is optimized for Prolific. Hence, if you intend to run an online experiment with DICE, you should recruit participants via Prolific.
-2. **Qualtrics:** Even though you can also use other tools or program a questionnaire directly in oTree, we recommend to use Qualtrics to append a questionnaire to the DICE stimulus.
+1. **Prolific:** DICE is optimized for Prolific. 
+2. **Qualtrics:** Even though you can also use other tools or program a questionnaire directly in oTree, we recommend to use Qualtrics to append a questionnaire to the DICE browsing task.
 3. **Github:** To display images or gifs in your feed, you need to provide URLs (within your `*.csv` file) directing to publicly available images. To create URLs for your own visuals as well as the above-mentioned `*.csv` file, you need to upload these files somewhere. Github is a versatile, transparent and easy-to-use platform to do so. You can create an account in a matter of a few clicks.
 
 
 ## Resources & Links
 
-- [OSF](https://osf.io/jcxvk/)
-- [DICE App Repository](https://github.com/Howquez/oFeeds-config)
-- Code licensed under [MIT License](LICENSE) with added citation requirement:
-- Please cite as: _Roggenkamp, H. C., Boegershausen, J., & Hildebrand, C. (2024, January 5). Digital In-Context Experiments (DICE). Retrieved from osf.io/jcxvk_
-- Shiny app to [encode DICE's input](https://dice-app.shinyapps.io/DICE-input-encoding/) `*.csv` file.
+- Read the [docs](https://www.dice-app.org/docs/).
+- Use [Github Discussions](https://github.com/Howquez/DICE/discussions) to ask (and answer) questions.
+<!-- - Shiny app to [encode DICE's input](https://dice-app.shinyapps.io/DICE-input-encoding/) `*.csv` file. -->
 - Shiny app to [pre-process DICE's data](https://dice-app.shinyapps.io/DICE-Preprocessing/).
+- [DICE Configurator App Repository](https://github.com/Howquez/oFeeds-config)
+- [OSF](https://osf.io/jcxvk/)
+- Code licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE) with added citation requirement:
+- Please cite as: _Roggenkamp, H. C., Boegershausen, J., & Hildebrand, C. (2025, August 3). Digital In-Context Experiments (DICE). Retrieved from osf.io/jcxvk_
+- Also cite [Chen, Schonger, and Wickens (2016)](https://doi.org/doi.org/10.1016/j.jbef.2015.12.001)
+
+
 
 <!--
 ## 🧵 Mimic Social Media Feeds with _oTweet_
