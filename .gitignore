@@ -1,53 +1,35 @@
-venv
-staticfiles
-./db.sqlite3
-.idea
-*~
-*.sqlite3
-_static_root
-_bots*s
-__temp*
+# Python virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
 __pycache__/
 *.py[cod]
-**/.DS_Store
-*.ai
-*.psd
-*.indd
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
 
-# History files
-.Rhistory
-.Rapp.history
-
-# Session Data files
-.RData
-.RDataTmp
-
-# User-specific files
-.Ruserdata
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
-
-# R Environment Variables
-.Renviron
-.Rproj.user
-
-# hide my content
-config.json
-
-# Folders to completely ignore
+# IDE and R specific
 .idea/
 .Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+staticfiles/
+db.sqlite3
+*.sqlite3
+_static_root/
+_bots*/
+__temp*/
+
+# Django specific
+config.json
+
+# Folders to completely exclude
 DICE_literature/
-env/
 feedback/
 grant-applications/
 legacy/
@@ -58,14 +40,38 @@ slides/
 tutorials/
 writeup/
 
-# Ignore everything in these folders first
+# Partial inclusion for studies folder
 studies/*
-misc/*
-
-# Then explicitly include what you want
 !studies/meme_feed/
 !studies/brand_safety/
-!studies/README.PDF
-!misc/img/oFeeds-screenshots_2.png
-!misc/img/figure-4.png
-!misc/other_subfolder/
+!studies/toxicity/
+!studies/README.pdf
+
+# Partial inclusion for misc folder  
+misc/*
+!misc/img/
+
+# Keep these folders completely: software/, shiny_apps/
+# But exclude virtual environments within software
+software/**/.venv/
+software/**/venv/
+software/**/__pycache__/
+software/**/*.pyc
+
+# Common files to ignore
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+*~
+*.ai
+*.psd
+*.indd
+
+# R specific
+*_cache/
+/cache/
+*.utf8.md
+*.knit.md
+.Renviron
+.httr-oauth
