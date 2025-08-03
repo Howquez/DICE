@@ -1,3 +1,0 @@
-[submodule "software/software/feed_configurator"]
-	path = software/software/feed_configurator
-	url = https://git.heroku.com/feed-config.git
