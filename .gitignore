@@ -48,7 +48,8 @@ studies/*
 
 # Partial inclusion for misc folder  
 misc/*
-!misc/img/
+!misc/img/oFeeds-screenshots_2.png
+!misc/img/figure-4.png
 
 # Keep these folders completely: software/, shiny_apps/
 # But exclude virtual environments within software
