@@ -43,14 +43,13 @@ As the tool is under development, please [contact me](mailto:hauke.roggenkamp@un
 
 - Read the [docs](https://www.dice-app.org/docs/).
 - Use [Github Discussions](https://github.com/Howquez/DICE/discussions) to ask (and answer) questions.
-<!-- - Shiny app to [encode DICE's input](https://dice-app.shinyapps.io/DICE-input-encoding/) `*.csv` file. -->
 - Shiny app to [pre-process DICE's data](https://dice-app.shinyapps.io/DICE-Preprocessing/).
 - [DICE Configurator App Repository](https://github.com/Howquez/oFeeds-config)
 - [OSF](https://osf.io/jcxvk/)
 - Code licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE) with added citation requirement:
 - Please cite as: _Roggenkamp, H. C., Boegershausen, J., & Hildebrand, C. (2025, August 3). Digital In-Context Experiments (DICE). Retrieved from osf.io/jcxvk_
 - Also cite [Chen, Schonger, and Wickens (2016)](https://doi.org/doi.org/10.1016/j.jbef.2015.12.001)
-
+<!-- - Shiny app to [encode DICE's input](https://dice-app.shinyapps.io/DICE-input-encoding/) `*.csv` file. -->
 
 
 <!--
