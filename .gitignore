@@ -41,15 +41,31 @@ __pycache__/
 .Rproj.user
 
 # hide my content
-analyses/
-data/
-literature/
-DICE_literature/
-feedback/
-Manager interviews/
-meeting_notes/
-misc/
-slides/
-writeup/
 config.json
 
+# Folders to completely ignore
+.idea/
+.Rproj.user/
+DICE_literature/
+env/
+feedback/
+grant-applications/
+legacy/
+literature/
+prolific/
+README_files/
+slides/
+tutorials/
+writeup/
+
+# Ignore everything in these folders first
+studies/*
+misc/*
+
+# Then explicitly include what you want
+!studies/meme_feed/
+!studies/brand_safety/
+!studies/README.PDF
+!misc/img/oFeeds-screenshots_2.png
+!misc/img/figure-4.png
+!misc/other_subfolder/
