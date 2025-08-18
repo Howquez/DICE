@@ -328,7 +328,7 @@ jn_seconds <- round(exp(jn_point), digits = 2)
 sub[condition == "unsafe", condition := "Unsafe"]
 sub[condition == "safe", condition := "Safe"]
 
-ggplot(data = sub,
+p1 <- ggplot(data = sub,
        mapping = aes(x = log_dwell_time,
                      y = brand_attitude,
                      fill = condition,
@@ -340,14 +340,6 @@ ggplot(data = sub,
   layout +
   labs(x = "log(Dwell Time)",
        y = "Brand Attitude",
-       # title = "Moderating Effect of Dwell Time on Brand Attitude",
-       caption = paste0("Johnson-Neyman-Interval indicated by grey area.
-                        Its cutoff (indicated by the dashed vertical line) translates to exp(",
-                        round(jn_point, digits = 2), ") = ",
-       jn_seconds,
-       " seconds.
-       The white (grey) area shows for which participants the effect of context is significant
-       (non-significant)."), #The x-axis ranges from the 5th to the 95th percentile of the distribution.
        color = "",
        fill = "") +
   scale_y_continuous(expand = expansion(mult = c(0, 0)), breaks = 1:7) +
@@ -359,6 +351,20 @@ ggplot(data = sub,
   layout +
   theme(legend.position = "bottom")
   
+ggsave("../output/figure-4.pdf", plot = p1, 
+       device = "pdf",
+       # width = 8, height = 6, 
+       # units = "in",
+       dpi = 300)
+
+p1 +
+  labs(caption = paste0("Johnson-Neyman-Interval indicated by grey area.
+                        Its cutoff (indicated by the dashed vertical line) translates to exp(",
+                        round(jn_point, digits = 2), ") = ",
+       jn_seconds,
+       " seconds.
+       The white (grey) area shows for which participants the effect of context is significant
+       (non-significant)."))
 ```
 
 From a substantive perspective, the findings provide experimental support for brand safety concerns and reveal an intuitive nuance: contextual misplacements primarily harm brand perceptions when consumers pay sufficient attention to the content. When attention is minimal (indicated by minimal dwell times), the negative impact of unsafe contexts appears to be neutralized. From a methodological perspective, this study illustrates how researchers can manipulate entire feed compositions rather than just single social media posts. It also showcases how DICE’s dwell time data can be interpreted as a proxy of attention. A lack of dwell time for a post, however, implies a lack of attention to this content.

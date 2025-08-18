@@ -10,7 +10,8 @@ authors:
   - family-names: "Hildebrand"
     given-names: "Christian"
     orcid: "https://orcid.org/0000-0003-4366-3093"
-title: "Digital In-Context Experiments (DICE)"
-version: 1.0
-date-released: 2024-01-05
-url: "https://github.com/Howquez/oFeeds"
+title: "EXPRESS: DICE: Advancing Social Media Research through Digital In-Context Experiments"
+journal: "Journal of Marketing"
+doi: "10.1177/00222429251371702"
+url: "https://doi.org/10.1177/00222429251371702"
+abstract: "This article introduces Digital In-Context Experiments (DICE), an experimental paradigm that enables researchers to study entire social media feeds while tracking users' granular behavioral data at the post level. Current research paradigms (vignette-based experiments, online platform studies, and observational studies) predominantly focus on isolated social media posts without examining how users consume content within the broader context of a feed. This isolation overlooks the competing attention between content (e.g., sponsored posts or ads) within a feed and contextual spillovers that occur when users scroll through continuous streams of content. DICE complements existing paradigms by presenting posts within scrollable feeds, more closely resembling how users experience content on social media. This allows researchers to systematically manipulate entire feed compositions while unobtrusively tracking participants' scrolling behavior. To demonstrate the potential of DICE, the article presents two illustrative case studies that examine contextual spillovers and predict ad recall in environments where content competes for attention. The authors conclude with directions for future research and managerial perspectives derived from expert interviews with marketing professionals. An accompanying open-source app, available at https://dice-app.org, enables researchers to conveniently integrate the experimental paradigm into their preferred workflow."

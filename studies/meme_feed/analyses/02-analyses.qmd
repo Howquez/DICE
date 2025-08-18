@@ -582,7 +582,7 @@ The minimal change in the Akaike information criterion when adding the position 
 proportion mediated = `r prop_med`, 
 95% CI = [`r prop_med_ci_lower`, `r prop_med_ci_upper`], 
 p = 
-`r total_effect_p`).
+`r total_effect_p`).^[The mediation analysis employs bootstrap resampling procedures that contain inherent randomness not fully controlled by global seed settings. Consequently, slight numerical variations may occur across repeated analyses.]
 
 
 ```{r}
