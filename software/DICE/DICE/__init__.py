@@ -143,9 +143,14 @@ def read_feed(path, delim):
         if 'github' in path:
             tweets = pd.read_csv(path, sep = delim)
         elif 'drive.google.com' in path:
-            file_id = path.split('/')[-2]
-            download_url = f'https://drive.google.com/uc?id={file_id}'
-            tweets = pd.read_csv(download_url, sep = delim)
+            if '/uc?' in path:
+                # Already in the correct format
+                tweets = pd.read_csv(path, sep = delim)
+            else:
+                # Convert from /file/d/ format
+                file_id = path.split('/')[-2]
+                download_url = f'https://drive.google.com/uc?id={file_id}'
+                tweets = pd.read_csv(download_url, sep = delim)
         else:
             raise ValueError("Unrecognized URL format")
     else:
