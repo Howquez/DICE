@@ -6,6 +6,7 @@ import os
 import random
 import httplib2
 import itertools
+from django.http import QueryDict
 
 
 
@@ -61,6 +62,41 @@ class Player(BasePlayer):
 
 
 # FUNCTIONS -----
+
+def map_participant_id_from_url(player, request):
+    """
+    Map custom participant ID URL parameter to participant.label
+
+    This function reads the configured participant_id_param from session config
+    and extracts the value from the URL query string, then assigns it to
+    the participant's label.
+
+    Example:
+    - Config: participant_id_param = "participantId"
+    - URL: ?participantId=connect_user_123&assignmentId=xyz
+    - Result: participant.label = "connect_user_123"
+    """
+    try:
+        participant_id_param = player.session.config.get('participant_id_param')
+
+        if not participant_id_param:
+            # No custom parameter specified, use standard behavior
+            return
+
+        # Get URL query parameters from the request
+        query_params = request.GET if hasattr(request, 'GET') else {}
+
+        # Extract the custom participant ID parameter value
+        participant_id_value = query_params.get(participant_id_param)
+
+        if participant_id_value:
+            # Assign the extracted value to participant.label
+            player.participant.label = participant_id_value
+    except Exception as e:
+        # Log error but don't fail - participant can still join with default behavior
+        print(f"Error mapping participant ID from URL: {str(e)}")
+
+
 def creating_session(subsession):
     subsession.FEED = "DICE/T_Feed_" + subsession.session.config['channel_type'] + ".html"
 
@@ -227,10 +263,13 @@ def preprocessing(df, config):
 
 
 def create_redirect(player):
+    # Use the configured participant_id_param to build the survey redirect URL
+    participant_id_param = player.session.config.get('participant_id_param', 'participant_label')
+
     if player.participant.label:
-        link = player.session.config['survey_link'] + '?' + player.session.config['url_param'] + '=' + player.participant.label
+        link = player.session.config['survey_link'] + '?' + participant_id_param + '=' + player.participant.label
     else:
-        link = player.session.config['survey_link'] + '?' + player.session.config['url_param'] + '=' + player.participant.code
+        link = player.session.config['survey_link'] + '?' + participant_id_param + '=' + player.participant.code
 
     completion_code = None
 
@@ -257,14 +296,21 @@ class A_Intro(Page):
         return dict(
             custom_consent_available=len(player.session.config['briefing']) > 0,
         )
+
+    def get(self):
+        """
+        Map custom participant ID from URL on page load.
+        This must happen before form submission.
+        """
+        # Map custom participant ID parameter from URL
+        map_participant_id_from_url(self.player, self.request)
+
+        # Call parent get method
+        return super().get()
+
     @staticmethod
     def before_next_page(player, timeout_happened):
-        # feed_conditions_str = player.subsession.feed_conditions
-        # feed_conditions_list = feed_conditions_str.strip("[]").split()
-        # random_condition = random.choice(feed_conditions_list)
-        # cleaned_condition = random_condition.strip("'")
-        # player.feed_condition = cleaned_condition
-
+        """Update sequence for the feed."""
         # update sequence
         df = player.participant.tweets
         tweets = df[df['condition'] == player.feed_condition]
