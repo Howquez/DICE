@@ -1,3 +1,5 @@
+let dwell_threshold = js_vars.dwell_threshold / 100 || 0.5
+
 // Array to store row visibility duration data
 var rowVisibilityData = [];
 
@@ -72,7 +74,7 @@ function initializeObserver() {
     const observer = new IntersectionObserver(handleRowVisibility, {
         root: null,
         rootMargin: '0px',
-        threshold: 0.5,
+        threshold: dwell_threshold,
     });
 
     document.querySelectorAll('tr[id]').forEach(row => observer.observe(row));
