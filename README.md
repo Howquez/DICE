@@ -45,7 +45,7 @@ As the tool is under development, please [contact me](mailto:hauke.roggenkamp@un
 - Use [Github Discussions](https://github.com/Howquez/DICE/discussions) to ask (and answer) questions.
 - Shiny app to [pre-process DICE's data](https://dice-app.shinyapps.io/DICE-Preprocessing/).
 - Code licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE) with added citation requirement:
-- Please cite as: _Roggenkamp, H., Boegershausen, J., & Hildebrand, C. (2025). EXPRESS: DICE: Advancing Social Media Research through Digital In-Context Experiments. Journal of Marketing. https://doi.org/10.1177/00222429251371702_ or check `Cite this repository` to the right.
+- Please cite as: _Roggenkamp, H., Boegershausen, J., & Hildebrand, C. (2026). DICE: Advancing Social Media Research Through Digital In-Context Experiments. Journal of Marketing. https://doi.org/10.1177/00222429251371702_ or check `Cite this repository` to the right.
 - Also cite [Chen, Schonger, and Wickens (2016)](https://doi.org/doi.org/10.1016/j.jbef.2015.12.001)
 - [DICE Configurator App Repository](https://github.com/Howquez/oFeeds-config)
 - [OSF](https://osf.io/jcxvk/)
