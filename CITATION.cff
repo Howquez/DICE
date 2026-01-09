@@ -15,4 +15,24 @@ year: "2026"
 journal: "Journal of Marketing"
 doi: "10.1177/00222429251371702"
 url: "https://doi.org/10.1177/00222429251371702"
-abstract: "This article introduces Digital In-Context Experiments (DICE), an experimental paradigm that enables researchers to study entire social media feeds while tracking users' granular behavioral data at the post level. Current research paradigms (vignette-based experiments, online platform studies, and observational studies) predominantly focus on isolated social media posts without examining how users consume content within the broader context of a feed. This isolation overlooks the competing attention between content (e.g., sponsored posts or ads) within a feed and contextual spillovers that occur when users scroll through continuous streams of content. DICE complements existing paradigms by presenting posts within scrollable feeds, more closely resembling how users experience content on social media. This allows researchers to systematically manipulate entire feed compositions while unobtrusively tracking participants' scrolling behavior. To demonstrate the potential of DICE, the article presents two illustrative case studies that examine contextual spillovers and predict ad recall in environments where content competes for attention. The authors conclude with directions for future research and managerial perspectives derived from expert interviews with marketing professionals. An accompanying open-source app, available at https://dice-app.org, enables researchers to conveniently integrate the experimental paradigm into their preferred workflow."
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Roggenkamp"
+    given-names: "Hauke"
+    orcid: "https://orcid.org/0009-0005-5176-4718"
+  - family-names: "Boegershausen"
+    given-names: "Johannes"
+    orcid: "https://orcid.org/0000-0002-1429-9344"
+  - family-names: "Hildebrand"
+    given-names: "Christian"
+    orcid: "https://orcid.org/0000-0003-4366-3093"
+  doi: "10.1177/00222429251371702"
+  journal: "Journal of Marketing"
+#   month: 9
+#   start: 1 # First page number
+#   end: 10 # Last page number
+  title: "DICE: Advancing Social Media Research Through Digital In-Context Experiments"
+#   issue: 1
+#   volume: 1
+  year: 2026
