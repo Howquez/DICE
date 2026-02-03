@@ -1,0 +1,143 @@
+<div class="bg-light m-0 p-0">
+
+    <!-- Hidden Fields -->
+    <input type="hidden" name="scroll_sequence" id="scroll_sequence" value="is">
+    <input type="hidden" name="viewport_data" id="viewport_data" value="">
+    <input type="hidden" name="promoted_post_clicks" id="promoted_post_clicks" value="">
+    <input type="hidden" name="rowheight_data" id="rowheight_data" value="">
+    <input type="hidden" name="cta" id="cta" value="False">
+    <input type="hidden" id="likes_data" name="likes_data">
+    <input type="hidden" id="replies_data" name="replies_data">
+    <input type="hidden" id="touch_capability" name="touch_capability" value="">
+    <input type="hidden" id="device_type" name="device_type" value="">
+    <input type="hidden" id="screen_resolution" name="screen_resolution" value="">
+
+
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="d-flex justify-content-center align-items-center insta-loading-bg" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;">
+        <i class="bi bi-instagram text-white insta-logo-animate" style="font-size: 4rem;"></i>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid d-flex justify-content-center align-items-center p-0" style="max-width: 470px;" id="mainContent">
+
+        <div class="row p-0 m-0 w-100">
+
+            <!-- Feed -->
+            <div class="col overflow-auto col-12 p-0 bg-white" style="height: 100vh;">
+
+                <!-- Navbar -->
+                <div class="d-flex m-0 p-2 sticky-top justify-content-between align-items-center bg-white border-bottom"
+                     style="opacity: 0.98;">
+                    <!-- Instagram Logo -->
+                    <div class="d-flex align-items-center">
+                        <span style="font-family: 'Lobster', cursive; font-size: 24px;">Instagram</span>
+                    </div>
+
+                    <!-- Hidden submit button for consistency with other templates -->
+                    <button class="btn btn-dark btn-sm rounded-pill" id="submitButtonTop" type="submit" style="display: none;">
+                        Proceed
+                    </button>
+
+                    <!-- Right icons
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-heart me-3" style="font-size: 24px;"></i>
+                        <i class="bi bi-send" style="font-size: 24px;"></i>
+                    </div>
+                    -->
+                </div>
+
+                <!-- Stories Section -->
+                <div class="stories-container border-bottom py-2 bg-white">
+                    <!-- Your Story -->
+                    <div class="story-item">
+                        <div class="position-relative" style="width: 66px; height: 66px;">
+                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 66px; height: 66px;">
+                                <i class="bi bi-person-circle text-secondary" style="font-size: 56px;"></i>
+                            </div>
+                            <div class="position-absolute bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width: 20px; height: 20px; bottom: 0; right: 0; border: 2px solid white;">
+                                <i class="bi bi-plus text-white" style="font-size: 14px;"></i>
+                            </div>
+                        </div>
+                        <div class="story-username mt-1">Your story</div>
+                    </div>
+
+                    <!-- Sample Stories from feed users -->
+                    {{ for i in tweets.values() }}
+                        {{ if i.condition == player.feed_condition }}
+                            <div class="story-item">
+                                <div class="insta-story-ring" style="width: 66px; height: 66px;">
+                                    {{ if i.profile_pic_available }}
+                                    <img src="{{i.user_image}}" class="rounded-circle" style="width: 62px; height: 62px; object-fit: cover;" alt="{{i.username}}">
+                                    {{ else }}
+                                    <div class="rounded-circle bg-light d-flex align-items-center justify-content-center poster {{ i.color_class }}" style="width: 62px; height: 62px; font-size: 20px;">
+                                        {{ i.icon }}
+                                    </div>
+                                    {{ endif }}
+                                </div>
+                                <div class="story-username mt-1">{{i.username}}</div>
+                            </div>
+                        {{ endif }}
+                    {{ endfor }}
+                </div>
+
+                <!-- Posts -->
+                <div id="insta_feed">
+                    {{ for i in tweets.values() }}
+                        {{ include C.ITEM_INSTA }}
+                    {{ endfor }}
+
+                    <!-- End of feed -->
+                    <div class="d-flex flex-column align-items-center py-5 bg-light">
+                        <div class="p-3">
+                            <i class="bi bi-check-circle text-secondary" style="font-size: 48px;"></i>
+                        </div>
+                        <div class="text-center mb-3">
+                            <p class="fw-semibold mb-1">You're all caught up</p>
+                            <small class="text-muted">You've seen all new posts from the past 3 days.</small>
+                        </div>
+                        <div class="my-3">
+                            <button class="btn btn-dark btn-sm rounded-pill px-4 py-2" id="submitButtonBottom" type="submit">
+                                Proceed to survey
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Post Modal (for creating new posts) -->
+    <div class="modal fade" id="tweetModal" tabindex="-1" aria-labelledby="tweetModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h6 class="modal-title">Create post</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-start text-secondary">
+                        <div class="me-2">
+                            <i class="bi bi-person-circle" style="font-size: 32px;" data-bs-toggle="popover"
+                               data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <textarea class="form-control border-light" id="tweet1" rows="4"
+                                      placeholder="What are the first thoughts and feelings that come to your mind when you are scrolling through the entire feed?"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-link text-primary fw-semibold"
+                            data-bs-dismiss="modal">Share</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

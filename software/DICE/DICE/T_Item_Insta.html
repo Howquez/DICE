@@ -1,0 +1,185 @@
+{{ if i.condition == player.feed_condition }}
+    {{ if i.pic_available == True }}
+        {{ if i.sponsored }}
+            <div id="{{i.doc_id}}" class="insta-post border-bottom" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
+                <!-- Post Header -->
+                <div class="d-flex align-items-center justify-content-between p-2">
+                    <div class="d-flex align-items-center">
+                        <!-- Profile picture -->
+                        <div class="insta-profile-pic me-2">
+                            <img src="{{i.user_image}}" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;"
+                                 alt="Profile picture of {{i.username}}."
+                                 data-bs-toggle="tooltip"
+                                 data-bs-placement="bottom"
+                                 data-bs-html="true"
+                                 data-bs-custom-class="custom-tooltip"
+                                 title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>{{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                        </div>
+                        <div class="d-flex flex-column" style="line-height: 1.2;">
+                            <span class="fw-semibold" style="font-size: 14px;">{{i.username}}</span>
+                            <span class="text-muted" style="font-size: 11px;">Sponsored</span>
+                        </div>
+                    </div>
+                    <i class="bi bi-three-dots"></i>
+                </div>
+
+                <!-- Post Image -->
+                <div class="promoted-content spons-post position-relative">
+                    <a href="{{i.target}}" target="_blank" style="text-decoration: none; cursor: pointer;">
+                        <img src="{{i.media}}" class="w-100 img-fluid mt-2" style="object-fit: cover;" alt="{{i.alt_text}}">
+                    </a>
+                </div>
+
+                <!-- CTA Button -->
+                <a href="{{i.target}}" target="_blank" class="d-flex justify-content-between align-items-center px-3 py-2 text-decoration-none border-bottom" style="background-color: #fafafa;">
+                    <div>
+                        <div class="fw-semibold text-dark" style="font-size: 14px;">{{i.username}}</div>
+                        <div class="text-muted" style="font-size: 12px;">{{i.handle}}</div>
+                    </div>
+                    <button class="btn btn-sm text-white rounded-3 px-3" type="button" style="background-color: #0095f6; font-size: 13px; font-weight: 600;">
+                        Learn more
+                    </button>
+                </a>
+
+                <!-- Post Actions -->
+                <div class="p-2">
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="d-flex align-items-center">
+                            <!-- Like -->
+                            <div class="like-button me-3 d-flex align-items-center" id="like_button_{{i.doc_id}}">
+                                <span class="bi bi-heart like-icon" style="font-size: 24px; cursor: pointer;"></span>
+                                <span class="like-count ms-1" style="font-size: 14px;">{{i.likes}}</span>
+                            </div>
+                            <!-- Comment -->
+                            <div class="reply-button me-3 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}">
+                                <span class="bi bi-chat reply-icon" id="reply_icon_{{i.doc_id}}" style="font-size: 24px; cursor: pointer;"></span>
+                                <span class="reply-count ms-1" id="reply_count_{{i.doc_id}}" style="font-size: 14px;">{{i.replies}}</span>
+                            </div>
+                            <!-- Share -->
+                            <div class="share-button d-flex align-items-center">
+                                <span class="bi bi-send" style="font-size: 24px; cursor: pointer;"></span>
+                                <span class="ms-1" style="font-size: 14px;">{{i.reposts}}</span>
+                            </div>
+                        </div>
+                        <!-- Bookmark -->
+                        <div class="bookmark-button">
+                            <span class="bi bi-bookmark" style="font-size: 24px; cursor: pointer;"></span>
+                        </div>
+                    </div>
+
+                    <!-- Caption -->
+                    <div class="mb-1" style="font-size: 14px;">
+                        <span class="fw-semibold">{{i.username}}</span>
+                        <span id="tweet_text_{{i.doc_id}}">{{i.text}}</span>
+                    </div>
+
+                    <!-- Timestamp -->
+                    <div>
+                        <span class="text-muted" style="font-size: 10px; text-transform: uppercase;">{{i.date}}</span>
+                    </div>
+                </div>
+            </div>
+        {{ else }}
+            <div id="{{i.doc_id}}" class="insta-post border-bottom" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
+                <!-- Post Header -->
+                <div class="d-flex align-items-center justify-content-between p-2">
+                    <div class="d-flex align-items-center">
+                        <!-- Profile picture -->
+                        {{ if i.profile_pic_available }}
+                        <div class="insta-profile-pic me-2">
+                            <img src="{{i.user_image}}" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;"
+                                 alt="Profile picture of {{i.username}}."
+                                 data-bs-toggle="tooltip"
+                                 data-bs-placement="bottom"
+                                 data-bs-html="true"
+                                 data-bs-custom-class="custom-tooltip"
+                                 title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>{{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                        </div>
+                        {{ else }}
+                        <div class="me-2 poster {{ i.color_class }} rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 12px;">
+                            {{ i.icon}}
+                        </div>
+                        {{ endif }}
+                        <div>
+                            <span class="fw-semibold" style="font-size: 14px;">{{i.username}}</span>
+                        </div>
+                    </div>
+                    <i class="bi bi-three-dots"></i>
+                </div>
+
+                <!-- Post Image -->
+                <img src="{{i.media}}" class="w-100 img-fluid mt-2" style="object-fit: cover;" alt="{{i.alt_text}}">
+
+                <!-- Post Actions -->
+                <div class="p-2">
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="d-flex align-items-center">
+                            <!-- Like -->
+                            <div class="like-button me-3 d-flex align-items-center" id="like_button_{{i.doc_id}}">
+                                <span class="bi bi-heart like-icon" style="font-size: 24px; cursor: pointer;"></span>
+                                <span class="like-count ms-1" style="font-size: 14px;">{{i.likes}}</span>
+                            </div>
+                            <!-- Comment -->
+                            <div class="reply-button me-3 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}">
+                                <span class="bi bi-chat reply-icon" id="reply_icon_{{i.doc_id}}" style="font-size: 24px; cursor: pointer;"></span>
+                                <span class="reply-count ms-1" id="reply_count_{{i.doc_id}}" style="font-size: 14px;">{{i.replies}}</span>
+                            </div>
+                            <!-- Share -->
+                            <div class="share-button d-flex align-items-center">
+                                <span class="bi bi-send" style="font-size: 24px; cursor: pointer;"></span>
+                                <span class="ms-1" style="font-size: 14px;">{{i.reposts}}</span>
+                            </div>
+                        </div>
+                        <!-- Bookmark -->
+                        <div class="bookmark-button">
+                            <span class="bi bi-bookmark" style="font-size: 24px; cursor: pointer;"></span>
+                        </div>
+                    </div>
+
+                    <!-- Caption -->
+                    <div class="mb-1" style="font-size: 14px;">
+                        <span class="fw-semibold">{{i.username}}</span>
+                        <span id="tweet_text_{{i.doc_id}}">{{i.text}}</span>
+                    </div>
+
+                    <!-- Timestamp -->
+                    <div>
+                        <span class="text-muted" style="font-size: 10px; text-transform: uppercase;">{{i.date}}</span>
+                    </div>
+                </div>
+            </div>
+        {{ endif }}
+
+
+        <!-- Reply Modal -->
+        <div class="modal fade reply-modal" id="replyModal_{{i.doc_id}}" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <h6 class="modal-title">Comments</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="replying-tweet mb-4 ps-3 border-start border-3 text-secondary" style="border-color: #e1306c !important;"
+                             id="replying_tweet_{{i.doc_id}}"></div>
+                        <div class="d-flex align-items-start text-secondary">
+                            <div class="me-2">
+                                <i class="bi bi-person-circle" style="font-size: 32px;" data-bs-toggle="popover"
+                                   data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <textarea class="form-control border-light reply-field"
+                                          id="reply_to_item_{{i.doc_id}}" name="reply_to_item_{{i.doc_id}}"
+                                          rows="3" placeholder="Add a comment..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-link text-primary fw-semibold reply-modal-button" id="reply_modal_button_{{i.doc_id}}"
+                                data-bs-dismiss="modal">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{endif}}
+{{endif}}

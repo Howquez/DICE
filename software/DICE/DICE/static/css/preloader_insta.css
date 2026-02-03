@@ -1,0 +1,101 @@
+/* Instagram Feed Styles */
+
+/* Instagram gradient - used for various elements */
+.insta-gradient {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+/* Loading screen background */
+.insta-loading-bg {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+/* Loading animation for Instagram logo */
+@keyframes insta-logo-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.insta-logo-animate {
+    animation: insta-logo-pulse 1.5s ease-in-out infinite;
+}
+
+/* Stories section */
+.insta-story-ring {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    padding: 2px;
+    border-radius: 50%;
+}
+
+.insta-story-ring img {
+    border: 2px solid white;
+}
+
+.stories-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.stories-container::-webkit-scrollbar {
+    display: none;
+}
+
+.story-item {
+    display: inline-block;
+    text-align: center;
+    margin-right: 15px;
+}
+
+.story-item:first-child {
+    margin-left: 10px;
+}
+
+.story-item:last-child {
+    margin-right: 10px;
+}
+
+.story-username {
+    font-size: 12px;
+    max-width: 66px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Instagram navbar logo font */
+.insta-logo {
+    font-family: 'Lobster', cursive;
+    font-size: 24px;
+}
+
+/* Instagram icon sizes */
+.insta-icon-lg {
+    font-size: 24px;
+}
+
+.insta-icon-sm {
+    font-size: 12px;
+}
+
+/* Story dimensions */
+.story-size {
+    width: 66px;
+    height: 66px;
+}
+
+.story-size-inner {
+    width: 62px;
+    height: 62px;
+}
+
+/* Add button on "Your story" */
+.story-add-btn {
+    width: 20px;
+    height: 20px;
+    bottom: 0;
+    right: 0;
+    border: 2px solid white;
+}

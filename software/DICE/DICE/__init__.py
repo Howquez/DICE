@@ -28,6 +28,7 @@ class C(BaseConstants):
     ITEM_LINKEDIN = "DICE/T_Item_Linkedin.html"
     ITEM_MASS_MEDIA = "DICE/T_Item_Mass_Media.html"
     ITEM_GENERIC = "DICE/T_Item_Generic.html"
+    ITEM_INSTA = "DICE/T_Item_Insta.html"
 
 class Subsession(BaseSubsession):
     feed_conditions = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
@@ -116,6 +117,8 @@ def creating_session(subsession):
 
         # Sort DataFrame by sequence
         tweets.sort_values(by='sequence', inplace=True)
+        # Reset index after sorting to ensure clean sequential indices
+        tweets.reset_index(drop=True, inplace=True)
 
         # Assign processed tweets to player-specific variable
         player.participant.tweets = tweets
@@ -194,7 +197,7 @@ def preprocessing(df, config):
     df['likes'] = df['likes'].fillna(0).astype(int)
 
     # df['media'] = df['media'].apply(extract_first_url)
-    df['media'] = df['media'].str.replace("'|,", '', regex=True)
+    df['media'] = df['media'].astype(str).str.replace("'|,", '', regex=True)
     df['pic_available'] = np.where(df['media'].str.contains('http', na=False), True, False)
     # print(df[['pic_available', 'media']])
 
@@ -298,8 +301,10 @@ class C_Feed(Page):
         label_available = False
         if player.participant.label is not None:
             label_available = True
+        # Reset index to ensure consistent ordering (important for generic feed swiper)
+        tweets_df = player.participant.tweets.reset_index(drop=True)
         return dict(
-            tweets=player.participant.tweets.to_dict('index'),
+            tweets=tweets_df.to_dict('index'),
             topics=player.session.config['topics'],
             search_term=player.session.config['search_term'],
             label_available=label_available,

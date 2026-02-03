@@ -61,11 +61,28 @@ document.addEventListener('DOMContentLoaded', function() {
         return repliesData;
     }
 
+    // Helper to get doc_id from element (supports both Twitter and Instagram formats)
+    function getDocIdFromElement(element) {
+        // Try Twitter format first (.tweet-content with id="tweet_X")
+        let tweetContent = element.closest('.tweet-content');
+        if (tweetContent && tweetContent.id) {
+            return parseInt(tweetContent.id.replace('tweet_', ''));
+        }
+        // Try Instagram format (.insta-post with id="X")
+        let instaPost = element.closest('.insta-post');
+        if (instaPost && instaPost.id) {
+            return parseInt(instaPost.id);
+        }
+        return null;
+    }
+
     function initializePromotedData() {
         let promotedData = [];
         document.querySelectorAll('.promoted-content').forEach(tweet => {
-            let docId = parseInt(tweet.closest('.tweet-content').id.replace('tweet_', ''));
-            promotedData.push({ doc_id: docId, clicked: false });
+            let docId = getDocIdFromElement(tweet);
+            if (docId !== null) {
+                promotedData.push({ doc_id: docId, clicked: false });
+            }
         });
         document.getElementById('promoted_post_clicks').value = JSON.stringify(promotedData);
         return promotedData;
@@ -73,8 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let promotedData = initializePromotedData();
 
-    function trackPromotedClicks(post) {
-        let docId = parseInt(post.id.replace('tweet_', ''));
+    function trackPromotedClicks(element) {
+        let docId = getDocIdFromElement(element);
+        if (docId === null) return;
+
         promotedData = JSON.parse(document.getElementById('promoted_post_clicks').value);
 
         let item = promotedData.find(item => item.doc_id === docId);
@@ -93,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clickableElements.forEach(element => {
             element.addEventListener('click', function(event) {
                 event.preventDefault();
-                trackPromotedClicks(tweet.closest('.tweet-content'));
+                trackPromotedClicks(tweet);
 
                 if (element.tagName === 'A' || element.parentElement.tagName === 'A') {
                     const link = element.tagName === 'A' ? element : element.parentElement;
@@ -116,21 +135,27 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    document.getElementById('submitButtonTop').addEventListener('click', function(event) {
-        let data = collectDataHarmonized();
-        document.getElementById('likes_data').value = data.likes;
-        document.getElementById('replies_data').value = data.replies;
-        document.getElementById('promoted_post_clicks').value = data.promoted_clicks;
-        console.log("Data to send:", data);
-    });
+    const submitButtonTop = document.getElementById('submitButtonTop');
+    if (submitButtonTop) {
+        submitButtonTop.addEventListener('click', function(event) {
+            let data = collectDataHarmonized();
+            document.getElementById('likes_data').value = data.likes;
+            document.getElementById('replies_data').value = data.replies;
+            document.getElementById('promoted_post_clicks').value = data.promoted_clicks;
+            console.log("Data to send:", data);
+        });
+    }
 
-    document.getElementById('submitButtonBottom').addEventListener('click', function(event) {
-        let data = collectDataHarmonized();
-        document.getElementById('likes_data').value = data.likes;
-        document.getElementById('replies_data').value = data.replies;
-        document.getElementById('promoted_post_clicks').value = data.promoted_clicks;
-        console.log("Data to send:", data);
-    });
+    const submitButtonBottom = document.getElementById('submitButtonBottom');
+    if (submitButtonBottom) {
+        submitButtonBottom.addEventListener('click', function(event) {
+            let data = collectDataHarmonized();
+            document.getElementById('likes_data').value = data.likes;
+            document.getElementById('replies_data').value = data.replies;
+            document.getElementById('promoted_post_clicks').value = data.promoted_clicks;
+            console.log("Data to send:", data);
+        });
+    }
 
     function displayTweetContent(docId, tweetContent) {
         const replyingTweetDiv = document.getElementById(`replying_tweet_${docId}`);

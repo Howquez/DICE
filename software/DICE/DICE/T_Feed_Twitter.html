@@ -120,16 +120,18 @@
                             {{ include C.ITEM_TWITTER }}
                         {{ endfor }}
 
+                        <!-- End of feed -->
                         <tr class="bg-light">
-                            <td class="d-flex flex-column align-items-center">
-                                <div class="p-3 mt-5">
-                                    <code>
-                                        You reached the end of this feed.
-                                        To continue with the study, click the button below.
-                                    </code>
+                            <td class="d-flex flex-column align-items-center py-5">
+                                <div class="p-3">
+                                    <i class="bi bi-check-circle text-secondary" style="font-size: 48px;"></i>
                                 </div>
-                                <div class="my-5">
-                                    <button class="btn btn-dark btn-sm rounded-pill p-3" id="submitButtonBottom" type="submit">
+                                <div class="text-center mb-3">
+                                    <p class="fw-semibold mb-1">You're all caught up</p>
+                                    <small class="text-muted">You've seen all new posts from the past 3 days.</small>
+                                </div>
+                                <div class="my-3">
+                                    <button class="btn btn-dark btn-sm rounded-pill px-4 py-2" id="submitButtonBottom" type="submit">
                                         Proceed to survey
                                     </button>
                                 </div>

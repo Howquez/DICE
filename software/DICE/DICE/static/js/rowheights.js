@@ -45,15 +45,15 @@ const heightObserver = new IntersectionObserver(handleRowHeight, {
     threshold: 0.1, // Trigger even with slight visibility, adjust as needed
 });
 
-// Observe all the table rows
-document.querySelectorAll('tr').forEach((row) => {
+// Observe all the table rows and Instagram posts
+document.querySelectorAll('tr, div.insta-post').forEach((row) => {
     heightObserver.observe(row);
 });
 
 // Call this function to update the height for all currently visible rows
 // Can be tied to a 'resize' event or called periodically
 function updateVisibleRowHeights() {
-    document.querySelectorAll('tr').forEach(row => {
+    document.querySelectorAll('tr, div.insta-post').forEach(row => {
         if (row.offsetHeight > 0) { // Simple check for visibility
             handleRowHeight([{target: row, isIntersecting: true}]);
         }
