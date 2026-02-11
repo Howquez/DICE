@@ -39,10 +39,17 @@ As the tool is under development, please [contact me](mailto:hauke.roggenkamp@un
 3. **Github:** To display images or gifs in your feed, you need to provide URLs (within your `*.csv` file) directing to publicly available images. To create URLs for your own visuals as well as the above-mentioned `*.csv` file, you need to upload these files somewhere. Github is a versatile, transparent and easy-to-use platform to do so. You can create an account in a matter of a few clicks.
 
 
+## DICE-Lite
+
+If you prefer working directly with code rather than using the GUI-based DICE App, check out [**DICE-Lite**](https://github.com/Howquez/DICE-lite) — a trimmed-down, code-centric version of DICE. It provides a generic, customizable microblogging-style feed that you can adapt or redesign as needed while maintaining core dwell-time measurement functionality. DICE-Lite is ideal for researchers already familiar with oTree who want full control over templates and logic.
+
+## Questions & Community
+
+Have a question, idea, or something to share? Head over to [**GitHub Discussions**](https://github.com/Howquez/DICE/discussions) — we'd love to hear from you.
+
 ## Resources & Links
 
 - Read the [docs](https://www.dice-app.org/docs/).
-- Use [Github Discussions](https://github.com/Howquez/DICE/discussions) to ask (and answer) questions.
 - Shiny app to [pre-process DICE's data](https://dice-app.shinyapps.io/DICE-Preprocessing/).
 - Code licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE) with added citation requirement:
 - Please cite as: _Roggenkamp, H., Boegershausen, J., & Hildebrand, C. (2026). DICE: Advancing Social Media Research Through Digital In-Context Experiments. Journal of Marketing. https://doi.org/10.1177/00222429251371702_ or check `Cite this repository` to the right.
