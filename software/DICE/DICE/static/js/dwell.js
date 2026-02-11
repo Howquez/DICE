@@ -78,7 +78,7 @@ function initializeObserver() {
     });
 
     // Support both table rows (Twitter) and divs (Instagram, etc.)
-    document.querySelectorAll('tr[id], div.insta-post[id]').forEach(row => observer.observe(row));
+    document.querySelectorAll('tr[id], div.insta-post[id], div.linkedin-post[id]').forEach(row => observer.observe(row));
     console.log('Visibility tracking initialized');
 
     // Add event listener for page visibility changes

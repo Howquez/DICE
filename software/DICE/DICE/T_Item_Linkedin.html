@@ -1,86 +1,173 @@
-<div class="card mb-2 bg-white border-black-25" style="border-radius: 10px;">
-    <div class="card-body bg-white border-bottom-0 mb-0 p-0" style="border-radius: 10px;">
-        <div class="row mb-0 pb-0 p-3">
-            <div class="col-2 mb-0">
-                <img src="{{i.user_image}}"
-                     class="card-img p1 mt-0 pt-0"
-                     style="width: 50px; height: 50px; position: relative; border-radius: 50px; object-fit: cover;">
-            </div>
-            <div class="col-10 mb-0">
-                <p class="ms-0 ps-0 mt-1 mb-0" style="line-height: 75%">
-                    <small>
-                        <b class="">{{i.username}}</b>
+{{ if i.condition == player.feed_condition }}
+    {{ if i.sponsored }}
+        <div id="{{i.doc_id}}" class="linkedin-post card mb-2 bg-white border-black-25" style="border-radius: 10px;" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
+            <div class="card-body bg-white border-bottom-0 mb-0 p-0" style="border-radius: 10px;">
+                <!-- Header -->
+                <div class="d-flex align-items-start p-3 pb-1">
+                    <img src="{{i.user_image}}"
+                         class="rounded-circle me-2 flex-shrink-0"
+                         style="width: 48px; height: 48px; object-fit: cover;">
+                    <div class="flex-grow-1" style="min-width: 0; line-height: 1.3;">
+                        <span class="fw-bold" style="font-size: 14px;">{{i.username}}</span>
                         <br>
-                        <small class="text-muted">
-                            {{i.handle}}
-                            <br>
-                            {{i.date}}
-                        </small>
-                    </small>
-                </p>
+                        <span class="text-muted" style="font-size: 12px;">{{i.handle}}</span>
+                        <br>
+                        <span class="text-muted" style="font-size: 12px;">{{i.date}} &middot; <i class="bi bi-globe2" style="font-size: 10px;"></i></span>
+                    </div>
+                    <i class="bi bi-three-dots text-muted ms-2" style="font-size: 20px;"></i>
+                </div>
+
+                <!-- Promoted label -->
+                <div class="px-3 mb-1">
+                    <small class="text-muted">Promoted</small>
+                </div>
+
+                <!-- Post text -->
+                <div class="promoted-content spons-post">
+                    <p class="px-3 mb-2" id="tweet_text_{{i.doc_id}}" style="font-size: 14px;">{{i.text}}</p>
+                    {{ if i.pic_available == True }}
+                        <a href="{{i.target}}" target="_blank" style="text-decoration: none; cursor: pointer;">
+                            <img class="w-100 img-fluid" src="{{i.media}}">
+                        </a>
+                    {{ endif }}
+                </div>
+            </div>
+
+            <!-- Engagement stats -->
+            <div class="px-3 py-2">
+                <div class="d-flex justify-content-between align-items-center" style="font-size: 13px;">
+                    <span class="text-muted">
+                        <i class="bi bi-hand-thumbs-up-fill text-white rounded-circle p-1" style="background-color: #0a66c2; font-size: 10px;"></i>
+                        <span class="like-count ms-1">{{i.likes}}</span>
+                    </span>
+                    <span class="text-muted">
+                        <span class="reply-count">{{i.replies}}</span> comments &middot; {{i.reposts}} reposts
+                    </span>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="border-top mx-3"></div>
+            <div class="d-flex justify-content-around py-1 text-secondary" style="font-size: 13px;">
+                <div class="like-button d-flex flex-column align-items-center py-2 px-3 rounded" id="like_button_{{i.doc_id}}" style="cursor: pointer;">
+                    <i class="bi bi-hand-thumbs-up like-icon" style="font-size: 20px;"></i>
+                    <span class="like-count d-none">{{i.likes}}</span>
+                    <span style="font-size: 12px; font-weight: 600;">Like</span>
+                    <input class="like-field" type="hidden" name="liked_item_{{i.doc_id}}" id="liked_item_{{i.doc_id}}">
+                </div>
+                <div class="reply-button d-flex flex-column align-items-center py-2 px-3 rounded" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}" style="cursor: pointer;">
+                    <i class="bi bi-chat-dots reply-icon" id="reply_icon_{{i.doc_id}}" style="font-size: 20px;"></i>
+                    <span style="font-size: 12px; font-weight: 600;">Comment</span>
+                </div>
+                <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
+                    <i class="bi bi-arrow-left-right" style="font-size: 20px;"></i>
+                    <span style="font-size: 12px; font-weight: 600;">Repost</span>
+                </div>
+                <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
+                    <i class="bi bi-send-fill" style="font-size: 20px;"></i>
+                    <span style="font-size: 12px; font-weight: 600;">Send</span>
+                </div>
             </div>
         </div>
-        <p class="px-3 my-2">
-            <small>{{i.text}}</small>
-        </p>
-        {{ if i.pic_available == True }}
-            <div class="text-center">
-                <img class="p-0 img-fluid px-0"
-                     src="{{i.media}}">
+    {{ else }}
+        <div id="{{i.doc_id}}" class="linkedin-post card mb-2 bg-white border-black-25" style="border-radius: 10px;" onmouseover="sequence('i' + {{i.doc_id}});" ontouchstart="sequence('i' + {{i.doc_id}});">
+            <div class="card-body bg-white border-bottom-0 mb-0 p-0" style="border-radius: 10px;">
+                <!-- Header -->
+                <div class="d-flex align-items-start p-3 pb-1">
+                    {{ if i.profile_pic_available }}
+                    <img src="{{i.user_image}}"
+                         class="rounded-circle me-2 flex-shrink-0"
+                         style="width: 48px; height: 48px; object-fit: cover;">
+                    {{ else }}
+                    <div class="poster {{ i.color_class }} rounded-circle d-flex align-items-center justify-content-center me-2 flex-shrink-0"
+                         style="width: 48px; height: 48px; font-size: 16px;">
+                        {{ i.icon }}
+                    </div>
+                    {{ endif }}
+                    <div class="flex-grow-1" style="min-width: 0; line-height: 1.3;">
+                        <span class="fw-bold" style="font-size: 14px;">{{i.username}}</span>
+                        <br>
+                        <span class="text-muted" style="font-size: 12px;">{{i.handle}}</span>
+                        <br>
+                        <span class="text-muted" style="font-size: 12px;">{{i.date}} &middot; <i class="bi bi-globe2" style="font-size: 10px;"></i></span>
+                    </div>
+                    <i class="bi bi-three-dots text-muted ms-2" style="font-size: 20px;"></i>
+                </div>
+
+                <!-- Post text -->
+                <p class="px-3 mb-2" id="tweet_text_{{i.doc_id}}" style="font-size: 14px;">{{i.text}}</p>
+
+                {{ if i.pic_available == True }}
+                    <img class="w-100 img-fluid" src="{{i.media}}">
+                {{ endif }}
             </div>
 
+            <!-- Engagement stats -->
+            <div class="px-3 py-2">
+                <div class="d-flex justify-content-between align-items-center" style="font-size: 13px;">
+                    <span class="text-muted">
+                        <i class="bi bi-hand-thumbs-up-fill text-white rounded-circle p-1" style="background-color: #0a66c2; font-size: 10px;"></i>
+                        <span class="like-count ms-1">{{i.likes}}</span>
+                    </span>
+                    <span class="text-muted">
+                        <span class="reply-count">{{i.replies}}</span> comments &middot; {{i.reposts}} reposts
+                    </span>
+                </div>
+            </div>
 
-        {{ endif }}
+            <!-- Action buttons -->
+            <div class="border-top mx-3"></div>
+            <div class="d-flex justify-content-around py-1 text-secondary" style="font-size: 13px;">
+                <div class="like-button d-flex flex-column align-items-center py-2 px-3 rounded" id="like_button_{{i.doc_id}}" style="cursor: pointer;">
+                    <i class="bi bi-hand-thumbs-up like-icon" style="font-size: 20px;"></i>
+                    <span class="like-count d-none">{{i.likes}}</span>
+                    <span style="font-size: 12px; font-weight: 600;">Like</span>
+                    <input class="like-field" type="hidden" name="liked_item_{{i.doc_id}}" id="liked_item_{{i.doc_id}}">
+                </div>
+                <div class="reply-button d-flex flex-column align-items-center py-2 px-3 rounded" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}" style="cursor: pointer;">
+                    <i class="bi bi-chat-dots reply-icon" id="reply_icon_{{i.doc_id}}" style="font-size: 20px;"></i>
+                    <span style="font-size: 12px; font-weight: 600;">Comment</span>
+                </div>
+                <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
+                    <i class="bi bi-arrow-left-right" style="font-size: 20px;"></i>
+                    <span style="font-size: 12px; font-weight: 600;">Repost</span>
+                </div>
+                <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
+                    <i class="bi bi-send-fill" style="font-size: 20px;"></i>
+                    <span style="font-size: 12px; font-weight: 600;">Send</span>
+                </div>
+            </div>
+        </div>
+    {{ endif }}
+
+    <!-- Reply Modal -->
+    <div class="modal fade reply-modal" id="replyModal_{{i.doc_id}}" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h6 class="modal-title">Comments</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="replying-tweet mb-4 ps-3 border-start border-3 text-secondary" style="border-color: #0072b1 !important;"
+                         id="replying_tweet_{{i.doc_id}}"></div>
+                    <div class="d-flex align-items-start text-secondary">
+                        <div class="me-2">
+                            <i class="bi bi-person-circle" style="font-size: 32px;" data-bs-toggle="popover"
+                               data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <textarea class="form-control border-light reply-field"
+                                      id="reply_to_item_{{i.doc_id}}" name="reply_to_item_{{i.doc_id}}"
+                                      rows="3" placeholder="Add a comment..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-link text-primary fw-semibold reply-modal-button" id="reply_modal_button_{{i.doc_id}}"
+                            data-bs-dismiss="modal">Post</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card-footer bg-white border-top-0" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-        <div class="d-flex justify-content-between">
-            <small class="text-muted text-start">
-                <i class="bi bi-hand-thumbs-up-fill text-primary"></i>
-                <span class="like-count"> {{i.likes}} </span>
-            </small>
-            <small class="text-end text-muted">
-                <span class="reply-count">{{i.replies}} </span>
-                comments
-            </small>
-        </div>
-        <hr>
-        <div class="row justify-content-between align-items-start text-secondary">
-            <div class="col col-2">
-                <img src="https://avatars.githubusercontent.com/u/19226126?v=4"
-                     class="card-img p1 mt-0 pt-0"
-                     style="width: 30px; height: 30px; position: relative; border-radius: 30px; object-fit: cover;">
-            </div>
-            <div class="col col-2 like-button" id="like_button_{{i.doc_id}}">
-                <div class="btn-container d-flex flex-column align-items-center">
-                    <small>
-                        <i class="bi bi-hand-thumbs-up fs-3 mr-2 like-icon" style="cursor: pointer"></i>
-                    </small>
-                </div>
-                <input class="like-field" type="hidden" name="liked_item_{{i.doc_id}}" id="liked_item_{{i.doc_id}}">
-            </div>
-            <div class="col col-2">
-                <div class="btn-container d-flex flex-column align-items-center">
-                    <small>
-                        <i class="bi bi-chat-text fs-3 mr-2"></i>
-                    </small>
-                </div>
-            </div>
-            <div class="col col-2">
-                <div class="btn-container d-flex flex-column align-items-center">
-                    <small>
-                        <i class="bi bi-arrow-repeat fs-3 mr-2"></i>
-                    </small>
-                </div>
-            </div>
-            <div class="col col-2">
-                <div class="btn-container d-flex flex-column align-items-center">
-                    <small>
-                        <i class="bi bi-send fs-3 mr-2"></i>
-                    </small>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-</div>
+{{ endif }}
