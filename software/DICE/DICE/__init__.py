@@ -145,6 +145,13 @@ def read_feed(path, delim):
     if re.match(r'^https?://\S+', path):
         if 'github' in path:
             tweets = pd.read_csv(path, sep = delim)
+        elif 'docs.google.com/spreadsheets' in path:
+            sheet_id = path.split('/d/')[1].split('/')[0]
+            gid = '0'
+            if 'gid=' in path:
+                gid = path.split('gid=')[1].split('&')[0].split('#')[0]
+            export_url = f'https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}'
+            tweets = pd.read_csv(export_url, sep=delim)
         elif 'drive.google.com' in path:
             if '/uc?' in path:
                 # Already in the correct format
@@ -166,15 +173,16 @@ def is_url(s):
 
 # some pre-processing
 def preprocessing(df, config):
-    # reformat date
-    df['datetime'] = pd.to_datetime(df['datetime'], errors='coerce')  # Try parsing with flexible format first
-    mask = df['datetime'].isna()  # If any dates failed to parse, try with the specific format
+    # reformat date — try European dot-style first to avoid day/month ambiguity, then fall back to pandas' flexible parser
+    df['datetime'] = pd.to_datetime(df['datetime'], errors='coerce', format='%d.%m.%y %H:%M')
+    mask = df['datetime'].isna()
     if mask.any():
         df.loc[mask, 'datetime'] = pd.to_datetime(
             df.loc[mask, 'datetime'],
             errors='coerce',
-            format='%d.%m.%y %H:%M'
         )
+    # fall back to current date for any remaining unparseable values
+    df['datetime'] = df['datetime'].fillna(pd.Timestamp.now())
     df['date'] = df['datetime'].dt.strftime('%d %b').str.replace(' ', '. ')
     df['date'] = df['date'].str.lstrip('0')
     df['formatted_datetime'] = df['datetime'].dt.strftime('%I:%M %p · %b %d, %Y')
@@ -317,18 +325,6 @@ class C_Feed(Page):
             dwell_threshold=player.session.config['dwell_threshold'],
         )
 
-
-    @staticmethod
-    def live_method(player, data):
-        parts = data.split('=')
-        variable_name = parts[0].strip()
-        value = eval(parts[1].strip())
-
-        # Use getattr to get the current value of the attribute within the player object
-        current_value = getattr(player, variable_name, 0)
-
-        # Perform the addition assignment and update the attribute within the player object
-        setattr(player, variable_name, current_value + value)
 
     @staticmethod
     def before_next_page(player, timeout_happened):
