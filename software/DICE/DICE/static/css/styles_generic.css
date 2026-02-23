@@ -1,0 +1,156 @@
+/* Generic Feed Carousel Styles */
+
+/* Custom styles for the carousel */
+.carousel-item {
+    height: 100vh; /* Full viewport height */
+    display: none; /* Hide all items by default */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; /* Stack items vertically */
+}
+
+.carousel-item.active {
+    display: flex; /* Only active item is displayed as flex */
+}
+
+.carousel-inner {
+    width: 100%;
+    height: 100vh; /* Match carousel height to viewport */
+    overflow: visible;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+    filter: invert(100%);
+}
+
+/* Chevron hint animation on first slide (delayed past 5s preloader) */
+@keyframes chevron-nudge {
+    0%, 100% { transform: translateX(0) scale(1); opacity: 0.6; }
+    50%      { transform: translateX(0.75rem) scale(1.4); opacity: 1; }
+}
+
+.chevron-hint .carousel-control-next-icon {
+    animation: chevron-nudge 0.8s ease-in-out 5;
+    animation-delay: 5.2s;
+    animation-fill-mode: backwards;
+}
+
+/* Position carousel controls outside the carousel */
+.col.overflow-auto {
+    overflow: visible !important;
+    position: relative;
+}
+
+#tweetCarousel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+#tweetCarousel .carousel-control-prev,
+#tweetCarousel .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    height: auto;
+    background: none;
+    border: none;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+    z-index: 5;
+}
+
+#tweetCarousel .carousel-control-prev:hover,
+#tweetCarousel .carousel-control-next:hover {
+    opacity: 1;
+}
+
+#tweetCarousel .carousel-control-prev {
+    left: -0.5rem;
+}
+
+#tweetCarousel .carousel-control-next {
+    right: -0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    #tweetCarousel {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    #tweetCarousel .carousel-control-prev {
+        left: -0.5rem;
+    }
+
+    #tweetCarousel .carousel-control-next {
+        right: -0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #tweetCarousel {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+    }
+
+    #tweetCarousel .carousel-control-prev,
+    #tweetCarousel .carousel-control-next {
+        opacity: 0.8;
+    }
+
+    #tweetCarousel .carousel-control-prev {
+        left: -0.5rem;
+    }
+
+    #tweetCarousel .carousel-control-next {
+        right: -0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .col.overflow-auto {
+        overflow: hidden !important;
+    }
+
+    #tweetCarousel .carousel-control-prev,
+    #tweetCarousel .carousel-control-next {
+        position: static;
+        transform: none;
+        opacity: 1;
+        width: 3rem;
+        height: 3rem;
+        padding: 0.5rem;
+    }
+
+    #tweetCarousel {
+        position: relative;
+    }
+
+    #tweetCarousel .carousel-inner {
+        width: 100%;
+    }
+
+    /* Create a bottom navigation bar for mobile */
+    #tweetCarousel .carousel-control-prev,
+    #tweetCarousel .carousel-control-next {
+        position: absolute;
+        top: auto;
+        transform: none;
+    }
+
+    #tweetCarousel .carousel-control-prev {
+        bottom: 1rem;
+        left: 1rem;
+    }
+
+    #tweetCarousel .carousel-control-next {
+        bottom: 1rem;
+        right: 1rem;
+    }
+}

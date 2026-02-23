@@ -8,6 +8,12 @@ SESSION_CONFIGS = [
         channel_type="Twitter", # "Twitter_Replies",
     ),
     dict(
+        name='Insta',
+        app_sequence=['DICE'],
+        num_demo_participants=3,
+        channel_type="Insta",
+    ),
+    dict(
         name='Linkedin_beta',
         app_sequence=['DICE'],
         num_demo_participants=3,
@@ -18,7 +24,14 @@ SESSION_CONFIGS = [
         app_sequence=['DICE'],
         num_demo_participants=3,
         channel_type="Generic",
-    )
+    ),
+    dict(
+        name='Stories_beta',
+        app_sequence=['DICE'],
+        num_demo_participants=3,
+        channel_type="Stories",
+        story_duration=7,  # seconds each story is displayed before auto-advancing
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -36,10 +49,11 @@ SESSION_CONFIG_DEFAULTS = dict(
     channel_type = 'Twitter',
     survey_link = 'https://unisg.qualtrics.com/jfe/form/SV_0DnMoLpM0VxjhrM',
     dwell_threshold = 75,
+    story_duration = 7,
     url_param = 'PROLIFIC_PID',
     briefing = '', # '<h5>This could be your briefing</h5><p>Use HTML syntax to format your content to your liking.</p>',
     consent_form = '',
-    data_path= 'DICE/static/data/sample_tweets.csv', #'DICE/static/data/9gag.csv', #  "https://raw.githubusercontent.com/Howquez/DICE/main/studies/frequency_capping/stimuli/brazil_pretest.csv",
+    data_path=  "https://raw.githubusercontent.com/DICE-app/sample-feeds/refs/heads/main/feeds/sample_2x2_brand_safety.csv", #'DICE/static/data/sample_tweets.csv', #'DICE/static/data/9gag.csv', #  "https://raw.githubusercontent.com/Howquez/DICE/main/studies/frequency_capping/stimuli/brazil_pretest.csv",
     delimiter=';',
     sort_by='datetime',
     condition_col='condition',

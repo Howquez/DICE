@@ -1,10 +1,12 @@
 
+<!--
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitter Mockup</title>
     <link rel="icon" href="https://twitter.com/favicon.ico"/>
 </head>
+-->
 
 <body class="bg-white">
 
@@ -17,6 +19,8 @@
     <input type="hidden" id="replies_data" name="replies_data">
     <input type="hidden" id="touch_capability" name="touch_capability" value="">
     <input type="hidden" id="device_type" name="device_type" value="">
+    <input type="hidden" name="promoted_post_clicks" id="promoted_post_clicks" value="">
+    <input type="hidden" id="screen_resolution" name="screen_resolution" value="">
 
 
 
@@ -33,86 +37,26 @@
             <!-- Feed -->
             <div class="col overflow-auto col-sm-12 col-md-6 col-lg-6 p-0" style="height: 100vh;">
 
-                <div id="tweetCarousel" class="carousel slide carousel-fade" data-bs-ride="false" data-bs-interval="false">
+                <div id="tweetCarousel" class="carousel slide carousel-fade" data-bs-ride="false" data-bs-interval="false" data-bs-wrap="false">
                     <div class="carousel-inner">
-                        <div class="carousel-item active w-100" data-doc-id="0">
-                            <div id="carousel_content_0" class="w-100 bg-white">
-                              <div>
-                                <div class="tweet d-flex align-items-start p-2">
-                                  <!-- Profile picture -->
-                                  <div class="profile-pic me-2">
-                                    <img src="https://avatars.githubusercontent.com/u/19226126?v=4" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;"
-                                         alt="Profile picture of Howquez."
-                                         data-bs-toggle="tooltip"
-                                         data-bs-placement="bottom"
-                                         data-bs-html="true"
-                                         data-bs-custom-class="custom-tooltip"
-                                         title="<div class='text-start text-secondary'><b class='text-dark'>Howquez</b><br>
-                                         @howquez<br><br>
-                                         I like pizza. <br><br><b class='text-dark'>42</b> Followers</div>">
-                                  </div>
-
-                                  <!-- Tweet content -->
-                                  <div class="tweet-content w-100" id="tweet_0">
-                                    <!-- Tweet header -->
-                                    <div class="d-flex justify-content-between"
-                                         style="cursor: pointer;"
-                                         data-bs-toggle="tooltip"
-                                         data-bs-placement="bottom"
-                                         data-bs-html="true"
-                                         data-bs-custom-class="custom-tooltip"
-                                         title="<div class='text-start text-secondary'><b class='text-dark'>Howquez</b><br>
-                                         @howquez<br><br>
-                                         I like pizza. <br><br><b class='text-dark'>42</b> Followers</div>">
-                                      <div>
-                                        <small><strong>Howquez</strong></small>
-                                        <small class="text-muted">@howquez</small>
-                                        <small class="text-muted">&middot;</small>
-                                        <small class="text-muted">just now</small>
-                                      </div>
-
-                                    </div>
-
-                                    <!-- Tweet text -->
-                                    <p class="my-1" id="tweet_text_0">This is an intro on how things work.</p>
-
-                                    <!-- Tweet actions -->
-                                    <div class="d-flex justify-content-between mt-2">
-                                      <!-- Reply -->
-                                      <div class="reply-button col" data-bs-toggle="modal" data-bs-target="#replyModal_0" id="reply_button_0">
-                                        <span class="bi bi-chat text-secondary reply-icon" id="reply_icon_0" style="cursor: pointer">️</span>
-                                        <span class="reply-count text-secondary" id="reply_count_0">4</span>
-                                      </div>
-                                      <!-- Repost -->
-                                      <div class="repost-button col">
-                                        <span class="bi bi-arrow-repeat text-secondary repost-icon" style="cursor: pointer">️</span>
-                                        <span class="repost-count text-secondary">2</span>
-                                      </div>
-                                      <!-- Like -->
-                                      <div class="like-button col" id="like_button_0}">
-                                        <span class="bi bi-heart text-secondary like-icon" style="cursor: pointer">️</span>
-                                        <span class="like-count text-secondary">42</span>
-                                      </div>
-                                      <!-- Share -->
-                                      <div class="share-button col">
-                                        <span class="bi bi-upload text-secondary share-icon" style="cursor: pointer">️</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                        </div>
                         {{ for i in tweets.values() }}
                             {{ include C.ITEM_GENERIC }}
                         {{ endfor }}
-                        <div class="carousel-item">
-                            <h2>Tweet N</h2>
-                            <p>This is the last tweet.</p>
-                            <div class="d-flex justify-content-center">
-                                <button class="btn btn-dark m-4" id="submitButton" type="submit">
-                                    Proceed
-                                </button>
+                        <!-- End of feed -->
+                        <div class="carousel-item w-100" data-doc-id="9999">
+                            <div id="carousel_content_9999" class="w-100 bg-white h-100 d-flex flex-column justify-content-center align-items-center">
+                                <div class="p-3">
+                                    <i class="bi bi-check-circle text-secondary" style="font-size: 48px;"></i>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <p class="fw-semibold mb-1">You're all caught up</p>
+                                    <small class="text-muted">You've seen all new posts from the past 3 days.</small>
+                                </div>
+                                <div class="my-3">
+                                    <button class="btn btn-dark btn-sm rounded-pill px-4 py-2" id="submitButton" type="submit">
+                                        Proceed to survey
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -127,5 +71,36 @@
                 </div>
             </div>
     </div>
+
+    <!-- Reply Modals (outside carousel) -->
+    {{ for i in tweets.values() }}
+        {{ if i.condition == player.feed_condition }}
+    <div class="modal fade reply-modal" id="replyModal_{{i.doc_id}}" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="replying-tweet mb-5 ms-3 ps-3 border-start border-primary border-3 text-secondary" id="replying_tweet_{{i.doc_id}}"></div>
+            <div class="row text-secondary">
+              <div class="col-2">
+                <h1 class="text-end">
+                  <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover" data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                </h1>
+              </div>
+              <div class="col">
+                <textarea class="form-control border-light reply-field" id="reply_to_item_{{i.doc_id}}" name="reply_to_item_{{i.doc_id}}" rows="4" placeholder="Tweet your reply"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-primary w-25 rounded-5 reply-modal-button" id="reply_modal_button_{{i.doc_id}}" data-bs-dismiss="modal">Reply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+        {{ endif }}
+    {{ endfor }}
 
 </body>

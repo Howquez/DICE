@@ -1,0 +1,91 @@
+<style>
+    /* Full-screen dark override for the stories viewer */
+    body { background: #000 !important; overflow: hidden !important; }
+    .otree-body { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+</style>
+
+<div class="stories-viewer-wrapper">
+
+    <!-- Hidden form fields (same set as other feed types) -->
+    <input type="hidden" name="scroll_sequence" id="scroll_sequence" value="">
+    <input type="hidden" name="viewport_data" id="viewport_data" value="">
+    <input type="hidden" name="rowheight_data" id="rowheight_data" value="NA">
+    <input type="hidden" name="cta" id="cta" value="False">
+    <input type="hidden" id="likes_data" name="likes_data">
+    <input type="hidden" id="replies_data" name="replies_data">
+    <input type="hidden" id="touch_capability" name="touch_capability" value="">
+    <input type="hidden" id="device_type" name="device_type" value="">
+    <input type="hidden" name="promoted_post_clicks" id="promoted_post_clicks" value="">
+    <input type="hidden" id="screen_resolution" name="screen_resolution" value="">
+
+    <!-- Loading screen (reuses Instagram gradient animation) -->
+    <div id="loadingScreen"
+         class="d-flex justify-content-center align-items-center insta-loading-bg"
+         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;">
+        <i class="bi bi-instagram text-white insta-logo-animate" style="font-size: 4rem;"></i>
+    </div>
+
+    <!-- Stories viewer (acts as the phone-frame container) -->
+    <div class="stories-viewer" id="mainContent">
+
+        <!-- Slides container -->
+        <div class="stories-slides" id="storiesSlides">
+
+            {{ for i in tweets.values() }}
+                {{ include C.ITEM_STORIES }}
+            {{ endfor }}
+
+            <!-- End-of-stories placeholder -->
+            <div class="stories-slide stories-end-slide" data-doc-id="9999">
+                <div class="stories-end-content">
+                    <i class="bi bi-check-circle text-white" style="font-size: 52px;"></i>
+                    <p class="text-white fw-semibold mb-1 mt-2">You're all caught up</p>
+                    <small class="text-white-50">You've seen all stories.</small>
+                    <button class="btn btn-light rounded-pill px-4 py-2 mt-3"
+                            id="submitButton" type="submit">
+                        Proceed to survey
+                    </button>
+                </div>
+            </div>
+
+        </div><!-- /stories-slides -->
+
+        <!-- TOP OVERLAY: progress bar + author header -->
+        <div class="stories-top-overlay" id="storiesTopOverlay">
+            <div class="stories-progress-track" id="storiesProgressTrack">
+                <!-- Segment divs injected by stories.js -->
+            </div>
+            <div class="stories-header-row">
+                <div class="stories-avatar-wrap" id="storiesAvatarWrap">
+                    <!-- Avatar injected by stories.js -->
+                </div>
+                <div>
+                    <div class="stories-author-name" id="storiesAuthorName"></div>
+                    <div class="stories-author-time" id="storiesAuthorTime"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAP ZONES (invisible hit areas for prev / next) -->
+        <div class="stories-tap stories-tap-prev" id="storiesTapPrev"
+             role="button" aria-label="Previous story"></div>
+        <div class="stories-tap stories-tap-next" id="storiesTapNext"
+             role="button" aria-label="Next story"></div>
+
+        <!-- BOTTOM OVERLAY: reply input + heart -->
+        <div class="stories-bottom-overlay" id="storiesBottomOverlay">
+            <input type="text"
+                   class="stories-reply-input"
+                   id="storiesReplyInput"
+                   placeholder="Send message..."
+                   autocomplete="off"
+                   enterkeyhint="send">
+            <button class="stories-heart-btn" id="storiesHeartBtn"
+                    type="button" aria-label="Like this story">
+                <i class="bi bi-heart stories-heart-icon" id="storiesHeartIcon"></i>
+            </button>
+        </div>
+
+    </div><!-- /stories-viewer -->
+
+</div><!-- /stories-viewer-wrapper -->

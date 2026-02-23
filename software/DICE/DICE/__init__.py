@@ -29,6 +29,7 @@ class C(BaseConstants):
     ITEM_MASS_MEDIA = "DICE/T_Item_Mass_Media.html"
     ITEM_GENERIC = "DICE/T_Item_Generic.html"
     ITEM_INSTA = "DICE/T_Item_Insta.html"
+    ITEM_STORIES = "DICE/T_Item_Stories.html"
 
 class Subsession(BaseSubsession):
     feed_conditions = models.StringField(doc='indicates the feed condition a player is randomly assigned to')
@@ -132,7 +133,7 @@ def creating_session(subsession):
 
 # make pictures (if any) visible
 def extract_first_url(text):
-    urls = re.findall("(?P<url>https?://[\S]+)", str(text))
+    urls = re.findall(r"(?P<url>https?://[\S]+)", str(text))
     if urls:
         return urls[0]
     return None
@@ -323,6 +324,7 @@ class C_Feed(Page):
     def js_vars(player: Player):
         return dict(
             dwell_threshold=player.session.config['dwell_threshold'],
+            story_duration=player.session.config['story_duration'],
         )
 
 

@@ -51,7 +51,45 @@ function updateViewportData() {
 
 // Attach event listeners to the carousel
 var carouselElement = document.querySelector('#tweetCarousel');
+
+// Activate the first carousel item (no hard-coded intro slide)
+var firstItem = carouselElement.querySelector('.carousel-item');
+if (firstItem && !carouselElement.querySelector('.carousel-item.active')) {
+    firstItem.classList.add('active');
+}
+
+// Start timing the first visible item
+var activeItem = carouselElement.querySelector('.carousel-item.active');
+if (activeItem) {
+    var docId = activeItem.getAttribute('data-doc-id');
+    if (docId) {
+        visibleCarouselItem.id = parseInt(docId);
+        visibleCarouselItem.startTime = Date.now();
+    }
+}
+
+// Hide prev/next arrows at carousel endpoints
+function updateCarouselControls() {
+    var items = carouselElement.querySelectorAll('.carousel-item');
+    var active = carouselElement.querySelector('.carousel-item.active');
+    var prevBtn = carouselElement.querySelector('.carousel-control-prev');
+    var nextBtn = carouselElement.querySelector('.carousel-control-next');
+    if (prevBtn) prevBtn.style.visibility = (active === items[0]) ? 'hidden' : 'visible';
+    if (nextBtn) nextBtn.style.visibility = (active === items[items.length - 1]) ? 'hidden' : 'visible';
+}
+updateCarouselControls();
+
+// Animate the next-arrow on the first slide as a navigation hint
+var nextBtn = carouselElement.querySelector('.carousel-control-next');
+if (nextBtn) nextBtn.classList.add('chevron-hint');
+function removeChevronHint() {
+    if (nextBtn) nextBtn.classList.remove('chevron-hint');
+    carouselElement.removeEventListener('slide.bs.carousel', removeChevronHint);
+}
+carouselElement.addEventListener('slide.bs.carousel', removeChevronHint);
+
 carouselElement.addEventListener('slid.bs.carousel', handleCarouselSlide);
+carouselElement.addEventListener('slid.bs.carousel', updateCarouselControls);
 
 // Optional: Handle page unload and form submission events
 window.addEventListener('beforeunload', finalizeCarouselData);

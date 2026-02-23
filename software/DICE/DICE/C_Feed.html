@@ -9,7 +9,9 @@
     <script src="{{ static 'js/like_button.js' }}"></script>
     <script src="{{ static 'js/interactions.js' }}"></script>
     <script src="{{ static 'js/scrolling.js' }}"></script>
-    {{ if subsession.FEED == "DICE/T_Feed_Generic.html" }}
+    {{ if subsession.FEED == "DICE/T_Feed_Stories.html" }}
+    <script src="{{ static 'js/stories.js' }}"></script>
+    {{ elif subsession.FEED == "DICE/T_Feed_Generic.html" }}
     <script src="{{ static 'js/swipes.js' }}"></script>
     {{ else }}
     <script src="{{ static 'js/dwell.js' }}"></script>
@@ -27,6 +29,12 @@
     <link rel="stylesheet" href="{% static 'css/preloader_linkedin.css' %}">
     <link rel="stylesheet" href="{% static 'css/preloader_twitter.css' %}">
     <link rel="stylesheet" href="{% static 'css/preloader_insta.css' %}">
+    {{ if subsession.FEED == "DICE/T_Feed_Generic.html" }}
+    <link rel="stylesheet" href="{% static 'css/styles_generic.css' %}">
+    {{ endif }}
+    {{ if subsession.FEED == "DICE/T_Feed_Stories.html" }}
+    <link rel="stylesheet" href="{% static 'css/styles_stories.css' %}">
+    {{ endif }}
 {{ endblock }}
 
 {{ block content }}

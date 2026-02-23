@@ -193,6 +193,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    const submitButton = document.getElementById('submitButton');
+    if (submitButton) {
+        submitButton.addEventListener('click', function(event) {
+            let data = collectDataHarmonized();
+            document.getElementById('likes_data').value = data.likes;
+            document.getElementById('replies_data').value = data.replies;
+            document.getElementById('promoted_post_clicks').value = data.promoted_clicks;
+            console.log("Data to send:", data);
+        });
+    }
+
     function displayTweetContent(docId, tweetContent) {
         const replyingTweetDiv = document.getElementById(`replying_tweet_${docId}`);
         replyingTweetDiv.textContent = tweetContent;

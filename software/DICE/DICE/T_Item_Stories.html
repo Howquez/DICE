@@ -1,0 +1,24 @@
+{{ if i.condition == player.feed_condition }}
+{{ if i.pic_available == True }}
+<div class="stories-slide"
+     data-doc-id="{{i.doc_id}}"
+     data-username="{{i.username}}"
+     data-date="{{i.date}}"
+     data-profile-pic-available="{{i.profile_pic_available}}"
+     data-user-image="{{i.user_image}}"
+     data-color-class="{{i.color_class}}"
+     data-icon="{{i.icon}}">
+
+    <!-- Blurred copy fills the letterbox area behind landscape images -->
+    <img src="{{i.media}}" class="stories-bg-blur" alt="" aria-hidden="true">
+    <!-- Sharp foreground image shown in full (contain, no cropping) -->
+    <img src="{{i.media}}" class="stories-bg-img" alt="{{i.alt_text}}">
+
+    <!-- Text caption (bottom area, above action bar) -->
+    <div class="stories-caption">
+        <p class="stories-caption-text">{{i.text}}</p>
+    </div>
+
+</div>
+{{ endif }}
+{{ endif }}
