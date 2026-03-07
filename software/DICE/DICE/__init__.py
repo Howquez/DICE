@@ -264,30 +264,21 @@ class A_Intro(Page):
     form_model = 'player'
 
     @staticmethod
+    def is_displayed(player):
+        return not player.session.config['skip_intro']
+
+    @staticmethod
     def vars_for_template(player: Player):
         print(len(player.session.config['briefing']) > 0)
         return dict(
             custom_consent_available=len(player.session.config['briefing']) > 0,
         )
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        # feed_conditions_str = player.subsession.feed_conditions
-        # feed_conditions_list = feed_conditions_str.strip("[]").split()
-        # random_condition = random.choice(feed_conditions_list)
-        # cleaned_condition = random_condition.strip("'")
-        # player.feed_condition = cleaned_condition
-
-        # update sequence
-        df = player.participant.tweets
-        tweets = df[df['condition'] == player.feed_condition]
-        player.sequence = ', '.join(map(str, tweets['doc_id'].tolist()))
-
 class B_Briefing(Page):
     form_model = 'player'
 
     @staticmethod
     def is_displayed(player):
-        return len(player.session.config['briefing']) > 0
+        return not player.session.config['skip_briefing'] and len(player.session.config['briefing']) > 0
 
 
 class C_Feed(Page):
