@@ -41,7 +41,7 @@
                         <span class="like-count ms-1">{{i.likes}}</span>
                     </span>
                     <span class="text-muted">
-                        <span class="reply-count">{{i.replies}}</span> comments &middot; {{i.reposts}} reposts
+                        <span class="reply-count">{{i.replies}}</span> comments &middot; <span class="repost-count">{{i.reposts}}</span> reposts
                     </span>
                 </div>
             </div>
@@ -59,12 +59,13 @@
                     <i class="bi bi-chat-dots reply-icon" id="reply_icon_{{i.doc_id}}" style="font-size: 20px;"></i>
                     <span style="font-size: 12px; font-weight: 600;">Comment</span>
                 </div>
-                <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
-                    <i class="bi bi-arrow-left-right" style="font-size: 20px;"></i>
+                <div class="repost-button d-flex flex-column align-items-center py-2 px-3 rounded" id="repost_button_{{i.doc_id}}" style="cursor: pointer;">
+                    <i class="bi bi-arrow-left-right repost-icon" style="font-size: 20px;"></i>
+                    <span class="repost-count d-none">{{i.reposts}}</span>
                     <span style="font-size: 12px; font-weight: 600;">Repost</span>
                 </div>
-                <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
-                    <i class="bi bi-send-fill" style="font-size: 20px;"></i>
+                <div class="share-button d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
+                    <i class="bi bi-send-fill share-icon" style="font-size: 20px;"></i>
                     <span style="font-size: 12px; font-weight: 600;">Send</span>
                 </div>
             </div>
@@ -110,7 +111,7 @@
                         <span class="like-count ms-1">{{i.likes}}</span>
                     </span>
                     <span class="text-muted">
-                        <span class="reply-count">{{i.replies}}</span> comments &middot; {{i.reposts}} reposts
+                        <span class="reply-count">{{i.replies}}</span> comments &middot; <span class="repost-count">{{i.reposts}}</span> reposts
                     </span>
                 </div>
             </div>
@@ -128,12 +129,13 @@
                     <i class="bi bi-chat-dots reply-icon" id="reply_icon_{{i.doc_id}}" style="font-size: 20px;"></i>
                     <span style="font-size: 12px; font-weight: 600;">Comment</span>
                 </div>
-                <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
-                    <i class="bi bi-arrow-left-right" style="font-size: 20px;"></i>
+                <div class="repost-button d-flex flex-column align-items-center py-2 px-3 rounded" id="repost_button_{{i.doc_id}}" style="cursor: pointer;">
+                    <i class="bi bi-arrow-left-right repost-icon" style="font-size: 20px;"></i>
+                    <span class="repost-count d-none">{{i.reposts}}</span>
                     <span style="font-size: 12px; font-weight: 600;">Repost</span>
                 </div>
-                <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
-                    <i class="bi bi-send-fill" style="font-size: 20px;"></i>
+                <div class="share-button d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
+                    <i class="bi bi-send-fill share-icon" style="font-size: 20px;"></i>
                     <span style="font-size: 12px; font-weight: 600;">Send</span>
                 </div>
             </div>
