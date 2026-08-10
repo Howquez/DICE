@@ -8,6 +8,7 @@
     <input type="hidden" name="cta" id="cta" value="False">
     <input type="hidden" id="likes_data" name="likes_data">
     <input type="hidden" id="replies_data" name="replies_data">
+    <input type="hidden" id="reposts_data" name="reposts_data">
     <input type="hidden" id="touch_capability" name="touch_capability" value="">
     <input type="hidden" id="device_type" name="device_type" value="">
     <input type="hidden" id="screen_resolution" name="screen_resolution" value="">
@@ -100,6 +101,25 @@
 
 
 
+
+    <!-- First Repost Confirmation Modal -->
+    <div class="modal fade" id="firstRepostModal" tabindex="-1" aria-labelledby="firstRepostModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center py-4">
+                    <svg aria-label="{{ ui.repost }}" role="img" viewBox="0 0 24 24" width="48" height="48" fill="currentColor" class="text-primary mb-3">
+                        <path d="M19.998 9.497a1 1 0 0 0-1 1v4.228a3.274 3.274 0 0 1-3.27 3.27h-5.313l1.791-1.787a1 1 0 0 0-1.412-1.416L7.29 18.287a1.004 1.004 0 0 0-.294.707v.001c0 .023.012.042.013.065a.923.923 0 0 0 .281.643l3.502 3.504a1 1 0 0 0 1.414-1.414l-1.797-1.798h5.318a5.276 5.276 0 0 0 5.27-5.27v-4.228a1 1 0 0 0-1-1Zm-6.41-3.496-1.795 1.795a1 1 0 1 0 1.414 1.414l3.5-3.5a1.003 1.003 0 0 0 0-1.417l-3.5-3.5a1 1 0 0 0-1.414 1.414l1.794 1.794H8.27A5.277 5.277 0 0 0 3 9.271V13.5a1 1 0 0 0 2 0V9.271a3.275 3.275 0 0 1 3.271-3.27Z"></path>
+                    </svg>
+                    <p class="fw-semibold mb-1">{{ ui.repost_confirmation_title }}</p>
+                    <p class="text-muted small mb-0">{{ ui.repost_confirmation_body }}</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" id="firstRepostUndo" data-bs-dismiss="modal">{{ ui.undo }}</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">{{ ui.ok }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Post Modal (for creating new posts) -->
     <div class="modal fade" id="tweetModal" tabindex="-1" aria-labelledby="tweetModalLabel" aria-hidden="true">

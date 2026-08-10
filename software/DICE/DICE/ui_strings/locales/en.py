@@ -52,6 +52,13 @@ EN_STRINGS: dict[str, str] = {
     # Instagram
     'your_story': 'Your story',
     'learn_more': 'Learn more',
+    # Repost
+    'repost': 'Repost',
+    'reposted': 'Reposted',
+    'repost_confirmation_title': 'Reposted to your profile',
+    'repost_confirmation_body': 'Your followers can see this in their feed.',
+    'undo': 'Undo',
+    'ok': 'OK',
     # LinkedIn
     'linkedin_connecting': 'Connecting professionals...',
     'linkedin_search': 'Search',
