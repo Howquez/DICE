@@ -6,14 +6,14 @@
                     <!-- Profile picture -->
                     <div class="profile-pic me-2">
                         <img src="{{i.user_image}}" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;"
-                             alt="Profile picture of {{i.username}}."
+                             alt="{{ ui.profile_picture_alt }} {{i.username}}."
                              data-bs-toggle="tooltip"
                              data-bs-placement="bottom"
                              data-bs-html="true"
                              data-bs-custom-class="custom-tooltip"
                              title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
                              @{{i.handle}}<br><br>
-                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
                     </div>
 
                     <!-- Tweet content -->
@@ -27,12 +27,12 @@
                              data-bs-custom-class="custom-tooltip"
                              title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
                              @{{i.handle}}<br><br>
-                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
                             <div>
                                 <small><strong>{{i.username}}</strong></small>
                                 <small class="text-muted">@{{i.handle}}</small>
                                 <small class="text-muted">&middot;</small>
-                                <small class="text-muted">Sponsored</small>
+                                <small class="text-muted">{{ ui.sponsored }}</small>
                             </div>
                         </div>
 
@@ -52,7 +52,7 @@
                                 <span class="bi bi-chat text-secondary reply-icon" id="reply_icon_{{i.doc_id}}" style="cursor: pointer">️</span>
                                 <span class="reply-count text-secondary" id="reply_count_{{i.doc_id}}">{{i.replies}}</span>
                             </div>
-                            <div class="repost-button col">
+                            <div class="repost-button col" id="repost_button_{{i.doc_id}}">
                                 <span class="bi bi-arrow-repeat text-secondary repost-icon" style="cursor: pointer">️</span>
                                 <span class="repost-count text-secondary">{{i.reposts}}</span>
                             </div>
@@ -75,14 +75,14 @@
                     <!-- Profile picture -->
                     <div class="profile-pic me-2">
                         <img src="{{i.user_image}}" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;"
-                             alt="Profile picture of {{i.username}}."
+                             alt="{{ ui.profile_picture_alt }} {{i.username}}."
                              data-bs-toggle="tooltip"
                              data-bs-placement="bottom"
                              data-bs-html="true"
                              data-bs-custom-class="custom-tooltip"
                              title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
                              @{{i.handle}}<br><br>
-                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
                     </div>
 
                     <!-- Tweet content -->
@@ -96,7 +96,7 @@
                              data-bs-custom-class="custom-tooltip"
                              title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
                              @{{i.handle}}<br><br>
-                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
                             <div>
                                 <small><strong>{{i.username}}</strong></small>
                                 <small class="text-muted">@{{i.handle}}</small>
@@ -119,7 +119,7 @@
                                 <span class="bi bi-chat text-secondary reply-icon" id="reply_icon_{{i.doc_id}}" style="cursor: pointer">️</span>
                                 <span class="reply-count text-secondary" id="reply_count_{{i.doc_id}}">{{i.replies}}</span>
                             </div>
-                            <div class="repost-button col">
+                            <div class="repost-button col" id="repost_button_{{i.doc_id}}">
                                 <span class="bi bi-arrow-repeat text-secondary repost-icon" style="cursor: pointer">️</span>
                                 <span class="repost-count text-secondary">{{i.reposts}}</span>
                             </div>

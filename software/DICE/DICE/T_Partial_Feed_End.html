@@ -1,0 +1,12 @@
+<div class="p-3">
+    <i class="bi bi-check-circle text-secondary" style="font-size: 48px;"></i>
+</div>
+<div class="text-center mb-3">
+    <p class="fw-semibold mb-1">{{ ui.feed_caught_up }}</p>
+    <small class="text-muted">{{ feed_end_seen_text }}</small>
+</div>
+<div class="my-3">
+    <button class="btn btn-dark btn-sm rounded-pill px-4 py-2" id="{{ feed_end_submit_id }}" type="submit">
+        {{ ui.proceed_to_survey }}
+    </button>
+</div>

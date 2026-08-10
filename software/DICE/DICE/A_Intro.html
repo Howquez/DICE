@@ -11,29 +11,28 @@
     <!-- Decision Card -->
     <div class="card mt-5 shadow-lg p-4">
         <div class="card-body">
-            <h1 class="display-4">Welcome!</h1>
+            <h1 class="display-4">{{ ui.intro_welcome }}</h1>
             <p class="lead">
-                Thank you for your interest in this study. It is anonymous and there are no right or wrong answers.
+                {{ ui.intro_lead }}
             </p>
 
             <table class="table mt-5 mb-5 table-responsive">
                 <tbody>
                     <tr>
-                        <th scope="row">Study</th>
+                        <th scope="row">{{ ui.intro_study_label }}</th>
                         <td>{{ session.config.study_name }}</td>
                     </tr>
                     <tr>
                         <th scope="row">
-                            Consent
+                            {{ ui.intro_consent_label }}
                         </th>
                         <td>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="consent_form" required>
                                 <label class="form-check-label" for="consent_form">
-                                    I agree to the anonymized analysis of my answers for the purpose of scientific
-                                    evaluation according to the
+                                    {{ ui.intro_consent_agreement }}
                                     <a class="text-success" data-bs-toggle="offcanvas" data-bs-target="#offcanvasconsent_form" id="consent_text" style="cursor: pointer;">
-                                        <u>consent form.</u>
+                                        <u>{{ ui.intro_consent_link }}</u>
                                     </a>
                                 </label>
                             </div>
@@ -43,7 +42,7 @@
             </table>
             <div class="d-flex justify-content-center m-5">
                 <button class="btn btn-success shadow" type="submit" id="submitButton">
-                    Start
+                    {{ ui.intro_start }}
                 </button>
             </div>
 
@@ -54,7 +53,7 @@
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasconsent_form" aria-labelledby="offcanvasconsent_label">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasconsent_label"></h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="{{ ui.close }}"></button>
         </div>
         <div class="offcanvas-body">
             {{ include C.CONSENT_TEMPLATE }}
@@ -62,4 +61,3 @@
     </div>
 </body>
 {{ endblock }}
-

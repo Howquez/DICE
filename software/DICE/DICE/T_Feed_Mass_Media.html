@@ -15,6 +15,7 @@
     <input type="hidden" name="cta" id="cta" value="False">
     <input type="hidden" id="likes_data" name="likes_data">
     <input type="hidden" id="replies_data" name="replies_data">
+    <input type="hidden" id="reposts_data" name="reposts_data">
     <input type="hidden" id="touch_capability" name="touch_capability" value="">
     <input type="hidden" id="device_type" name="device_type" value="">
 
@@ -56,7 +57,7 @@
                     <tr class="">
                         <td class="d-flex justify-content-center">
                             <button class="btn btn-dark m-4" id="submitButton" type="submit">
-                                Proceed
+                                {{ ui.proceed }}
                             </button>
                         </td>
                     </tr>
@@ -88,26 +89,26 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ ui.close }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row text-secondary">
                         <div class="col-2">
                             <h1 class="text-end">
                                 <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
-                                   data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                                   data-bs-content="{{ participant_id_popover }}"></i>
                             </h1>
                         </div>
                         <div class="col">
                                 <textarea class="form-control border-light" id="tweet1" rows="4"
-                                          placeholder="What are the first thoughts and feelings that come to your mind when you are scrolling through the entire feed?"></textarea>
+                                          placeholder="{{ ui.feed_reflection_placeholder }}"></textarea>
                             <!-- implement this https://stackoverflow.com/a/42853575 -->
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-primary w-25 rounded-5"
-                            data-bs-dismiss="modal">Tweet</button>
+                            data-bs-dismiss="modal">{{ ui.nav_tweet }}</button>
                 </div>
             </div>
         </div>

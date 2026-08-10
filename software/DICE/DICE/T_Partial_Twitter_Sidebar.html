@@ -1,0 +1,27 @@
+<div class="btn-group-vertical">
+    <button class="btn btn-light rounded-5 mt-5 text-start text-secondary" type="button" disabled>
+        <i class="bi bi-house"></i> {{ ui.nav_home }}
+    </button>
+    <button class="btn btn-light rounded-5 mt-3 text-start text-dark" type="button" disabled>
+        <i class="bi bi-hash"></i>
+        <b>{{ ui.nav_explore }}</b>
+    </button>
+    <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
+        <i class="bi bi-bell"></i> {{ ui.nav_notifications }}
+    </button>
+    <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
+        <i class="bi bi-envelope"></i> {{ ui.nav_messages }}
+    </button>
+    <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
+        <i class="bi bi-bookmark"></i> {{ ui.nav_bookmarks }}
+    </button>
+    <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
+        <i class="bi bi-file-medical"></i> {{ ui.nav_lists }}
+    </button>
+    <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
+        <i class="bi bi-person-circle"></i> {{ ui.nav_profile }}
+    </button>
+
+    <input class="btn btn-primary rounded-5 mt-5 mb-5" type="button" value="{{ ui.nav_tweet }}"
+           data-bs-toggle="modal" data-bs-target="#tweetModal">
+</div>

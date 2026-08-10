@@ -1,0 +1,62 @@
+<h3>Formulário de consentimento</h3>
+<small>
+    No âmbito deste estudo, grande importância é atribuída ao cumprimento das normas de proteção de dados,
+    à proteção da privacidade e à confidencialidade dos dados. Seguimos rigorosamente
+    todas as leis e regulamentos aplicáveis sobre proteção de dados. Com estas informações, informamos você
+    sobre o tratamento dos seus dados pessoais e os direitos aos quais você tem direito.
+    <br><br>
+</small>
+
+<h5>Pesquisador(a)</h5>
+<address>
+    {{ session.config.title }} {{ session.config.full_name }},
+    <a href="mailto:{{ session.config.eMail }}?subject={{ session.config.study_name }}: {{ participant.code }}">
+        {{ session.config.eMail }}
+    </a>
+</address>
+<br><br>
+
+<h5>Confidencialidade</h5>
+<p>
+    Os dados coletados neste estudo serão confidenciais. Nenhuma informação pessoal identificável será
+    coletada, a menos que fornecida voluntariamente. Quaisquer relatórios e apresentações sobre os resultados
+    deste estudo não incluirão informações que possam identificá-lo(a). Eventualmente, os resultados das
+    análises podem ser publicados de forma agregada em uma revista acadêmica. Podemos compartilhar os dados
+    coletados neste estudo com outros pesquisadores em estudos futuros — se compartilharmos seus dados, não
+    incluiremos informações que possam identificá-lo(a).
+</p>
+<br><br>
+
+<h5>Retirada da participação ou do consentimento</h5>
+<p>
+    A participação neste projeto de pesquisa é voluntária. Você tem, a todo momento, o direito de se retirar
+    da participação no projeto de pesquisa, sem necessidade de justificativa. Você também tem o direito de
+    retirar seu consentimento, o que resultará na remoção de suas informações pessoais de forma que não
+    possam mais ser vinculadas a você. No entanto, se decidir interromper sua participação, você não será
+    remunerado(a).
+</p>
+<br><br>
+
+<h5>Direitos individuais</h5>
+<p>
+    Você tem o direito de fazer perguntas sobre este projeto a qualquer momento, entrando em contato com
+    o(a) pesquisador(a) mencionado(a) acima por e-mail.
+
+    Você tem o direito de acessar e solicitar uma cópia dos seus dados pessoais, de se opor ao tratamento
+    dos seus dados pessoais, de retificá-los ou excluí-los. Você também tem o direito de limitar o
+    tratamento dos seus dados. Você pode exercer esses direitos entrando em contato com o(a) pesquisador(a).
+    A maneira mais fácil de fazê-lo é fornecendo seu código de participante: <code>{{ participant.code }}</code>
+</p>
+<br><br>
+
+<h5>
+    Ao concordar com estes termos, você consente com a seguinte declaração:
+</h5>
+<blockquote>
+    <em>
+    "Tenho 18 anos de idade ou mais, concordo em participar deste estudo, li as
+    informações que explicam o uso dos meus dados nesta pesquisa, compreendo seu conteúdo e concordo em
+    doar meus dados para uso nesta pesquisa, e não terei nenhum benefício financeiro resultante do
+    desenvolvimento comercial desta pesquisa."
+    </em>
+</blockquote>

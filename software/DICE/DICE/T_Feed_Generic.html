@@ -17,6 +17,7 @@
     <input type="hidden" name="cta" id="cta" value="False">
     <input type="hidden" id="likes_data" name="likes_data">
     <input type="hidden" id="replies_data" name="replies_data">
+    <input type="hidden" id="reposts_data" name="reposts_data">
     <input type="hidden" id="touch_capability" name="touch_capability" value="">
     <input type="hidden" id="device_type" name="device_type" value="">
     <input type="hidden" name="promoted_post_clicks" id="promoted_post_clicks" value="">
@@ -27,7 +28,7 @@
     <!-- Loading Screen -->
     <div id="loadingScreen" class="d-flex justify-content-center align-items-center bg-light" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;">
         <div class="spinner-grow text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+            <span class="visually-hidden">{{ ui.loading }}</span>
         </div>
     </div>
 
@@ -45,28 +46,17 @@
                         <!-- End of feed -->
                         <div class="carousel-item w-100" data-doc-id="9999">
                             <div id="carousel_content_9999" class="w-100 bg-white h-100 d-flex flex-column justify-content-center align-items-center">
-                                <div class="p-3">
-                                    <i class="bi bi-check-circle text-secondary" style="font-size: 48px;"></i>
-                                </div>
-                                <div class="text-center mb-3">
-                                    <p class="fw-semibold mb-1">You're all caught up</p>
-                                    <small class="text-muted">You've seen all new posts from the past 3 days.</small>
-                                </div>
-                                <div class="my-3">
-                                    <button class="btn btn-dark btn-sm rounded-pill px-4 py-2" id="submitButton" type="submit">
-                                        Proceed to survey
-                                    </button>
-                                </div>
+                                {{ include C.FEED_END_TEMPLATE }}
                             </div>
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#tweetCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
+                        <span class="visually-hidden">{{ ui.previous }}</span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#tweetCarousel" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
+                        <span class="visually-hidden">{{ ui.next }}</span>
                     </button>
                 </div>
             </div>
@@ -79,23 +69,23 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header border-0">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ ui.close }}"></button>
           </div>
           <div class="modal-body">
             <div class="replying-tweet mb-5 ms-3 ps-3 border-start border-primary border-3 text-secondary" id="replying_tweet_{{i.doc_id}}"></div>
             <div class="row text-secondary">
               <div class="col-2">
                 <h1 class="text-end">
-                  <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover" data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                  <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover" data-bs-content="{{ participant_id_popover }}"></i>
                 </h1>
               </div>
               <div class="col">
-                <textarea class="form-control border-light reply-field" id="reply_to_item_{{i.doc_id}}" name="reply_to_item_{{i.doc_id}}" rows="4" placeholder="Tweet your reply"></textarea>
+                <textarea class="form-control border-light reply-field" id="reply_to_item_{{i.doc_id}}" name="reply_to_item_{{i.doc_id}}" rows="4" placeholder="{{ ui.tweet_your_reply }}"></textarea>
               </div>
             </div>
           </div>
           <div class="modal-footer border-0">
-            <button type="button" class="btn btn-primary w-25 rounded-5 reply-modal-button" id="reply_modal_button_{{i.doc_id}}" data-bs-dismiss="modal">Reply</button>
+            <button type="button" class="btn btn-primary w-25 rounded-5 reply-modal-button" id="reply_modal_button_{{i.doc_id}}" data-bs-dismiss="modal">{{ ui.reply }}</button>
           </div>
         </div>
       </div>

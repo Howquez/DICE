@@ -38,6 +38,16 @@ As the tool is under development, please [contact me](mailto:hauke.roggenkamp@un
 2. **Qualtrics:** Even though you can also use other tools or program a questionnaire directly in oTree, we recommend to use Qualtrics to append a questionnaire to the DICE browsing task.
 3. **Github:** To display images or gifs in your feed, you need to provide URLs (within your `*.csv` file) directing to publicly available images. To create URLs for your own visuals as well as the above-mentioned `*.csv` file, you need to upload these files somewhere. Github is a versatile, transparent and easy-to-use platform to do so. You can create an account in a matter of a few clicks.
 
+## Localization
+
+DICE supports configurable UI language for the oTree codebase in [`software/DICE/settings.py`](software/DICE/settings.py).
+
+- **Configuration:** set `language = 'pt-br'` in `SESSION_CONFIGS` or `SESSION_CONFIG_DEFAULTS`.
+- **Supported values:** `en` (default), `pt-br` (also accepts `pt_br`; matching is case-insensitive).
+- **What is translated:** fixed UI chrome (navigation labels, buttons, default consent form, debrief boilerplate, accessibility strings, and JavaScript fallback messages).
+- **What is not translated:** CSV feed content, `study_name`, `briefing`, custom `consent_form`, and external survey tools such as Qualtrics. Provide those in the target language manually.
+- **Demo sessions:** use `Twitter_PT` or `Instagram_PT` in `SESSION_CONFIGS` to smoke-test Portuguese locally.
+
 
 ## DICE-Lite
 

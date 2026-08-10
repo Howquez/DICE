@@ -20,15 +20,15 @@
                     <div class="card-body p-5">
 
                         <p>
-                            You are being redirected, please, wait...
+                            {{ ui.redirect_wait }}
                         </p>
 
                         <p>
-                            If you haven't been redirected in 10 seconds, please click this button.
+                            {{ ui.redirect_fallback }}
                         </p>
 
                         <div class="d-flex justify-content-center mt-4">
-                            <a class="btn btn-success shadow" href="{{link}}" role="button">Continue</a>
+                            <a class="btn btn-success shadow" href="{{link}}" role="button">{{ ui.redirect_continue }}</a>
                         </div>
                     </div>
                 </div>

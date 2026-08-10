@@ -7,6 +7,13 @@ import random
 import httplib2
 import itertools
 
+from .ui_strings import (
+    get_consent_default_template,
+    get_debrief_context,
+    get_js_strings,
+    get_template_context,
+)
+
 
 
 doc = """
@@ -23,6 +30,9 @@ class C(BaseConstants):
     CONSENT_TEMPLATE = "DICE/T_Consent.html"
     TOPICS_TEMPLATE = "DICE/T_Trending_Topics.html"
     BANNER_TEMPLATE = "DICE/T_Banner_Ads.html"
+    FEED_END_TEMPLATE = "DICE/T_Partial_Feed_End.html"
+    FEED_END_STORIES_TEMPLATE = "DICE/T_Partial_Feed_End_Stories.html"
+    TWITTER_SIDEBAR_TEMPLATE = "DICE/T_Partial_Twitter_Sidebar.html"
 
     ITEM_TWITTER = "DICE/T_Item_Twitter.html"
     ITEM_LINKEDIN = "DICE/T_Item_Linkedin.html"
@@ -50,6 +60,8 @@ class Player(BasePlayer):
     rowheight_data = models.LongStringField(doc='tracks the time feed items were visible in a participants viewport.')
     likes_data = models.LongStringField(doc='tracks likes.', blank=True)
     replies_data = models.LongStringField(doc='tracks replies.', blank=True)
+    # New sessions require `otree resetdb` after adding this field.
+    reposts_data = models.LongStringField(doc='tracks reposts.', blank=True)
     promoted_post_clicks = models.LongStringField(doc='tracks the clicks on sponsored posts.', blank=True)
 
 
@@ -269,10 +281,16 @@ class A_Intro(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        print(len(player.session.config['briefing']) > 0)
-        return dict(
-            custom_consent_available=len(player.session.config['briefing']) > 0,
+        language = player.session.config.get('language', 'en')
+        context = get_template_context(
+            language,
+            player.participant.code,
+            player.participant.label,
         )
+        context['custom_consent_available'] = len(player.session.config['consent_form']) > 0
+        context['consent_default_template'] = get_consent_default_template(language)
+        return context
+
 class B_Briefing(Page):
     form_model = 'player'
 
@@ -280,13 +298,17 @@ class B_Briefing(Page):
     def is_displayed(player):
         return not player.session.config['skip_briefing'] and len(player.session.config['briefing']) > 0
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        return get_template_context(player.session.config.get('language', 'en'))
+
 
 class C_Feed(Page):
     form_model = 'player'
 
     @staticmethod
     def get_form_fields(player: Player):
-        fields =  ['likes_data', 'replies_data', 'promoted_post_clicks', 'touch_capability', 'device_type', 'screen_resolution']
+        fields =  ['likes_data', 'replies_data', 'reposts_data', 'promoted_post_clicks', 'touch_capability', 'device_type', 'screen_resolution']
 
         if not player.session.config['topics'] & player.session.config['show_cta']:
             more_fields =  ['scroll_sequence', 'viewport_data', "rowheight_data"] # , 'cta']
@@ -303,19 +325,32 @@ class C_Feed(Page):
             label_available = True
         # Reset index to ensure consistent ordering (important for generic feed swiper)
         tweets_df = player.participant.tweets.reset_index(drop=True)
-        return dict(
+        language = player.session.config.get('language', 'en')
+        context = get_template_context(
+            language,
+            player.participant.code,
+            player.participant.label,
+        )
+        channel_type = player.session.config['channel_type']
+        if channel_type == 'Linkedin':
+            context['feed_end_seen_text'] = context['ui']['feed_seen_posts_short']
+        elif channel_type == 'Generic':
+            context['feed_end_submit_id'] = 'submitButton'
+        context.update(
             tweets=tweets_df.to_dict('index'),
             topics=player.session.config['topics'],
             search_term=player.session.config['search_term'],
             label_available=label_available,
-            # banner_img='img/{}_banner.png'.format(ad),
         )
+        return context
 
     @staticmethod
     def js_vars(player: Player):
+        language = player.session.config.get('language', 'en')
         return dict(
             dwell_threshold=player.session.config['dwell_threshold'],
             story_duration=player.session.config['story_duration'],
+            **get_js_strings(language),
         )
 
 
@@ -347,7 +382,9 @@ class D_Redirect(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(link=create_redirect(player))
+        context = get_template_context(player.session.config.get('language', 'en'))
+        context['link'] = create_redirect(player)
+        return context
 
     @staticmethod
     def js_vars(player):
@@ -359,6 +396,10 @@ class D_Debrief(Page):
     def is_displayed(player):
         return len(player.session.config['survey_link']) == 0
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        return get_debrief_context(player)
+
 page_sequence = [A_Intro,
                  B_Briefing,
                  C_Feed,
@@ -369,9 +410,9 @@ page_sequence = [A_Intro,
 def custom_export(players):
     # header row
     yield ['session', 'participant_code', 'participant_label', 'participant_in_session', 'condition', 'item_sequence',
-           'scroll_sequence', 'item_dwell_time', 'likes', 'replies']
+           'scroll_sequence', 'item_dwell_time', 'likes', 'replies', 'reposts']
     for p in players:
         participant = p.participant
         session = p.session
         yield [session.code, participant.code, participant.label, p.id_in_group, p.feed_condition, p.sequence,
-               p.scroll_sequence, p.viewport_data, p.likes_data, p.replies_data]
+               p.scroll_sequence, p.viewport_data, p.likes_data, p.replies_data, p.reposts_data]

@@ -7,7 +7,10 @@ document.addEventListener("DOMContentLoaded", function() {
     function replaceWithPlaceholder(element) {
         // Create placeholder div
         const placeholder = document.createElement('div');
-        placeholder.textContent = 'Image not available anymore';
+        const unavailableText = (typeof js_vars !== 'undefined' && js_vars.image_unavailable)
+            ? js_vars.image_unavailable
+            : 'Image not available anymore';
+        placeholder.textContent = unavailableText;
         placeholder.className = 'img-fluid rounded-4 mt-2';
 
         // Add styling
