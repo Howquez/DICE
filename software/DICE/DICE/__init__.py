@@ -50,6 +50,8 @@ class Player(BasePlayer):
     rowheight_data = models.LongStringField(doc='tracks the time feed items were visible in a participants viewport.')
     likes_data = models.LongStringField(doc='tracks likes.', blank=True)
     replies_data = models.LongStringField(doc='tracks replies.', blank=True)
+    # New sessions require `otree resetdb` after adding this field.
+    reposts_data = models.LongStringField(doc='tracks reposts.', blank=True)
     promoted_post_clicks = models.LongStringField(doc='tracks the clicks on sponsored posts.', blank=True)
 
 
@@ -286,7 +288,7 @@ class C_Feed(Page):
 
     @staticmethod
     def get_form_fields(player: Player):
-        fields =  ['likes_data', 'replies_data', 'promoted_post_clicks', 'touch_capability', 'device_type', 'screen_resolution']
+        fields =  ['likes_data', 'replies_data', 'reposts_data', 'promoted_post_clicks', 'touch_capability', 'device_type', 'screen_resolution']
 
         if not player.session.config['topics'] & player.session.config['show_cta']:
             more_fields =  ['scroll_sequence', 'viewport_data', "rowheight_data"] # , 'cta']
@@ -369,9 +371,9 @@ page_sequence = [A_Intro,
 def custom_export(players):
     # header row
     yield ['session', 'participant_code', 'participant_label', 'participant_in_session', 'condition', 'item_sequence',
-           'scroll_sequence', 'item_dwell_time', 'likes', 'replies']
+           'scroll_sequence', 'item_dwell_time', 'likes', 'replies', 'reposts']
     for p in players:
         participant = p.participant
         session = p.session
         yield [session.code, participant.code, participant.label, p.id_in_group, p.feed_condition, p.sequence,
-               p.scroll_sequence, p.viewport_data, p.likes_data, p.replies_data]
+               p.scroll_sequence, p.viewport_data, p.likes_data, p.replies_data, p.reposts_data]

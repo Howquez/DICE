@@ -99,3 +99,90 @@
     right: 0;
     border: 2px solid white;
 }
+
+.insta-repost-icon {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.insta-repost-icon svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+}
+
+.insta-repost-icon .repost-icon-check.d-none,
+.insta-repost-icon .repost-icon-default.d-none {
+    display: none !important;
+}
+
+.repost-button {
+    cursor: pointer;
+}
+
+/* Double-tap like overlay on post media */
+.insta-post-media {
+    overflow: hidden;
+}
+
+.insta-double-tap-heart {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.insta-double-tap-heart-icon {
+    font-size: 96px;
+    line-height: 1;
+    color: #ffffff;
+    opacity: 0;
+    transform: scale(0);
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6)) drop-shadow(0 4px 20px rgba(0, 0, 0, 0.45));
+    will-change: transform, opacity;
+}
+
+.insta-double-tap-heart.is-visible .insta-double-tap-heart-icon {
+    animation: insta-heart-pop 1s ease-out forwards;
+}
+
+@keyframes insta-heart-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    12% {
+        opacity: 1;
+        transform: scale(1.25);
+    }
+    24% {
+        transform: scale(0.95);
+    }
+    36% {
+        transform: scale(1);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .insta-double-tap-heart.is-visible .insta-double-tap-heart-icon {
+        animation: none;
+        opacity: 1;
+        transform: scale(1);
+    }
+}
