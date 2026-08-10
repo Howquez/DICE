@@ -99,3 +99,28 @@
     right: 0;
     border: 2px solid white;
 }
+
+.insta-repost-icon {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.insta-repost-icon svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+}
+
+.insta-repost-icon .repost-icon-check.d-none,
+.insta-repost-icon .repost-icon-default.d-none {
+    display: none !important;
+}
+
+.repost-button {
+    cursor: pointer;
+}
