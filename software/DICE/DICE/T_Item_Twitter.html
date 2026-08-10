@@ -6,14 +6,14 @@
             <!-- Profile picture -->
             <div class="profile-pic me-2">
                 <img src="{{i.user_image}}" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;"
-                     alt="Profile picture of {{i.username}}."
+                     alt="{{ ui.profile_picture_alt }} {{i.username}}."
                      data-bs-toggle="tooltip"
                      data-bs-placement="bottom"
                      data-bs-html="true"
                      data-bs-custom-class="custom-tooltip"
                      title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
                      @{{i.handle}}<br><br>
-                     {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                     {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
             </div>
 
             <!-- Tweet content -->
@@ -27,12 +27,12 @@
                      data-bs-custom-class="custom-tooltip"
                      title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
                      @{{i.handle}}<br><br>
-                     {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                     {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
                     <div>
                         <small><strong>{{i.username}}</strong></small>
                         <small class="text-muted">@{{i.handle}}</small>
                         <small class="text-muted">&middot;</small>
-                        <small class="text-muted">Sponsored</small>
+                        <small class="text-muted">{{ ui.sponsored }}</small>
                     </div>
                 </div>
 
@@ -82,14 +82,14 @@
         {{ if i.profile_pic_available }}
         <div class="profile-pic me-2">
             <img src="{{i.user_image}}" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;"
-                 alt="Profile picture of {{i.username}}."
+                 alt="{{ ui.profile_picture_alt }} {{i.username}}."
                  data-bs-toggle="tooltip"
                  data-bs-placement="bottom"
                  data-bs-html="true"
                  data-bs-custom-class="custom-tooltip"
                  title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
                              @{{i.handle}}<br><br>
-                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
         </div>
         {{ else }}
         <div class="me-2 poster {{ i.color_class }}" style="width: 48px; height: 48px;">
@@ -108,7 +108,7 @@
                  data-bs-custom-class="custom-tooltip"
                  title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
                              @{{i.handle}}<br><br>
-                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                             {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
                 <div>
                     <small><strong>{{i.username}}</strong></small>
                     <br>
@@ -168,17 +168,17 @@
         <div class="d-flex align-items-center my-0" value="Tweet" data-bs-toggle="modal" data-bs-target="#tweetModal">
             <!-- Poster element -->
             <div class="mx-2 poster p1 my-0" style="width: 48px; height: 48px;">
-                You
+                {{ ui.you }}
             </div>
 
             <!-- Text next to the poster -->
             <div class="flex-grow-1 pt-3">
-                <p class="text-secondary" style="font-size: 20px;">Post your reply</p>
+                <p class="text-secondary" style="font-size: 20px;">{{ ui.post_your_reply }}</p>
             </div>
 
             <!-- Button next to the text -->
             <button type="button" class="btn btn-primary btn-sm rounded-pill me-2" disabled>
-                Reply
+                {{ ui.reply }}
             </button>
         </div>
 
@@ -192,14 +192,14 @@
             {{ if i.profile_pic_available }}
             <div class="profile-pic me-2">
                 <img src="{{i.user_image}}" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;"
-                     alt="Profile picture of {{i.username}}."
+                     alt="{{ ui.profile_picture_alt }} {{i.username}}."
                      data-bs-toggle="tooltip"
                      data-bs-placement="bottom"
                      data-bs-html="true"
                      data-bs-custom-class="custom-tooltip"
                      title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
                                  @{{i.handle}}<br><br>
-                                 {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                                 {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
             </div>
             {{ else }}
             <div class="me-2 poster {{ i.color_class }}" style="width: 48px; height: 48px;">
@@ -218,7 +218,7 @@
                      data-bs-custom-class="custom-tooltip"
                      title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>
                                  @{{i.handle}}<br><br>
-                                 {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                                 {{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
                     <div>
                         <small><strong>{{i.username}}</strong></small>
                         <small class="text-muted">@{{i.handle}}</small>
@@ -271,7 +271,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header border-0">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ ui.close }}"></button>
             </div>
             <div class="modal-body">
                 <div class="replying-tweet mb-5 ms-3 ps-3 border-start border-primary border-3 text-secondary"
@@ -280,19 +280,19 @@
                     <div class="col-2">
                         <h1 class="text-end">
                             <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
-                               data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                               data-bs-content="{{ participant_id_popover }}"></i>
                         </h1>
                     </div>
                     <div class="col">
                                     <textarea class="form-control border-light reply-field"
                                               id="reply_to_item_{{i.doc_id}}" name="reply_to_item_{{i.doc_id}}"
-                                              rows="4" placeholder="Tweet your reply"></textarea>
+                                              rows="4" placeholder="{{ ui.tweet_your_reply }}"></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-primary w-25 rounded-5 reply-modal-button" id="reply_modal_button_{{i.doc_id}}"
-                        data-bs-dismiss="modal">Reply</button>
+                        data-bs-dismiss="modal">{{ ui.reply }}</button>
             </div>
         </div>
     </div>

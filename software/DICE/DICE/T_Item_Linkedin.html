@@ -19,7 +19,7 @@
 
                 <!-- Promoted label -->
                 <div class="px-3 mb-1">
-                    <small class="text-muted">Promoted</small>
+                    <small class="text-muted">{{ ui.promoted }}</small>
                 </div>
 
                 <!-- Post text -->
@@ -41,7 +41,7 @@
                         <span class="like-count ms-1">{{i.likes}}</span>
                     </span>
                     <span class="text-muted">
-                        <span class="reply-count">{{i.replies}}</span> comments &middot; {{i.reposts}} reposts
+                        <span class="reply-count">{{i.replies}}</span> {{ ui.linkedin_comments }} &middot; {{i.reposts}} {{ ui.linkedin_reposts }}
                     </span>
                 </div>
             </div>
@@ -52,20 +52,20 @@
                 <div class="like-button d-flex flex-column align-items-center py-2 px-3 rounded" id="like_button_{{i.doc_id}}" style="cursor: pointer;">
                     <i class="bi bi-hand-thumbs-up like-icon" style="font-size: 20px;"></i>
                     <span class="like-count d-none">{{i.likes}}</span>
-                    <span style="font-size: 12px; font-weight: 600;">Like</span>
+                    <span style="font-size: 12px; font-weight: 600;">{{ ui.linkedin_like }}</span>
                     <input class="like-field" type="hidden" name="liked_item_{{i.doc_id}}" id="liked_item_{{i.doc_id}}">
                 </div>
                 <div class="reply-button d-flex flex-column align-items-center py-2 px-3 rounded" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}" style="cursor: pointer;">
                     <i class="bi bi-chat-dots reply-icon" id="reply_icon_{{i.doc_id}}" style="font-size: 20px;"></i>
-                    <span style="font-size: 12px; font-weight: 600;">Comment</span>
+                    <span style="font-size: 12px; font-weight: 600;">{{ ui.linkedin_comment }}</span>
                 </div>
                 <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
                     <i class="bi bi-arrow-left-right" style="font-size: 20px;"></i>
-                    <span style="font-size: 12px; font-weight: 600;">Repost</span>
+                    <span style="font-size: 12px; font-weight: 600;">{{ ui.linkedin_repost }}</span>
                 </div>
                 <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
                     <i class="bi bi-send-fill" style="font-size: 20px;"></i>
-                    <span style="font-size: 12px; font-weight: 600;">Send</span>
+                    <span style="font-size: 12px; font-weight: 600;">{{ ui.linkedin_send }}</span>
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
                         <span class="like-count ms-1">{{i.likes}}</span>
                     </span>
                     <span class="text-muted">
-                        <span class="reply-count">{{i.replies}}</span> comments &middot; {{i.reposts}} reposts
+                        <span class="reply-count">{{i.replies}}</span> {{ ui.linkedin_comments }} &middot; {{i.reposts}} {{ ui.linkedin_reposts }}
                     </span>
                 </div>
             </div>
@@ -121,20 +121,20 @@
                 <div class="like-button d-flex flex-column align-items-center py-2 px-3 rounded" id="like_button_{{i.doc_id}}" style="cursor: pointer;">
                     <i class="bi bi-hand-thumbs-up like-icon" style="font-size: 20px;"></i>
                     <span class="like-count d-none">{{i.likes}}</span>
-                    <span style="font-size: 12px; font-weight: 600;">Like</span>
+                    <span style="font-size: 12px; font-weight: 600;">{{ ui.linkedin_like }}</span>
                     <input class="like-field" type="hidden" name="liked_item_{{i.doc_id}}" id="liked_item_{{i.doc_id}}">
                 </div>
                 <div class="reply-button d-flex flex-column align-items-center py-2 px-3 rounded" data-bs-toggle="modal" data-bs-target="#replyModal_{{i.doc_id}}" id="reply_button_{{i.doc_id}}" style="cursor: pointer;">
                     <i class="bi bi-chat-dots reply-icon" id="reply_icon_{{i.doc_id}}" style="font-size: 20px;"></i>
-                    <span style="font-size: 12px; font-weight: 600;">Comment</span>
+                    <span style="font-size: 12px; font-weight: 600;">{{ ui.linkedin_comment }}</span>
                 </div>
                 <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
                     <i class="bi bi-arrow-left-right" style="font-size: 20px;"></i>
-                    <span style="font-size: 12px; font-weight: 600;">Repost</span>
+                    <span style="font-size: 12px; font-weight: 600;">{{ ui.linkedin_repost }}</span>
                 </div>
                 <div class="d-flex flex-column align-items-center py-2 px-3 rounded" style="cursor: pointer;">
                     <i class="bi bi-send-fill" style="font-size: 20px;"></i>
-                    <span style="font-size: 12px; font-weight: 600;">Send</span>
+                    <span style="font-size: 12px; font-weight: 600;">{{ ui.linkedin_send }}</span>
                 </div>
             </div>
         </div>
@@ -145,8 +145,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <h6 class="modal-title">Comments</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h6 class="modal-title">{{ ui.linkedin_comments_title }}</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ ui.close }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="replying-tweet mb-4 ps-3 border-start border-3 text-secondary" style="border-color: #0072b1 !important;"
@@ -154,18 +154,18 @@
                     <div class="d-flex align-items-start text-secondary">
                         <div class="me-2">
                             <i class="bi bi-person-circle" style="font-size: 32px;" data-bs-toggle="popover"
-                               data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                               data-bs-content="{{ participant_id_popover }}"></i>
                         </div>
                         <div class="flex-grow-1">
                             <textarea class="form-control border-light reply-field"
                                       id="reply_to_item_{{i.doc_id}}" name="reply_to_item_{{i.doc_id}}"
-                                      rows="3" placeholder="Add a comment..."></textarea>
+                                      rows="3" placeholder="{{ ui.linkedin_add_comment }}"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-link text-primary fw-semibold reply-modal-button" id="reply_modal_button_{{i.doc_id}}"
-                            data-bs-dismiss="modal">Post</button>
+                            data-bs-dismiss="modal">{{ ui.post }}</button>
                 </div>
             </div>
         </div>

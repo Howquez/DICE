@@ -32,6 +32,20 @@ SESSION_CONFIGS = [
         num_demo_participants=3,
         channel_type="Generic",
     ),
+    dict(
+        name='Twitter_PT',
+        app_sequence=['DICE'],
+        num_demo_participants=3,
+        channel_type="Twitter",
+        language='pt-br',
+    ),
+    dict(
+        name='Instagram_PT',
+        app_sequence=['DICE'],
+        num_demo_participants=3,
+        channel_type="Insta",
+        language='pt-br',
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -60,6 +74,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     sort_by='datetime',
     condition_col='condition',
     search_term = "@9GAG", #"'#Yosemite',
+    language = 'en',  # 'pt-br' — translates fixed UI; set briefing/consent_form/study_name/CSV in target language
 
     # Legacy ?
     topics = True,

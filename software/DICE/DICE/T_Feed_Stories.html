@@ -37,15 +37,7 @@
 
             <!-- End-of-stories placeholder -->
             <div class="stories-slide stories-end-slide" data-doc-id="9999">
-                <div class="stories-end-content">
-                    <i class="bi bi-check-circle text-white" style="font-size: 52px;"></i>
-                    <p class="text-white fw-semibold mb-1 mt-2">You're all caught up</p>
-                    <small class="text-white-50">You've seen all stories.</small>
-                    <button class="btn btn-light rounded-pill px-4 py-2 mt-3"
-                            id="submitButton" type="submit">
-                        Proceed to survey
-                    </button>
-                </div>
+                {{ include C.FEED_END_STORIES_TEMPLATE }}
             </div>
 
         </div><!-- /stories-slides -->
@@ -68,20 +60,20 @@
 
         <!-- TAP ZONES (invisible hit areas for prev / next) -->
         <div class="stories-tap stories-tap-prev" id="storiesTapPrev"
-             role="button" aria-label="Previous story"></div>
+             role="button" aria-label="{{ ui.stories_previous }}"></div>
         <div class="stories-tap stories-tap-next" id="storiesTapNext"
-             role="button" aria-label="Next story"></div>
+             role="button" aria-label="{{ ui.stories_next }}"></div>
 
         <!-- BOTTOM OVERLAY: reply input + heart -->
         <div class="stories-bottom-overlay" id="storiesBottomOverlay">
             <input type="text"
                    class="stories-reply-input"
                    id="storiesReplyInput"
-                   placeholder="Send message..."
+                   placeholder="{{ ui.stories_send_message }}"
                    autocomplete="off"
                    enterkeyhint="send">
             <button class="stories-heart-btn" id="storiesHeartBtn"
-                    type="button" aria-label="Like this story">
+                    type="button" aria-label="{{ ui.stories_like }}">
                 <i class="bi bi-heart stories-heart-icon" id="storiesHeartIcon"></i>
             </button>
         </div>

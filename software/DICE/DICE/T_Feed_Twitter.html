@@ -42,31 +42,7 @@
                         </h1>
 
                         <div class="btn-group-vertical">
-                            <button class="btn btn-light rounded-5 mt-5 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-house"></i> Home
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-dark" type="button" disabled>
-                                <i class="bi bi-hash"></i>
-                                <b>Explore</b>
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-bell"></i> Notifications
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-envelope"></i> Messages
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-bookmark"></i> Bookmarks
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-file-medical"></i> Lists
-                            </button>
-                            <button class="btn btn-light rounded-5 mt-3 text-start text-secondary" type="button" disabled>
-                                <i class="bi bi-person-circle"></i> Profile
-                            </button>
-
-                            <input class="btn btn-primary rounded-5 mt-5 mb-5" type="button" value="Tweet"
-                                   data-bs-toggle="modal" data-bs-target="#tweetModal">
+                            {{ include C.TWITTER_SIDEBAR_TEMPLATE }}
                         </div>
 
                         <!-- User ID -->
@@ -75,10 +51,10 @@
                         <div class="hstack gap-3 text-secondary">
                             <h1 class="text-end">
                                 <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
-                                   data-bs-content="You have been assigned the following ID: {{ participant.label }}. Please use it to identify yourself if you encounter any problems."></i>
+                                   data-bs-content="{{ participant_id_popover }}"></i>
                             </h1>
                             <small>
-                                Your ID:<br>
+                                {{ ui.your_id }}<br>
                                 <b class="text-dark">{{ participant.label }}</b>
                             </small>
                         </div>
@@ -104,7 +80,7 @@
                        readonly>
 
                     <button class="btn btn-dark btn sm rounded-pill m-3" id="submitButtonTop" type="submit" style="display: none;">
-                        Proceed
+                        {{ ui.proceed }}
                     </button>
 
 <!--                    <h1 class="mt-3 me-3 text-secondary d-md-none">-->
@@ -123,18 +99,7 @@
                         <!-- End of feed -->
                         <tr class="bg-light">
                             <td class="d-flex flex-column align-items-center py-5">
-                                <div class="p-3">
-                                    <i class="bi bi-check-circle text-secondary" style="font-size: 48px;"></i>
-                                </div>
-                                <div class="text-center mb-3">
-                                    <p class="fw-semibold mb-1">You're all caught up</p>
-                                    <small class="text-muted">You've seen all new posts from the past 3 days.</small>
-                                </div>
-                                <div class="my-3">
-                                    <button class="btn btn-dark btn-sm rounded-pill px-4 py-2" id="submitButtonBottom" type="submit">
-                                        Proceed to survey
-                                    </button>
-                                </div>
+                                {{ include C.FEED_END_TEMPLATE }}
                             </td>
                         </tr>
                     </tbody>
@@ -162,26 +127,26 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ ui.close }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row text-secondary">
                         <div class="col-2">
                             <h1 class="text-end">
                                 <i class="bi bi-person-circle sticky-bottom" data-bs-toggle="popover"
-                                   data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                                   data-bs-content="{{ participant_id_popover }}"></i>
                             </h1>
                         </div>
                         <div class="col">
                                 <textarea class="form-control border-light" id="tweet1" rows="4"
-                                          placeholder="What are the first thoughts and feelings that come to your mind when you are scrolling through the entire feed?"></textarea>
+                                          placeholder="{{ ui.feed_reflection_placeholder }}"></textarea>
                             <!-- implement this https://stackoverflow.com/a/42853575 -->
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-primary w-25 rounded-5"
-                            data-bs-dismiss="modal">Tweet
+                            data-bs-dismiss="modal">{{ ui.nav_tweet }}
                     </button>
                 </div>
             </div>

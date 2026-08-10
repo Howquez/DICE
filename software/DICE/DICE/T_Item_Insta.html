@@ -8,16 +8,16 @@
                         <!-- Profile picture -->
                         <div class="insta-profile-pic me-2">
                             <img src="{{i.user_image}}" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;"
-                                 alt="Profile picture of {{i.username}}."
+                                 alt="{{ ui.profile_picture_alt }} {{i.username}}."
                                  data-bs-toggle="tooltip"
                                  data-bs-placement="bottom"
                                  data-bs-html="true"
                                  data-bs-custom-class="custom-tooltip"
-                                 title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>{{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                                 title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>{{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
                         </div>
                         <div class="d-flex flex-column" style="line-height: 1.2;">
                             <span class="fw-semibold" style="font-size: 14px;">{{i.username}}</span>
-                            <span class="text-muted" style="font-size: 11px;">Sponsored</span>
+                            <span class="text-muted" style="font-size: 11px;">{{ ui.sponsored }}</span>
                         </div>
                     </div>
                     <i class="bi bi-three-dots"></i>
@@ -37,7 +37,7 @@
                         <div class="text-muted" style="font-size: 12px;">{{i.handle}}</div>
                     </div>
                     <button class="btn btn-sm text-white rounded-3 px-3" type="button" style="background-color: #0095f6; font-size: 13px; font-weight: 600;">
-                        Learn more
+                        {{ ui.learn_more }}
                     </button>
                 </a>
 
@@ -88,12 +88,12 @@
                         {{ if i.profile_pic_available }}
                         <div class="insta-profile-pic me-2">
                             <img src="{{i.user_image}}" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;"
-                                 alt="Profile picture of {{i.username}}."
+                                 alt="{{ ui.profile_picture_alt }} {{i.username}}."
                                  data-bs-toggle="tooltip"
                                  data-bs-placement="bottom"
                                  data-bs-html="true"
                                  data-bs-custom-class="custom-tooltip"
-                                 title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>{{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> Followers</div>">
+                                 title="<div class='text-start text-secondary'><b class='text-dark'>{{i.username}}</b><br>{{i.user_description}} <br><br><b class='text-dark'>{{i.user_followers}}</b> {{ ui.followers_label }}</div>">
                         </div>
                         {{ else }}
                         <div class="me-2 poster {{ i.color_class }} rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 12px;">
@@ -156,8 +156,8 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header border-0">
-                        <h6 class="modal-title">Comments</h6>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h6 class="modal-title">{{ ui.linkedin_comments_title }}</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ ui.close }}"></button>
                     </div>
                     <div class="modal-body">
                         <div class="replying-tweet mb-4 ps-3 border-start border-3 text-secondary" style="border-color: #e1306c !important;"
@@ -165,18 +165,18 @@
                         <div class="d-flex align-items-start text-secondary">
                             <div class="me-2">
                                 <i class="bi bi-person-circle" style="font-size: 32px;" data-bs-toggle="popover"
-                                   data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                                   data-bs-content="{{ participant_id_popover }}"></i>
                             </div>
                             <div class="flex-grow-1">
                                 <textarea class="form-control border-light reply-field"
                                           id="reply_to_item_{{i.doc_id}}" name="reply_to_item_{{i.doc_id}}"
-                                          rows="3" placeholder="Add a comment..."></textarea>
+                                          rows="3" placeholder="{{ ui.linkedin_add_comment }}"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer border-0">
                         <button type="button" class="btn btn-link text-primary fw-semibold reply-modal-button" id="reply_modal_button_{{i.doc_id}}"
-                                data-bs-dismiss="modal">Post</button>
+                                data-bs-dismiss="modal">{{ ui.post }}</button>
                     </div>
                 </div>
             </div>

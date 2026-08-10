@@ -37,7 +37,7 @@
 
                     <!-- Hidden submit button for consistency with other templates -->
                     <button class="btn btn-dark btn-sm rounded-pill" id="submitButtonTop" type="submit" style="display: none;">
-                        Proceed
+                        {{ ui.proceed }}
                     </button>
 
                     <!-- Right icons
@@ -61,7 +61,7 @@
                                 <i class="bi bi-plus text-white" style="font-size: 14px;"></i>
                             </div>
                         </div>
-                        <div class="story-username mt-1">Your story</div>
+                        <div class="story-username mt-1">{{ ui.your_story }}</div>
                     </div>
 
                     <!-- Sample Stories from feed users -->
@@ -91,18 +91,7 @@
 
                     <!-- End of feed -->
                     <div class="d-flex flex-column align-items-center py-5 bg-light">
-                        <div class="p-3">
-                            <i class="bi bi-check-circle text-secondary" style="font-size: 48px;"></i>
-                        </div>
-                        <div class="text-center mb-3">
-                            <p class="fw-semibold mb-1">You're all caught up</p>
-                            <small class="text-muted">You've seen all new posts from the past 3 days.</small>
-                        </div>
-                        <div class="my-3">
-                            <button class="btn btn-dark btn-sm rounded-pill px-4 py-2" id="submitButtonBottom" type="submit">
-                                Proceed to survey
-                            </button>
-                        </div>
+                        {{ include C.FEED_END_TEMPLATE }}
                     </div>
                 </div>
             </div>
@@ -117,24 +106,24 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <h6 class="modal-title">Create post</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h6 class="modal-title">{{ ui.create_post }}</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ ui.close }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="d-flex align-items-start text-secondary">
                         <div class="me-2">
                             <i class="bi bi-person-circle" style="font-size: 32px;" data-bs-toggle="popover"
-                               data-bs-content="You have been assigned the following ID: {{ participant.code }}. Please use it to identify yourself if you encounter any problems."></i>
+                               data-bs-content="{{ participant_id_popover }}"></i>
                         </div>
                         <div class="flex-grow-1">
                             <textarea class="form-control border-light" id="tweet1" rows="4"
-                                      placeholder="What are the first thoughts and feelings that come to your mind when you are scrolling through the entire feed?"></textarea>
+                                      placeholder="{{ ui.feed_reflection_placeholder }}"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-link text-primary fw-semibold"
-                            data-bs-dismiss="modal">Share</button>
+                            data-bs-dismiss="modal">{{ ui.share }}</button>
                 </div>
             </div>
         </div>
