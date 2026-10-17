@@ -152,7 +152,7 @@ def read_feed(path, delim):
             if 'gid=' in path:
                 gid = path.split('gid=')[1].split('&')[0].split('#')[0]
             export_url = f'https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}'
-            tweets = pd.read_csv(export_url, sep=delim)
+            tweets = pd.read_csv(export_url, sep=',')
         elif 'drive.google.com' in path:
             if '/uc?' in path:
                 # Already in the correct format
@@ -234,6 +234,8 @@ def preprocessing(df, config):
             config['condition_col'] in df.columns):
         # Rename the specified column to 'condition'
         df.rename(columns={config['condition_col']: 'condition'}, inplace=True)
+        # Cast to string so it matches player.feed_condition (a StringField)
+        df['condition'] = df['condition'].astype(str)
 
     return df
 

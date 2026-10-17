@@ -51,16 +51,15 @@ server <- function(input, output) {
     req(input$file1)
     
     tryCatch({
-      df <- fread(input$file1$datapath) %>% 
+      df <- fread(input$file1$datapath) %>%
         as.data.table()
     }, error = function(e) {
       stop(safeError(e))
     })
     
     # Preprocessing: select cols and only complete observations
-    cols <- str_detect(string = names(df), 
+    cols <- str_detect(string = names(df),
                        pattern = "session.code|participant.label|participant.code|likes_data|replies_data|sequence|viewport|promoted|rowheight|sponsored|condition|device_type|touch_capability|time_started")
-    
     data <- df[participant._index_in_pages >= 4, ..cols]
     
     # Preprocessing: rename cols
@@ -73,116 +72,162 @@ server <- function(input, output) {
     
     # Edit Date Format
     data[, participant_time_started_utc := participant_time_started_utc %>% str_sub(start = 1, end = 19)]
-
+    
     # Create Item Sequence DT
-    display <- data[, 
-                    .(tweet = unlist(base::strsplit(x = sequence, 
-                                                    split = ", ")) %>% 
+    display <- data[,
+                    .(tweet = unlist(base::strsplit(x = sequence,
+                                                    split = ", ")) %>%
                         as.integer()),
                     by = participant_code]
     
     display[, displayed_sequence := 1:.N, by = participant_code]
     
     # Create Flow (Scroll Sequence DT)
-    sequence <- data[nchar(viewport_data) > 1,
-                     viewport_data %>%
-                       str_replace_all(pattern = '""', 
-                                       replacement = '"') %>%
-                       fromJSON,
-                     by = participant_code][!is.na(doc_id)][, scroll_sequence := 1:.N, by = participant_code]
+    flow_collapsed <- data.table(participant_code = character(),
+                                 tweet = integer(),
+                                 scroll_sequence = character())
     
-    setnames(sequence, old = 'doc_id', new = 'tweet')
-    
-    flow <- sequence[display, on = .(participant_code, tweet)]
-    
-    flow[, duplicate := duplicated(tweet), by = participant_code]
-    
-    setorder(flow, participant_code, scroll_sequence)
-    
-    flow_collapsed <- flow[, 
-                           .(scroll_sequence = paste(scroll_sequence, collapse = ",")), 
-                           by = .(participant_code, tweet)]
-    
-    flow_collapsed[scroll_sequence == "NA", scroll_sequence := NA]
-    
-    
+    tryCatch({
+      sequence <- data[nchar(viewport_data) > 1,
+                       viewport_data %>%
+                         str_replace_all(pattern = '""',
+                                         replacement = '"') %>%
+                         fromJSON,
+                       by = participant_code][!is.na(doc_id)][, scroll_sequence := 1:.N, by = participant_code]
+      
+      setnames(sequence, old = 'doc_id', new = 'tweet')
+      
+      flow <- sequence[display, on = .(participant_code, tweet)]
+      
+      flow[, duplicate := duplicated(tweet), by = participant_code]
+      
+      setorder(flow, participant_code, scroll_sequence)
+      
+      flow_collapsed <- flow[,
+                             .(scroll_sequence = paste(scroll_sequence, collapse = ",")),
+                             by = .(participant_code, tweet)]
+      
+      flow_collapsed[scroll_sequence == "NA", scroll_sequence := NA]
+    }, error = function(e) {
+      # Keep empty flow_collapsed if parsing fails
+      NULL
+    })
     
     # Create Dwell Time DT
-    viewport <- data[nchar(viewport_data) > 1,
-                     fromJSON(str_replace_all(string = viewport_data,
-                                              pattern = '""',
-                                              replacement = '"')),
-                     by = participant_code][!is.na(doc_id)]
+    viewport <- data.table(participant_code = character(),
+                           tweet = integer(),
+                           seconds_in_viewport = numeric())
     
-    # -- sum durations by tweet (in case someone scrolled back and forth)
-    viewport <- viewport[, 
-                         .(seconds_in_viewport = sum(duration, 
-                                                     na.rm = TRUE)),
-                         by = c('participant_code', 'doc_id')]
-    
-    
-    # -- rename
-    setnames(x = viewport,
-             old = 'doc_id',
-             new = 'tweet')
-    
+    tryCatch({
+      viewport_temp <- data[nchar(viewport_data) > 1,
+                            fromJSON(str_replace_all(string = viewport_data,
+                                                     pattern = '""',
+                                                     replacement = '"')),
+                            by = participant_code][!is.na(doc_id)]
+      
+      # Sum durations by tweet (in case someone scrolled back and forth)
+      viewport <- viewport_temp[,
+                                .(seconds_in_viewport = sum(duration,
+                                                            na.rm = TRUE)),
+                                by = c('participant_code', 'doc_id')]
+      
+      # Rename
+      setnames(x = viewport,
+               old = 'doc_id',
+               new = 'tweet')
+    }, error = function(e) {
+      # Keep empty viewport if parsing fails
+      NULL
+    })
     
     # Create Reactions DT
-    likes <- data[nchar(likes_data) > 1,
-                  fromJSON(str_replace_all(string = likes_data,
-                                           pattern = '""',
-                                           replacement = '"')),
-                  by = participant_code][!is.na(doc_id)]
+    reactions <- data.table(participant_code = character(),
+                            tweet = integer(),
+                            liked = logical(),
+                            replies = logical())
     
-    if(data[nchar(replies_data) > 3, .N] > 0){
-      replies <- data[nchar(replies_data) > 3,
-                      fromJSON(str_replace_all(string = replies_data,
-                                               pattern = '""',
-                                               replacement = '"')),
-                      by = participant_code][!is.na(doc_id)]
-      reactions <- merge(likes, replies, by = c("participant_code", "doc_id"), all = TRUE)
-
-    } else {
-      reactions <- likes
-      reactions[, replies := NA]
-
-    }
-    
-    # make sure doc_id is numeric as is the case for the other data.tables
-    reactions[, doc_id := as.numeric(doc_id)]
-    
-    # rename
-    setnames(x = reactions,
-             old = 'doc_id',
-             new = 'tweet')
-    
+    tryCatch({
+      likes <- data[nchar(likes_data) > 1,
+                    fromJSON(str_replace_all(string = likes_data,
+                                             pattern = '""',
+                                             replacement = '"')),
+                    by = participant_code][!is.na(doc_id)]
+      
+      if(data[nchar(replies_data) > 3, .N] > 0){
+        tryCatch({
+          replies <- data[nchar(replies_data) > 3,
+                          fromJSON(str_replace_all(string = replies_data,
+                                                   pattern = '""',
+                                                   replacement = '"')),
+                          by = participant_code][!is.na(doc_id)]
+          reactions <- merge(likes, replies, by = c("participant_code", "doc_id"), all = TRUE)
+        }, error = function(e) {
+          # If replies parsing fails, just use likes
+          reactions <<- likes
+          reactions[, replies := NA]
+        })
+      } else {
+        reactions <- likes
+        reactions[, replies := NA]
+      }
+      
+      # Make sure doc_id is numeric as is the case for the other data.tables
+      reactions[, doc_id := as.numeric(doc_id)]
+      
+      # Rename
+      setnames(x = reactions,
+               old = 'doc_id',
+               new = 'tweet')
+    }, error = function(e) {
+      # Keep empty reactions if parsing fails
+      NULL
+    })
     
     # Create Rowheight DT
-    rowheight <- data[nchar(rowheight_data) > 1,
-                      fromJSON(str_replace_all(string = rowheight_data,
-                                               pattern = '""',
-                                               replacement = '"')),
-                      by = participant_code][!is.na(doc_id)]
+    rowheight <- data.table(participant_code = character(),
+                            tweet = integer(),
+                            height = numeric())
     
-    # rename
-    setnames(x = rowheight,
-             old = 'doc_id',
-             new = 'tweet')
-    
-    
+    tryCatch({
+      rowheight_temp <- data[nchar(rowheight_data) > 1,
+                             fromJSON(str_replace_all(string = rowheight_data,
+                                                      pattern = '""',
+                                                      replacement = '"')),
+                             by = participant_code][!is.na(doc_id)]
+      
+      # Rename
+      setnames(x = rowheight_temp,
+               old = 'doc_id',
+               new = 'tweet')
+      
+      rowheight <- rowheight_temp
+    }, error = function(e) {
+      # Keep empty rowheight if parsing fails
+      NULL
+    })
     
     # Create Sponsored Post (Ad) Clicks
-    ad_clicks <- data[nchar(promoted_post_clicks) > 1,
-                      fromJSON(str_replace_all(string = promoted_post_clicks,
-                                               pattern = '""',
-                                               replacement = '"')),
-                      by = participant_code][!is.na(doc_id)]
-
-    # rename
-    setnames(x = ad_clicks,
-             old = 'doc_id',
-             new = 'tweet')
+    ad_clicks <- data.table(participant_code = character(),
+                            tweet = integer(),
+                            clicked = logical())
     
+    tryCatch({
+      ad_clicks_temp <- data[nchar(promoted_post_clicks) > 1,
+                             fromJSON(str_replace_all(string = promoted_post_clicks,
+                                                      pattern = '""',
+                                                      replacement = '"')),
+                             by = participant_code][!is.na(doc_id)]
+      
+      # Rename
+      setnames(x = ad_clicks_temp,
+               old = 'doc_id',
+               new = 'tweet')
+      
+      ad_clicks <- ad_clicks_temp
+    }, error = function(e) {
+      # Keep empty ad_clicks if parsing fails
+      NULL
+    })
     
     # Merge to Final DT
     merge_1 <- merge(data[, .(session_code, participant_code, participant_label, touch_capability, device_type, condition, participant_time_started_utc)], display, by = c("participant_code"), all = TRUE)
@@ -191,7 +236,6 @@ server <- function(input, output) {
     merge_4 <- merge(merge_3, reactions, by = c("participant_code", "tweet"), all = TRUE)
     merge_5 <- merge(merge_4, ad_clicks, by = c("participant_code", "tweet"), all = TRUE)
     tmp     <- merge(merge_5, rowheight, by = c("participant_code", "tweet"), all = TRUE)
-    
     
     # Reorder columns (and rows)
     new_order <- c(3, 1, 4, 8, 5, 6, 7)
@@ -204,11 +248,12 @@ server <- function(input, output) {
              new = 'doc_id',
              old = 'tweet')
     
-    # replace click-NAs with FALSE
-    final[is.na(clicked), clicked := FALSE]
+    # Replace click-NAs with FALSE
+    if("clicked" %in% names(final)) {
+      final[is.na(clicked), clicked := FALSE]
+    }
     
-    
-    return(final)  # Return the processed data frame
+    return(final)
   })
   
   output$contents <- renderTable({
