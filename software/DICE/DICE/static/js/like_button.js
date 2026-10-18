@@ -3,7 +3,8 @@ console.log("Reactions (likes, replies, and promoted content clicks) ready!");
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Document is ready!");
 
-    function toggleLike(button) {
+    function toggleLike(button, options) {
+        options = options || {};
         const icon = button.querySelector('.like-icon');
         const likeCountSpan = button.querySelector('.like-count');
         let originalText = likeCountSpan.textContent;
@@ -12,6 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Detect icon type: heart (Twitter/Instagram) or thumbs-up (LinkedIn)
         let isHeart = icon.classList.contains('bi-heart') || icon.classList.contains('bi-heart-fill');
         let isThumbs = icon.classList.contains('bi-hand-thumbs-up') || icon.classList.contains('bi-hand-thumbs-up-fill');
+
+        if (options.onlyLike) {
+            let alreadyLiked = icon.classList.contains('bi-heart-fill') || icon.classList.contains('bi-hand-thumbs-up-fill');
+            if (alreadyLiked) {
+                return false;
+            }
+        }
 
         if (isHeart) {
             if (icon.classList.contains('bi-heart')) {
@@ -60,7 +68,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         console.log("Like toggled for button:", button.id, "; New count:", newText);
+        return true;
     }
+
+    window.diceApplyLike = function (likeButton, options) {
+        return toggleLike(likeButton, options);
+    };
+
+    window.diceLikeInstaPostMedia = function (instaPost) {
+        const likeButton = instaPost.querySelector('.like-button');
+        if (!likeButton) {
+            return false;
+        }
+        return toggleLike(likeButton, { onlyLike: true });
+    };
 
     document.querySelectorAll('.like-button').forEach(button => {
         button.addEventListener('click', function() {
